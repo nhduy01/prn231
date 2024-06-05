@@ -46,7 +46,7 @@ namespace Infracstructures.FluentAPIs
 
 
             //Relation
-            builder.HasOne(u => u.Account).WithMany(u => u.Schedule).HasForeignKey(u => u.ExaminerId);
+            builder.HasOne(u => u.Account).WithMany(u => u.Schedule).HasForeignKey(u => u.ExaminerId).OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

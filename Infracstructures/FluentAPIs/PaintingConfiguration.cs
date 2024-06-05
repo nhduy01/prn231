@@ -62,8 +62,8 @@ namespace Infracstructures.FluentAPIs
 
 
             //Relation
-            builder.HasOne(u => u.Account).WithMany(u => u.Painting).HasForeignKey(u => u.CompetitorId);
-            builder.HasOne(u => u.Award).WithMany(u => u.Painting).HasForeignKey(u => u.AwardId);
+            builder.HasOne(u => u.Account).WithMany(u => u.Painting).HasForeignKey(u => u.CompetitorId).OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne(u => u.Award).WithMany(u => u.Painting).HasForeignKey(u => u.AwardId).OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

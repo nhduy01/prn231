@@ -48,7 +48,7 @@ namespace Infracstructures.FluentAPIs
 
 
             //Relation
-            builder.HasOne(u => u.Sponsor).WithMany(u => u.Resources).HasForeignKey(u => u.SponsorId);
+            builder.HasOne(u => u.Sponsor).WithMany(u => u.Resources).HasForeignKey(u => u.SponsorId).OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

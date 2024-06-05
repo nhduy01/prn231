@@ -51,8 +51,8 @@ namespace Infracstructures.FluentAPIs
 
 
 
-            builder.HasMany(u => u.Topic).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull); ;
-            builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull); ;
+            builder.HasMany(u => u.Topic).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull);
             builder.HasMany(u => u.Painting).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull); 
         }
     }
