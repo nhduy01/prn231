@@ -6,6 +6,7 @@ using Application.Services;
 using Infracstructures.Mappers;
 using Infracstructures.Repositories;
 using Infracstructures.Validators;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +29,8 @@ namespace Infracstructures
             #region Config validators
             //User Validator
             services.AddTransient<IAccountValidator, AccountValidator>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            
             #endregion
 
 
@@ -41,14 +42,14 @@ namespace Infracstructures
             // Use Azure DB
             // services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("FATMS.AzureDB")));
 
-/*            // Use Azure storage 
-            services.AddScoped(_ =>
+            // Use Azure storage 
+            /*services.AddScoped(_ =>
             {
                 return new BlobServiceClient(config.GetConnectionString("AzureBlobStorage"));
             });
             services.AddAutoMapper(typeof(MapperConfigs).Assembly);*/
 
-            
+
             return services;
         }
     }

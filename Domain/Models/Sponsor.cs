@@ -11,5 +11,8 @@ namespace Domain.Models
     {
         public string Name { get; set; }
 
+        //Relation
+        public ICollection<Resources> Resources { get; set; }
+
     }
 }

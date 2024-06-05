@@ -16,7 +16,13 @@ namespace Domain.Models
         public string Password { get; set; }
         public string Phone { get; set; }
         public string Avatar { get; set; }
-        public string IdentityNumber { get; set; }
+        public string IdentifyNumber { get; set; }
         public bool Gender { get; set; } = true;
+        public int CompetitorId { get ; set; }
+
+        //Relation
+        public Account Account { get; set; }
+
+        
     }
 }

@@ -11,8 +11,11 @@ namespace Domain.Models
     {
         public string Title { get; set; }
         public string Message { get; set; }
-
         public bool IsReaded { get; set; }=false;
+        public int AccountId { get; set; }
 
+
+        //Relation
+        public Account Account { get; set; }
     }
 }

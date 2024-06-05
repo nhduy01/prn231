@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models.Base;
 
 namespace Domain.Models
 {
-    public class PostImage
+    public class PostImage :BaseModel
     {
-        public Painting? ImageId  { get; set; }
-        public Collection? PostId { get; set; }
+        public int ImageId  { get; set; }
+        public int PostId { get; set; }
+
+        //Relation
+        public Image Images { get; set;}
+
+        public Post Post { get; set; }
     }
 }

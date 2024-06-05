@@ -8,7 +8,7 @@ public class ClaimsService : IClaimsService
     {
         if (httpContextAccessor.HttpContext != null)
         {
-            var id = httpContextAccessor.HttpContext.User.FindFirstValue("UserId");
+            var id = httpContextAccessor.HttpContext.User.FindFirstValue("AccountId");
             GetCurrentUserId = id == null ? -1 : int.Parse(id);
         }
     }

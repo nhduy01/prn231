@@ -14,5 +14,15 @@ namespace Domain.Models
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
         public string Content { get; set; }
+
+        public int? StaffId { get; set; }
+
+
+
+        //Relation
+        public Account Account { get; set; }
+        
+        public ICollection<EducationalLevel> EducationalLevel { get; set; }
+        public ICollection<Resources> Resources { get; set; }
     }
 }
