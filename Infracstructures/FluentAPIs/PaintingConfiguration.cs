@@ -60,6 +60,9 @@ namespace Infracstructures.FluentAPIs
             //ScheduleId
             builder.Property(u => u.ScheduleId).IsRequired();
 
+            //Code
+            builder.Property(u => u.Code);
+
             //Relation
 
             builder.HasOne(u => u.Competitor)

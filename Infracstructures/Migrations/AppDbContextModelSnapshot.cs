@@ -510,6 +510,10 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("CompetitorId")
                         .IsRequired()
                         .HasColumnType("uniqueidentifier");

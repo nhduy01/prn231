@@ -18,6 +18,7 @@ namespace Domain.Models
         public Guid? CompetitorId { get; set;}
         public Guid? TopicId { get; set; }
         public Guid? ScheduleId { get; set; }
+        public string Code { get; set; }
 
 
         //Relation

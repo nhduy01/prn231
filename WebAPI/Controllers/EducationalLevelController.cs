@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebAPI.Interfaces;
-using WebAPI.IService;
-using WebAPI.Services;
+﻿using Application.IService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
