@@ -1,10 +1,5 @@
 ﻿using Application;
-using Application.Interfaces;
 using Application.IValidators;
-using Application.Repositories;
-using Application.Services;
-using Infracstructures.Mappers;
-using Infracstructures.Repositories;
 using Infracstructures.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,24 +12,9 @@ namespace Infracstructures
     {
         public static IServiceCollection AddInfractstructure(this IServiceCollection services, IConfiguration config)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
 
-            #region Config Repository and Service
-            //User
-            services.AddTransient<IAccountRepository, AccountRepository>();
-            services.AddTransient<IAccountService, AccountService>();
-
-            #endregion
-
-            #region Config validators
-            //User Validator
-            services.AddTransient<IAccountValidator, AccountValidator>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            #endregion
-
-
-            services.AddSingleton<ICurrentTime, CurrentTime>();
+            
 
             // Use local DB
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));

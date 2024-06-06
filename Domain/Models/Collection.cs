@@ -15,11 +15,11 @@ namespace Domain.Models
         public string Image { get; set; }
 
         public string Description { get; set; }
-        public int? AccountId { get; set; }
+        public Guid? AccountId { get; set; }
 
 
         //Relation 
-        public Account Account { get; set; }
+        public Competitor Competitor { get; set; }
 
         public ICollection<PaintingCollection> PaintingCollection { get; set; }
     }

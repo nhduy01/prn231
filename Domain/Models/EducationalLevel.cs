@@ -13,7 +13,7 @@ namespace Domain.Models
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
         public string EducationLevel { get; set; }
-        public int ContestId {  get; set; }
+        public Guid? ContestId {  get; set; }
 
         //Relation
         public ICollection<Award> Award { get; set; }

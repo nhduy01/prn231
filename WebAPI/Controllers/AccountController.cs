@@ -1,7 +1,6 @@
-﻿using Application.Interfaces;
-using Application.ResponseModels;
-using Application.Utils;
+﻿using Application.Utils;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Interfaces;
 
 namespace WebAPI.Controllers
 {

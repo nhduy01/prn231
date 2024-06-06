@@ -15,11 +15,13 @@ namespace Domain.Models
         public Double Cash { get; set; }
         public string Artifact { get; set; }
         public string Description { get; set; }
-        public int EducationalLevelId {  get; set; }
+        public Guid? EducationalLevelId {  get; set; }
 
 
         //Relation
         public EducationalLevel? EducationalLevel { get; set; }
         public ICollection<Painting> Painting { get; set; }
+
+        public ICollection<AwardSchedule> AwardSchedule { get; set; }
     }
 }

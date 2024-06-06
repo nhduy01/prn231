@@ -42,9 +42,6 @@ namespace Infracstructures.FluentAPIs
             //Description
             builder.Property(u => u.Description);
 
-            //GradeBy
-            builder.Property(u => u.GradeBy);
-
             //SubmitTime
             builder.Property(u => u.SubmitTime);
 
@@ -60,10 +57,25 @@ namespace Infracstructures.FluentAPIs
             //TopicId
             builder.Property(u => u.TopicId).IsRequired();
 
+            //ScheduleId
+            builder.Property(u => u.ScheduleId).IsRequired();
 
             //Relation
-            builder.HasOne(u => u.Account).WithMany(u => u.Painting).HasForeignKey(u => u.CompetitorId).OnDelete(DeleteBehavior.ClientSetNull);
-            builder.HasOne(u => u.Award).WithMany(u => u.Painting).HasForeignKey(u => u.AwardId).OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasOne(u => u.Competitor)
+                .WithMany(u => u.Painting)
+                .HasForeignKey(u => u.CompetitorId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasOne(u => u.Award)
+                .WithMany(u => u.Painting)
+                .HasForeignKey(u => u.AwardId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.HasOne(u => u.Schedule)
+                .WithMany(u => u.Painting)
+                .HasForeignKey(u => u.ScheduleId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

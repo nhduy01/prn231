@@ -16,15 +16,16 @@ namespace Domain.Models
         public string Phone { get; set; }
         public string Avatar { get; set; }
         public bool Gender { get; set; } = true;
+        public string IdentifyNumber { get; set; }
 
 
         //Relation
-        public ICollection<Collection> Collection { get; set; }
+
         public ICollection<Contest> CreateContest { get; set; }
-        public Guardian Guardian { get; set; }
+        public Competitor Competitor { get; set; }
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Post> Post { get; set; }
         public ICollection<Schedule> Schedule {  get; set; }
-        public ICollection<Painting> Painting { get; set; }
+        
     }
 }

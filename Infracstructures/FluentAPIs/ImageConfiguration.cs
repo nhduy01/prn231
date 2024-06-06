@@ -44,7 +44,8 @@ namespace Infracstructures.FluentAPIs
             //Relation
             builder.HasMany(u => u.PostImage)
                 .WithOne(u => u.Images)
-                .HasForeignKey(u => u.ImageId).OnDelete(DeleteBehavior.ClientSetNull);
+                .HasForeignKey(u => u.ImageId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

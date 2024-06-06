@@ -41,7 +41,9 @@ namespace Infracstructures.FluentAPIs
 
             //Relation
             builder.HasMany(u => u.PaintingCollection)
-                .WithOne(u => u.Collection).HasForeignKey(u => u.CollectionId).OnDelete(DeleteBehavior.ClientSetNull);
+                .WithOne(u => u.Collection)
+                .HasForeignKey(u => u.CollectionId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
             
 
         }

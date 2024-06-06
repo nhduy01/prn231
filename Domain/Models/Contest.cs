@@ -15,7 +15,7 @@ namespace Domain.Models
         public string Description { get; set; }
         public string Content { get; set; }
 
-        public int? StaffId { get; set; }
+        public Guid? StaffId { get; set; }
 
 
 

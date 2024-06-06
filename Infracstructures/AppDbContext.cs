@@ -25,7 +25,7 @@ namespace Infracstructures
         public DbSet<Collection> Collection { get; set; }
         public DbSet<Contest> Contest { get; set; }
         public DbSet<EducationalLevel> EducationalLevel { get; set; }
-        public DbSet<Guardian> Guardian { get; set; }
+        public DbSet<Competitor> Guardian { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<Notification> Notification { get; set; }
         public DbSet<Painting> Painting { get; set; }

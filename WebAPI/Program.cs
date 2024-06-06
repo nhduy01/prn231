@@ -19,6 +19,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseSwagger();
 app.UseSwaggerUI();
+
 #region Add sau
 
 app.UseSession();
@@ -28,6 +29,7 @@ app.MapHealthChecks("/healthz");
 app.UseCors("_myAllowSpecificOrigins");
 
 #endregion
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

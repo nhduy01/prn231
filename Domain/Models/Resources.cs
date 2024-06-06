@@ -11,8 +11,8 @@ namespace Domain.Models
     {
         public string Cash { get; set; }
         public string Artifact { get; set; }
-        public int SponsorId { get; set; }
-        public int ContestId { get; set; }
+        public Guid? SponsorId { get; set; }
+        public Guid? ContestId { get; set; }
 
 
         //Relation

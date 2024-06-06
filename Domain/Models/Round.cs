@@ -14,7 +14,7 @@ namespace Domain.Models
         public DateTime EndTime { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
-        public int EducationalLevelId { get; set; }
+        public Guid? EducationalLevelId { get; set; }
 
 
         //Relation

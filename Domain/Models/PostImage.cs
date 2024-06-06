@@ -9,8 +9,8 @@ namespace Domain.Models
 {
     public class PostImage :BaseModel
     {
-        public int ImageId  { get; set; }
-        public int PostId { get; set; }
+        public Guid? ImageId  { get; set; }
+        public Guid? PostId { get; set; }
 
         //Relation
         public Image Images { get; set;}

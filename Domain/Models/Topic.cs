@@ -12,7 +12,7 @@ namespace Domain.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
-        public int? RoundId {  get; set; }
+        public Guid? RoundId {  get; set; }
 
 
         //Relation

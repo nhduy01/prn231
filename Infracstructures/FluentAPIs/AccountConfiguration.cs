@@ -56,10 +56,12 @@ namespace Infracstructures.FluentAPIs
             //Status
             builder.Property(u => u.Status).HasDefaultValue("False");
 
+            //IdentifyNumber
+            builder.Property(u => u.IdentifyNumber);
+
 
             //Relation
-            builder.HasMany(u => u.Collection)
-                .WithOne(u => u.Account).HasForeignKey(u => u.AccountId).OnDelete(DeleteBehavior.ClientSetNull);
+
 
 
             builder.HasMany(u => u.CreateContest).WithOne(u => u.Account).HasForeignKey(u => u.StaffId).OnDelete(DeleteBehavior.ClientSetNull);

@@ -12,7 +12,7 @@ namespace Domain.Models
         public string Url { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int StaffId { get; set; }
+        public Guid? StaffId { get; set; }
 
         //Relation
         public ICollection<PostImage> PostImages { get; set; }

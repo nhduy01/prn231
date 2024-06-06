@@ -24,11 +24,9 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Account", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -43,8 +41,8 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -65,6 +63,10 @@ namespace Infracstructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<string>("IdentifyNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -95,8 +97,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -111,11 +113,9 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Award", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Artifact")
                         .IsRequired()
@@ -124,8 +124,8 @@ namespace Infracstructures.Migrations
                     b.Property<double>("Cash")
                         .HasColumnType("float");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -134,8 +134,8 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EducationalLevelId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("EducationalLevelId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -150,8 +150,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -163,20 +163,61 @@ namespace Infracstructures.Migrations
                     b.ToTable("Award", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Models.AwardSchedule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AwardId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ScheduleId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("False");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AwardId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("AwardSchedule", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid?>("AccountId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -199,8 +240,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -212,20 +253,81 @@ namespace Infracstructures.Migrations
                     b.ToTable("Collection", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Models.Competitor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("GuardianId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("False");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GuardianId")
+                        .IsUnique();
+
+                    b.ToTable("Competitor", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Models.Contest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -241,8 +343,8 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StaffId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StaffId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -253,8 +355,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -268,17 +370,16 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.EducationalLevel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid?>("ContestId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ContestId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -303,8 +404,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -316,88 +417,14 @@ namespace Infracstructures.Migrations
                     b.ToTable("EducationalLevel", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Models.Guardian", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Avatar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompetitorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("IdentifyNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Relationship")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("False");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompetitorId")
-                        .IsUnique();
-
-                    b.ToTable("Guardian", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Models.Image", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -412,8 +439,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -429,17 +456,16 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Notification", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid?>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -461,8 +487,8 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -476,22 +502,20 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Painting", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AwardId")
+                    b.Property<Guid?>("AwardId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CompetitorId")
+                    b.Property<Guid?>("CompetitorId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -499,9 +523,6 @@ namespace Infracstructures.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("GradeBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -511,9 +532,13 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoundId")
+                    b.Property<Guid?>("RoundId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ScheduleId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -524,12 +549,12 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("SubmitTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TopicId")
+                    b.Property<Guid?>("TopicId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -542,6 +567,8 @@ namespace Infracstructures.Migrations
 
                     b.HasIndex("RoundId");
 
+                    b.HasIndex("ScheduleId");
+
                     b.ToTable("Painting", (string)null);
                 });
 
@@ -553,11 +580,13 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CollectionId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PaintingId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PaintingId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -570,14 +599,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -586,8 +613,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StaffId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StaffId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -599,8 +627,8 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -618,23 +646,23 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.PostImage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ImageId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("PostId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -642,8 +670,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -659,11 +687,9 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Resources", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Artifact")
                         .IsRequired()
@@ -673,17 +699,19 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ContestId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ContestId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SponsorId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("SponsorId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -691,8 +719,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -708,14 +736,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Round", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -724,8 +750,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EducationalLevelId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("EducationalLevelId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -743,8 +770,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -758,14 +785,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Schedule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -774,13 +799,13 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ExaminerId")
+                    b.Property<Guid?>("ExaminerId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("RoundId")
+                    b.Property<Guid?>("RoundId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -788,8 +813,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -805,14 +830,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Sponsor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -827,8 +850,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -840,14 +863,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Topic", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
@@ -864,9 +885,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoundId")
+                    b.Property<Guid?>("RoundId")
                         .IsRequired()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -874,8 +895,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("False");
 
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -891,17 +912,42 @@ namespace Infracstructures.Migrations
                 {
                     b.HasOne("Domain.Models.EducationalLevel", "EducationalLevel")
                         .WithMany("Award")
-                        .HasForeignKey("EducationalLevelId")
-                        .IsRequired();
+                        .HasForeignKey("EducationalLevelId");
 
                     b.Navigation("EducationalLevel");
                 });
 
+            modelBuilder.Entity("Domain.Models.AwardSchedule", b =>
+                {
+                    b.HasOne("Domain.Models.Award", "Award")
+                        .WithMany("AwardSchedule")
+                        .HasForeignKey("AwardId")
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Schedule", "Schedule")
+                        .WithMany("AwardSchedule")
+                        .HasForeignKey("ScheduleId")
+                        .IsRequired();
+
+                    b.Navigation("Award");
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
-                    b.HasOne("Domain.Models.Account", "Account")
+                    b.HasOne("Domain.Models.Competitor", "Competitor")
                         .WithMany("Collection")
-                        .HasForeignKey("AccountId")
+                        .HasForeignKey("AccountId");
+
+                    b.Navigation("Competitor");
+                });
+
+            modelBuilder.Entity("Domain.Models.Competitor", b =>
+                {
+                    b.HasOne("Domain.Models.Account", "Account")
+                        .WithOne("Competitor")
+                        .HasForeignKey("Domain.Models.Competitor", "GuardianId")
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -926,16 +972,6 @@ namespace Infracstructures.Migrations
                     b.Navigation("Contest");
                 });
 
-            modelBuilder.Entity("Domain.Models.Guardian", b =>
-                {
-                    b.HasOne("Domain.Models.Account", "Account")
-                        .WithOne("Guardian")
-                        .HasForeignKey("Domain.Models.Guardian", "CompetitorId")
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("Domain.Models.Notification", b =>
                 {
                     b.HasOne("Domain.Models.Account", "Account")
@@ -951,13 +987,11 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Award", "Award")
                         .WithMany("Painting")
                         .HasForeignKey("AwardId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.Account", "Account")
+                    b.HasOne("Domain.Models.Competitor", "Competitor")
                         .WithMany("Painting")
                         .HasForeignKey("CompetitorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Round", "Round")
@@ -965,11 +999,18 @@ namespace Infracstructures.Migrations
                         .HasForeignKey("RoundId")
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("Domain.Models.Schedule", "Schedule")
+                        .WithMany("Painting")
+                        .HasForeignKey("ScheduleId")
+                        .IsRequired();
 
                     b.Navigation("Award");
 
+                    b.Navigation("Competitor");
+
                     b.Navigation("Round");
+
+                    b.Navigation("Schedule");
                 });
 
             modelBuilder.Entity("Domain.Models.PaintingCollection", b =>
@@ -1026,7 +1067,6 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Sponsor", "Sponsor")
                         .WithMany("Resources")
                         .HasForeignKey("SponsorId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Contest");
@@ -1049,7 +1089,6 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Account", "Account")
                         .WithMany("Schedule")
                         .HasForeignKey("ExaminerId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Round", "Round")
@@ -1074,16 +1113,12 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Account", b =>
                 {
-                    b.Navigation("Collection");
+                    b.Navigation("Competitor")
+                        .IsRequired();
 
                     b.Navigation("CreateContest");
 
-                    b.Navigation("Guardian")
-                        .IsRequired();
-
                     b.Navigation("Notifications");
-
-                    b.Navigation("Painting");
 
                     b.Navigation("Post");
 
@@ -1092,12 +1127,21 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Award", b =>
                 {
+                    b.Navigation("AwardSchedule");
+
                     b.Navigation("Painting");
                 });
 
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
                     b.Navigation("PaintingCollection");
+                });
+
+            modelBuilder.Entity("Domain.Models.Competitor", b =>
+                {
+                    b.Navigation("Collection");
+
+                    b.Navigation("Painting");
                 });
 
             modelBuilder.Entity("Domain.Models.Contest", b =>
@@ -1136,6 +1180,13 @@ namespace Infracstructures.Migrations
                     b.Navigation("Schedule");
 
                     b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("Domain.Models.Schedule", b =>
+                {
+                    b.Navigation("AwardSchedule");
+
+                    b.Navigation("Painting");
                 });
 
             modelBuilder.Entity("Domain.Models.Sponsor", b =>

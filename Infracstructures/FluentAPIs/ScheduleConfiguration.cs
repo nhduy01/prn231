@@ -42,11 +42,14 @@ namespace Infracstructures.FluentAPIs
             //ExaminerId
             builder.Property(u => u.ExaminerId).IsRequired();
 
+            
 
 
 
             //Relation
             builder.HasOne(u => u.Account).WithMany(u => u.Schedule).HasForeignKey(u => u.ExaminerId).OnDelete(DeleteBehavior.ClientSetNull);
+
+            
         }
     }
 }
