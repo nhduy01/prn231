@@ -1,7 +1,10 @@
-﻿using Application.Services.CommonService;
+﻿using System.Text;
+using Application.Services.CommonService;
 using FluentValidation.AspNetCore;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using WebAPI.IService.ICommonService;
 
 namespace WebAPI
@@ -20,9 +23,7 @@ namespace WebAPI
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
-           
 
-            
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
@@ -34,31 +35,33 @@ namespace WebAPI
             services.AddSession(); //Adding session.
             services.AddTransient<ISessionServices, SessionServices>();
             services.AddAuthorization();
-            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            var secretKeyBytes = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                opt.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidateIssuerSigningKey = true,
-                    ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-                };
-            });*/
-            services.AddFluentValidationClientsideAdapters();
+                    //auto generate token
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
 
+                    //sign in token
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
+
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+            services.AddFluentValidationClientsideAdapters();
 
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "_myAllowSpecificOrigins",
-                                  policy =>
-                                  {
-                                      policy.AllowAnyOrigin()
-                                      .AllowAnyHeader()
-                                      .AllowAnyMethod();
-                                  });
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
             });
         }
     }
