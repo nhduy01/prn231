@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IValidators\" />
+    <Folder Include="ViewModels\AccountViewModels\" />
+  </ItemGroup>
+
 </Project>
