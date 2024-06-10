@@ -18,10 +18,43 @@ namespace Application.Mappers
             // Create mapping between Pagination
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
 
-            //Add Account Mapper
+            
             AddAccountMapperConfig();
 
-        }
+            AddAwardMapperConfig();
+
+            AddAwardScheduleMapperConfig();
+
+            AddCollectionMapperConfig();
+            
+            AddEducationalLevelMapperConfig();
+
+            AddCompetitorMapperConfig();
+
+            AddImageMapperConfig();
+
+            AddNotificationMapperConfig();
+
+            AddPaintingMapperConfig();
+
+            AddPaintingCollectionMapperConfig();
+
+            AddPostMapperConfig();
+
+            AddPostImageMapperConfig();
+
+            AddResourcesMapperConfig();
+
+            AddRoundMapperConfig();
+
+            AddScheduleMapperConfig();
+
+            AddSponsorMapperConfig();
+
+            AddTopicMapperConfig();
+
+            AddContestMapperConfig();
+    }
 
         partial void AddAccountMapperConfig();
         partial void AddAwardMapperConfig();
