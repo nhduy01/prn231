@@ -59,6 +59,8 @@ namespace Infracstructures.FluentAPIs
             //IdentifyNumber
             builder.Property(u => u.IdentifyNumber);
 
+            //RefreshToken
+            builder.Property(u => u.RefreshToken);
 
             //Relation
 
