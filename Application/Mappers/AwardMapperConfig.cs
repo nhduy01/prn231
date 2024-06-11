@@ -18,7 +18,6 @@ namespace Application.Mappers
             CreateMap<Award, AddAwardViewModel>().ReverseMap();
 
             CreateMap<Award, UpdateAwardViewModel>().ReverseMap();
-            CreateMap<Award, ListAwardModel>().ReverseMap();
         }
     }
 }
