@@ -1,11 +1,12 @@
+using System.Security.Cryptography;
+using Application.Authentication;
 using Application.IService;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Infracstructures.Authentication;
-using Infracstructures.SendModels.Authentication;
+using Application.SendModels.Authentication;
 
 namespace Application.Services;
 
@@ -22,7 +23,7 @@ public class AuthenticationService : IAuthenticationService
         _mapper = mapper;
     }
 
-    public async Task<LoginResponse> ValidateAccount(RequestLogin accountLogin)
+    public async Task<LoginResponse> ValidateAccount(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
         var account = await _unitOfWork.AccountRepo.Login(accountLogin.UserName);
@@ -34,22 +35,39 @@ public class AuthenticationService : IAuthenticationService
             if (check is true)
             {
                 response.Success = true;
-                response.Messenger = "Login Success";
-                response.Data = _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
+                response.Message = "Login Success";
+                response.JwtToken = _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
+                response.RefreshToken = new RefreshToken();
+                response.RefreshToken.Token = RefreshToken();
+                
+                //add refresh token to DB
+                account.RefreshToken = response.RefreshToken.Token;
+                _unitOfWork.AccountRepo.Update(account);
+                await _unitOfWork.SaveChangesAsync();
+                
                 return response;
             }
-
             response.Success = false;
-            response.Messenger = "Invalid Password";
+            response.Message = "Invalid Password";
             return response;
         }
 
         response.Success = false;
-        response.Messenger = "Username Not Exist";
+        response.Message = "Username Not Exist";
         return response;
     }
 
-    public async Task<LoginResponse> ValidateCompetitor(RequestLogin accountLogin)
+    public async Task<string> ReGenerateJwtTokenAccount(string refreshToken)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByRefreshToken(refreshToken);
+        if (account != null)
+        {
+            return _authentication.GenerateToken(account.LastName, account.Id.ToString(),account.Role);
+        }
+        return "";
+    }
+
+    public async Task<LoginResponse> ValidateCompetitor(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
 
@@ -63,17 +81,23 @@ public class AuthenticationService : IAuthenticationService
             if (check is true)
             {
                 response.Success = true;
-                response.Messenger = "Login Success";
-                response.Data = _authentication.GenerateToken(competitor.LastName, competitor.Id.ToString(),Role.COMPETITOR.ToString());
+                response.Message = "Login Success";
+                response.JwtToken = _authentication.GenerateToken(competitor.LastName, competitor.Id.ToString(),Role.COMPETITOR.ToString());
+                response.RefreshToken = new RefreshToken();
+                response.RefreshToken.Token = RefreshToken();
+                
+                
+                
+                
                 return response;
             }
             response.Success = false;
-            response.Messenger = "Invalid Password";
+            response.Message = "Invalid Password";
             return response;
         }
 
         response.Success = false;
-        response.Messenger = "Username Not Exist";
+        response.Message = "Username Not Exist";
         return response;
     }
 
@@ -84,43 +108,67 @@ public class AuthenticationService : IAuthenticationService
         var c = _mapper.Map<Competitor>(competitor);
         if (await _unitOfWork.CompetitorRepo.CheckDuplicate(competitor.Email, competitor.Phone))
         {
-            response.Messenger = "Email or Password is Exist !";
+            response.Message = "Email or Phone is Exist !";
             response.Success = false;
             return response;
         }
         
         //if not exist
-        
+        c.Password = _authentication.Hash(competitor.Password);
         c.Status = AccountStatus.ACTIVE.ToString();
         c.CreatedTime = DateTime.Now;
         
         await _unitOfWork.CompetitorRepo.AddAsync(c);
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
 
-        response.Messenger = "Create Success !";
+        if (check is false)
+        {
+            response.Message = "Create Fail !";
+            response.Success = true;
+            return response;
+        }
+        
+        response.Message = "Create Success !";
         response.Success = true;
         return response;
     }
     
-    /*public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
+    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
     {
         var response = new RegisterResponse();
-        var c = _mapper.Map<Competitor>(competitor);
-        if (await _unitOfWork.CompetitorRepo.CheckDuplicate(competitor.Email, competitor.Phone))
+        var a = _mapper.Map<Account>(account);
+        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone))
         {
-            response.Messenger = "Email or Password is Exist !";
+            response.Message = "Email or Phone is Exist !";
             response.Success = false;
             return response;
         }
         
         //if not exist
+        a.Password = _authentication.Hash(account.Password);
+        a.Status = AccountStatus.ACTIVE.ToString();
         
-        c.Status = AccountStatus.ACTIVE.ToString();
-        c.CreatedTime = DateTime.Now;
+        await _unitOfWork.AccountRepo.AddAsync(a);
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
         
-        await _unitOfWork.CompetitorRepo.AddAsync(c);
-
-        response.Messenger = "Create Success !";
+        Console.WriteLine(a.Id);
+        
+        if (check is false)
+        {
+            response.Message = "Create Fail !";
+            response.Success = true;
+            return response;
+        }
+        
+        response.Message = "Create Success !";
         response.Success = true;
         return response;
-    }*/
+    }
+
+
+    public string RefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+    }
+    
 }

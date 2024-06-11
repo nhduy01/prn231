@@ -1,4 +1,4 @@
-namespace Infracstructures.SendModels.Authentication;
+namespace Application.SendModels.Authentication;
 
 public class CreateCompetitorRequest
 {

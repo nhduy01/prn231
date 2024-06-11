@@ -2,7 +2,8 @@ namespace Application.ViewModels.AccountViewModels;
 
 public class LoginResponse
 {
-    public string Data { get; set; }
+    public string? JwtToken { get; set; }
+    public RefreshToken? RefreshToken { get; set; }
     public bool Success { get; set; }
-    public string Messenger { get; set; }
+    public string? Message { get; set; }
 }

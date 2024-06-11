@@ -1,6 +1,6 @@
-namespace Infracstructures.SendModels.Authentication;
+namespace Application.SendModels.Authentication;
 
-public class RequestLogin
+public class LoginRequest
 {
     public string UserName { get; set; } = null!;
     public string Password { get; set; } = null!;

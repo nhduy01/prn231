@@ -4,11 +4,14 @@ using Application.ResponseModels;
 using Application.ViewModels.AwardViewModels;
 using Domain.Models;
 using FluentAssertions.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace WebAPI.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/award/")]
     public class AwardController : Controller
     {

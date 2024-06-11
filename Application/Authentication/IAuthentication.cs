@@ -1,6 +1,6 @@
 using Domain.Models;
 
-namespace Infracstructures.Authentication;
+namespace Application.Authentication;
 
 public interface IAuthentication
 {

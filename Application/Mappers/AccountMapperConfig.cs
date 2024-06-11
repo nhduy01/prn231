@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Domain.Models;
+using Application.SendModels.Authentication;
 
 namespace Application.Mappers
 {
@@ -11,7 +13,7 @@ namespace Application.Mappers
     {
         partial void AddAccountMapperConfig()
         {
-
+            CreateMap<CreateAccountRequest, Account>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.Authentication;
 using Application.Interfaces;
 using Application.IService;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ using Application.Mappers;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Services;
 using Application.Services.CommonService;
+using AuthenticationService = Microsoft.AspNetCore.Authentication.AuthenticationService;
 
 namespace Infracstructures
 {
@@ -23,6 +25,10 @@ namespace Infracstructures
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             #region Config Repository and Service
+            //Authen
+            services.AddTransient<IAuthentication, Authentication>();
+            services.AddTransient<IAuthenticationService, Application.Services.AuthenticationService>();
+            
             // Account
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IAccountService, AccountService>();

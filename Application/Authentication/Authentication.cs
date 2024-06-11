@@ -6,7 +6,7 @@ using Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infracstructures.Authentication;
+namespace Application.Authentication;
 
 public class Authentication : IAuthentication
 {

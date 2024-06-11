@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models;
-using Infracstructures.SendModels.Authentication;
+using Application.SendModels.Authentication;
 
 namespace Application.Mappers
 {

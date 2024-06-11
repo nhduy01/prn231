@@ -1,13 +1,17 @@
 using Application.ViewModels.AccountViewModels;
-using Infracstructures.SendModels.Authentication;
+using Application.SendModels.Authentication;
 
 namespace Application.IService;
 
 public interface IAuthenticationService
 {
-    Task<LoginResponse> ValidateCompetitor(RequestLogin accountLogin);
-    Task<LoginResponse> ValidateAccount(RequestLogin accountLogin);
+    Task<LoginResponse> ValidateCompetitor(LoginRequest accountLogin);
+    Task<LoginResponse> ValidateAccount(LoginRequest accountLogin);
     Task<RegisterResponse> CreateCompetitor(CreateCompetitorRequest competitor);
+    
+    Task<RegisterResponse> CreateAccount(CreateAccountRequest account);
+    
+    public Task<string> ReGenerateJwtTokenAccount(string refreshToken);
     /*Task<Boolean> Logout(Guid AccountId);
     Task<ResponseAccountAdmin> CreateAccount(RequestAccountToAdmin requestAccountToAdmin);
     Task<ResponseAccountCandidate> CreateAccountCandidate(RequestAccountToCadidate requestAccountToCandidate);

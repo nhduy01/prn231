@@ -16,5 +16,15 @@ namespace Infracstructures.Repositories
         {
             return await _dbSet.FirstOrDefaultAsync(a => a.Email == email);
         }
+
+        public async Task<Account?> GetByRefreshToken(string token)
+        {
+            return await _dbSet.FirstOrDefaultAsync(a => a.RefreshToken == token);
+        }
+
+        public async Task<bool> CheckDuplicate(string email, string phone)
+        {
+            return await _dbSet.AnyAsync(a => a.Email == email || a.Phone == phone);
+        }
     }
 }

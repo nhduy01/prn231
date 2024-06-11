@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using WebAPI.IService.ICommonService;
 
 namespace WebAPI
@@ -34,7 +35,7 @@ namespace WebAPI
             services.AddDistributedMemoryCache(); //Adding cache in memory for session.
             services.AddSession(); //Adding session.
             services.AddTransient<ISessionServices, SessionServices>();
-            services.AddAuthorization();
+            
             var secretKeyBytes = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
             {
@@ -51,6 +52,7 @@ namespace WebAPI
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            
             services.AddFluentValidationClientsideAdapters();
 
             services.AddCors(options =>
@@ -62,6 +64,35 @@ namespace WebAPI
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
+            });
+            
+            
+            services.AddSwaggerGen(sw =>
+            {
+                sw.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "1.0" });
+                sw.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Insert JWT Token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "bearer"
+                });
+                sw.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
         }
     }
