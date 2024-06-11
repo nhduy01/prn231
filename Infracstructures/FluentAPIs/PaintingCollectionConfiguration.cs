@@ -15,7 +15,10 @@ namespace Infracstructures.FluentAPIs
         {
             builder.ToTable("PaintingCollection");
 
+            //Id
             builder.HasKey(u => u.Id);
+            builder.Property(u => u.Id)
+                .HasDefaultValueSql("NEWID()");
 
             //CollectionId
             builder.Property(u => u.CollectionId).IsRequired();

@@ -21,13 +21,13 @@ namespace WebAPI.Controllers
         {
             _awardService = awardService;
         }
-        #region Create 
+        #region Create Award
         [HttpPost()]
-        public async Task<IActionResult> CreateAward(AddAwardViewModel award, Guid id)
+        public async Task<IActionResult> CreateAward(AddAwardViewModel award)
         {
             try
             {
-                var result = await _awardService.AddAward(award,id);
+                var result = await _awardService.AddAward(award);
                 return Ok(new BaseResponseModel
                 {
                     Status = Ok().StatusCode,
@@ -49,11 +49,11 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region Update
+        #region Update Award
         [HttpPut()]
-        public async Task<IActionResult> UpdateAward(Guid id, UpdateAwardViewModel updateAward)
+        public async Task<IActionResult> UpdateAward(UpdateAwardViewModel updateAward)
         {
-            var result = await _awardService.UpdateAward(updateAward, id);
+            var result = await _awardService.UpdateAward(updateAward);
             if (result == null) return NotFound();
             else
             {
@@ -67,9 +67,9 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region Delete
+        #region Delete Award
         [HttpPatch()]
-        public async Task<IActionResult> DeleteStatus(Guid id)
+        public async Task<IActionResult> DeleteAward(Guid id)
         {
             var result = await _awardService.DeleteAward(id);
             if (result == null) return NotFound();
@@ -85,9 +85,9 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region GetAll
+        #region Get All Award
         [HttpGet()]
-        public async Task<IActionResult> GetAllInventory(ListAwardModel listAwardModel)
+        public async Task<IActionResult> GetAllAward(ListAwardModel listAwardModel)
         {
             try
             {
@@ -116,6 +116,32 @@ namespace WebAPI.Controllers
         }
         #endregion
 
+        #region Get Award By Id
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAwardById(Guid id)
+        {
+            try
+            {
+                var result = await _awardService.GetAwardById(id);
+                return Ok(new BaseResponseModel
+                {
+                    Status = Ok().StatusCode,
+                    Message = "Get Inventory Success",
+                    Result = result
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = ex.Message,
+                    Errors = ex
+                });
+            }
+        }
+        #endregion
 
     }
 }

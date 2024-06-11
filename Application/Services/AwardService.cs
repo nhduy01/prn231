@@ -26,13 +26,11 @@ namespace Application.Services
             _configuration = configuration;
             _claimsService = claimsService;
         }
-
-        public async Task<Guid?> AddAward(AddAwardViewModel addAwardViewModel, Guid Staffid)
+        #region Add Award
+        public async Task<Guid?> AddAward(AddAwardViewModel addAwardViewModel)
         {
             Award award = _mapper.Map<Award>(addAwardViewModel);
-            award.Id = Guid.NewGuid();
-            award.CreatedBy = Staffid;
-            award.CreatedTime = _currentTime.GetCurrentTime();
+            award.CreatedBy = _claimsService.GetCurrentUserId();
             award.Status = "ACTIVE";
             await _unitOfWork.AwardRepo.AddAsync(award);
 
@@ -45,7 +43,9 @@ namespace Application.Services
             }
             return null;
         }
+        #endregion
 
+        #region Get List Award
         public async Task<(List<AwardViewModel>,int)> GetListAward(ListAwardModel listAwardModel)
         {
             var awardList = await _unitOfWork.AwardRepo.GetAllAsync();
@@ -59,7 +59,9 @@ namespace Application.Services
                          .ToList();
             return (result, totalPages);
         }
+        #endregion
 
+        #region Delete Award
         public async Task<AwardViewModel> DeleteAward(Guid awardId)
         {
             var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
@@ -70,14 +72,15 @@ namespace Application.Services
             else
             {
                 award.Status = "INACTIVE";
-                /*bool oot = (updateProduct.OutOfStock.ToString().ToUpper().Equals("TRUE")) ? true : false;*/
-                /*product.OutOfStock = oot;*/
+                
                 await _unitOfWork.SaveChangesAsync();
                 return _mapper.Map<AwardViewModel>(award);
             }
         }
+        #endregion
 
-        public async Task<UpdateAwardViewModel> UpdateAward(UpdateAwardViewModel updateAward, Guid StaffId)
+        #region Update Award
+        public async Task<UpdateAwardViewModel> UpdateAward(UpdateAwardViewModel updateAward)
         {
             var award = await _unitOfWork.AwardRepo.GetByIdAsync(updateAward.Id);
             if (award == null)
@@ -92,7 +95,7 @@ namespace Application.Services
                 award.Artifact = updateAward.Artifact;
                 award.Description = updateAward.Description;
                 award.EducationalLevelId = updateAward.EducationalLevelId;
-                award.UpdatedBy = StaffId;
+                award.UpdatedBy = _claimsService.GetCurrentUserId();
                 award.UpdatedTime = _currentTime.GetCurrentTime();
 
 
@@ -100,7 +103,16 @@ namespace Application.Services
                 return _mapper.Map<UpdateAwardViewModel>(award);
             }
         }
+        #endregion
 
-        
+
+        #region Get Award By Id
+        public async Task<AwardViewModel> GetAwardById(Guid awardId)
+        {
+            var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
+            return _mapper.Map<AwardViewModel>(award); ;
+        }
+        #endregion
+
     }
 }
