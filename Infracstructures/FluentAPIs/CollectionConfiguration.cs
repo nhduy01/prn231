@@ -12,6 +12,8 @@ namespace Infracstructures.FluentAPIs
 
             //Id
             builder.HasKey(u => u.Id);
+            builder.Property(u => u.Id)
+                .HasDefaultValueSql("NEWID()");
 
             //CreateTime
             builder.Property(u => u.CreatedTime);

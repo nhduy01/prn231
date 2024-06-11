@@ -8,7 +8,7 @@ namespace WebAPI.IService.ICommonService
 {
     public interface IClaimsService
     {
-        public int GetCurrentUserId { get; }
+        Guid? GetCurrentUserId();
     }
 
 }

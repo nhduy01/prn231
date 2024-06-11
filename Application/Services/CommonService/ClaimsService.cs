@@ -7,11 +7,11 @@ public class ClaimsService : IClaimsService
     private readonly IHttpContextAccessor _contextAccessor;
     public ClaimsService(IHttpContextAccessor httpContextAccessor)
     {
-        if (httpContextAccessor.HttpContext != null)
-        {
-            var id = httpContextAccessor.HttpContext.User.FindFirstValue("AccountId");
-            GetCurrentUserId = id == null ? -1 : int.Parse(id);
-        }
+        _contextAccessor = httpContextAccessor;
     }
-    public int GetCurrentUserId { get; }
+    public Guid? GetCurrentUserId()
+    {
+        var id = _contextAccessor.HttpContext?.User.FindFirstValue("AccountId");
+        return id == null ? (Guid?)null : Guid.Parse(id);
+    }
 }

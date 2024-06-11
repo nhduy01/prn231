@@ -31,8 +31,7 @@ namespace Application.Services
         {
             Award award = _mapper.Map<Award>(addAwardViewModel);
             award.Id = Guid.NewGuid();
-            award.CreatedBy = Staffid;
-            award.CreatedTime = _currentTime.GetCurrentTime();
+            award.CreatedBy = _claimsService.GetCurrentUserId();
             award.Status = "ACTIVE";
             await _unitOfWork.AwardRepo.AddAsync(award);
 

@@ -13,6 +13,8 @@ namespace Infracstructures.FluentAPIs
             //Id
             builder.HasKey(u => u.Id);
 
+            builder.Property(u => u.Id)
+                .HasDefaultValueSql("NEWID()");
             //Email
             builder.Property(u => u.Email).IsRequired().HasMaxLength(50);
             builder.HasIndex(x => x.Email).IsUnique();
