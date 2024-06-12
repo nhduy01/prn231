@@ -1,5 +1,5 @@
-using Application.ViewModels.AccountViewModels;
 using Application.SendModels.Authentication;
+using Application.ViewModels.AccountViewModels;
 
 namespace Application.IService;
 
@@ -8,10 +8,12 @@ public interface IAuthenticationService
     Task<LoginResponse> ValidateCompetitor(LoginRequest accountLogin);
     Task<LoginResponse> ValidateAccount(LoginRequest accountLogin);
     Task<RegisterResponse> CreateCompetitor(CreateCompetitorRequest competitor);
-    
+
     Task<RegisterResponse> CreateAccount(CreateAccountRequest account);
-    
+
     public Task<string> ReGenerateJwtTokenAccount(string refreshToken);
+    
+    
     /*Task<Boolean> Logout(Guid AccountId);
     Task<ResponseAccountAdmin> CreateAccount(RequestAccountToAdmin requestAccountToAdmin);
     Task<ResponseAccountCandidate> CreateAccountCandidate(RequestAccountToCadidate requestAccountToCandidate);
@@ -20,5 +22,4 @@ public interface IAuthenticationService
     Task<ResponseAccountInterviewer> CreateAccountInterviewer(RequestAccountToInterviewer requestAccountToInterviewer);
     Task<bool> ForgetPassword(string email);
     Task<bool> ResetPassword(string email, string password, string resetToken);*/
-
 }

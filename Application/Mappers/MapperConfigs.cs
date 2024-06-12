@@ -1,79 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Commons;
+﻿using Application.Common;
 using AutoMapper;
 
-namespace Application.Mappers
+namespace Application.Mappers;
+
+public partial class MapperConfigs : Profile
 {
-    public partial class MapperConfigs : Profile
+    public MapperConfigs()
     {
-        public MapperConfigs()
-        {
-            //add map here
-            //CreateMap<SourceModel, DestinationModel>();
+        //add map here
+        //CreateMap<SourceModel, DestinationModel>();
 
-            // Create mapping between Pagination
-            CreateMap(typeof(Pagination<>), typeof(Pagination<>));
+        // Create mapping between Pagination
+        CreateMap(typeof(Pagination<>), typeof(Pagination<>));
 
-            
-            AddAccountMapperConfig();
 
-            AddAwardMapperConfig();
+        AddAccountMapperConfig();
 
-            AddAwardScheduleMapperConfig();
+        AddAwardMapperConfig();
 
-            AddCollectionMapperConfig();
-            
-            AddEducationalLevelMapperConfig();
+        AddAwardScheduleMapperConfig();
 
-            AddCompetitorMapperConfig();
+        AddCollectionMapperConfig();
 
-            AddImageMapperConfig();
+        AddEducationalLevelMapperConfig();
 
-            AddNotificationMapperConfig();
+        AddCompetitorMapperConfig();
 
-            AddPaintingMapperConfig();
+        AddImageMapperConfig();
 
-            AddPaintingCollectionMapperConfig();
+        AddNotificationMapperConfig();
 
-            AddPostMapperConfig();
+        AddPaintingMapperConfig();
 
-            AddPostImageMapperConfig();
+        AddPaintingCollectionMapperConfig();
 
-            AddResourcesMapperConfig();
+        AddPostMapperConfig();
 
-            AddRoundMapperConfig();
+        AddPostImageMapperConfig();
 
-            AddScheduleMapperConfig();
+        AddResourcesMapperConfig();
 
-            AddSponsorMapperConfig();
+        AddRoundMapperConfig();
 
-            AddTopicMapperConfig();
+        AddScheduleMapperConfig();
 
-            AddContestMapperConfig();
+        AddSponsorMapperConfig();
+
+        AddTopicMapperConfig();
+
+        AddContestMapperConfig();
     }
 
-        partial void AddAccountMapperConfig();
-        partial void AddAwardMapperConfig();
-        partial void AddAwardScheduleMapperConfig();
-        partial void AddCollectionMapperConfig();
-        partial void AddEducationalLevelMapperConfig();
-        partial void AddCompetitorMapperConfig();
-        partial void AddImageMapperConfig();
-        partial void AddNotificationMapperConfig();
-        partial void AddPaintingMapperConfig();
-        partial void AddPaintingCollectionMapperConfig();
-        partial void AddPostMapperConfig();
-        partial void AddPostImageMapperConfig();
-        partial void AddResourcesMapperConfig();
-        partial void AddRoundMapperConfig();
-        partial void AddScheduleMapperConfig();
-        partial void AddSponsorMapperConfig();
-        partial void AddTopicMapperConfig();
-        partial void AddContestMapperConfig();
-    }
-
+    partial void AddAccountMapperConfig();
+    partial void AddAwardMapperConfig();
+    partial void AddAwardScheduleMapperConfig();
+    partial void AddCollectionMapperConfig();
+    partial void AddEducationalLevelMapperConfig();
+    partial void AddCompetitorMapperConfig();
+    partial void AddImageMapperConfig();
+    partial void AddNotificationMapperConfig();
+    partial void AddPaintingMapperConfig();
+    partial void AddPaintingCollectionMapperConfig();
+    partial void AddPostMapperConfig();
+    partial void AddPostImageMapperConfig();
+    partial void AddResourcesMapperConfig();
+    partial void AddRoundMapperConfig();
+    partial void AddScheduleMapperConfig();
+    partial void AddSponsorMapperConfig();
+    partial void AddTopicMapperConfig();
+    partial void AddContestMapperConfig();
 }

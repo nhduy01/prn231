@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class PaintingCollectionConfiguration : IEntityTypeConfiguration<PaintingCollection>
 {
-    public class PaintingCollectionConfiguration : IEntityTypeConfiguration<PaintingCollection>
+    public void Configure(EntityTypeBuilder<PaintingCollection> builder)
     {
-        public void Configure(EntityTypeBuilder<PaintingCollection> builder)
-        {
-            builder.ToTable("PaintingCollection");
+        builder.ToTable("PaintingCollection");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CollectionId
-            builder.Property(u => u.CollectionId).IsRequired();
+        //CollectionId
+        builder.Property(u => u.CollectionId).IsRequired();
 
-            //PaintingId
-            builder.Property(u => u.PaintingId).IsRequired();
+        //PaintingId
+        builder.Property(u => u.PaintingId).IsRequired();
 
 
-            //Relation
-            builder.HasOne(u => u.Painting).WithMany(u => u.PaintingCollection).HasForeignKey(u => u.PaintingId).OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        //Relation
+        builder.HasOne(u => u.Painting).WithMany(u => u.PaintingCollection).HasForeignKey(u => u.PaintingId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

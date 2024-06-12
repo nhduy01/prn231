@@ -1,12 +1,11 @@
-﻿using WebAPI.IService.ICommonService;
+﻿using Application.IService.ICommonService;
 
-namespace Application.Services.CommonService
+namespace Application.Services.CommonService;
+
+public class CurrentTime : ICurrentTime
 {
-    public class CurrentTime : ICurrentTime
+    public DateTime GetCurrentTime()
     {
-        public DateTime GetCurrentTime()
-        {
-            return DateTime.UtcNow;
-        }
+        return DateTime.UtcNow;
     }
 }

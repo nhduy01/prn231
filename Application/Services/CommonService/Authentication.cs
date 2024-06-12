@@ -2,21 +2,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Domain.Models;
+using Application.IService.ICommonService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Authentication;
+namespace Application.Services.CommonService;
 
 public class Authentication : IAuthentication
 {
-    private readonly IConfiguration _configuration;
-    
     private const int SaltSize = 128 / 8;
     private const int KeySize = 256 / 8;
     private const int Iterations = 10000;
     private const char Delimiter = ';';
     private static readonly HashAlgorithmName _hashAlgorithmName = HashAlgorithmName.SHA256;
+    private readonly IConfiguration _configuration;
 
     public Authentication(IConfiguration configuration)
     {
@@ -56,7 +55,8 @@ public class Authentication : IAuthentication
                 new Claim(ClaimTypes.Role, role)
             }),
             Expires = DateTime.UtcNow.AddHours(1),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
+            SigningCredentials =
+                new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
         };
         var token = jwtTokenHandler.CreateToken(tokenDescription);
         return jwtTokenHandler.WriteToken(token);

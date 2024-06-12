@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Mail;
+using Application.IService.ICommonService;
 using Infracstructures.SendModels.Mail;
 using Microsoft.Extensions.Configuration;
-using WebAPI.IService.ICommonService;
 
 namespace Application.Services.CommonService;
 
@@ -20,7 +20,7 @@ public class MailService : IMailService
         var emailHost = _configuration["Email:EmailHost"];
         var emailUsername = _configuration["Email:EmailUsername"];
         var emailPassword = _configuration["Email:EmailPassword"];
-            
+
         var fromAddress = new MailAddress(emailUsername);
         var toAddress = new MailAddress(request.To);
 

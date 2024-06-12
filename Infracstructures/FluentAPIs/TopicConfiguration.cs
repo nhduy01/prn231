@@ -1,52 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class TopicConfiguration : IEntityTypeConfiguration<Topic>
 {
-    public class TopicConfiguration : IEntityTypeConfiguration<Topic>
+    public void Configure(EntityTypeBuilder<Topic> builder)
     {
-        public void Configure(EntityTypeBuilder<Topic> builder)
-        {
-            builder.ToTable("Topic");
+        builder.ToTable("Topic");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //Name
-            builder.Property(u => u.Name);
+        //Name
+        builder.Property(u => u.Name);
 
-            //Description
-            builder.Property(u => u.Description);
+        //Description
+        builder.Property(u => u.Description);
 
-            //Image
-            builder.Property(u => u.Image);
+        //Image
+        builder.Property(u => u.Image);
 
-            //RoundId
-            builder.Property(u => u.RoundId).IsRequired();
-
-        }
+        //RoundId
+        builder.Property(u => u.RoundId).IsRequired();
     }
 }

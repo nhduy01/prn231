@@ -1,7 +1,6 @@
-﻿namespace WebAPI.IService.ICommonService
+﻿namespace Application.IService.ICommonService;
+
+public interface ICurrentTime
 {
-    public interface ICurrentTime
-    {
-        public DateTime GetCurrentTime();
-    }
+    public DateTime GetCurrentTime();
 }

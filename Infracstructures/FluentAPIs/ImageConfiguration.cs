@@ -1,53 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
-    public class ImageConfiguration : IEntityTypeConfiguration<Image>
+    public void Configure(EntityTypeBuilder<Image> builder)
     {
-        public void Configure(EntityTypeBuilder<Image> builder)
-        {
-            builder.ToTable("Image");
+        builder.ToTable("Image");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //URL
-            builder.Property(u => u.Url);
+        //URL
+        builder.Property(u => u.Url);
 
-            //Description
-            builder.Property(u => u.Description);
+        //Description
+        builder.Property(u => u.Description);
 
 
-
-            //Relation
-            builder.HasMany(u => u.PostImage)
-                .WithOne(u => u.Images)
-                .HasForeignKey(u => u.ImageId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        //Relation
+        builder.HasMany(u => u.PostImage)
+            .WithOne(u => u.Images)
+            .HasForeignKey(u => u.ImageId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

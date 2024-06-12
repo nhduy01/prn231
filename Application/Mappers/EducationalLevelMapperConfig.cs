@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 
-namespace Application.Mappers
+namespace Application.Mappers;
+
+public partial class MapperConfigs : Profile
 {
-    public partial class MapperConfigs : Profile
+    partial void AddEducationalLevelMapperConfig()
     {
-        partial void AddEducationalLevelMapperConfig()
-        {
-
-        }
     }
 }

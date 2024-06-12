@@ -1,77 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class CompetitorConfiguration : IEntityTypeConfiguration<Competitor>
 {
-    public class CompetitorConfiguration : IEntityTypeConfiguration<Competitor>
+    public void Configure(EntityTypeBuilder<Competitor> builder)
     {
-        public void Configure(EntityTypeBuilder<Competitor> builder)
-        {
-            builder.ToTable("Competitor");
+        builder.ToTable("Competitor");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //FirstName
-            builder.Property(u => u.FirstName);
+        //FirstName
+        builder.Property(u => u.FirstName);
 
-            //LastName
-            builder.Property(u => u.LastName);
+        //LastName
+        builder.Property(u => u.LastName);
 
-            //Phone
-            builder.Property(u => u.Phone);
+        //Phone
+        builder.Property(u => u.Phone);
 
-            //Email
-            builder.Property(u => u.Email);
+        //Email
+        builder.Property(u => u.Email);
 
-            //Avatar
-            builder.Property(u => u.Avatar);
+        //Avatar
+        builder.Property(u => u.Avatar);
 
-            //Gender
-            builder.Property(u => u.Gender);
+        //Gender
+        builder.Property(u => u.Gender);
 
-            //CompetitorId
-            builder.Property(u => u.GuardianId).IsRequired();
+        //CompetitorId
+        builder.Property(u => u.GuardianId).IsRequired();
 
+        //RefreshToken
+        builder.Property(u => u.RefreshToken);
 
-            //Relation
-            builder.HasOne(u => u.Account)
-                .WithOne(u => u.Competitor)
-                .HasForeignKey<Competitor>(u => u.GuardianId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+        //Relation
+        builder.HasOne(u => u.Account)
+            .WithOne(u => u.Competitor)
+            .HasForeignKey<Competitor>(u => u.GuardianId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
-            builder.HasOne(u => u.Account)
-                .WithOne(u => u.Competitor)
-                .HasForeignKey<Competitor>(u => u.GuardianId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasOne(u => u.Account)
+            .WithOne(u => u.Competitor)
+            .HasForeignKey<Competitor>(u => u.GuardianId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
-            builder.HasMany(u => u.Collection)
-                .WithOne(u => u.Competitor)
-                .HasForeignKey(u => u.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        builder.HasMany(u => u.Collection)
+            .WithOne(u => u.Competitor)
+            .HasForeignKey(u => u.AccountId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

@@ -1,6 +1,6 @@
 using Infracstructures.SendModels.Mail;
 
-namespace WebAPI.IService.ICommonService;
+namespace Application.IService.ICommonService;
 
 public interface IMailService
 {

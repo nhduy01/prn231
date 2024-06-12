@@ -1,6 +1,5 @@
-﻿namespace Application.IService
+﻿namespace Application.IService;
+
+public interface IEducationalLevelService
 {
-    public interface IEducationalLevelService
-    {
-    }
 }

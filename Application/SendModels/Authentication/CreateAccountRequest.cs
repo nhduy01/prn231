@@ -12,5 +12,4 @@ public class CreateAccountRequest
     public string Phone { get; set; }
     public bool Gender { get; set; } = true;
     public string IdentifyNumber { get; set; }
-    
 }

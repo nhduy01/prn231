@@ -1,5 +1,3 @@
-using Application.ViewModels.AccountViewModels;
-
 namespace Application.SendModels.Authentication;
 
 public class RefreshTokenRequest

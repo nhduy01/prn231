@@ -1,9 +1,8 @@
-﻿namespace WebAPI.IService.ICommonService
+﻿namespace Application.IService.ICommonService;
+
+public interface ISessionServices
 {
-    public interface ISessionServices
-    {
-        void SaveToken(int id, string token);
-        string GetTokenByKey(int id);
-        bool RemoveToken(int id);
-    }
+    void SaveToken(int id, string token);
+    string GetTokenByKey(int id);
+    bool RemoveToken(int id);
 }

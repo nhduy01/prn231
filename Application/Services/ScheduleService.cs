@@ -1,8 +1,7 @@
 ﻿using Application.IService;
 
-namespace Application.Services
+namespace Application.Services;
+
+public class ScheduleService : IScheduleService
 {
-    public class ScheduleService : IScheduleService
-    {
-    }
 }

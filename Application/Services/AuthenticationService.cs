@@ -1,20 +1,20 @@
 using System.Security.Cryptography;
-using Application.Authentication;
 using Application.IService;
+using Application.IService.ICommonService;
+using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Application.SendModels.Authentication;
 
 namespace Application.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IAuthentication _authentication;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AuthenticationService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper)
     {
@@ -31,22 +31,24 @@ public class AuthenticationService : IAuthenticationService
         if (account != null)
         {
             //Verify Password
-            Boolean check = _authentication.Verify(account.Password, accountLogin.Password);
+            var check = _authentication.Verify(account.Password, accountLogin.Password);
             if (check is true)
             {
                 response.Success = true;
                 response.Message = "Login Success";
-                response.JwtToken = _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
+                response.JwtToken =
+                    _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
-                
+
                 //add refresh token to DB
                 account.RefreshToken = response.RefreshToken.Token;
                 _unitOfWork.AccountRepo.Update(account);
                 await _unitOfWork.SaveChangesAsync();
-                
+
                 return response;
             }
+
             response.Success = false;
             response.Message = "Invalid Password";
             return response;
@@ -61,9 +63,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var account = await _unitOfWork.AccountRepo.GetByRefreshToken(refreshToken);
         if (account != null)
-        {
-            return _authentication.GenerateToken(account.LastName, account.Id.ToString(),account.Role);
-        }
+            return _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
         return "";
     }
 
@@ -77,20 +77,19 @@ public class AuthenticationService : IAuthenticationService
         if (competitor != null)
         {
             //Verify Password
-            Boolean check = _authentication.Verify(competitor.Password, accountLogin.Password);
+            var check = _authentication.Verify(competitor.Password, accountLogin.Password);
             if (check is true)
             {
                 response.Success = true;
                 response.Message = "Login Success";
-                response.JwtToken = _authentication.GenerateToken(competitor.LastName, competitor.Id.ToString(),Role.COMPETITOR.ToString());
+                response.JwtToken = _authentication.GenerateToken(competitor.LastName, competitor.Id.ToString(),
+                    Role.COMPETITOR.ToString());
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
-                
-                
-                
-                
+
                 return response;
             }
+
             response.Success = false;
             response.Message = "Invalid Password";
             return response;
@@ -112,12 +111,12 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
-        
+
         //if not exist
         c.Password = _authentication.Hash(competitor.Password);
-        c.Status = AccountStatus.ACTIVE.ToString();
+        c.Status = AccountStatus.INACTIVE.ToString();
         c.CreatedTime = DateTime.Now;
-        
+
         await _unitOfWork.CompetitorRepo.AddAsync(c);
         var check = await _unitOfWork.SaveChangesAsync() > 0;
 
@@ -127,12 +126,12 @@ public class AuthenticationService : IAuthenticationService
             response.Success = true;
             return response;
         }
-        
+
         response.Message = "Create Success !";
         response.Success = true;
         return response;
     }
-    
+
     public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
     {
         var response = new RegisterResponse();
@@ -143,32 +142,30 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
-        
+
         //if not exist
         a.Password = _authentication.Hash(account.Password);
-        a.Status = AccountStatus.ACTIVE.ToString();
-        
+        a.Status = AccountStatus.INACTIVE.ToString();
+
         await _unitOfWork.AccountRepo.AddAsync(a);
         var check = await _unitOfWork.SaveChangesAsync() > 0;
-        
+
         Console.WriteLine(a.Id);
-        
+
         if (check is false)
         {
             response.Message = "Create Fail !";
             response.Success = true;
             return response;
         }
-        
+
         response.Message = "Create Success !";
         response.Success = true;
         return response;
     }
 
-
     public string RefreshToken()
     {
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
     }
-    
 }

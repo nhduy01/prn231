@@ -1,61 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+internal class RoundConfiguration : IEntityTypeConfiguration<Round>
 {
-    internal class RoundConfiguration : IEntityTypeConfiguration<Round>
+    public void Configure(EntityTypeBuilder<Round> builder)
     {
-        public void Configure(EntityTypeBuilder<Round> builder)
-        {
-            builder.ToTable("Round");
+        builder.ToTable("Round");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //StartTime
-            builder.Property(u => u.StartTime);
+        //StartTime
+        builder.Property(u => u.StartTime);
 
-            //EndTime
-            builder.Property(u => u.EndTime);
+        //EndTime
+        builder.Property(u => u.EndTime);
 
-            //Location
-            builder.Property(u => u.Location);
+        //Location
+        builder.Property(u => u.Location);
 
-            //Description
-            builder.Property(u => u.Description);
+        //Description
+        builder.Property(u => u.Description);
 
-            //EducationalLevel
-            builder.Property(u => u.EducationalLevelId);
+        //EducationalLevel
+        builder.Property(u => u.EducationalLevelId);
 
 
-
-
-            builder.HasMany(u => u.Topic).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull);
-            builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull);
-            builder.HasMany(u => u.Painting).WithOne(u => u.Round).HasForeignKey(u => u.RoundId).OnDelete(DeleteBehavior.ClientSetNull); 
-        }
+        builder.HasMany(u => u.Topic).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasMany(u => u.Painting).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

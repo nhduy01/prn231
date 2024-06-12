@@ -1,60 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Domain.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class ContestConfiguration : IEntityTypeConfiguration<Contest>
 {
-    public class ContestConfiguration : IEntityTypeConfiguration<Contest>
+    public void Configure(EntityTypeBuilder<Contest> builder)
     {
-        public void Configure(EntityTypeBuilder<Contest> builder)
-        {
-            builder.ToTable("Contest");
+        builder.ToTable("Contest");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //Name
-            builder.Property(u => u.Name);
+        //Name
+        builder.Property(u => u.Name);
 
-            //Content
-            builder.Property(u => u.Content);
+        //Content
+        builder.Property(u => u.Content);
 
-            //Description
-            builder.Property(u => u.Description);
+        //Description
+        builder.Property(u => u.Description);
 
-            //EndTime
-            builder.Property(u => u.EndTime);
+        //EndTime
+        builder.Property(u => u.EndTime);
 
-            //StartTime
-            builder.Property(u => u.StartTime);
+        //StartTime
+        builder.Property(u => u.StartTime);
 
 
-            //Relation
-            builder.HasMany(u => u.EducationalLevel).WithOne(u => u.Contest).HasForeignKey(u => u.ContestId).OnDelete(DeleteBehavior.ClientSetNull);
+        //Relation
+        builder.HasMany(u => u.EducationalLevel).WithOne(u => u.Contest).HasForeignKey(u => u.ContestId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
-            builder.HasMany(u => u.Resources).WithOne(u => u.Contest).HasForeignKey(u => u.ContestId).OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        builder.HasMany(u => u.Resources).WithOne(u => u.Contest).HasForeignKey(u => u.ContestId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

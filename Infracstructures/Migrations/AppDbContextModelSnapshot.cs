@@ -37,9 +37,7 @@ namespace Infracstructures.Migrations
 
                     b.Property<string>("Avatar")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
@@ -304,6 +302,9 @@ namespace Infracstructures.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -858,14 +859,22 @@ namespace Infracstructures.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Delegate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")

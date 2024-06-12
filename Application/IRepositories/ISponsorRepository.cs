@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
+﻿using Domain.Models;
 
-namespace Application.IRepositories
+namespace Application.IRepositories;
+
+public interface ISponsorRepository : IGenericRepository<Sponsor>
 {
-    public interface ISponsorRepository : IGenericRepository<Sponsor>
-    {
-
-    }
 }

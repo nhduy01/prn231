@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Domain.Models;
+using Infracstructures.SendModels.Sponsor;
+using Infracstructures.ViewModels.SponsorViewModels;
 
-namespace Application.Mappers
+namespace Application.Mappers;
+
+public partial class MapperConfigs : Profile
 {
-    public partial class MapperConfigs : Profile
+    partial void AddSponsorMapperConfig()
     {
-        partial void AddSponsorMapperConfig()
-        {
-
-        }
+        CreateMap<Sponsor, SponsorRequest>().ReverseMap();
+        CreateMap<Sponsor, SponsorUpdateRequest>().ReverseMap();
+        CreateMap<SponsorViewModel, Sponsor>().ReverseMap();
     }
 }

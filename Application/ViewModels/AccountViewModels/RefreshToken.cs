@@ -2,9 +2,8 @@ namespace Application.ViewModels.AccountViewModels;
 
 public class RefreshToken
 {
-    public string Token { get; set; }
+    private static readonly DateTime Current = DateTime.Now;
     public DateTime CreateTime = DateTime.Now;
     public DateTime Expired = Current.AddDays(10);
-    
-    private static DateTime Current = DateTime.Now; 
+    public string Token { get; set; }
 }

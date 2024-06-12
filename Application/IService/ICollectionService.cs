@@ -1,12 +1,11 @@
 ﻿using Application.ViewModels.CollectionViewModels;
 
-namespace Application.IService
+namespace Application.IService;
+
+public interface ICollectionService
 {
-    public interface ICollectionService
-    {
-        Task<Guid?> AddCollection(AddCollectionViewModel addCollectionViewModel);
-        Task<CollectionViewModel> DeleteCollection(Guid collectionId);
-        Task<UpdateCollectionViewModel> UpdateCollection(UpdateCollectionViewModel updateCollection);
-        Task<CollectionViewModel> GetCollectionById(Guid collectionId);
-    }
+    Task<Guid?> AddCollection(AddCollectionViewModel addCollectionViewModel);
+    Task<CollectionViewModel> DeleteCollection(Guid collectionId);
+    Task<UpdateCollectionViewModel> UpdateCollection(UpdateCollectionViewModel updateCollection);
+    Task<CollectionViewModel> GetCollectionById(Guid collectionId);
 }

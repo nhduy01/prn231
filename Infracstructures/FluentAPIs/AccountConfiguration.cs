@@ -2,73 +2,72 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class AccountConfiguration : IEntityTypeConfiguration<Account>
 {
-    public class AccountConfiguration : IEntityTypeConfiguration<Account>
+    public void Configure(EntityTypeBuilder<Account> builder)
     {
-        public void Configure(EntityTypeBuilder<Account> builder)
-        {
-            builder.ToTable("Account");
+        builder.ToTable("Account");
 
-            //Id
-            builder.HasKey(u => u.Id);
+        //Id
+        builder.HasKey(u => u.Id);
 
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
-            //Email
-            builder.Property(u => u.Email).IsRequired().HasMaxLength(50);
-            builder.HasIndex(x => x.Email).IsUnique();
-            
-            //Password
-            builder.Property(u => u.Password).IsRequired().HasMaxLength(100);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
+        //Email
+        builder.Property(u => u.Email).IsRequired().HasMaxLength(50);
+        builder.HasIndex(x => x.Email).IsUnique();
 
-            //Phone
-            builder.Property(u => u.Phone).HasMaxLength(10);
+        //Password
+        builder.Property(u => u.Password).IsRequired().HasMaxLength(100);
 
-            //Birthday 
-            builder.Property(u => u.Birthday).IsRequired();
+        //Phone
+        builder.Property(u => u.Phone).HasMaxLength(10);
 
-            //FirstName 
-            builder.Property(u => u.FirstName).HasMaxLength(20).HasDefaultValue("");
+        //Birthday 
+        builder.Property(u => u.Birthday).IsRequired();
 
-            //LastName
-            builder.Property(u => u.LastName).HasMaxLength(20).HasDefaultValue("Anonymous");
+        //FirstName 
+        builder.Property(u => u.FirstName).HasMaxLength(20).HasDefaultValue("");
 
-            //Gender
-            builder.Property(u => u.Gender).IsRequired().HasDefaultValue("False");
+        //LastName
+        builder.Property(u => u.LastName).HasMaxLength(20).HasDefaultValue("Anonymous");
 
-            //Role
-            builder.Property(u => u.Role).IsRequired().HasDefaultValue("Competitor");
+        //Gender
+        builder.Property(u => u.Gender).IsRequired().HasDefaultValue("False");
 
-            //Address
-            builder.Property(u => u.Address).HasDefaultValue("");
+        //Role
+        builder.Property(u => u.Role).IsRequired().HasDefaultValue("Competitor");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //Address
+        builder.Property(u => u.Address).HasDefaultValue("");
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //IdentifyNumber
-            builder.Property(u => u.IdentifyNumber);
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //RefreshToken
-            builder.Property(u => u.RefreshToken);
+        //IdentifyNumber
+        builder.Property(u => u.IdentifyNumber);
 
-            //Relation
+        //RefreshToken
+        builder.Property(u => u.RefreshToken);
+
+        //Relation
 
 
-
-            builder.HasMany(u => u.CreateContest).WithOne(u => u.Account).HasForeignKey(u => u.StaffId).OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        builder.HasMany(u => u.CreateContest).WithOne(u => u.Account).HasForeignKey(u => u.StaffId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

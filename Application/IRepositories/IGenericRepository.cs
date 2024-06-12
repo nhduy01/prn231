@@ -1,27 +1,26 @@
-﻿using Application.Commons;
+﻿using Application.Common;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace Application.IRepositories
+namespace Application.IRepositories;
+
+public interface IGenericRepository<TModel> where TModel : class
 {
-    public interface IGenericRepository<TModel> where TModel : class
-    {
-        Task<TModel> CloneAsync(TModel model);
-        Task<List<TModel>> GetAllAsync();
-        Task<List<TModel>> GetAllAsync(Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null);
+    Task<TModel> CloneAsync(TModel model);
+    Task<List<TModel>> GetAllAsync();
+    Task<List<TModel>> GetAllAsync(Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null);
 
-        Task<TModel?> GetByIdAsync(Guid id);
+    Task<TModel?> GetByIdAsync(Guid id);
 
-        Task AddAsync(TModel model);
+    Task AddAsync(TModel model);
 
-        void AddAttach(TModel model);
-        void AddEntry(TModel model);
-        void Update(TModel model);
+    void AddAttach(TModel model);
+    void AddEntry(TModel model);
+    void Update(TModel model);
 
-        void UpdateRange(List<TModel> models);
+    void UpdateRange(List<TModel> models);
 
-        Task AddRangeAsync(List<TModel> models);
+    Task AddRangeAsync(List<TModel> models);
 
-        // Add paging method to generic interface 
-        Task<Pagination<TModel>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10);
-    }
+    // Add paging method to generic interface 
+    Task<Pagination<TModel>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10);
 }

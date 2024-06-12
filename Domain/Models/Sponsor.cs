@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models.Base;
+﻿using Domain.Models.Base;
 
-namespace Domain.Models
+namespace Domain.Models;
+
+public class Sponsor : BaseModel
 {
-    public class Sponsor : BaseModel
-    {
-        public string Name { get; set; }
+    public string? Name { get; set; }
 
-        //Relation
-        public ICollection<Resources> Resources { get; set; }
+    public string? Address { get; set; }
 
-    }
+    public string? Delegate { get; set; }
+
+    public string? PhoneNumber { get; set; }
+
+    //Relation
+    public ICollection<Resources> Resources { get; set; }
 }

@@ -1,9 +1,7 @@
 ﻿using Domain.Models;
 
-namespace Application.IRepositories
-{
-    public interface IAwardScheduleRepository : IGenericRepository<AwardSchedule>
-    {
+namespace Application.IRepositories;
 
-    }
+public interface IAwardScheduleRepository : IGenericRepository<AwardSchedule>
+{
 }

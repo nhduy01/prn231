@@ -1,12 +1,5 @@
-﻿using Application.Commons;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Http;
-using Domain.Models;
+﻿namespace Application.IService;
 
-namespace Application.Interfaces
+public interface IAccountService
 {
-    public interface IAccountService
-    {
-        
-    }
 }

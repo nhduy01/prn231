@@ -1,6 +1,5 @@
-﻿namespace Application.IService
+﻿namespace Application.IService;
+
+public interface IResourcesService
 {
-    public interface IResourcesService
-    {
-    }
 }
