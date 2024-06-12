@@ -12,8 +12,8 @@ public interface IAuthenticationService
     Task<RegisterResponse> CreateAccount(CreateAccountRequest account);
 
     public Task<string> ReGenerateJwtTokenAccount(string refreshToken);
-    
-    
+
+
     /*Task<Boolean> Logout(Guid AccountId);
     Task<ResponseAccountAdmin> CreateAccount(RequestAccountToAdmin requestAccountToAdmin);
     Task<ResponseAccountCandidate> CreateAccountCandidate(RequestAccountToCadidate requestAccountToCandidate);

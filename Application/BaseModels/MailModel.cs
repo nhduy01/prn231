@@ -1,6 +1,6 @@
-namespace Infracstructures.SendModels.Mail;
+namespace Application.BaseModels;
 
-public class Mail
+public class MailModel
 {
     public string To { get; set; } = string.Empty;
     public string Subject { get; set; } = string.Empty;

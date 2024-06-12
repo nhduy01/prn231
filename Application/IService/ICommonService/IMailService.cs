@@ -1,8 +1,8 @@
-using Infracstructures.SendModels.Mail;
+using Application.BaseModels;
 
 namespace Application.IService.ICommonService;
 
 public interface IMailService
 {
-    Task SendEmail(Mail request);
+    Task SendEmail(MailModel request);
 }

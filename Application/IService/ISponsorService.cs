@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using Infracstructures.SendModels.BaseModels;
+﻿using Application.BaseModels;
 using Infracstructures.SendModels.Sponsor;
 using Infracstructures.ViewModels.SponsorViewModels;
 

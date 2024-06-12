@@ -1,5 +1,5 @@
-﻿using Application.IService;
-using Application.ResponseModels;
+﻿using Application.BaseModels;
+using Application.IService;
 using Application.ViewModels.AwardViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -83,7 +83,7 @@ public class AwardController : Controller
     #region Get All Award
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAward(ListAwardModel listAwardModel)
+    public async Task<IActionResult> GetAllAward([FromQuery] ListAwardModel listAwardModel)
     {
         try
         {

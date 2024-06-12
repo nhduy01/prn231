@@ -1,5 +1,4 @@
 using Application;
-using Infracstructures;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);

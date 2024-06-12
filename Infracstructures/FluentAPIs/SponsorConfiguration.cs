@@ -32,13 +32,13 @@ internal class SponsorConfiguration : IEntityTypeConfiguration<Sponsor>
 
         //Name
         builder.Property(u => u.Name);
-        
+
         //Address
         builder.Property(u => u.Address);
-        
+
         //Delegate
         builder.Property(u => u.Delegate);
-        
+
         //PhoneNumber
         builder.Property(u => u.PhoneNumber);
     }

@@ -67,10 +67,7 @@ public class AwardService : IAwardService
     public async Task<AwardViewModel> DeleteAward(Guid awardId)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
-        if (award == null)
-        {
-            return null;
-        }
+        if (award == null) return null;
 
         award.Status = "INACTIVE";
 
@@ -85,10 +82,7 @@ public class AwardService : IAwardService
     public async Task<UpdateAwardViewModel> UpdateAward(UpdateAwardViewModel updateAward)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(updateAward.Id);
-        if (award == null)
-        {
-            return null;
-        }
+        if (award == null) return null;
 
         award.Rank = updateAward.Rank;
         award.Quantity = updateAward.Quantity;

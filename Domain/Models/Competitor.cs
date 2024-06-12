@@ -12,7 +12,7 @@ public class Competitor : BaseModel
     public string Avatar { get; set; }
     public bool Gender { get; set; } = true;
     public Guid? GuardianId { get; set; }
-    
+
     public string? RefreshToken { get; set; }
 
     //Relation

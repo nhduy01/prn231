@@ -1,6 +1,5 @@
-﻿using Application.IService;
-using Application.ResponseModels;
-using Infracstructures.SendModels.BaseModels;
+﻿using Application.BaseModels;
+using Application.IService;
 using Infracstructures.SendModels.Sponsor;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +26,11 @@ public class SponsorController : Controller
         {
             if (!ModelState.IsValid)
             {
-                var errorMessages = string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
                 return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
             }
+
             var result = await _sponsorService.CreateSponsor(sponsor);
             return Ok(new BaseResponseModel
             {
@@ -50,11 +51,11 @@ public class SponsorController : Controller
     }
 
     #endregion
-    
+
     #region Get All sponsor
 
     [HttpGet]
-    public async Task<IActionResult> GetAllsponsor(ListModels listModel)
+    public async Task<IActionResult> GetAllsponsor([FromQuery] ListModels listModel)
     {
         try
         {
@@ -91,10 +92,7 @@ public class SponsorController : Controller
         try
         {
             var result = await _sponsorService.GetSponsorById(id);
-            if (result == null)
-            {
-                return NotFound(new { Success = false, Message = "Sponsor not found" });
-            }
+            if (result == null) return NotFound(new { Success = false, Message = "Sponsor not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -114,7 +112,7 @@ public class SponsorController : Controller
     }
 
     #endregion
-    
+
     #region Update sponsor
 
     [HttpPut]
@@ -148,6 +146,4 @@ public class SponsorController : Controller
     }
 
     #endregion
-
-
 }

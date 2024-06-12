@@ -49,10 +49,7 @@ public class ContestService : IContestService
     public async Task<Guid> DeleteContest(Guid contestId)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
-        if (contest == null)
-        {
-            return Guid.Empty;
-        }
+        if (contest == null) return Guid.Empty;
 
         contest.Status = "INACTIVE";
 
@@ -67,10 +64,7 @@ public class ContestService : IContestService
     public async Task<UpdateContestViewModel> UpdateContest(UpdateContestViewModel updateContest)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(updateContest.Id);
-        if (contest == null)
-        {
-            return null;
-        }
+        if (contest == null) return null;
 
         contest.Name = updateContest.Name;
         contest.StartTime = updateContest.StartTime;

@@ -1,6 +1,5 @@
 ﻿using Application.Common;
 using Application.IRepositories;
-using Application.IService.ICommonService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -8,40 +7,36 @@ namespace Infracstructures.Repositories;
 
 public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel : class
 {
-    private readonly IClaimsService _claimsService;
-    private readonly ICurrentTime _timeService;
-    protected DbSet<TModel> _dbSet;
+    protected readonly DbSet<TModel> DbSet;
 
-    public GenericRepository(AppDbContext context, ICurrentTime timeService, IClaimsService claimsService)
+    public GenericRepository(AppDbContext context)
     {
-        _dbSet = context.Set<TModel>();
-        _timeService = timeService;
-        _claimsService = claimsService;
+        DbSet = context.Set<TModel>();
     }
 
     public virtual async Task AddAsync(TModel model)
     {
-        await _dbSet.AddAsync(model);
+        await DbSet.AddAsync(model);
     }
 
     public virtual void AddAttach(TModel model)
     {
-        _dbSet.Attach(model).State = EntityState.Added;
+        DbSet.Attach(model).State = EntityState.Added;
     }
 
     public virtual void AddEntry(TModel model)
     {
-        _dbSet.Entry(model).State = EntityState.Added;
+        DbSet.Entry(model).State = EntityState.Added;
     }
 
     public virtual async Task AddRangeAsync(List<TModel> models)
     {
-        await _dbSet.AddRangeAsync(models);
+        await DbSet.AddRangeAsync(models);
     }
 
     public virtual async Task<List<TModel>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        return await DbSet.ToListAsync();
     }
 
     /// <summary>
@@ -54,31 +49,31 @@ public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel
     public virtual async Task<List<TModel>> GetAllAsync(
         Func<IQueryable<TModel>, IIncludableQueryable<TModel, object>>? include = null)
     {
-        IQueryable<TModel> query = _dbSet;
+        IQueryable<TModel> query = DbSet;
         if (include != null) query = include(query);
         return await query.ToListAsync();
     }
 
     public virtual async Task<TModel?> GetByIdAsync(Guid id)
     {
-        return await _dbSet.FindAsync(id);
+        return await DbSet.FindAsync(id);
     }
 
     public void Update(TModel? model)
     {
-        _dbSet.Update(model);
+        DbSet.Update(model);
     }
 
     public void UpdateRange(List<TModel> models)
     {
-        _dbSet.UpdateRange(models);
+        DbSet.UpdateRange(models);
     }
 
     // Implement to pagination method
     public async Task<Pagination<TModel>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10)
     {
         // get total count of items in the db set
-        var itemCount = await _dbSet.CountAsync();
+        var itemCount = await DbSet.CountAsync();
 
         // Create Pagination instance
         // to set data related to paging
@@ -94,7 +89,7 @@ public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel
         // Take items according to the page size and page index
         // skip items in the previous pages
         // and take next items equal to page size
-        var items = await _dbSet.Skip(result.PageIndex * result.PageSize)
+        var items = await DbSet.Skip(result.PageIndex * result.PageSize)
             .Take(result.PageSize)
             .AsNoTracking()
             .ToListAsync();
@@ -107,8 +102,8 @@ public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel
 
     public async Task<TModel> CloneAsync(TModel model)
     {
-        _dbSet.Entry(model).State = EntityState.Detached;
-        var values = _dbSet.Entry(model).CurrentValues.Clone().ToObject() as TModel;
+        DbSet.Entry(model).State = EntityState.Detached;
+        var values = DbSet.Entry(model).CurrentValues.Clone().ToObject() as TModel;
         return values;
     }
 }

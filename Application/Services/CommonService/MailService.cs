@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Mail;
+using Application.BaseModels;
 using Application.IService.ICommonService;
-using Infracstructures.SendModels.Mail;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Services.CommonService;
@@ -15,7 +15,7 @@ public class MailService : IMailService
         _configuration = configuration;
     }
 
-    public async Task SendEmail(Mail request)
+    public async Task SendEmail(MailModel request)
     {
         var emailHost = _configuration["Email:EmailHost"];
         var emailUsername = _configuration["Email:EmailUsername"];

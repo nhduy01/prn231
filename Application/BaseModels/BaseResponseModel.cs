@@ -1,4 +1,4 @@
-﻿namespace Application.ResponseModels;
+﻿namespace Application.BaseModels;
 
 public class BaseResponseModel
 {

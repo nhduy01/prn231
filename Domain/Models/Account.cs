@@ -3,7 +3,6 @@
 namespace Domain.Models;
 #nullable disable warnings
 
-
 public class Account : BaseModel
 {
     public DateTime Birthday { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+
 namespace Application.IRepositories;
 
 public interface ICompetitorRepository : IGenericRepository<Competitor>

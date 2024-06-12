@@ -5,7 +5,6 @@ using Application.Mappers;
 using Application.Services;
 using Application.Services.CommonService;
 using Infracstructures;
-using Application.IRepositories;
 using Infracstructures.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;

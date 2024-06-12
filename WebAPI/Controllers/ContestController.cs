@@ -1,5 +1,5 @@
-﻿using Application.IService;
-using Application.ResponseModels;
+﻿using Application.BaseModels;
+using Application.IService;
 using Application.ViewModels.ContestViewModels;
 using Microsoft.AspNetCore.Mvc;
 

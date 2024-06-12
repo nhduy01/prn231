@@ -49,10 +49,7 @@ public class CollectionService : ICollectionService
     public async Task<CollectionViewModel> DeleteCollection(Guid collectionId)
     {
         var award = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
-        if (award == null)
-        {
-            return null;
-        }
+        if (award == null) return null;
 
         award.Status = "INACTIVE";
 
@@ -67,10 +64,7 @@ public class CollectionService : ICollectionService
     public async Task<UpdateCollectionViewModel> UpdateCollection(UpdateCollectionViewModel updateCollection)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateCollection.Id);
-        if (collection == null)
-        {
-            return null;
-        }
+        if (collection == null) return null;
 
         collection.Name = updateCollection.Name;
         collection.Description = updateCollection.Description;
