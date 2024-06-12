@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  webapi:
+    image: ${DOCKER_REGISTRY-}webapi
+    container_name: netvexanh.api
+    build:
+      context: .
+      dockerfile: WebAPI/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  database:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: netvexanh.database
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=123456
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
