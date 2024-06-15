@@ -1,4 +1,4 @@
-namespace Infracstructures.ViewModels.SponsorViewModels;
+namespace Application.ViewModels.SponsorViewModels;
 
 public class SponsorViewModel
 {

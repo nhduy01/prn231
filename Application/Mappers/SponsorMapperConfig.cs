@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using Application.ViewModels.SponsorViewModels;
+using AutoMapper;
 using Domain.Models;
 using Infracstructures.SendModels.Sponsor;
-using Infracstructures.ViewModels.SponsorViewModels;
 
 namespace Application.Mappers;
 

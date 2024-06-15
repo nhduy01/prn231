@@ -36,7 +36,6 @@ namespace Infracstructures.Migrations
                         .HasDefaultValue("");
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Birthday")
@@ -268,7 +267,6 @@ namespace Infracstructures.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Avatar")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")

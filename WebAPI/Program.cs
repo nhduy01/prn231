@@ -7,14 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddWebAPIService(builder);
 builder.Services.AddInfractstructure(builder.Configuration);
 
+// builder.Services.AddHttpsRedirection(options =>
+// {
+//     options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+//     options.HttpsPort = 5001; // Specify the HTTPS port
+// });
 
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-}
+// // Configure the HTTP request pipeline.
+// if (app.Environment.IsDevelopment())
+// {
+// }
 
 app.UseSwagger();
 app.UseSwaggerUI();

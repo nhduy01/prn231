@@ -9,7 +9,7 @@ public class Competitor : BaseModel
     public string Email { get; set; }
     public string Password { get; set; }
     public string Phone { get; set; }
-    public string Avatar { get; set; }
+    public string? Avatar { get; set; }
     public bool Gender { get; set; } = true;
     public Guid? GuardianId { get; set; }
 

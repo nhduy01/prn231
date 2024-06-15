@@ -1,6 +1,6 @@
 ﻿using Application.BaseModels;
+using Application.ViewModels.SponsorViewModels;
 using Infracstructures.SendModels.Sponsor;
-using Infracstructures.ViewModels.SponsorViewModels;
 
 namespace Application.IService;
 

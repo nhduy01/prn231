@@ -27,6 +27,9 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         //Birthday 
         builder.Property(u => u.Birthday).IsRequired();
+        
+        //Avatar
+        builder.Property(u => u.Avatar);
 
         //FirstName 
         builder.Property(u => u.FirstName).HasMaxLength(20).HasDefaultValue("");
@@ -63,6 +66,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         //RefreshToken
         builder.Property(u => u.RefreshToken);
+        
 
         //Relation
 

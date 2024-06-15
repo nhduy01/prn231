@@ -1,0 +1,24 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.4"
+services:
+  webapi:
+    build:
+      context: "D:\\NetVeXanh_CapstoneProject\\Back_End\\NetVeXanhApi"
+      dockerfile: "WebAPI/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/WebAPI.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "C:\\Users\\phant\\.nuget\\packages"
+      NUGET_FALLBACK_PACKAGES: "C:\\Users\\phant\\.nuget\\packages"
+    image: "webapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\phant\\AppData\\Roaming\\Microsoft\\UserSecrets:/root/.microsoft/usersecrets"
+    - "C:\\Users\\phant\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "D:\\NetVeXanh_CapstoneProject\\Back_End\\NetVeXanhApi\\WebAPI:/app:rw"
+    - "D:\\NetVeXanh_CapstoneProject\\Back_End\\NetVeXanhApi:/src:rw"
+    working_dir: "/app"

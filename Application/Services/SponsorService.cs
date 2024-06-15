@@ -1,11 +1,11 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.ViewModels.SponsorViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Infracstructures.SendModels.Sponsor;
-using Infracstructures.ViewModels.SponsorViewModels;
 
 namespace Application.Services;
 
