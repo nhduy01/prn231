@@ -10,6 +10,6 @@ public class Post : BaseModel
     public Guid? StaffId { get; set; }
 
     //Relation
-    public ICollection<PostImage> PostImages { get; set; }
+    public ICollection<Image> Images { get; set; }
     public Account Account { get; set; }
 }

@@ -9,8 +9,8 @@ public partial class MapperConfigs : Profile
 {
     partial void AddSponsorMapperConfig()
     {
-        CreateMap<Sponsor, SponsorRequest>().ReverseMap();
-        CreateMap<Sponsor, SponsorUpdateRequest>().ReverseMap();
-        CreateMap<SponsorViewModel, Sponsor>().ReverseMap();
+        CreateMap<SponsorRequest,Sponsor>().ReverseMap();
+        CreateMap<SponsorUpdateRequest,Sponsor>().ReverseMap();
+        CreateMap<Sponsor, SponsorViewModel>().ReverseMap();
     }
 }

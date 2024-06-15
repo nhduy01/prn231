@@ -27,7 +27,6 @@ public class AppDbContext : DbContext
     public DbSet<Painting> Painting { get; set; }
     public DbSet<PaintingCollection> PaintingCollection { get; set; }
     public DbSet<Post> Post { get; set; }
-    public DbSet<PostImage> PostImage { get; set; }
     public DbSet<Resources> Resources { get; set; }
     public DbSet<Round> Round { get; set; }
     public DbSet<Schedule> Schedule { get; set; }

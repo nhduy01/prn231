@@ -15,6 +15,7 @@ public class Account : BaseModel
     public string Phone { get; set; }
     public string? Avatar { get; set; }
     public bool Gender { get; set; } = true;
+    
     public string IdentifyNumber { get; set; }
 
     public string? RefreshToken { get; set; }

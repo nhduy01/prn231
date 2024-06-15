@@ -442,8 +442,10 @@ namespace Infracstructures.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -462,6 +464,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Image", (string)null);
                 });
@@ -660,48 +664,6 @@ namespace Infracstructures.Migrations
                     b.HasIndex("StaffId");
 
                     b.ToTable("Post", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Models.PostImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("ImageId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PostId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("False");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImageId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("PostImage", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Resources", b =>
@@ -1004,6 +966,16 @@ namespace Infracstructures.Migrations
                     b.Navigation("Contest");
                 });
 
+            modelBuilder.Entity("Domain.Models.Image", b =>
+                {
+                    b.HasOne("Domain.Models.Post", "Post")
+                        .WithMany("Images")
+                        .HasForeignKey("PostId")
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Domain.Models.Notification", b =>
                 {
                     b.HasOne("Domain.Models.Account", "Account")
@@ -1070,23 +1042,6 @@ namespace Infracstructures.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("Domain.Models.PostImage", b =>
-                {
-                    b.HasOne("Domain.Models.Image", "Images")
-                        .WithMany("PostImage")
-                        .HasForeignKey("ImageId")
-                        .IsRequired();
-
-                    b.HasOne("Domain.Models.Post", "Post")
-                        .WithMany("PostImages")
-                        .HasForeignKey("PostId")
-                        .IsRequired();
-
-                    b.Navigation("Images");
-
-                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Domain.Models.Resources", b =>
@@ -1190,11 +1145,6 @@ namespace Infracstructures.Migrations
                     b.Navigation("Round");
                 });
 
-            modelBuilder.Entity("Domain.Models.Image", b =>
-                {
-                    b.Navigation("PostImage");
-                });
-
             modelBuilder.Entity("Domain.Models.Painting", b =>
                 {
                     b.Navigation("PaintingCollection");
@@ -1202,7 +1152,7 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Post", b =>
                 {
-                    b.Navigation("PostImages");
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Domain.Models.Round", b =>

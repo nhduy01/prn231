@@ -15,7 +15,6 @@ public interface IUnitOfWork
     public IPaintingRepository PaintingRepo { get; }
     public IPaintingCollectionRepository PaintingCollectionRepo { get; }
     public IPostRepository PostRepo { get; }
-    public IPostImageRepository PostImageRepo { get; }
     public IResourcesRepository ResourcesRepo { get; }
     public IRoundRepository RoundRepo { get; }
     public IScheduleRepository ScheduleRepo { get; }

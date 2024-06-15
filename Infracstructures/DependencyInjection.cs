@@ -68,10 +68,7 @@ public static class DependencyInjection
         // Post
         services.AddTransient<IPostRepository, PostRepository>();
         services.AddTransient<IPostService, PostService>();
-
-        // PostImage
-        services.AddTransient<IPostImageRepository, PostImageRepository>();
-        services.AddTransient<IPostImageService, PostImageService>();
+        
 
         // Resources
         services.AddTransient<IResourcesRepository, ResourcesRepository>();

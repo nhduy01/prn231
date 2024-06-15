@@ -18,7 +18,6 @@ public class UnitOfWork : IUnitOfWork
         IPaintingRepository paintingRepository,
         IPaintingCollectionRepository paintingCollectionRepository,
         IPostRepository postRepository,
-        IPostImageRepository postImageRepository,
         IResourcesRepository resourcesRepository,
         IRoundRepository roundRepository,
         IScheduleRepository scheduleRepository,
@@ -39,7 +38,6 @@ public class UnitOfWork : IUnitOfWork
         PaintingRepo = paintingRepository;
         PaintingCollectionRepo = paintingCollectionRepository;
         PostRepo = postRepository;
-        PostImageRepo = postImageRepository;
         ResourcesRepo = resourcesRepository;
         RoundRepo = roundRepository;
         ScheduleRepo = scheduleRepository;
@@ -69,8 +67,6 @@ public class UnitOfWork : IUnitOfWork
     public IPaintingCollectionRepository PaintingCollectionRepo { get; }
 
     public IPostRepository PostRepo { get; }
-
-    public IPostImageRepository PostImageRepo { get; }
 
     public IResourcesRepository ResourcesRepo { get; }
 

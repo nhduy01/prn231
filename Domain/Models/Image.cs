@@ -5,8 +5,9 @@ namespace Domain.Models;
 public class Image : BaseModel
 {
     public string Url { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
+    public Guid PostId { get; set; }
 
     //Relation
-    public ICollection<PostImage> PostImage { get; set; }
+    public Post Post { get; set; }
 }

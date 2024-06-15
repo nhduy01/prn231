@@ -35,12 +35,13 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
 
         //Description
         builder.Property(u => u.Description);
+        
+        //PostId
+        builder.Property(u => u.PostId).IsRequired();
 
 
         //Relation
-        builder.HasMany(u => u.PostImage)
-            .WithOne(u => u.Images)
-            .HasForeignKey(u => u.ImageId)
+        builder.HasOne(u => u.Post).WithMany(u => u.Images).HasForeignKey(u => u.PostId)
             .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }
