@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Net.Mime;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Post;
 using AutoMapper;
@@ -12,7 +13,7 @@ namespace Application.Services;
 
 public class PostService : IPostService
 {
-        private readonly IMapper _mapper;
+    private readonly IMapper _mapper;
 
     private readonly IUnitOfWork _unitOfWork;
     private readonly IImageService _imageService;
@@ -25,19 +26,12 @@ public class PostService : IPostService
     }
 
     #region Create
-
-    public async Task<Guid?> CreatePost(PostRequest Post)
+    
+    public async Task<Guid?> CreatePost(PostRequest post)
     {
-        var newPost = _mapper.Map<Post>(Post);
-        var image = new ImageRequest();
-        foreach (var images in  Post.Image)
-        {
-            image.Url = images;
-            await _imageService.CreateImage(image);
-        }
-        
-        
-        
+        var newPost = _mapper.Map<Post>(post);
+        var newImages = _mapper.Map<List<Image>>(post.Images);
+        newPost.Images = newImages;
         newPost.Status = PostStatus.ACTIVE.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
         await _unitOfWork.SaveChangesAsync();
@@ -81,12 +75,28 @@ public class PostService : IPostService
 
     public async Task<PostViewModel?> UpdatePost(PostUpdateRequest updatePost)
     {
-        var Post = await _unitOfWork.PostRepo.GetByIdAsync(updatePost.Id);
-        if (Post == null) return null;
+        var post = await _unitOfWork.PostRepo.GetByIdAsync(updatePost.Id);
+        if (post == null) return null;
+        _mapper.Map(updatePost, post);
 
-        _mapper.Map(updatePost, Post);
+        if (updatePost.NewImages != null)
+        {
+            var newImages = _mapper.Map<List<Image>>(updatePost.NewImages);
+            foreach (var image in newImages)
+            {
+                post.Images.Add(image);
+            }
+        }
+        if (updatePost.DeleteImages != null)
+        {
+            foreach (var image in updatePost.DeleteImages)
+            {
+                post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.INACTIVE.ToString();
+            }
+        }
+        
         await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<PostViewModel>(Post);
+        return _mapper.Map<PostViewModel>(post);
     }
 
     #endregion

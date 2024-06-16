@@ -11,7 +11,11 @@ public interface IAuthenticationService
 
     Task<RegisterResponse> CreateAccount(CreateAccountRequest account);
 
-    public Task<string> ReGenerateJwtTokenAccount(string refreshToken);
+    public Task<string> ReGenerateJwtTokenAccount(RefreshTokenRequest refreshToken);
+
+    public Task<bool> LogoutCompetitor(string id);
+    
+    public Task<bool> LogoutAccount(string id);
 
 
     /*Task<Boolean> Logout(Guid AccountId);

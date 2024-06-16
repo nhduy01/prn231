@@ -23,6 +23,10 @@ public class AuthenticationService : IAuthenticationService
         _mapper = mapper;
     }
 
+    #region Account
+
+    #region Validate Account
+
     public async Task<LoginResponse> ValidateAccount(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
@@ -59,13 +63,61 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
-    public async Task<string> ReGenerateJwtTokenAccount(string refreshToken)
+    #endregion
+    
+    #region Create Account
+
+    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
     {
-        var account = await _unitOfWork.AccountRepo.GetByRefreshToken(refreshToken);
+        var response = new RegisterResponse();
+        var a = _mapper.Map<Account>(account);
+        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone))
+        {
+            response.Message = "Email or Phone is Exist !";
+            response.Success = false;
+            return response;
+        }
+
+        //if not exist
+        a.Password = _authentication.Hash(account.Password);
+        a.Status = AccountStatus.INACTIVE.ToString();
+
+        await _unitOfWork.AccountRepo.AddAsync(a);
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
+
+        Console.WriteLine(a.Id);
+
+        if (check is false)
+        {
+            response.Message = "Create Fail !";
+            response.Success = true;
+            return response;
+        }
+
+        response.Message = "Create Success !";
+        response.Success = true;
+        return response;
+    }
+
+    #endregion
+    
+    #region ReGenerate JwtToken Account
+
+    public async Task<string> ReGenerateJwtTokenAccount(RefreshTokenRequest refreshToken)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(refreshToken.Id);
         if (account != null)
             return _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
         return "";
     }
+
+    #endregion
+
+    #endregion
+
+    #region Competitor
+
+    #region Validate Competitor
 
     public async Task<LoginResponse> ValidateCompetitor(LoginRequest accountLogin)
     {
@@ -100,6 +152,21 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
+    #endregion
+    
+    #region ReGenerate JwtToken Competitor
+
+    public async Task<string> ReGenerateJwtTokenCompetitor(RefreshTokenRequest refreshToken)
+    {
+        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(refreshToken.Id);
+        if (account != null)
+            return _authentication.GenerateToken(account.LastName, account.Id.ToString(), "COMPETITOR");
+        return "";
+    }
+
+    #endregion
+
+    #region Create Competitor
 
     public async Task<RegisterResponse> CreateCompetitor(CreateCompetitorRequest competitor)
     {
@@ -132,40 +199,48 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
-    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
-    {
-        var response = new RegisterResponse();
-        var a = _mapper.Map<Account>(account);
-        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone))
-        {
-            response.Message = "Email or Phone is Exist !";
-            response.Success = false;
-            return response;
-        }
+    #endregion
 
-        //if not exist
-        a.Password = _authentication.Hash(account.Password);
-        a.Status = AccountStatus.INACTIVE.ToString();
+    #endregion
 
-        await _unitOfWork.AccountRepo.AddAsync(a);
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-
-        Console.WriteLine(a.Id);
-
-        if (check is false)
-        {
-            response.Message = "Create Fail !";
-            response.Success = true;
-            return response;
-        }
-
-        response.Message = "Create Success !";
-        response.Success = true;
-        return response;
-    }
+    #region Refresh Token
 
     public string RefreshToken()
     {
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
     }
+
+    #endregion
+    
+    #region Logout Account
+
+    public async Task<bool> LogoutAccount(string id)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(Guid.Parse(id));
+        if (account != null)
+        {
+            account.RefreshToken = "" ;
+            return true;
+        }
+        return false;
+    }
+
+    #endregion
+    
+    #region Logout Competitor
+
+    public async Task<bool> LogoutCompetitor(string id)
+    {
+        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(Guid.Parse(id));
+        if (account != null)
+        {
+            account.RefreshToken = "" ;
+            return true;
+        }
+        return false;
+    }
+    
+    #endregion
+
+
 }

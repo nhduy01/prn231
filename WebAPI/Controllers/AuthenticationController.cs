@@ -94,7 +94,7 @@ public class AuthenticationController : ControllerBase
             await _authenticationService.ValidateCompetitor(request) :
             await _authenticationService.ValidateAccount(request);*/
 
-        var result = await _authenticationService.ReGenerateJwtTokenAccount(token.RefreshToken);
+        var result = await _authenticationService.ReGenerateJwtTokenAccount(token);
         if (result == "") return Unauthorized("Invaild Refresh Token");
         return result;
     }
