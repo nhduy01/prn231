@@ -1,4 +1,6 @@
 using Application;
+using Infracstructures;
+using Microsoft.EntityFrameworkCore;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,11 @@ builder.Services.AddInfractstructure(builder.Configuration);
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
