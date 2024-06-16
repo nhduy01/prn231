@@ -49,7 +49,7 @@ public class CompetitorConfiguration : IEntityTypeConfiguration<Competitor>
         builder.Property(u => u.Gender);
 
         //CompetitorId
-        builder.Property(u => u.GuardianId).IsRequired();
+        builder.Property(u => u.GuardianId);
 
         //RefreshToken
         builder.Property(u => u.RefreshToken);

@@ -8,6 +8,6 @@ public partial class MapperConfigs : Profile
 {
     partial void AddCompetitorMapperConfig()
     {
-        CreateMap<Competitor, CreateCompetitorRequest>();
+        CreateMap<CreateCompetitorRequest, Competitor>();
     }
 }
