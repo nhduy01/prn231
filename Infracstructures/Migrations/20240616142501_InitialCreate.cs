@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infracstructures.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDB : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace Infracstructures.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: ""),
                     LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false, defaultValue: "Anonymous"),
@@ -24,9 +24,10 @@ namespace Infracstructures.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: ""),
                     Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IdentifyNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
@@ -39,29 +40,14 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
-                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Image", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sponsor",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Delegate = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
@@ -77,15 +63,16 @@ namespace Infracstructures.Migrations
                 name: "Competitor",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<bool>(type: "bit", nullable: false),
                     GuardianId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
@@ -106,7 +93,7 @@ namespace Infracstructures.Migrations
                 name: "Contest",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -133,7 +120,7 @@ namespace Infracstructures.Migrations
                 name: "Notification",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsReaded = table.Column<bool>(type: "bit", nullable: false),
@@ -158,7 +145,7 @@ namespace Infracstructures.Migrations
                 name: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -183,7 +170,7 @@ namespace Infracstructures.Migrations
                 name: "Collection",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -208,7 +195,7 @@ namespace Infracstructures.Migrations
                 name: "EducationalLevel",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -234,7 +221,7 @@ namespace Infracstructures.Migrations
                 name: "Resources",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Cash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Artifact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SponsorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -261,11 +248,12 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostImage",
+                name: "Image",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -275,14 +263,9 @@ namespace Infracstructures.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostImage", x => x.Id);
+                    table.PrimaryKey("PK_Image", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostImage_Image_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Image",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_PostImage_Post_PostId",
+                        name: "FK_Image_Post_PostId",
                         column: x => x.PostId,
                         principalTable: "Post",
                         principalColumn: "Id");
@@ -292,7 +275,7 @@ namespace Infracstructures.Migrations
                 name: "Award",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Cash = table.Column<double>(type: "float", nullable: false),
@@ -319,7 +302,7 @@ namespace Infracstructures.Migrations
                 name: "Round",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -345,7 +328,7 @@ namespace Infracstructures.Migrations
                 name: "Schedule",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExaminerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -374,7 +357,7 @@ namespace Infracstructures.Migrations
                 name: "Topic",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -399,7 +382,7 @@ namespace Infracstructures.Migrations
                 name: "AwardSchedule",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     AwardId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -428,7 +411,7 @@ namespace Infracstructures.Migrations
                 name: "Painting",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -474,8 +457,7 @@ namespace Infracstructures.Migrations
                 name: "PaintingCollection",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     PaintingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CollectionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -537,6 +519,11 @@ namespace Infracstructures.Migrations
                 column: "ContestId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Image_PostId",
+                table: "Image",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notification_AccountId",
                 table: "Notification",
                 column: "AccountId");
@@ -577,16 +564,6 @@ namespace Infracstructures.Migrations
                 column: "StaffId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostImage_ImageId",
-                table: "PostImage",
-                column: "ImageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostImage_PostId",
-                table: "PostImage",
-                column: "PostId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Resources_ContestId",
                 table: "Resources",
                 column: "ContestId");
@@ -624,13 +601,13 @@ namespace Infracstructures.Migrations
                 name: "AwardSchedule");
 
             migrationBuilder.DropTable(
+                name: "Image");
+
+            migrationBuilder.DropTable(
                 name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "PaintingCollection");
-
-            migrationBuilder.DropTable(
-                name: "PostImage");
 
             migrationBuilder.DropTable(
                 name: "Resources");
@@ -639,16 +616,13 @@ namespace Infracstructures.Migrations
                 name: "Topic");
 
             migrationBuilder.DropTable(
+                name: "Post");
+
+            migrationBuilder.DropTable(
                 name: "Collection");
 
             migrationBuilder.DropTable(
                 name: "Painting");
-
-            migrationBuilder.DropTable(
-                name: "Image");
-
-            migrationBuilder.DropTable(
-                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "Sponsor");

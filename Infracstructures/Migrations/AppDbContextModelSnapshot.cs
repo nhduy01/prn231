@@ -596,9 +596,9 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.PaintingCollection", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("CollectionId")
