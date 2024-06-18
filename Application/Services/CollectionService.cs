@@ -86,4 +86,15 @@ public class CollectionService : ICollectionService
     }
 
     #endregion
+
+    #region Get Collection By Id
+
+    public async Task<Collection> GetPaintingByCollection(Guid collectionId)
+    {
+        var collection = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
+        return _mapper.Map<Collection>(collection);
+        ;
+    }
+
+    #endregion
 }

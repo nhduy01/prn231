@@ -78,18 +78,47 @@ public class ContestController : Controller
 
     #endregion
 
-    #region Get Contest By Id
+    /*#region Get Contest By Id
 
     [HttpGet]
-    public async Task<IActionResult> GetContestById(Guid awardId)
+    public async Task<IActionResult> GetContestById(Guid contestId)
     {
         try
         {
-            var result = await _contestService.GetContestById(awardId);
+            var result = await _contestService.GetContestById(contestId);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Inventory Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion*/
+
+    #region  Get 5 recent contest year
+
+
+    [HttpGet]
+    public async Task<IActionResult> Get5RecentContestYear()
+    {
+        try
+        {
+            var result = await _contestService.Get5RecentYear();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get 5 Recent Contest Year Success",
                 Result = result
             });
         }
