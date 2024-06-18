@@ -1,3 +1,4 @@
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
@@ -60,6 +61,24 @@ public class AuthenticationController : ControllerBase
 
     #endregion
 
+    #region Active Account
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> VerifyAccount(Guid id)
+    {
+        var result = await _authenticationService.VerifyAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
+    }
+
+    #endregion
+
     #region CreateCompetitor
 
     [AllowAnonymous]
@@ -97,6 +116,42 @@ public class AuthenticationController : ControllerBase
         var result = await _authenticationService.ReGenerateJwtTokenAccount(token);
         if (result == "") return Unauthorized("Invaild Refresh Token");
         return result;
+    }
+
+    #endregion
+    
+    #region Logout Account
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> LogoutAccount(Guid id)
+    {
+        var result = await _authenticationService.LogoutAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
+    }
+
+    #endregion
+    
+    #region Logout Competitor
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> LogoutCompetitor(Guid id)
+    {
+        var result = await _authenticationService.LogoutAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
     }
 
     #endregion

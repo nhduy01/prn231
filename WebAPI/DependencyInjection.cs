@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddSwaggerGen();
         services.AddHealthChecks();
         services.AddHttpContextAccessor();
+        services.AddMemoryCache();
         //services.AddScoped<IClaimsServices, ClaimsServices>();
         //Adding Session
         services.AddDistributedMemoryCache(); //Adding cache in memory for session.

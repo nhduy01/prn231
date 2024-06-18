@@ -93,6 +93,7 @@ public static class DependencyInjection
         // Contest
         services.AddTransient<IContestRepository, ContestRepository>();
         services.AddTransient<IContestService, ContestService>();
+        
 
         #endregion
 
@@ -106,6 +107,8 @@ public static class DependencyInjection
 
         services.AddSingleton<IClaimsService, ClaimsService>();
         services.AddSingleton<ICurrentTime, CurrentTime>();
+        services.AddSingleton<IMailService, MailService>();
+        services.AddSingleton<ICacheServices, CacheServices>();
 
         // Use local DB
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));

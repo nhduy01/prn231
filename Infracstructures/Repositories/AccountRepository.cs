@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
 
     public async Task<Account?> Login(string email)
     {
-        return await DbSet.FirstOrDefaultAsync(a => a.Email == email);
+        return await DbSet.FirstOrDefaultAsync(a => a.Email == email && a.Status == AccountStatus.ACTIVE.ToString());
     }
 
     public async Task<Account?> GetByRefreshToken(string token)
