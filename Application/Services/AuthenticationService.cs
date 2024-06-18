@@ -33,7 +33,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<LoginResponse> ValidateAccount(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
-        var account = await _unitOfWork.AccountRepo.Login(accountLogin.UserName);
+        var account = await _unitOfWork.AccountRepo.Login(accountLogin.Email);
         //check null
         if (account != null)
         {
@@ -181,7 +181,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var response = new LoginResponse();
 
-        var competitor = await _unitOfWork.CompetitorRepo.Login(accountLogin.UserName);
+        var competitor = await _unitOfWork.CompetitorRepo.Login(accountLogin.Email);
 
         //check null
         if (competitor != null)

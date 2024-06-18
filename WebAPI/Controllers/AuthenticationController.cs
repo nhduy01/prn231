@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<LoginResponse> Login(LoginRequest request)
+    public async Task<LoginResponse> LoginCompetitor(LoginRequest request)
     {
         if (!ModelState.IsValid)
             return new LoginResponse
@@ -34,9 +34,29 @@ public class AuthenticationController : ControllerBase
                 RefreshToken = null,
                 JwtToken = ""
             };
-        var result = request.Role == Role.COMPETITOR.ToString()
-            ? await _authenticationService.ValidateCompetitor(request)
-            : await _authenticationService.ValidateAccount(request);
+        var result =  await _authenticationService.ValidateCompetitor(request);
+        return result;
+    }
+
+    #endregion
+    
+    
+    #region Login
+
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task<LoginResponse> LoginAccount(LoginRequest request)
+    {
+        if (!ModelState.IsValid)
+            return new LoginResponse
+            {
+                Success = false,
+                Message = "Invalid input data. " + string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)),
+                RefreshToken = null,
+                JwtToken = ""
+            };
+        var result = await _authenticationService.ValidateAccount(request);
         return result;
     }
 
