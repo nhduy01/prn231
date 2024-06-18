@@ -95,7 +95,7 @@ public class PaintingService : IPaintingService
     #endregion
 
 
-    #region Get Award By Id
+    #region Get Painting By Id
 
     public async Task<PaintingViewModel> GetPaintingByCode(String code)
     {
@@ -106,5 +106,15 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    
+    #region List 20 Wining Painting
+
+    public async Task<PaintingViewModel> List20WiningPainting()
+    {
+        var painting = await _unitOfWork.PaintingRepo.List20WiningPaintingAsync();
+        return _mapper.Map<PaintingViewModel>(painting);
+        
+    }
+
+    #endregion
+
 }

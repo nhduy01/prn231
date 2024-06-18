@@ -45,7 +45,27 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == "ACTIVE");
+        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x=>x.CreatedTime);
+
+        var result = new List<Post>();
+
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region Get 10 Post
+
+    public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
+    {
+        var list = await _unitOfWork.PostRepo.GetAllAsync();
+        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime).Take(10);
 
         var result = new List<Post>();
 

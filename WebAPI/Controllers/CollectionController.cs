@@ -81,7 +81,7 @@ public class CollectionController : Controller
 
     #region Get Collection By Id
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetCollectionById(Guid collectionId)
     {
         try
@@ -107,9 +107,9 @@ public class CollectionController : Controller
 
     #endregion
 
-    #region Get Collection By Id
+    #region Get Painting By Collection
 
-    [HttpGet]
+    [HttpGet("Painting")]
     public async Task<IActionResult> GetPaintingByCollection(Guid collectionId)
     {
         try
@@ -118,7 +118,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Collection Success",
                 Result = result
             });
         }
