@@ -82,11 +82,39 @@ public class CollectionController : Controller
     #region Get Collection By Id
 
     [HttpGet]
-    public async Task<IActionResult> GetCollectionById(Guid awardId)
+    public async Task<IActionResult> GetCollectionById(Guid collectionId)
     {
         try
         {
-            var result = await _collectionService.GetCollectionById(awardId);
+            var result = await _collectionService.GetCollectionById(collectionId);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Inventory Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get Collection By Id
+
+    [HttpGet]
+    public async Task<IActionResult> GetPaintingByCollection(Guid collectionId)
+    {
+        try
+        {
+            var result = await _collectionService.GetPaintingByCollection(collectionId);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
