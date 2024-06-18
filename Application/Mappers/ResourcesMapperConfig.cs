@@ -9,8 +9,8 @@ public partial class MapperConfigs : Profile
 {
     partial void AddResourcesMapperConfig()
     {
-        CreateMap<ResourcesRequest,Resources>().ReverseMap();
-        CreateMap<ResourcesUpdateRequest,Resources>().ReverseMap();
+        CreateMap<ResourcesRequest, Resources>().ReverseMap();
+        CreateMap<ResourcesUpdateRequest, Resources>().ReverseMap();
         CreateMap<Resources, ResourcesViewModel>().ReverseMap();
     }
 }

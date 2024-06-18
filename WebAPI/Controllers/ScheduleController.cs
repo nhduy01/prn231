@@ -15,8 +15,8 @@ public class ScheduleController : Controller
     {
         _scheduleService = scheduleService;
     }
-    
-        #region Create Schedule
+
+    #region Create Schedule
 
     [HttpPost]
     public async Task<IActionResult> CreateSchedule(ScheduleRequest Schedule)
@@ -136,7 +136,7 @@ public class ScheduleController : Controller
     {
         var result = await _scheduleService
             .DeleteSchedule(id);
-        if (result == null) return NotFound();
+        if (result == false) return NotFound();
         return Ok(new BaseResponseModel
         {
             Status = Ok().StatusCode,

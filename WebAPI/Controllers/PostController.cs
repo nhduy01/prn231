@@ -15,7 +15,8 @@ public class PostController : Controller
     {
         _postService = postService;
     }
-        #region Create Post
+
+    #region Create Post
 
     [HttpPost]
     public async Task<IActionResult> CreatePost(PostRequest Post)

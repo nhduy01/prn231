@@ -81,17 +81,6 @@ public class ContestService : IContestService
 
     #endregion
 
-    #region Get Contest By Id
-
-    /*public async Task<ContestViewModel> GetContestById(Guid awardId)
-    {
-        var award = await _unitOfWork.ContestRepo.GetByIdAsync(awardId);
-
-        return _mapper.Map<ContestViewModel>(award);
-    }*/
-
-    #endregion
-
     #region Get 5 recent contest year
 
     public async Task<List<int>> Get5RecentYear()
@@ -100,6 +89,17 @@ public class ContestService : IContestService
 
         return result;
     }
+
+    #endregion
+
+    #region Get Contest By Id
+
+    /*public async Task<ContestViewModel> GetContestById(Guid awardId)
+    {
+        var award = await _unitOfWork.ContestRepo.GetByIdAsync(awardId);
+
+        return _mapper.Map<ContestViewModel>(award);
+    }*/
 
     #endregion
 }

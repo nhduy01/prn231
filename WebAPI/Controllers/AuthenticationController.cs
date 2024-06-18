@@ -119,7 +119,7 @@ public class AuthenticationController : ControllerBase
     }
 
     #endregion
-    
+
     #region Logout Account
 
     [AllowAnonymous]
@@ -137,7 +137,7 @@ public class AuthenticationController : ControllerBase
     }
 
     #endregion
-    
+
     #region Logout Competitor
 
     [AllowAnonymous]

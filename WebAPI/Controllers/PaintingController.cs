@@ -1,9 +1,8 @@
 ﻿using Application.BaseModels;
 using Application.IService;
-using Application.Services;
-using Application.ViewModels.AwardViewModels;
-using Application.ViewModels.CollectionViewModels;
+using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
+using Infracstructures.SendModels.Painting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -23,7 +22,7 @@ public class PaintingController : Controller
     #region Create Painting
 
     [HttpPost]
-    public async Task<IActionResult> CreatePainting(AddPaintingViewModel painting)
+    public async Task<IActionResult> CreatePainting(PaintingRequest painting)
     {
         try
         {
@@ -81,6 +80,57 @@ public class PaintingController : Controller
     }
 
     #endregion
+    
+    #region Submitted Painting
+
+    [HttpPost]
+    public async Task<IActionResult> SubmittedPainting(Guid id)
+    {
+        var result = await _paintingService.SubmitPainting(id);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Delete Successfully"
+        });
+    }
+
+    #endregion
+    
+    #region  Review Decision of Painting
+
+    [HttpPost]
+    public async Task<IActionResult> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request)
+    {
+        var result = await _paintingService.ReviewDecisionOfPainting(request);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Delete Successfully"
+        });
+    }
+
+    #endregion
+    
+    #region  Final Decision of Painting
+
+    [HttpPost]
+    public async Task<IActionResult> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
+    {
+        var result = await _paintingService.FinalDecisionOfPainting(request);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Delete Successfully"
+        });
+    }
+
+    #endregion
 
     #region Get Painting By Code
 
@@ -90,6 +140,36 @@ public class PaintingController : Controller
         try
         {
             var result = await _paintingService.GetPaintingByCode(code);
+            if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Painting Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+    
+    #region Get Painting By Id
+
+    [HttpGet("code")]
+    public async Task<IActionResult> GetPaintingById(Guid id)
+    {
+        try
+        {
+            var result = await _paintingService.GetPaintingById(id);
+            if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -169,6 +249,4 @@ public class PaintingController : Controller
     }
 
     #endregion
-
-
 }

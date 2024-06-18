@@ -14,9 +14,8 @@ public interface IAuthenticationService
     public Task<string> ReGenerateJwtTokenAccount(RefreshTokenRequest refreshToken);
 
     public Task<bool> LogoutCompetitor(Guid id);
-    
+
     public Task<bool> LogoutAccount(Guid id);
 
     public Task<bool?> VerifyAccount(Guid id);
-    
 }

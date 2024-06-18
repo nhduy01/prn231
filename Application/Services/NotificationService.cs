@@ -1,5 +1,4 @@
-﻿using Application.BaseModels;
-using Application.IService;
+﻿using Application.IService;
 using Application.SendModels.Notification;
 using AutoMapper;
 using Domain.Models;
@@ -39,7 +38,7 @@ public class NotificationService : INotificationService
     public async Task<List<NotificationViewModel>> Get5Notification(Guid id)
     {
         var list = await _unitOfWork.NotificationRepo.Get5NotificationOfUser(id);
-        
+
         return _mapper.Map<List<NotificationViewModel>>(list);
     }
 
@@ -55,8 +54,8 @@ public class NotificationService : INotificationService
     }
 
     #endregion
-    
-    
+
+
     #region Is Read
 
     public async Task<bool?> ReadNotification(Guid id)

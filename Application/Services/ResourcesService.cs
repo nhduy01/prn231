@@ -11,7 +11,7 @@ namespace Application.Services;
 
 public class ResourcesService : IResourcesService
 {
-        private readonly IMapper _mapper;
+    private readonly IMapper _mapper;
 
     private readonly IUnitOfWork _unitOfWork;
 

@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Application.ViewModels.CollectionViewModels;
 
-namespace Application.ViewModels.CollectionViewModels
+public class CollectionPaintingViewModel
 {
-    public class CollectionPaintingViewModel
-    {
-        
-    }
 }

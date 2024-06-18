@@ -1,5 +1,5 @@
 ﻿using Application.BaseModels;
-using Infracstructures.SendModels.Image;
+using Application.SendModels.Image;
 using Infracstructures.ViewModels.ImageViewModels;
 
 namespace Application.IService;

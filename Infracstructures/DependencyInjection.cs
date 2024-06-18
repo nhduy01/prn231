@@ -68,7 +68,7 @@ public static class DependencyInjection
         // Post
         services.AddTransient<IPostRepository, PostRepository>();
         services.AddTransient<IPostService, PostService>();
-        
+
 
         // Resources
         services.AddTransient<IResourcesRepository, ResourcesRepository>();
@@ -93,7 +93,6 @@ public static class DependencyInjection
         // Contest
         services.AddTransient<IContestRepository, ContestRepository>();
         services.AddTransient<IContestService, ContestService>();
-        
 
         #endregion
 

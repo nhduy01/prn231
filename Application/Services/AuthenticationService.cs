@@ -14,18 +14,19 @@ namespace Application.Services;
 public class AuthenticationService : IAuthenticationService
 {
     private readonly IAuthentication _authentication;
-    private readonly IMapper _mapper;
     private readonly IMailService _mailService;
+    private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AuthenticationService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper, IMailService mailService)
+    public AuthenticationService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper,
+        IMailService mailService)
     {
         _mailService = mailService;
         _authentication = authentication;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
+
 
     #region Validate Account
 
@@ -66,7 +67,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-    
+
     #region Create Account
 
     public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
@@ -102,12 +103,12 @@ public class AuthenticationService : IAuthenticationService
         mail.Subject = "Active Account";
         mail.Body = $"Link ID {a.Id}";
         await _mailService.SendEmail(mail);
-        
+
         return response;
     }
 
     #endregion
-    
+
     #region ReGenerate JwtToken Account
 
     public async Task<string> ReGenerateJwtTokenAccount(RefreshTokenRequest refreshToken)
@@ -119,7 +120,58 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-    
+
+    #region Logout Account
+
+    public async Task<bool> LogoutAccount(Guid id)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        if (account != null)
+        {
+            account.RefreshToken = "";
+            return true;
+        }
+
+        return false;
+    }
+
+    #endregion
+
+    #region Logout Competitor
+
+    public async Task<bool> LogoutCompetitor(Guid id)
+    {
+        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(id);
+        if (account != null)
+        {
+            account.RefreshToken = "";
+            return true;
+        }
+
+        return false;
+    }
+
+    #endregion
+
+
+    public async Task<bool?> VerifyAccount(Guid id)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        if (account == null) return false;
+        account.Status = AccountStatus.ACTIVE.ToString();
+        await _unitOfWork.SaveChangesAsync();
+        return true;
+    }
+
+    #region Refresh Token
+
+    public string RefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+    }
+
+    #endregion
+
 
     #region Competitor
 
@@ -159,7 +211,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-    
+
     #region ReGenerate JwtToken Competitor
 
     public async Task<string> ReGenerateJwtTokenCompetitor(RefreshTokenRequest refreshToken)
@@ -208,57 +260,4 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
     #endregion
-
-    #region Refresh Token
-
-    public string RefreshToken()
-    {
-        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
-    }
-
-    #endregion
-    
-    #region Logout Account
-
-    public async Task<bool> LogoutAccount(Guid id)
-    {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account != null)
-        {
-            account.RefreshToken = "" ;
-            return true;
-        }
-        return false;
-    }
-
-    #endregion
-    
-    #region Logout Competitor
-
-    public async Task<bool> LogoutCompetitor(Guid id)
-    {
-        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(id);
-        if (account != null)
-        {
-            account.RefreshToken = "" ;
-            return true;
-        }
-        return false;
-    }
-    
-    #endregion
-
-
-    public async Task<bool?> VerifyAccount(Guid id)
-    {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account == null)
-        {
-            return false;
-        }
-        account.Status = AccountStatus.ACTIVE.ToString();
-        await _unitOfWork.SaveChangesAsync();
-        return true;
-    }
-    
 }

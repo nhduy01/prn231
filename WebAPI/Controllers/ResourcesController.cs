@@ -15,8 +15,8 @@ public class ResourcesController : Controller
     {
         _resourcesService = resourcesService;
     }
-    
-        #region Create Resources
+
+    #region Create Resources
 
     [HttpPost]
     public async Task<IActionResult> CreateResources(ResourcesRequest Resources)

@@ -2,7 +2,7 @@
 
 public class NotificationRequest
 {
-        public string Title { get; set; }
-        public string Message { get; set; }
-        public Guid? AccountId { get; set; }
+    public string Title { get; set; }
+    public string Message { get; set; }
+    public Guid? AccountId { get; set; }
 }

@@ -14,7 +14,7 @@ public class NotificationController : Controller
     {
         _notificationService = notificationService;
     }
-    
+
 
     #region Get 5 Notification
 
