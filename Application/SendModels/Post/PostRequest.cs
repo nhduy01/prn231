@@ -1,4 +1,4 @@
-﻿using Infracstructures.SendModels.Image;
+﻿using Application.SendModels.Image;
 
 namespace Application.SendModels.Post;
 
@@ -9,5 +9,7 @@ public class PostRequest
     public string Description { get; set; }
     public List<ImageRequest>? Images { get; set; }
 }
-public class CreateImage {
+
+public class CreateImage
+{
 }

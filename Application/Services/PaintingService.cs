@@ -1,11 +1,13 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
-using Application.ViewModels.AwardViewModels;
+using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Infracstructures.SendModels.Painting;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;
@@ -18,7 +20,8 @@ public class PaintingService : IPaintingService
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
 
-    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime, IConfiguration configuration,
+    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime,
+        IConfiguration configuration,
         IClaimsService claimsService)
     {
         _unitOfWork = unitOfWork;
@@ -30,15 +33,14 @@ public class PaintingService : IPaintingService
 
     #region Add Painting
 
-    public async Task<Guid?> AddPainting(AddPaintingViewModel addPaintingViewModel)
+    public async Task<Guid?> AddPainting(PaintingRequest request)
     {
-        var painting = _mapper.Map<Painting>(addPaintingViewModel);
+        var painting = _mapper.Map<Painting>(request);
         painting.CreatedBy = _claimsService.GetCurrentUserId();
-        painting.Status = "ACTIVE";
+        painting.Status = PaintingStatus.Draft.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
         var check = await _unitOfWork.SaveChangesAsync() > 0;
-        var result = _mapper.Map<AddPaintingViewModel>(painting);
         //view.
         if (check) return painting.Id;
         return null;
@@ -51,7 +53,7 @@ public class PaintingService : IPaintingService
     public async Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel)
     {
         var paintingList = await _unitOfWork.PaintingRepo.GetAllAsync();
-        paintingList = (List<Painting>)paintingList.Where(x => x.Status == "ACTIVE");
+        paintingList = (List<Painting>)paintingList.Where(x => x.Status != PaintingStatus.Delete.ToString());
         var result = _mapper.Map<List<PaintingViewModel>>(paintingList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listPaintingModel.PageSize);
@@ -66,12 +68,17 @@ public class PaintingService : IPaintingService
 
     #region Delete Painting
 
-    public async Task<PaintingViewModel> DeletePainting(Guid paintingId)
+    public async Task<PaintingViewModel?> DeletePainting(Guid paintingId)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
         if (painting == null) return null;
+        
+        if (painting.Status != PaintingStatus.Draft.ToString())
+        {
+            return null;
+        }
 
-        painting.Status = "INACTIVE";
+        painting.Status = PaintingStatus.Delete.ToString();
 
         await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<PaintingViewModel>(painting);
@@ -81,10 +88,16 @@ public class PaintingService : IPaintingService
 
     #region Update Painting
 
-    public async Task<UpdatePaintingViewModel> UpdatePainting(UpdatePaintingViewModel updatePainting)
+    public async Task<UpdatePaintingViewModel?> UpdatePainting(UpdatePaintingViewModel updatePainting)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(updatePainting.Id);
+
         if (painting == null) return null;
+        
+        if (painting.Status != PaintingStatus.Draft.ToString())
+        {
+            return null;
+        }
 
         painting = _mapper.Map<Painting>(updatePainting);
 
@@ -94,14 +107,105 @@ public class PaintingService : IPaintingService
 
     #endregion
 
+    #region Submit Painting
 
-    #region Get Painting By Id
+    public async Task<PaintingViewModel?> SubmitPainting(Guid paintingId)
+    {
+        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
+        if (painting == null) return null;
+        
+        if (painting.Status != PaintingStatus.Draft.ToString())
+        {
+            return null;
+        }
 
-    public async Task<PaintingViewModel> GetPaintingByCode(String code)
+        painting.Status = PaintingStatus.Submitted.ToString();
+        
+        painting.SubmittedTimestamp = DateTime.Now;
+
+        await _unitOfWork.SaveChangesAsync();
+        return _mapper.Map<PaintingViewModel>(painting);
+    }
+
+    #endregion
+
+    #region Review Decision of Painting
+
+    public async Task<PaintingViewModel?> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request)
+    {
+        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(request.Id);
+        if (painting == null) return null;
+        
+        if (painting.Status != PaintingStatus.Submitted.ToString())
+        {
+            return null;
+        }
+
+        if (request.Result == true)
+        {
+            painting.Status = PaintingStatus.Accepted.ToString();
+        }
+        else
+        {
+            painting.Status = PaintingStatus.Rejected.ToString();
+
+        }
+        
+        painting.ReviewedTimestamp = DateTime.Now;
+        
+        await _unitOfWork.SaveChangesAsync();
+        return _mapper.Map<PaintingViewModel>(painting);
+    }
+
+    #endregion
+
+    #region Final Decision of Painting
+
+    public async Task<PaintingViewModel?> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
+    {
+        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(request.Id);
+        if (painting == null) return null;
+        
+        if (painting.Status != PaintingStatus.Accepted.ToString())
+        {
+            return null;
+        }
+
+        if (request.Result == true)
+        {
+            painting.Status = PaintingStatus.Pass.ToString();
+        }
+        else
+        {
+            painting.Status = PaintingStatus.NotPass.ToString();
+
+        }
+        
+        painting.FinalDecisionTimestamp = DateTime.Now;
+        
+        await _unitOfWork.SaveChangesAsync();
+        return _mapper.Map<PaintingViewModel>(painting);
+    }
+
+    #endregion
+
+    #region Get Painting By Code
+
+    public async Task<PaintingViewModel> GetPaintingByCode(string code)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByCodeAsync(code);
         return _mapper.Map<PaintingViewModel>(painting);
         ;
+    }
+
+    #endregion
+    
+    #region Get Painting By Id
+
+    public async Task<PaintingViewModel> GetPaintingById(Guid id)
+    {
+        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(id);
+        return _mapper.Map<PaintingViewModel>(painting);
     }
 
     #endregion
@@ -112,9 +216,7 @@ public class PaintingService : IPaintingService
     {
         var painting = await _unitOfWork.PaintingRepo.List20WiningPaintingAsync();
         return _mapper.Map<PaintingViewModel>(painting);
-        
     }
 
     #endregion
-
 }

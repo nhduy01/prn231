@@ -1,17 +1,17 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Image;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Infracstructures.SendModels.Image;
 using Infracstructures.ViewModels.ImageViewModels;
 
 namespace Application.Services;
 
 public class ImageService : IImageService
 {
-        private readonly IMapper _mapper;
+    private readonly IMapper _mapper;
 
     private readonly IUnitOfWork _unitOfWork;
 
@@ -64,7 +64,7 @@ public class ImageService : IImageService
     }
 
     #endregion
-    
+
 
     #region Delete
 

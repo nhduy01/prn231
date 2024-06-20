@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240616145551_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240618092331_Update1")]
+    partial class Update1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -528,11 +528,9 @@ namespace Infracstructures.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("AwardId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CompetitorId")
@@ -549,6 +547,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("FinalDecisionTimestamp")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -556,6 +557,9 @@ namespace Infracstructures.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReviewedTimestamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("RoundId")
                         .IsRequired()
@@ -567,11 +571,9 @@ namespace Infracstructures.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("False");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("SubmitTime")
+                    b.Property<DateTime>("SubmittedTimestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("TopicId")
@@ -992,8 +994,7 @@ namespace Infracstructures.Migrations
                 {
                     b.HasOne("Domain.Models.Award", "Award")
                         .WithMany("Painting")
-                        .HasForeignKey("AwardId")
-                        .IsRequired();
+                        .HasForeignKey("AwardId");
 
                     b.HasOne("Domain.Models.Competitor", "Competitor")
                         .WithMany("Painting")

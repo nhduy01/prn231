@@ -11,7 +11,7 @@ namespace Application.Services;
 
 public class ScheduleService : IScheduleService
 {
-        private readonly IMapper _mapper;
+    private readonly IMapper _mapper;
 
     private readonly IUnitOfWork _unitOfWork;
 
@@ -69,12 +69,12 @@ public class ScheduleService : IScheduleService
 
     public async Task<ScheduleViewModel?> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
     {
-        var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
-        if (Schedule == null) return null;
+        var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
+        if (schedule == null) return null;
 
-        _mapper.Map(updateSchedule, Schedule);
+        _mapper.Map(updateSchedule, schedule);
         await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<ScheduleViewModel>(Schedule);
+        return _mapper.Map<ScheduleViewModel>(schedule);
     }
 
     #endregion

@@ -8,5 +8,4 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     public PostRepository(AppDbContext context) : base(context)
     {
     }
-
 }

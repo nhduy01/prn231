@@ -1,3 +1,4 @@
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
@@ -22,7 +23,7 @@ public class AuthenticationController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost]
-    public async Task<LoginResponse> Login(LoginRequest request)
+    public async Task<LoginResponse> LoginCompetitor(LoginRequest request)
     {
         if (!ModelState.IsValid)
             return new LoginResponse
@@ -33,9 +34,29 @@ public class AuthenticationController : ControllerBase
                 RefreshToken = null,
                 JwtToken = ""
             };
-        var result = request.Role == Role.COMPETITOR.ToString()
-            ? await _authenticationService.ValidateCompetitor(request)
-            : await _authenticationService.ValidateAccount(request);
+        var result =  await _authenticationService.ValidateCompetitor(request);
+        return result;
+    }
+
+    #endregion
+    
+    
+    #region Login
+
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task<LoginResponse> LoginAccount(LoginRequest request)
+    {
+        if (!ModelState.IsValid)
+            return new LoginResponse
+            {
+                Success = false,
+                Message = "Invalid input data. " + string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)),
+                RefreshToken = null,
+                JwtToken = ""
+            };
+        var result = await _authenticationService.ValidateAccount(request);
         return result;
     }
 
@@ -56,6 +77,24 @@ public class AuthenticationController : ControllerBase
                 Data = ""
             };
         return await _authenticationService.CreateAccount(account);
+    }
+
+    #endregion
+
+    #region Active Account
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> VerifyAccount(Guid id)
+    {
+        var result = await _authenticationService.VerifyAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
     }
 
     #endregion
@@ -97,6 +136,42 @@ public class AuthenticationController : ControllerBase
         var result = await _authenticationService.ReGenerateJwtTokenAccount(token);
         if (result == "") return Unauthorized("Invaild Refresh Token");
         return result;
+    }
+
+    #endregion
+
+    #region Logout Account
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> LogoutAccount(Guid id)
+    {
+        var result = await _authenticationService.LogoutAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
+    }
+
+    #endregion
+
+    #region Logout Competitor
+
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<ActionResult> LogoutCompetitor(Guid id)
+    {
+        var result = await _authenticationService.LogoutAccount(id);
+        if (result == false) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Successfully"
+        });
     }
 
     #endregion

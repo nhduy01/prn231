@@ -28,7 +28,7 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
         builder.Property(u => u.UpdatedBy);
 
         //Status
-        builder.Property(u => u.Status).HasDefaultValue("False");
+        builder.Property(u => u.Status);
 
         //Image
         builder.Property(u => u.Image);
@@ -39,11 +39,17 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
         //Description
         builder.Property(u => u.Description);
 
-        //SubmitTime
-        builder.Property(u => u.SubmitTime);
+        //Submitted Timestamp
+        builder.Property(u => u.SubmittedTimestamp);
 
+        //FinalDecision Timestamp
+        builder.Property(u => u.FinalDecisionTimestamp);
+        
+        //Reviewed Timestamp
+        builder.Property(u => u.ReviewedTimestamp);
+        
         //AwardId
-        builder.Property(u => u.AwardId).IsRequired();
+        builder.Property(u => u.AwardId);
 
         //RoundId
         builder.Property(u => u.RoundId).IsRequired();
@@ -55,7 +61,7 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
         builder.Property(u => u.TopicId).IsRequired();
 
         //ScheduleId
-        builder.Property(u => u.ScheduleId).IsRequired();
+        builder.Property(u => u.ScheduleId);
 
         //Code
         builder.Property(u => u.Code);

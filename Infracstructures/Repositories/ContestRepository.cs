@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Application.IRepositories;
+﻿using Application.IRepositories;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +26,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
 
     public async Task<List<int>> Get5RecentYearAsync()
     {
-        var result = DbSet.Select(x => (int)x.CreatedTime.Year).Take(5).ToListAsync();
+        var result = DbSet.Select(x => x.CreatedTime.Year).Take(5).ToListAsync();
         return await result;
     }
 }

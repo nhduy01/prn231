@@ -35,7 +35,7 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
 
         //Description
         builder.Property(u => u.Description);
-        
+
         //PostId
         builder.Property(u => u.PostId).IsRequired();
 

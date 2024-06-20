@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ public class CompetitorRepository : GenericRepository<Competitor>, ICompetitorRe
 
     public async Task<Competitor?> Login(string email)
     {
-        return await DbSet.FirstOrDefaultAsync(a => a.Email == email);
+        return await DbSet.FirstOrDefaultAsync(a => a.Email == email && a.Status == AccountStatus.ACTIVE.ToString());
     }
 
     public Task<Competitor?> GetByRefreshToken(string token)

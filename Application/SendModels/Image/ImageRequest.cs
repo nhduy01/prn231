@@ -1,4 +1,4 @@
-﻿namespace Infracstructures.SendModels.Image;
+﻿namespace Application.SendModels.Image;
 
 public class ImageRequest
 {

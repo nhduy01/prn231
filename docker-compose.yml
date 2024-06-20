@@ -8,7 +8,7 @@ services:
       dockerfile: WebAPI/Dockerfile
     ports:
       - "5000:80"
-    depends_on: 
+    depends_on:
       - database
     networks:
       - implement-net
@@ -22,13 +22,13 @@ services:
       - MSSQL_PID=Express
     ports:
       - "1444:1433"
-    networks: 
-    - implement-net
+    networks:
+      - implement-net
     volumes:
       - NetVeXanh:/var/opt/mssql
 
 volumes:
-    NetVeXanh:
-networks: 
+  NetVeXanh:
+networks:
   implement-net:
     driver: bridge

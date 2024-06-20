@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Domain.Models.Base;
+﻿using Domain.Models.Base;
 
 namespace Domain.Models;
 

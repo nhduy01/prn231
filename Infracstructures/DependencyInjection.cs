@@ -68,7 +68,7 @@ public static class DependencyInjection
         // Post
         services.AddTransient<IPostRepository, PostRepository>();
         services.AddTransient<IPostService, PostService>();
-        
+
 
         // Resources
         services.AddTransient<IResourcesRepository, ResourcesRepository>();
@@ -106,6 +106,8 @@ public static class DependencyInjection
 
         services.AddSingleton<IClaimsService, ClaimsService>();
         services.AddSingleton<ICurrentTime, CurrentTime>();
+        services.AddSingleton<IMailService, MailService>();
+        services.AddSingleton<ICacheServices, CacheServices>();
 
         // Use local DB
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));

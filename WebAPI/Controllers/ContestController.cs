@@ -106,8 +106,7 @@ public class ContestController : Controller
 
     #endregion
 
-    #region  Get 5 recent contest year
-
+    #region Get 5 recent contest year
 
     [HttpGet]
     public async Task<IActionResult> Get5RecentContestYear()

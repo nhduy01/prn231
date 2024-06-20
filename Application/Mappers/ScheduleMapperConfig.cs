@@ -9,8 +9,8 @@ public partial class MapperConfigs : Profile
 {
     partial void AddScheduleMapperConfig()
     {
-        CreateMap<ScheduleRequest,Schedule>().ReverseMap();
-        CreateMap<ScheduleUpdateRequest,Schedule>().ReverseMap();
+        CreateMap<ScheduleRequest, Schedule>().ReverseMap();
+        CreateMap<ScheduleUpdateRequest, Schedule>().ReverseMap();
         CreateMap<Schedule, ScheduleViewModel>().ReverseMap();
     }
 }

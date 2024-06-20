@@ -1,22 +1,20 @@
-﻿using System.Net.Mime;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Post;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Infracstructures.SendModels.Image;
 using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Services;
 
 public class PostService : IPostService
 {
+    private readonly IImageService _imageService;
     private readonly IMapper _mapper;
 
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IImageService _imageService;
 
     public PostService(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService)
     {
@@ -26,7 +24,7 @@ public class PostService : IPostService
     }
 
     #region Create
-    
+
     public async Task<Guid?> CreatePost(PostRequest post)
     {
         var newPost = _mapper.Map<Post>(post);
@@ -45,27 +43,7 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x=>x.CreatedTime);
-
-        var result = new List<Post>();
-
-        //page division
-        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
-        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
-            .Take(listModels.PageSize)
-            .ToList();
-        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
-    }
-
-    #endregion
-
-    #region Get 10 Post
-
-    public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
-    {
-        var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime).Take(10);
+        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime);
 
         var result = new List<Post>();
 
@@ -102,19 +80,13 @@ public class PostService : IPostService
         if (updatePost.NewImages != null)
         {
             var newImages = _mapper.Map<List<Image>>(updatePost.NewImages);
-            foreach (var image in newImages)
-            {
-                post.Images.Add(image);
-            }
+            foreach (var image in newImages) post.Images.Add(image);
         }
+
         if (updatePost.DeleteImages != null)
-        {
             foreach (var image in updatePost.DeleteImages)
-            {
                 post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.INACTIVE.ToString();
-            }
-        }
-        
+
         await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<PostViewModel>(post);
     }
@@ -131,6 +103,26 @@ public class PostService : IPostService
         Post.Status = "INACTIVE";
         await _unitOfWork.SaveChangesAsync();
         return true;
+    }
+
+    #endregion
+
+    #region Get 10 Post
+
+    public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
+    {
+        var list = await _unitOfWork.PostRepo.GetAllAsync();
+        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime).Take(10);
+
+        var result = new List<Post>();
+
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
 
     #endregion

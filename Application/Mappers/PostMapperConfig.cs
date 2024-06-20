@@ -9,8 +9,8 @@ public partial class MapperConfigs : Profile
 {
     partial void AddPostMapperConfig()
     {
-        CreateMap<PostRequest,Post>();
-        CreateMap<PostUpdateRequest,Post>().ReverseMap();
+        CreateMap<PostRequest, Post>();
+        CreateMap<PostUpdateRequest, Post>().ReverseMap();
         CreateMap<Post, PostViewModel>().ReverseMap();
     }
 }

@@ -52,10 +52,10 @@ public class SponsorController : Controller
 
     #endregion
 
-    #region Get All sponsor
+    #region Get sponsor By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetAllsponsor([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetSponsorByPage([FromQuery] ListModels listModel)
     {
         try
         {

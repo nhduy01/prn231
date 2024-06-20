@@ -4,6 +4,7 @@ using Infracstructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618091114_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -528,9 +531,11 @@ namespace Infracstructures.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CompetitorId")
+                    b.Property<Guid?>("CompetitorId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -540,6 +545,7 @@ namespace Infracstructures.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FinalDecisionTimestamp")
@@ -556,10 +562,12 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("ReviewedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("RoundId")
+                    b.Property<Guid?>("RoundId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ScheduleId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
@@ -569,7 +577,8 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("SubmittedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("TopicId")
+                    b.Property<Guid?>("TopicId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UpdatedBy")
@@ -1000,7 +1009,8 @@ namespace Infracstructures.Migrations
 
                     b.HasOne("Domain.Models.Schedule", "Schedule")
                         .WithMany("Painting")
-                        .HasForeignKey("ScheduleId");
+                        .HasForeignKey("ScheduleId")
+                        .IsRequired();
 
                     b.Navigation("Award");
 
