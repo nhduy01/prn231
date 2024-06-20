@@ -78,9 +78,9 @@ public class ContestController : Controller
 
     #endregion
 
-    /*#region Get Contest By Id
+    #region Get Contest By Id
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetContestById(Guid contestId)
     {
         try
@@ -104,7 +104,7 @@ public class ContestController : Controller
         }
     }
 
-    #endregion*/
+    #endregion
 
     #region  Get 5 recent contest year
 

@@ -83,12 +83,12 @@ public class ContestService : IContestService
 
     #region Get Contest By Id
 
-    /*public async Task<ContestViewModel> GetContestById(Guid awardId)
+    public async Task<Contest?> GetContestById(Guid awardId)
     {
-        var award = await _unitOfWork.ContestRepo.GetByIdAsync(awardId);
+        var award = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(awardId);
 
-        return _mapper.Map<ContestViewModel>(award);
-    }*/
+        return _mapper.Map<Contest>(award);
+    }
 
     #endregion
 
