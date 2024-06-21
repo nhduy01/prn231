@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/competitors/")]
 public class CompetitorController : Controller
 {
     private readonly ICompetitorService _competitorService;

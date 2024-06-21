@@ -1,4 +1,5 @@
-﻿using Application.IService;
+﻿using Application.BaseModels;
+using Application.IService;
 using Application.IService.ICommonService;
 using Application.ViewModels.AwardViewModels;
 using AutoMapper;
@@ -28,34 +29,31 @@ public class AwardService : IAwardService
 
     #region Add Award
 
-    public async Task<Guid?> AddAward(AddAwardViewModel addAwardViewModel)
+    public async Task<bool> AddAward(AddAwardViewModel addAwardViewModel)
     {
         var award = _mapper.Map<Award>(addAwardViewModel);
         award.CreatedBy = _claimsService.GetCurrentUserId();
         award.Status = "ACTIVE";
         await _unitOfWork.AwardRepo.AddAsync(award);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        var result = _mapper.Map<AddAwardViewModel>(award);
-        //view.
-        if (check) return award.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
+
     }
 
     #endregion
 
     #region Get List Award
 
-    public async Task<(List<AwardViewModel>, int)> GetListAward(ListAwardModel listAwardModel)
+    public async Task<(List<AwardViewModel>, int)> GetListAward(ListModels listAwardModel)
     {
         var awardList = await _unitOfWork.AwardRepo.GetAllAsync();
         awardList = (List<Award>)awardList.Where(x => x.Status == "ACTIVE");
         var result = _mapper.Map<List<AwardViewModel>>(awardList);
 
-        var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.pageSize);
-        int? itemsToSkip = (listAwardModel.pageNumber - 1) * listAwardModel.pageSize;
+        var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);
+        int? itemsToSkip = (listAwardModel.PageNumber - 1) * listAwardModel.PageSize;
         result = result.Skip((int)itemsToSkip)
-            .Take(listAwardModel.pageSize)
+            .Take(listAwardModel.PageSize)
             .ToList();
         return (result, totalPages);
     }
@@ -64,38 +62,31 @@ public class AwardService : IAwardService
 
     #region Delete Award
 
-    public async Task<AwardViewModel> DeleteAward(Guid awardId)
+    public async Task<bool> DeleteAward(Guid awardId)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
-        if (award == null) return null;
+        if (award == null) return false;
 
         award.Status = "INACTIVE";
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<AwardViewModel>(award);
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
 
     #region Update Award
 
-    public async Task<UpdateAwardViewModel> UpdateAward(UpdateAwardViewModel updateAward)
+    public async Task<bool> UpdateAward(UpdateAwardViewModel updateAward)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(updateAward.Id);
-        if (award == null) return null;
+        if (award == null) return false;
 
-        award.Rank = updateAward.Rank;
-        award.Quantity = updateAward.Quantity;
-        award.Cash = updateAward.Cash;
-        award.Artifact = updateAward.Artifact;
-        award.Description = updateAward.Description;
-        award.EducationalLevelId = updateAward.EducationalLevelId;
+        award = _mapper.Map<Award>(updateAward);
         award.UpdatedBy = _claimsService.GetCurrentUserId();
         award.UpdatedTime = _currentTime.GetCurrentTime();
 
-
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<UpdateAwardViewModel>(award);
+       
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -107,7 +98,6 @@ public class AwardService : IAwardService
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
         return _mapper.Map<AwardViewModel>(award);
-        ;
     }
 
     #endregion

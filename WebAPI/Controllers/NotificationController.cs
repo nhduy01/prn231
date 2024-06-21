@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/notifications/")]
 public class NotificationController : Controller
 {
     private readonly INotificationService _notificationService;

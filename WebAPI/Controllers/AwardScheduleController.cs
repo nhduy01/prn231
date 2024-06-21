@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/awardschedules/")]
 public class AwardScheduleController : Controller
 {
     private readonly IAwardScheduleService _awardSchedule;

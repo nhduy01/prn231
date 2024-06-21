@@ -23,13 +23,13 @@ public class ResourcesService : IResourcesService
 
     #region Create
 
-    public async Task<Guid?> CreateResources(ResourcesRequest Resources)
+    public async Task<bool> CreateResources(ResourcesRequest Resources)
     {
         var newResources = _mapper.Map<Resources>(Resources);
         newResources.Status = ResourcesStatus.ACTIVE.ToString();
         await _unitOfWork.ResourcesRepo.AddAsync(newResources);
-        await _unitOfWork.SaveChangesAsync();
-        return newResources.Id;
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -67,28 +67,26 @@ public class ResourcesService : IResourcesService
 
     #region Update
 
-    public async Task<ResourcesViewModel?> UpdateResources(ResourcesUpdateRequest updateResources)
+    public async Task<bool> UpdateResources(ResourcesUpdateRequest updateResources)
     {
         var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(updateResources.Id);
-        if (Resources == null) return null;
-
+        if (Resources == null) throw new Exception("Khong tim thay Resource");
         _mapper.Map(updateResources, Resources);
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<ResourcesViewModel>(Resources);
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeleteResources(Guid id)
+    public async Task<bool> DeleteResources(Guid id)
     {
         var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(id);
-        if (Resources == null) return false;
-
+        if (Resources == null) throw new Exception("Khong tim thay Resource");
         Resources.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion

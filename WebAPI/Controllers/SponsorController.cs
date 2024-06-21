@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/sponsors/")]
 public class SponsorController : Controller
 {
     private readonly ISponsorService _sponsorService;

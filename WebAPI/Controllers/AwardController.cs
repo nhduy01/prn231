@@ -8,7 +8,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/award/")]
+[Route("api/awards/")]
 public class AwardController : Controller
 {
     private readonly IAwardService _awardService;

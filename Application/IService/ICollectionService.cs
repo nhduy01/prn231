@@ -5,9 +5,9 @@ namespace Application.IService;
 
 public interface ICollectionService
 {
-    Task<Guid?> AddCollection(AddCollectionViewModel addCollectionViewModel);
-    Task<CollectionViewModel> DeleteCollection(Guid collectionId);
-    Task<UpdateCollectionViewModel> UpdateCollection(UpdateCollectionViewModel updateCollection);
+    Task<bool> AddCollection(AddCollectionViewModel addCollectionViewModel);
+    Task<bool> DeleteCollection(Guid collectionId);
+    Task<bool> UpdateCollection(UpdateCollectionViewModel updateCollection);
     Task<CollectionViewModel> GetCollectionById(Guid collectionId);
 
     Task<Collection> GetPaintingByCollection(Guid collectionId);

@@ -23,13 +23,13 @@ public class SponsorService : ISponsorService
 
     #region Create
 
-    public async Task<Guid?> CreateSponsor(SponsorRequest sponsor)
+    public async Task<bool> CreateSponsor(SponsorRequest sponsor)
     {
         var newSponsor = _mapper.Map<Sponsor>(sponsor);
         newSponsor.Status = SponsorStatus.ACTIVE.ToString();
         await _unitOfWork.SponsorRepo.AddAsync(newSponsor);
-        await _unitOfWork.SaveChangesAsync();
-        return newSponsor.Id;
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -59,7 +59,7 @@ public class SponsorService : ISponsorService
     public async Task<SponsorViewModel?> GetSponsorById(Guid id)
     {
         var sponsor = await _unitOfWork.SponsorRepo.GetByIdAsync(id);
-        if (sponsor == null) return null;
+        if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
         return _mapper.Map<SponsorViewModel>(sponsor);
     }
 
@@ -67,28 +67,28 @@ public class SponsorService : ISponsorService
 
     #region Update
 
-    public async Task<SponsorViewModel?> UpdateSponsor(SponsorUpdateRequest updateSponsor)
+    public async Task<bool> UpdateSponsor(SponsorUpdateRequest updateSponsor)
     {
         var sponsor = await _unitOfWork.SponsorRepo.GetByIdAsync(updateSponsor.Id);
-        if (sponsor == null) return null;
+        if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
 
         _mapper.Map(updateSponsor, sponsor);
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<SponsorViewModel>(sponsor);
+        return await _unitOfWork.SaveChangesAsync()>0;
+
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeleteSponsor(Guid id)
+    public async Task<bool> DeleteSponsor(Guid id)
     {
         var sponsor = await _unitOfWork.SponsorRepo.GetByIdAsync(id);
-        if (sponsor == null) return false;
+        if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
 
         sponsor.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+        return await _unitOfWork.SaveChangesAsync()>0;
+
     }
 
     #endregion

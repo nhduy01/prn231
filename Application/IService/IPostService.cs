@@ -6,9 +6,9 @@ namespace Application.IService;
 
 public interface IPostService
 {
-    public Task<Guid?> CreatePost(PostRequest Post);
+    public Task<bool> CreatePost(PostRequest Post);
     public Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels);
     public Task<PostViewModel?> GetPostById(Guid id);
-    public Task<PostViewModel?> UpdatePost(PostUpdateRequest updatePost);
-    public Task<bool?> DeletePost(Guid id);
+    public Task<bool> UpdatePost(PostUpdateRequest updatePost);
+    public Task<bool> DeletePost(Guid id);
 }

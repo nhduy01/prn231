@@ -21,14 +21,14 @@ public class NotificationService : INotificationService
 
     #region Create
 
-    public async Task<Guid?> CreateNotification(NotificationRequest Notification)
+    public async Task<bool> CreateNotification(NotificationRequest Notification)
     {
         var newNotification = _mapper.Map<Notification>(Notification);
         newNotification.Status = "ACTIVE";
-        newNotification.IsReaded = true;
+        newNotification.IsReaded = false;
         await _unitOfWork.NotificationRepo.AddAsync(newNotification);
-        await _unitOfWork.SaveChangesAsync();
-        return newNotification.Id;
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -58,14 +58,14 @@ public class NotificationService : INotificationService
 
     #region Is Read
 
-    public async Task<bool?> ReadNotification(Guid id)
+    public async Task<bool> ReadNotification(Guid id)
     {
         var notification = await _unitOfWork.NotificationRepo.GetByIdAsync(id);
-        if (notification == null) return false;
-
+        if (notification == null) throw new Exception("Khong tim thay Notification");
         notification.IsReaded = true;
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+
+        return await _unitOfWork.SaveChangesAsync()>0;
+
     }
 
     #endregion
