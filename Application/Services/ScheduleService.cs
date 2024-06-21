@@ -23,7 +23,7 @@ public class ScheduleService : IScheduleService
 
     #region Create
 
-    public async Task<Guid?> CreateSchedule(ScheduleRequest schedule)
+    public async Task<bool> CreateSchedule(ScheduleRequest schedule)
     {
         //Get Paintings Of Preliminary roud
         var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
@@ -46,8 +46,8 @@ public class ScheduleService : IScheduleService
                 painting.ScheduleId = newSchedule.Id;
             }
         }
-        await _unitOfWork.SaveChangesAsync();
-        return null;
+        return await _unitOfWork.SaveChangesAsync()>0;
+        
     }
 
     #endregion

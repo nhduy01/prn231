@@ -8,8 +8,8 @@ namespace Application.IService;
 
 public interface IPaintingService
 {
-    Task<Guid?> AddPaintingForPreliminaryRound(PaintingRequest request);
-    Task<Guid?> AddPaintingForFinalRound(PaintingRequest request);
+    Task<bool> AddPaintingForPreliminaryRound(PaintingRequest request);
+    Task<bool> AddPaintingForFinalRound(PaintingRequest request);
     Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
     Task<bool> DeletePainting(Guid paintingId);
     Task<bool> UpdatePainting(UpdatePaintingViewModel updatePainting);

@@ -53,10 +53,7 @@ public class PaintingService : IPaintingService
         painting.Status = PaintingStatus.FinalRound.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        //view.
-        if (check) return painting.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
