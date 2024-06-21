@@ -83,7 +83,7 @@ public class AwardController : Controller
     #region Get All Award
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAward([FromQuery] ListAwardModel listAwardModel)
+    public async Task<IActionResult> GetAllAward([FromQuery] ListModels listAwardModel)
     {
         try
         {
