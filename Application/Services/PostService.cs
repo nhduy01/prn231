@@ -30,7 +30,7 @@ public class PostService : IPostService
         var newPost = _mapper.Map<Post>(post);
         var newImages = _mapper.Map<List<Image>>(post.Images);
         newPost.Images = newImages;
-        newPost.Status = PostStatus.ACTIVE.ToString();
+        newPost.Status = PostStatus.Active.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
         await _unitOfWork.SaveChangesAsync();
         return newPost.Id;
@@ -85,7 +85,7 @@ public class PostService : IPostService
 
         if (updatePost.DeleteImages != null)
             foreach (var image in updatePost.DeleteImages)
-                post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.INACTIVE.ToString();
+                post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.Inactive.ToString();
 
         await _unitOfWork.SaveChangesAsync();
         return _mapper.Map<PostViewModel>(post);

@@ -10,7 +10,7 @@ public class Collection : BaseModel
     public Guid? AccountId { get; set; }
 
     //Relation 
-    public Competitor Competitor { get; set; }
+    public Account Account { get; set; }
 
     public ICollection<PaintingCollection> PaintingCollection { get; set; }
 }

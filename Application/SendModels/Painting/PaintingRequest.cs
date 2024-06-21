@@ -2,7 +2,7 @@
 
 public class PaintingRequest
 {
-    public Guid? CompetitorId { get; set; }
+    public Guid? AccountId { get; set; }
     public string Image { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }

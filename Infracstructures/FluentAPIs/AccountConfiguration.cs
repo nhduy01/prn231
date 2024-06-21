@@ -31,17 +31,14 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         //Avatar
         builder.Property(u => u.Avatar);
 
-        //FirstName 
-        builder.Property(u => u.FirstName).HasMaxLength(20).HasDefaultValue("");
-
-        //LastName
-        builder.Property(u => u.LastName).HasMaxLength(20).HasDefaultValue("Anonymous");
-
+        //FullName 
+        builder.Property(u => u.FullName).HasMaxLength(30).HasDefaultValue("");
+        
         //Gender
         builder.Property(u => u.Gender).IsRequired().HasDefaultValue("False");
 
         //Role
-        builder.Property(u => u.Role).IsRequired().HasDefaultValue("Competitor");
+        builder.Property(u => u.Role).IsRequired();
 
         //Address
         builder.Property(u => u.Address).HasDefaultValue("");
@@ -62,16 +59,20 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(u => u.Status).HasDefaultValue("False");
 
         //IdentifyNumber
-        builder.Property(u => u.IdentifyNumber);
+        builder.Property(u => u.GuardianId);
 
         //RefreshToken
         builder.Property(u => u.RefreshToken);
 
 
         //Relation
-
-
         builder.HasMany(u => u.CreateContest).WithOne(u => u.Account).HasForeignKey(u => u.StaffId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasOne(u => u.Guardian).WithMany(u => u.SubAccounts).HasForeignKey(u => u.GuardianId)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.HasMany(u => u.Collection).WithOne(u => u.Account).HasForeignKey(u => u.AccountId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasMany(u => u.Collection).WithOne(u => u.Account).HasForeignKey(u => u.AccountId)
             .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

@@ -2,6 +2,6 @@
 
 public enum PostStatus
 {
-    ACTIVE,
-    INACTIVE
+    Active,
+    Inactive
 }

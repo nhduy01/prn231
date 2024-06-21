@@ -1,13 +1,15 @@
 ﻿using Application.BaseModels;
 using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
+using Domain.Models;
 using Infracstructures.SendModels.Painting;
 
 namespace Application.IService;
 
 public interface IPaintingService
 {
-    Task<Guid?> AddPainting(PaintingRequest request);
+    Task<Guid?> AddPaintingForPreliminaryRound(PaintingRequest request);
+    Task<Guid?> AddPaintingForFinalRound(PaintingRequest request);
     Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
     Task<PaintingViewModel?> DeletePainting(Guid paintingId);
     Task<UpdatePaintingViewModel?> UpdatePainting(UpdatePaintingViewModel updatePainting);

@@ -8,5 +8,9 @@ public enum PaintingStatus
     Accepted, //The submission has been accepted by the staff.
     Rejected, //The submission has been rejected by the staff.
     Pass, //The painting is pass
-    NotPass //The painting is not pass
+    NotPass, //The painting is not pass
+    
+    // For Final Round
+    
+    FinalRound
 }

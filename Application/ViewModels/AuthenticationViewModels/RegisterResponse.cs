@@ -1,4 +1,4 @@
-namespace Application.ViewModels.AccountViewModels;
+namespace Application.ViewModels.AuthenticationViewModels;
 
 public class RegisterResponse
 {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240618092331_Update1")]
-    partial class Update1
+    [Migration("20240621092305_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,6 @@ namespace Infracstructures.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("");
@@ -55,11 +54,11 @@ namespace Infracstructures.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
                         .HasDefaultValue("");
 
                     b.Property<bool>("Gender")
@@ -67,16 +66,8 @@ namespace Infracstructures.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("IdentifyNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasDefaultValue("Anonymous");
+                    b.Property<Guid?>("GuardianId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -84,7 +75,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -93,9 +83,7 @@ namespace Infracstructures.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Competitor");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -106,13 +94,18 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
+
+                    b.HasIndex("GuardianId");
 
                     b.ToTable("Account", (string)null);
                 });
@@ -142,6 +135,7 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("EducationalLevelId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -160,7 +154,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -203,7 +197,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -223,6 +217,7 @@ namespace Infracstructures.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<Guid?>("AccountId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
@@ -252,7 +247,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -260,72 +255,6 @@ namespace Infracstructures.Migrations
                     b.HasIndex("AccountId");
 
                     b.ToTable("Collection", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Models.Competitor", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Gender")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("GuardianId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("False");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuardianId")
-                        .IsUnique()
-                        .HasFilter("[GuardianId] IS NOT NULL");
-
-                    b.ToTable("Competitor", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Contest", b =>
@@ -356,7 +285,7 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("StaffId")
+                    b.Property<Guid>("StaffId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("StartTime")
@@ -371,7 +300,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -421,7 +350,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -459,7 +388,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
@@ -510,7 +439,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -527,15 +456,14 @@ namespace Infracstructures.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("AwardId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("CompetitorId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -544,10 +472,9 @@ namespace Infracstructures.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FinalDecisionTimestamp")
+                    b.Property<DateTime?>("FinalDecisionTimestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
@@ -558,22 +485,20 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ReviewedTimestamp")
+                    b.Property<DateTime?>("ReviewedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("RoundId")
-                        .IsRequired()
+                    b.Property<Guid>("RoundId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ScheduleId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("SubmittedTimestamp")
+                    b.Property<DateTime?>("SubmittedTimestamp")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("TopicId")
@@ -583,14 +508,14 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AwardId");
+                    b.HasIndex("AccountId");
 
-                    b.HasIndex("CompetitorId");
+                    b.HasIndex("AwardId");
 
                     b.HasIndex("RoundId");
 
@@ -657,11 +582,10 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -709,7 +633,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -761,7 +685,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -785,7 +709,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ExaminerId")
@@ -805,7 +728,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -851,7 +774,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -897,7 +820,7 @@ namespace Infracstructures.Migrations
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedTime")
+                    b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -907,11 +830,22 @@ namespace Infracstructures.Migrations
                     b.ToTable("Topic", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Models.Account", b =>
+                {
+                    b.HasOne("Domain.Models.Account", "Guardian")
+                        .WithMany("SubAccounts")
+                        .HasForeignKey("GuardianId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Guardian");
+                });
+
             modelBuilder.Entity("Domain.Models.Award", b =>
                 {
                     b.HasOne("Domain.Models.EducationalLevel", "EducationalLevel")
                         .WithMany("Award")
-                        .HasForeignKey("EducationalLevelId");
+                        .HasForeignKey("EducationalLevelId")
+                        .IsRequired();
 
                     b.Navigation("EducationalLevel");
                 });
@@ -935,18 +869,10 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
-                    b.HasOne("Domain.Models.Competitor", "Competitor")
-                        .WithMany("Collection")
-                        .HasForeignKey("AccountId");
-
-                    b.Navigation("Competitor");
-                });
-
-            modelBuilder.Entity("Domain.Models.Competitor", b =>
-                {
                     b.HasOne("Domain.Models.Account", "Account")
-                        .WithOne("Competitor")
-                        .HasForeignKey("Domain.Models.Competitor", "GuardianId");
+                        .WithMany("Collection")
+                        .HasForeignKey("AccountId")
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
@@ -955,7 +881,8 @@ namespace Infracstructures.Migrations
                 {
                     b.HasOne("Domain.Models.Account", "Account")
                         .WithMany("CreateContest")
-                        .HasForeignKey("StaffId");
+                        .HasForeignKey("StaffId")
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });
@@ -992,14 +919,14 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Painting", b =>
                 {
+                    b.HasOne("Domain.Models.Account", "Account")
+                        .WithMany("Painting")
+                        .HasForeignKey("AccountId")
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.Award", "Award")
                         .WithMany("Painting")
                         .HasForeignKey("AwardId");
-
-                    b.HasOne("Domain.Models.Competitor", "Competitor")
-                        .WithMany("Painting")
-                        .HasForeignKey("CompetitorId")
-                        .IsRequired();
 
                     b.HasOne("Domain.Models.Round", "Round")
                         .WithMany("Painting")
@@ -1008,12 +935,11 @@ namespace Infracstructures.Migrations
 
                     b.HasOne("Domain.Models.Schedule", "Schedule")
                         .WithMany("Painting")
-                        .HasForeignKey("ScheduleId")
-                        .IsRequired();
+                        .HasForeignKey("ScheduleId");
+
+                    b.Navigation("Account");
 
                     b.Navigation("Award");
-
-                    b.Navigation("Competitor");
 
                     b.Navigation("Round");
 
@@ -1103,16 +1029,19 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Account", b =>
                 {
-                    b.Navigation("Competitor")
-                        .IsRequired();
+                    b.Navigation("Collection");
 
                     b.Navigation("CreateContest");
 
                     b.Navigation("Notifications");
 
+                    b.Navigation("Painting");
+
                     b.Navigation("Post");
 
                     b.Navigation("Schedule");
+
+                    b.Navigation("SubAccounts");
                 });
 
             modelBuilder.Entity("Domain.Models.Award", b =>
@@ -1125,13 +1054,6 @@ namespace Infracstructures.Migrations
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
                     b.Navigation("PaintingCollection");
-                });
-
-            modelBuilder.Entity("Domain.Models.Competitor", b =>
-                {
-                    b.Navigation("Collection");
-
-                    b.Navigation("Painting");
                 });
 
             modelBuilder.Entity("Domain.Models.Contest", b =>

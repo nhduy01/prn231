@@ -12,7 +12,6 @@ public class UnitOfWork : IUnitOfWork
         IAwardScheduleRepository awardScheduleRepository,
         ICollectionRepository collectionRepository,
         IEducationalLevelRepository educationalLevelRepository,
-        ICompetitorRepository competitorRepository,
         IImageRepository imageRepository,
         INotificationRepository notificationRepository,
         IPaintingRepository paintingRepository,
@@ -32,7 +31,6 @@ public class UnitOfWork : IUnitOfWork
         AwardScheduleRepo = awardScheduleRepository;
         CollectionRepo = collectionRepository;
         EducationalLevelRepo = educationalLevelRepository;
-        CompetitorRepo = competitorRepository;
         ImageRepo = imageRepository;
         NotificationRepo = notificationRepository;
         PaintingRepo = paintingRepository;
@@ -55,8 +53,6 @@ public class UnitOfWork : IUnitOfWork
     public ICollectionRepository CollectionRepo { get; }
 
     public IEducationalLevelRepository EducationalLevelRepo { get; }
-
-    public ICompetitorRepository CompetitorRepo { get; }
 
     public IImageRepository ImageRepo { get; }
 

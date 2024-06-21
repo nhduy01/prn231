@@ -54,8 +54,8 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
         //RoundId
         builder.Property(u => u.RoundId).IsRequired();
 
-        //CompetitorId
-        builder.Property(u => u.CompetitorId).IsRequired();
+        //AccountId
+        builder.Property(u => u.AccountId).IsRequired();
 
         //TopicId
         builder.Property(u => u.TopicId).IsRequired();
@@ -68,9 +68,9 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
 
         //Relation
 
-        builder.HasOne(u => u.Competitor)
+        builder.HasOne(u => u.Account)
             .WithMany(u => u.Painting)
-            .HasForeignKey(u => u.CompetitorId)
+            .HasForeignKey(u => u.AccountId)
             .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.HasOne(u => u.Award)

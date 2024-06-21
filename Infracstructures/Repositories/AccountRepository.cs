@@ -11,9 +11,9 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
     }
 
-    public async Task<Account?> Login(string email)
+    public async Task<Account?> Login(string userName)
     {
-        return await DbSet.FirstOrDefaultAsync(a => a.Email == email && a.Status == AccountStatus.ACTIVE.ToString());
+        return await DbSet.FirstOrDefaultAsync(a => a.UserName == userName && a.Status == AccountStatus.Active.ToString());
     }
 
     public async Task<Account?> GetByRefreshToken(string token)

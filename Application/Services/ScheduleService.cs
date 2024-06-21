@@ -23,13 +23,31 @@ public class ScheduleService : IScheduleService
 
     #region Create
 
-    public async Task<Guid?> CreateSchedule(ScheduleRequest Schedule)
+    public async Task<Guid?> CreateSchedule(ScheduleRequest schedule)
     {
-        var newSchedule = _mapper.Map<Schedule>(Schedule);
-        newSchedule.Status = ScheduleStatus.ACTIVE.ToString();
-        await _unitOfWork.ScheduleRepo.AddAsync(newSchedule);
+        //Get Paintings Of Preliminary roud
+        var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
+        
+        List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
+        
+        //Create Schedule by number of Examiner
+
+        for(int i = 0; i < schedule.ListExaminer.Count; i++)
+        {
+            var newSchedule = new Schedule();
+            newSchedule.Id = Guid.NewGuid();
+            newSchedule.ExaminerId = schedule.ListExaminer[i];
+            newSchedule.RoundId = schedule.RoundId;
+            newSchedule.Description = schedule.Description;
+            newSchedule.Status = ScheduleStatus.Active.ToString();
+            await _unitOfWork.ScheduleRepo.AddAsync(newSchedule);
+            foreach (var painting in result[i])
+            {
+                painting.ScheduleId = newSchedule.Id;
+            }
+        }
         await _unitOfWork.SaveChangesAsync();
-        return newSchedule.Id;
+        return null;
     }
 
     #endregion
@@ -92,4 +110,23 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
+    
+    
+    public List<List<Painting>> SplitList(List<Painting> list, int n)
+    {
+        var result = new List<List<Painting>>();
+        int chunkSize = (int)Math.Ceiling(list.Count / (double)n);
+
+        for (int i = 0; i < n; i++)
+        {
+            var chunk = list.Skip(i * chunkSize).Take(chunkSize).ToList();
+            if (chunk.Any()) // Nếu chunk có phần tử thì mới thêm vào result
+            {
+                result.Add(chunk);
+            }
+        }
+
+        return result;
+    }
+    
 }

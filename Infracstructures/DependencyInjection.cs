@@ -44,10 +44,7 @@ public static class DependencyInjection
         // EducationalLevel
         services.AddTransient<IEducationalLevelRepository, EducationalLevelRepository>();
         services.AddTransient<IEducationalLevelService, EducationalLevelService>();
-
-        // Competitor
-        services.AddTransient<ICompetitorRepository, CompetitorRepository>();
-        services.AddTransient<ICompetitorService, CompetitorService>();
+        
 
         // Image
         services.AddTransient<IImageRepository, ImageRepository>();

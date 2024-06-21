@@ -31,9 +31,9 @@ public class PaintingService : IPaintingService
         _claimsService = claimsService;
     }
 
-    #region Add Painting
+    #region Add Painting Preliminary Round
 
-    public async Task<Guid?> AddPainting(PaintingRequest request)
+    public async Task<Guid?> AddPaintingForPreliminaryRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.CreatedBy = _claimsService.GetCurrentUserId();
@@ -47,7 +47,22 @@ public class PaintingService : IPaintingService
     }
 
     #endregion
+    #region Add Painting Final Round
 
+    public async Task<Guid?> AddPaintingForFinalRound(PaintingRequest request)
+    {
+        var painting = _mapper.Map<Painting>(request);
+        painting.CreatedBy = _claimsService.GetCurrentUserId();
+        painting.Status = PaintingStatus.FinalRound.ToString();
+        await _unitOfWork.PaintingRepo.AddAsync(painting);
+
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
+        //view.
+        if (check) return painting.Id;
+        return null;
+    }
+
+    #endregion
     #region Get List Painting
 
     public async Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel)

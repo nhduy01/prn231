@@ -2,6 +2,6 @@
 
 public enum ResourcesStatus
 {
-    ACTIVE,
-    INACTIVE
+    Active,
+    Inactive
 }
