@@ -9,7 +9,6 @@ public interface IUnitOfWork
     public IAwardScheduleRepository AwardScheduleRepo { get; }
     public ICollectionRepository CollectionRepo { get; }
     public IEducationalLevelRepository EducationalLevelRepo { get; }
-    public ICompetitorRepository CompetitorRepo { get; }
     public IImageRepository ImageRepo { get; }
     public INotificationRepository NotificationRepo { get; }
     public IPaintingRepository PaintingRepo { get; }

@@ -2,6 +2,6 @@
 
 public enum TopicStatus
 {
-    ACTIVE,
-    INACTIVE
+    Active,
+    Inactive
 }

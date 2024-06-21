@@ -24,8 +24,6 @@ public partial class MapperConfigs : Profile
 
         AddEducationalLevelMapperConfig();
 
-        AddCompetitorMapperConfig();
-
         AddImageMapperConfig();
 
         AddNotificationMapperConfig();
@@ -35,8 +33,6 @@ public partial class MapperConfigs : Profile
         AddPaintingCollectionMapperConfig();
 
         AddPostMapperConfig();
-
-        AddPostImageMapperConfig();
 
         AddResourcesMapperConfig();
 
@@ -56,13 +52,11 @@ public partial class MapperConfigs : Profile
     partial void AddAwardScheduleMapperConfig();
     partial void AddCollectionMapperConfig();
     partial void AddEducationalLevelMapperConfig();
-    partial void AddCompetitorMapperConfig();
     partial void AddImageMapperConfig();
     partial void AddNotificationMapperConfig();
     partial void AddPaintingMapperConfig();
     partial void AddPaintingCollectionMapperConfig();
     partial void AddPostMapperConfig();
-    partial void AddPostImageMapperConfig();
     partial void AddResourcesMapperConfig();
     partial void AddRoundMapperConfig();
     partial void AddScheduleMapperConfig();

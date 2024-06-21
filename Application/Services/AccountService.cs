@@ -1,6 +1,11 @@
-﻿using Application.IService;
+﻿using Application.BaseModels;
+using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.AccountSendModels;
+using Application.ViewModels.AccountViewModels;
 using AutoMapper;
+using Domain.Enums;
+using Domain.Models;
 using Infracstructures;
 using Microsoft.Extensions.Configuration;
 
@@ -27,5 +32,54 @@ public class AccountService : IAccountService
         _sessionServices = sessionServices;
         _claimsService = claimsService;
         _mapper = mapper;
+    }
+
+    public Task<bool?> CreateSubAccount(SubAccountRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels)
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = (List<Account>)accountList.Where(x => x.Status == "ACTIVE" && x.Role == Role.Examiner.ToString());
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
+
+        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    
+    public async Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels)
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = (List<Account>)accountList.Where(x => x.Status == "ACTIVE" && x.Role == Role.Competitor.ToString());
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
+
+        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    
+
+    public Task<AccountViewModel?> GetAccountById(Guid id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<AccountViewModel?> UpdateAccount(AccountUpdateRequest updateAccount)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool?> DeleteAccount(Guid id)
+    {
+        throw new NotImplementedException();
     }
 }

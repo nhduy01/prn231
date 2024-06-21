@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,4 +21,14 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
         return await DbSet.Where(x => x.AwardId != null).OrderByDescending(x => x.UpdatedTime).Include(x => x.Award)
             .Take(20).ToListAsync();
     }
+
+    public async Task<List<Painting>> ListPaintingForPreliminaryRound(Guid id)
+    {
+        return await DbSet.Where(x => x.RoundId == id).OrderByDescending(x => x.UpdatedTime).ToListAsync();
+    }
+
+    /*public async Task<List<Acc>> ListCompetitorPassRound(Guid id)
+    {
+        return await DbSet.Include(p => p.Competitor).Where(p => p.Status == PaintingStatus.Pass.ToString() && p.RoundId == id).Select(p => p.Competitor).ToListAsync();
+    }*/
 }

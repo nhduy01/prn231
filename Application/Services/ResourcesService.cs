@@ -26,7 +26,7 @@ public class ResourcesService : IResourcesService
     public async Task<bool> CreateResources(ResourcesRequest Resources)
     {
         var newResources = _mapper.Map<Resources>(Resources);
-        newResources.Status = ResourcesStatus.ACTIVE.ToString();
+        newResources.Status = ResourcesStatus.Active.ToString();
         await _unitOfWork.ResourcesRepo.AddAsync(newResources);
         
         return await _unitOfWork.SaveChangesAsync()>0;

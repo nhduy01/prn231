@@ -19,14 +19,45 @@ public class PaintingController : Controller
     }
 
 
-    #region Create Painting
+    #region Create Painting For Preliminary Round
 
     [HttpPost]
-    public async Task<IActionResult> CreatePainting(PaintingRequest painting)
+    public async Task<IActionResult> CreatePaintingForPreliminaryRound(PaintingRequest painting)
     {
         try
         {
-            var result = await _paintingService.AddPainting(painting);
+            var result = await _paintingService.AddPaintingForPreliminaryRound(painting);
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Create Painting Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+    
+    #region Create Painting For Final Round
+
+    [HttpPost]
+    public async Task<IActionResult> CreatePaintingForFinalRound(PaintingRequest painting)
+    {
+        try
+        {
+            var result = await _paintingService.AddPaintingForFinalRound(painting);
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
+
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -140,7 +171,7 @@ public class PaintingController : Controller
         try
         {
             var result = await _paintingService.GetPaintingByCode(code);
-            if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -163,13 +194,13 @@ public class PaintingController : Controller
     
     #region Get Painting By Id
 
-    [HttpGet("code")]
+    [HttpGet("id")]
     public async Task<IActionResult> GetPaintingById(Guid id)
     {
         try
         {
             var result = await _paintingService.GetPaintingById(id);
-            if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

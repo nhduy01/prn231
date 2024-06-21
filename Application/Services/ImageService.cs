@@ -27,7 +27,7 @@ public class ImageService : IImageService
     public async Task<bool> CreateImage(ImageRequest Image)
     {
         var newImage = _mapper.Map<Image>(Image);
-        newImage.Status = ImageStatus.ACTIVE.ToString();
+        newImage.Status = ImageStatus.Active.ToString();
         await _unitOfWork.ImageRepo.AddAsync(newImage);
         
         return await _unitOfWork.SaveChangesAsync()>0;

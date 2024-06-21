@@ -26,7 +26,7 @@ public class SponsorService : ISponsorService
     public async Task<bool> CreateSponsor(SponsorRequest sponsor)
     {
         var newSponsor = _mapper.Map<Sponsor>(sponsor);
-        newSponsor.Status = SponsorStatus.ACTIVE.ToString();
+        newSponsor.Status = SponsorStatus.Active.ToString();
         await _unitOfWork.SponsorRepo.AddAsync(newSponsor);
         
         return await _unitOfWork.SaveChangesAsync()>0;

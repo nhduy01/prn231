@@ -26,7 +26,7 @@ public class TopicService : ITopicService
     public async Task<bool> CreateTopic(TopicRequest Topic)
     {
         var newTopic = _mapper.Map<Topic>(Topic);
-        newTopic.Status = TopicStatus.ACTIVE.ToString();
+        newTopic.Status = TopicStatus.Active.ToString();
         await _unitOfWork.TopicRepo.AddAsync(newTopic);
 
         return await _unitOfWork.SaveChangesAsync()>0;

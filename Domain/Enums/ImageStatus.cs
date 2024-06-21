@@ -2,6 +2,6 @@
 
 public enum ImageStatus
 {
-    ACTIVE,
-    INACTIVE
+    Active,
+    Inactive
 }

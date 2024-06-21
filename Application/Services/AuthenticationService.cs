@@ -4,6 +4,7 @@ using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
+using Application.ViewModels.AuthenticationViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -17,10 +18,12 @@ public class AuthenticationService : IAuthenticationService
     private readonly IMailService _mailService;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IClaimsService _claimsService;
 
     public AuthenticationService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper,
-        IMailService mailService)
+        IMailService mailService, IClaimsService claimsService)
     {
+        _claimsService = claimsService;
         _mailService = mailService;
         _authentication = authentication;
         _unitOfWork = unitOfWork;
@@ -28,12 +31,12 @@ public class AuthenticationService : IAuthenticationService
     }
 
 
-    #region Validate Account
+    #region Login
 
-    public async Task<LoginResponse> ValidateAccount(LoginRequest accountLogin)
+    public async Task<LoginResponse> Login(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
-        var account = await _unitOfWork.AccountRepo.Login(accountLogin.Email);
+        var account = await _unitOfWork.AccountRepo.Login(accountLogin.UserName);
         //check null
         if (account != null)
         {
@@ -43,8 +46,7 @@ public class AuthenticationService : IAuthenticationService
             {
                 response.Success = true;
                 response.Message = "Login Success";
-                response.JwtToken =
-                    _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
+                response.JwtToken =_authentication.GenerateToken(account.UserName, account.Id.ToString(), account.Role);
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
 
@@ -74,6 +76,12 @@ public class AuthenticationService : IAuthenticationService
     {
         var response = new RegisterResponse();
         var a = _mapper.Map<Account>(account);
+        if (!Enum.IsDefined(typeof(Role), account.Role))
+        {
+            response.Message = "Role is not Exist!";
+            response.Success = false;
+            return response;
+        }
         if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone))
         {
             response.Message = "Email or Phone is Exist !";
@@ -83,7 +91,7 @@ public class AuthenticationService : IAuthenticationService
 
         //if not exist
         a.Password = _authentication.Hash(account.Password);
-        a.Status = AccountStatus.INACTIVE.ToString();
+        a.Status = AccountStatus.Active.ToString();
 
         await _unitOfWork.AccountRepo.AddAsync(a);
         var check = await _unitOfWork.SaveChangesAsync() > 0;
@@ -111,11 +119,11 @@ public class AuthenticationService : IAuthenticationService
 
     #region ReGenerate JwtToken Account
 
-    public async Task<string> ReGenerateJwtTokenAccount(RefreshTokenRequest refreshToken)
+    public async Task<string> ReGenerateJwtToken(RefreshTokenRequest refreshToken)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(refreshToken.Id);
         if (account != null)
-            return _authentication.GenerateToken(account.LastName, account.Id.ToString(), account.Role);
+            return _authentication.GenerateToken(account.UserName, account.Id.ToString(), account.Role);
         return "";
     }
 
@@ -123,7 +131,7 @@ public class AuthenticationService : IAuthenticationService
 
     #region Logout Account
 
-    public async Task<bool> LogoutAccount(Guid id)
+    public async Task<bool> Logout(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
         if (account != null)
@@ -136,32 +144,6 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-
-    #region Logout Competitor
-
-    public async Task<bool> LogoutCompetitor(Guid id)
-    {
-        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(id);
-        if (account != null)
-        {
-            account.RefreshToken = "";
-            return true;
-        }
-
-        return false;
-    }
-
-    #endregion
-
-
-    public async Task<bool?> VerifyAccount(Guid id)
-    {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account == null) return false;
-        account.Status = AccountStatus.ACTIVE.ToString();
-        await _unitOfWork.SaveChangesAsync();
-        return true;
-    }
 
     #region Refresh Token
 
@@ -171,93 +153,13 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-
-
-    #region Competitor
-
-    #region Validate Competitor
-
-    public async Task<LoginResponse> ValidateCompetitor(LoginRequest accountLogin)
+    
+    public async Task<bool?> VerifyEmail(Guid id)
     {
-        var response = new LoginResponse();
-
-        var competitor = await _unitOfWork.CompetitorRepo.Login(accountLogin.Email);
-
-        //check null
-        if (competitor != null)
-        {
-            //Verify Password
-            var check = _authentication.Verify(competitor.Password, accountLogin.Password);
-            if (check is true)
-            {
-                response.Success = true;
-                response.Message = "Login Success";
-                response.JwtToken = _authentication.GenerateToken(competitor.LastName, competitor.Id.ToString(),
-                    Role.COMPETITOR.ToString());
-                response.RefreshToken = new RefreshToken();
-                response.RefreshToken.Token = RefreshToken();
-
-                return response;
-            }
-
-            response.Success = false;
-            response.Message = "Invalid Password";
-            return response;
-        }
-
-        response.Success = false;
-        response.Message = "Username Not Exist";
-        return response;
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        if (account == null) return false;
+        account.Status = AccountStatus.Active.ToString();
+        await _unitOfWork.SaveChangesAsync();
+        return true;
     }
-
-    #endregion
-
-    #region ReGenerate JwtToken Competitor
-
-    public async Task<string> ReGenerateJwtTokenCompetitor(RefreshTokenRequest refreshToken)
-    {
-        var account = await _unitOfWork.CompetitorRepo.GetByIdAsync(refreshToken.Id);
-        if (account != null)
-            return _authentication.GenerateToken(account.LastName, account.Id.ToString(), "COMPETITOR");
-        return "";
-    }
-
-    #endregion
-
-    #region Create Competitor
-
-    public async Task<RegisterResponse> CreateCompetitor(CreateCompetitorRequest competitor)
-    {
-        var response = new RegisterResponse();
-        var c = _mapper.Map<Competitor>(competitor);
-        if (await _unitOfWork.CompetitorRepo.CheckDuplicate(competitor.Email, competitor.Phone))
-        {
-            response.Message = "Email or Phone is Exist !";
-            response.Success = false;
-            return response;
-        }
-
-        //if not exist
-        c.Password = _authentication.Hash(competitor.Password);
-        c.Status = AccountStatus.INACTIVE.ToString();
-        c.CreatedTime = DateTime.Now;
-
-        await _unitOfWork.CompetitorRepo.AddAsync(c);
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-
-        if (check is false)
-        {
-            response.Message = "Create Fail !";
-            response.Success = true;
-            return response;
-        }
-
-        response.Message = "Create Success !";
-        response.Success = true;
-        return response;
-    }
-
-    #endregion
-
-    #endregion
 }
