@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/resources/")]
 public class ResourcesController : Controller
 {
     private readonly IResourcesService _resourcesService;

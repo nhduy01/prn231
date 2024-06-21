@@ -1,4 +1,5 @@
-﻿using Application.IService;
+﻿using System;
+using Application.IService;
 using Application.IService.ICommonService;
 using Application.ViewModels.ContestViewModels;
 using AutoMapper;
@@ -28,55 +29,51 @@ public class ContestService : IContestService
 
     #region Add Contest
 
-    public async Task<Guid?> AddContest(AddContestViewModel addContestViewModel)
+    public async Task<bool> AddContest(AddContestViewModel addContestViewModel)
     {
         var contest = _mapper.Map<Contest>(addContestViewModel);
         contest.CreatedBy = _claimsService.GetCurrentUserId();
         contest.Status = "ACTIVE";
         await _unitOfWork.ContestRepo.AddAsync(contest);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        var result = _mapper.Map<AddContestViewModel>(contest);
-        //view.
-        if (check) return contest.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
 
     #region Delete Contest
 
-    public async Task<Guid> DeleteContest(Guid contestId)
+    public async Task<bool> DeleteContest(Guid contestId)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
-        if (contest == null) return Guid.Empty;
+        if (contest == null) throw new Exception("Khong tim thay Contest"); 
 
         contest.Status = "INACTIVE";
 
-        await _unitOfWork.SaveChangesAsync();
-        return contestId;
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Update Contest
 
-    public async Task<UpdateContestViewModel> UpdateContest(UpdateContestViewModel updateContest)
+    public async Task<bool> UpdateContest(UpdateContestViewModel updateContest)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(updateContest.Id);
-        if (contest == null) return null;
+        if (contest == null) throw new Exception("Khong tim thay Contest");
 
-        contest.Name = updateContest.Name;
+        /*contest.Name = updateContest.Name;
         contest.StartTime = updateContest.StartTime;
         contest.EndTime = updateContest.EndTime;
         contest.Description = updateContest.Description;
-        contest.Content = updateContest.Content;
+        contest.Content = updateContest.Content;*/
+        contest = _mapper.Map<Contest>(updateContest);
         contest.UpdatedBy = _claimsService.GetCurrentUserId();
         contest.UpdatedTime = _currentTime.GetCurrentTime();
 
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<UpdateContestViewModel>(contest);
+        return await _unitOfWork.SaveChangesAsync() > 0 ;
+
     }
 
     #endregion
@@ -84,19 +81,17 @@ public class ContestService : IContestService
     #region Get Contest By Id
     public async Task<Contest?> GetContestById(Guid awardId)
     {
-        var award = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(awardId);
+        var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(awardId);
+        if (contest == null) throw new Exception("Khong tim thay Contest");
 
-        return _mapper.Map<Contest>(award);
+        return _mapper.Map<Contest>(contest);
     }
     #endregion
     
     #region Get 5 recent contest year
     public async Task<List<int>> Get5RecentYear()
     {
-        var result = await _unitOfWork.ContestRepo.Get5RecentYearAsync();
-
-        return result;
-
+        return await _unitOfWork.ContestRepo.Get5RecentYearAsync();
     }
 
     #endregion

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/topics/")]
 public class TopicController : Controller
 {
     private readonly ITopicService _topicService;

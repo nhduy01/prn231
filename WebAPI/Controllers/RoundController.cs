@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/round/")]
 public class RoundController : Controller
 {
     private readonly IRoundService _roundService;

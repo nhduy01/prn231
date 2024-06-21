@@ -25,15 +25,14 @@ public class PostService : IPostService
 
     #region Create
 
-    public async Task<Guid?> CreatePost(PostRequest post)
+    public async Task<bool> CreatePost(PostRequest post)
     {
         var newPost = _mapper.Map<Post>(post);
         var newImages = _mapper.Map<List<Image>>(post.Images);
         newPost.Images = newImages;
         newPost.Status = PostStatus.Active.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
-        await _unitOfWork.SaveChangesAsync();
-        return newPost.Id;
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -71,10 +70,10 @@ public class PostService : IPostService
 
     #region Update
 
-    public async Task<PostViewModel?> UpdatePost(PostUpdateRequest updatePost)
+    public async Task<bool> UpdatePost(PostUpdateRequest updatePost)
     {
         var post = await _unitOfWork.PostRepo.GetByIdAsync(updatePost.Id);
-        if (post == null) return null;
+        if (post == null) throw new Exception("Khong tim thay Post");
         _mapper.Map(updatePost, post);
 
         if (updatePost.NewImages != null)
@@ -87,22 +86,21 @@ public class PostService : IPostService
             foreach (var image in updatePost.DeleteImages)
                 post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.Inactive.ToString();
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<PostViewModel>(post);
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeletePost(Guid id)
+    public async Task<bool> DeletePost(Guid id)
     {
         var Post = await _unitOfWork.PostRepo.GetByIdAsync(id);
-        if (Post == null) return false;
+        if (Post == null) throw new Exception("Khong tim thay Post");
 
         Post.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+        
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

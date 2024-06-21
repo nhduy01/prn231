@@ -28,50 +28,48 @@ public class CollectionService : ICollectionService
 
     #region Add Collection
 
-    public async Task<Guid?> AddCollection(AddCollectionViewModel addCollectionViewModel)
+    public async Task<bool> AddCollection(AddCollectionViewModel addCollectionViewModel)
     {
         var collection = _mapper.Map<Collection>(addCollectionViewModel);
         collection.CreatedBy = _claimsService.GetCurrentUserId();
         collection.Status = "ACTIVE";
         await _unitOfWork.CollectionRepo.AddAsync(collection);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        var result = _mapper.Map<AddCollectionViewModel>(collection);
-        //view.
-        if (check) return collection.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
+        
     }
 
     #endregion
 
     #region Delete Collection
 
-    public async Task<CollectionViewModel> DeleteCollection(Guid collectionId)
+    public async Task<bool> DeleteCollection(Guid collectionId)
     {
-        var award = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
-        if (award == null) return null;
+        var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
+        if (collection == null) throw new Exception("Khong tim thay Collection");
 
-        award.Status = "INACTIVE";
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<CollectionViewModel>(award);
+        collection.Status = "INACTIVE";
+
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Update Collection
 
-    public async Task<UpdateCollectionViewModel> UpdateCollection(UpdateCollectionViewModel updateCollection)
+    public async Task<bool> UpdateCollection(UpdateCollectionViewModel updateCollection)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateCollection.Id);
-        if (collection == null) return null;
+        if (collection == null) throw new Exception("Khong tim thay Collection"); ;
 
-        collection.Name = updateCollection.Name;
+        /*collection.Name = updateCollection.Name;
         collection.Description = updateCollection.Description;
-        collection.Image = updateCollection.Image;
+        collection.Image = updateCollection.Image;*/
+        collection = _mapper.Map<Collection>(updateCollection);
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<UpdateCollectionViewModel>(collection);
+        return await _unitOfWork.SaveChangesAsync()>0;
+
     }
 
     #endregion
@@ -82,18 +80,16 @@ public class CollectionService : ICollectionService
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
         return _mapper.Map<CollectionViewModel>(collection);
-        ;
     }
 
     #endregion
 
-    #region Get Collection By Id
+    #region Get Painting By Collection
 
     public async Task<Collection> GetPaintingByCollection(Guid collectionId)
     {
         var collection = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
         return _mapper.Map<Collection>(collection);
-        ;
     }
 
     #endregion

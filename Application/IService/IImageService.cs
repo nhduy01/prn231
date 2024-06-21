@@ -6,8 +6,8 @@ namespace Application.IService;
 
 public interface IImageService
 {
-    public Task<Guid?> CreateImage(ImageRequest Image);
+    public Task<bool> CreateImage(ImageRequest Image);
     public Task<(List<ImageViewModel>, int)> GetListImage(ListModels listModels);
     public Task<ImageViewModel?> GetImageById(Guid id);
-    public Task<bool?> DeleteImage(Guid id);
+    public Task<bool> DeleteImage(Guid id);
 }

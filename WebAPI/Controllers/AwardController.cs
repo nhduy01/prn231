@@ -8,7 +8,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/award/")]
+[Route("api/awards/")]
 public class AwardController : Controller
 {
     private readonly IAwardService _awardService;
@@ -83,7 +83,7 @@ public class AwardController : Controller
     #region Get All Award
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAward([FromQuery] ListAwardModel listAwardModel)
+    public async Task<IActionResult> GetAllAward([FromQuery] ListModels listAwardModel)
     {
         try
         {

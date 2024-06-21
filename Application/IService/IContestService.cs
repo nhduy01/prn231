@@ -5,10 +5,10 @@ namespace Application.IService;
 
 public interface IContestService
 {
-    Task<Guid?> AddContest(AddContestViewModel addContestViewModel);
-    Task<Guid> DeleteContest(Guid contestId);
+    Task<bool> AddContest(AddContestViewModel addContestViewModel);
+    Task<bool> DeleteContest(Guid contestId);
 
-    Task<UpdateContestViewModel> UpdateContest(UpdateContestViewModel updateContest);
+    Task<bool> UpdateContest(UpdateContestViewModel updateContest);
 
     Task<Contest?> GetContestById(Guid awardId);
 

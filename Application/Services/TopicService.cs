@@ -23,13 +23,13 @@ public class TopicService : ITopicService
 
     #region Create
 
-    public async Task<Guid?> CreateTopic(TopicRequest Topic)
+    public async Task<bool> CreateTopic(TopicRequest Topic)
     {
         var newTopic = _mapper.Map<Topic>(Topic);
         newTopic.Status = TopicStatus.Active.ToString();
         await _unitOfWork.TopicRepo.AddAsync(newTopic);
-        await _unitOfWork.SaveChangesAsync();
-        return newTopic.Id;
+
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -59,7 +59,7 @@ public class TopicService : ITopicService
     public async Task<TopicViewModel?> GetTopicById(Guid id)
     {
         var Topic = await _unitOfWork.TopicRepo.GetByIdAsync(id);
-        if (Topic == null) return null;
+        if (Topic == null) throw new Exception("Khong tim thay Topic");
         return _mapper.Map<TopicViewModel>(Topic);
     }
 
@@ -67,28 +67,27 @@ public class TopicService : ITopicService
 
     #region Update
 
-    public async Task<TopicViewModel?> UpdateTopic(TopicUpdateRequest updateTopic)
+    public async Task<bool> UpdateTopic(TopicUpdateRequest updateTopic)
     {
         var Topic = await _unitOfWork.TopicRepo.GetByIdAsync(updateTopic.Id);
-        if (Topic == null) return null;
+        if (Topic == null) throw new Exception("Khong tim thay Sponsor");
 
         _mapper.Map(updateTopic, Topic);
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<TopicViewModel>(Topic);
+        return await _unitOfWork.SaveChangesAsync()>0;
+
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeleteTopic(Guid id)
+    public async Task<bool> DeleteTopic(Guid id)
     {
         var Topic = await _unitOfWork.TopicRepo.GetByIdAsync(id);
-        if (Topic == null) return false;
+        if (Topic == null) throw new Exception("Khong tim thay Sponsor");
 
         Topic.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion

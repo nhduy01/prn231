@@ -33,33 +33,27 @@ public class PaintingService : IPaintingService
 
     #region Add Painting Preliminary Round
 
-    public async Task<Guid?> AddPaintingForPreliminaryRound(PaintingRequest request)
+    public async Task<bool> AddPaintingForPreliminaryRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.CreatedBy = _claimsService.GetCurrentUserId();
         painting.Status = PaintingStatus.Draft.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        //view.
-        if (check) return painting.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
     #region Add Painting Final Round
 
-    public async Task<Guid?> AddPaintingForFinalRound(PaintingRequest request)
+    public async Task<bool> AddPaintingForFinalRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.CreatedBy = _claimsService.GetCurrentUserId();
         painting.Status = PaintingStatus.FinalRound.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        //view.
-        if (check) return painting.Id;
-        return null;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -83,63 +77,62 @@ public class PaintingService : IPaintingService
 
     #region Delete Painting
 
-    public async Task<PaintingViewModel?> DeletePainting(Guid paintingId)
+    public async Task<bool> DeletePainting(Guid paintingId)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
-        if (painting == null) return null;
+        if (painting == null) throw new Exception("Khong tim thay Painting");
         
         if (painting.Status != PaintingStatus.Draft.ToString())
         {
-            return null;
+            throw new Exception("Khong duoc xoa"); ;
         }
 
         painting.Status = PaintingStatus.Delete.ToString();
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<PaintingViewModel>(painting);
+        return await _unitOfWork.SaveChangesAsync() > 0;
+        
     }
 
     #endregion
 
     #region Update Painting
 
-    public async Task<UpdatePaintingViewModel?> UpdatePainting(UpdatePaintingViewModel updatePainting)
+    public async Task<bool> UpdatePainting(UpdatePaintingViewModel updatePainting)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(updatePainting.Id);
 
-        if (painting == null) return null;
-        
+        if (painting == null) throw new Exception("Khong tim thay Painting");
+
+
         if (painting.Status != PaintingStatus.Draft.ToString())
         {
-            return null;
+            throw new Exception("Khong duoc sua");
         }
 
         painting = _mapper.Map<Painting>(updatePainting);
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<UpdatePaintingViewModel>(painting);
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Submit Painting
 
-    public async Task<PaintingViewModel?> SubmitPainting(Guid paintingId)
+    public async Task<bool> SubmitPainting(Guid paintingId)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
-        if (painting == null) return null;
-        
+        if (painting == null) throw new Exception("Khong tim thay Painting");
+
         if (painting.Status != PaintingStatus.Draft.ToString())
         {
-            return null;
+            throw new Exception("Painting da Submit");
         }
 
         painting.Status = PaintingStatus.Submitted.ToString();
         
         painting.SubmittedTimestamp = DateTime.Now;
 
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<PaintingViewModel>(painting);
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion

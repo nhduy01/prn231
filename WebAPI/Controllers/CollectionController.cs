@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/collection/")]
+[Route("api/collections/")]
 public class CollectionController : Controller
 {
     private readonly ICollectionService _collectionService;

@@ -23,7 +23,7 @@ public class ScheduleService : IScheduleService
 
     #region Create
 
-    public async Task<Guid?> CreateSchedule(ScheduleRequest schedule)
+    public async Task<bool> CreateSchedule(ScheduleRequest schedule)
     {
         //Get Paintings Of Preliminary roud
         var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
@@ -46,8 +46,8 @@ public class ScheduleService : IScheduleService
                 painting.ScheduleId = newSchedule.Id;
             }
         }
-        await _unitOfWork.SaveChangesAsync();
-        return null;
+        return await _unitOfWork.SaveChangesAsync()>0;
+        
     }
 
     #endregion
@@ -77,7 +77,8 @@ public class ScheduleService : IScheduleService
     public async Task<ScheduleViewModel?> GetScheduleById(Guid id)
     {
         var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
-        if (Schedule == null) return null;
+        if (Schedule == null) throw new Exception("Khong tim thay Schedule");
+
         return _mapper.Map<ScheduleViewModel>(Schedule);
     }
 
@@ -85,28 +86,27 @@ public class ScheduleService : IScheduleService
 
     #region Update
 
-    public async Task<ScheduleViewModel?> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
+    public async Task<bool> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
     {
         var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
-        if (schedule == null) return null;
-
+        if (schedule == null) throw new Exception("Khong tim thay Schedule");
         _mapper.Map(updateSchedule, schedule);
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<ScheduleViewModel>(schedule);
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeleteSchedule(Guid id)
+    public async Task<bool> DeleteSchedule(Guid id)
     {
         var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
-        if (Schedule == null) return false;
-
+        if (Schedule == null) throw new Exception("Khong tim thay Schedule"); 
         Schedule.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion

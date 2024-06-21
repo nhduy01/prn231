@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Image;
 using AutoMapper;
@@ -23,13 +24,13 @@ public class ImageService : IImageService
 
     #region Create
 
-    public async Task<Guid?> CreateImage(ImageRequest Image)
+    public async Task<bool> CreateImage(ImageRequest Image)
     {
         var newImage = _mapper.Map<Image>(Image);
         newImage.Status = ImageStatus.Active.ToString();
         await _unitOfWork.ImageRepo.AddAsync(newImage);
-        await _unitOfWork.SaveChangesAsync();
-        return newImage.Id;
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
@@ -59,7 +60,7 @@ public class ImageService : IImageService
     public async Task<ImageViewModel?> GetImageById(Guid id)
     {
         var Image = await _unitOfWork.ImageRepo.GetByIdAsync(id);
-        if (Image == null) return null;
+        if (Image == null) throw new Exception("Khong tim thay Image");
         return _mapper.Map<ImageViewModel>(Image);
     }
 
@@ -68,14 +69,13 @@ public class ImageService : IImageService
 
     #region Delete
 
-    public async Task<bool?> DeleteImage(Guid id)
+    public async Task<bool> DeleteImage(Guid id)
     {
         var Image = await _unitOfWork.ImageRepo.GetByIdAsync(id);
-        if (Image == null) return false;
-
+        if (Image == null) throw new Exception("Khong tim thay Image");
         Image.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion

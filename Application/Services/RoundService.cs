@@ -23,13 +23,13 @@ public class RoundService : IRoundService
 
     #region Create
 
-    public async Task<Guid?> CreateRound(RoundRequest Round)
+    public async Task<bool> CreateRound(RoundRequest Round)
     {
         var newRound = _mapper.Map<Round>(Round);
         newRound.Status = RoundStatus.Active.ToString();
         await _unitOfWork.RoundRepo.AddAsync(newRound);
-        await _unitOfWork.SaveChangesAsync();
-        return newRound.Id;
+        
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -59,7 +59,8 @@ public class RoundService : IRoundService
     public async Task<RoundViewModel?> GetRoundById(Guid id)
     {
         var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
-        if (Round == null) return null;
+        if (Round == null) throw new Exception("Khong tim thay Round");
+
         return _mapper.Map<RoundViewModel>(Round);
     }
 
@@ -67,28 +68,26 @@ public class RoundService : IRoundService
 
     #region Update
 
-    public async Task<RoundViewModel?> UpdateRound(RoundUpdateRequest updateRound)
+    public async Task<bool> UpdateRound(RoundUpdateRequest updateRound)
     {
         var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
-        if (Round == null) return null;
-
+        if (Round == null) throw new Exception("Khong tim thay Round");
         _mapper.Map(updateRound, Round);
-        await _unitOfWork.SaveChangesAsync();
-        return _mapper.Map<RoundViewModel>(Round);
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
 
     #region Delete
 
-    public async Task<bool?> DeleteRound(Guid id)
+    public async Task<bool> DeleteRound(Guid id)
     {
         var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
-        if (Round == null) return false;
-
+        if (Round == null) throw new Exception("Khong tim thay Round");
         Round.Status = "INACTIVE";
-        await _unitOfWork.SaveChangesAsync();
-        return true;
+        
+        return await _unitOfWork.SaveChangesAsync()>0;
     }
 
     #endregion
