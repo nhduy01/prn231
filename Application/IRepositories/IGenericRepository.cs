@@ -23,4 +23,6 @@ public interface IGenericRepository<TModel> where TModel : class
 
     // Add paging method to generic interface 
     Task<Pagination<TModel>> ToPaginationAsync(int pageIndex = 0, int pageSize = 10);
+
+    Task DeleteAsync(TModel model);
 }

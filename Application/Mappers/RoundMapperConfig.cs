@@ -12,5 +12,6 @@ public partial class MapperConfigs : Profile
         CreateMap<RoundRequest, Round>().ReverseMap();
         CreateMap<RoundUpdateRequest, Round>().ReverseMap();
         CreateMap<Round, RoundViewModel>().ReverseMap();
+        CreateMap<Round,ListTopicViewModel>().ReverseMap();
     }
 }
