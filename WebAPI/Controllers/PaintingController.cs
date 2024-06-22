@@ -21,7 +21,7 @@ public class PaintingController : Controller
 
     #region Create Painting For Preliminary Round
 
-    [HttpPost]
+    [HttpPost("createpainting1stround")]
     public async Task<IActionResult> CreatePaintingForPreliminaryRound(PaintingRequest painting)
     {
         try
@@ -50,7 +50,7 @@ public class PaintingController : Controller
     
     #region Create Painting For Final Round
 
-    [HttpPost]
+    [HttpPost("createpaintingfinalround")]
     public async Task<IActionResult> CreatePaintingForFinalRound(PaintingRequest painting)
     {
         try
@@ -80,7 +80,7 @@ public class PaintingController : Controller
 
     #region Update Painting
 
-    [HttpPut]
+    [HttpPut("update")]
     public async Task<IActionResult> UpdatePainting(UpdatePaintingViewModel updatePaintingViewModel)
     {
         var result = await _paintingService.UpdatePainting(updatePaintingViewModel);
@@ -97,7 +97,7 @@ public class PaintingController : Controller
 
     #region Delete Painting
 
-    [HttpPatch]
+    [HttpPatch("deletepainting")]
     public async Task<IActionResult> DeletePainting(Guid id)
     {
         var result = await _paintingService.DeletePainting(id);
@@ -114,7 +114,7 @@ public class PaintingController : Controller
     
     #region Submitted Painting
 
-    [HttpPost]
+    [HttpPost("submit")]
     public async Task<IActionResult> SubmittedPainting(Guid id)
     {
         var result = await _paintingService.SubmitPainting(id);
@@ -131,7 +131,7 @@ public class PaintingController : Controller
     
     #region  Review Decision of Painting
 
-    [HttpPost]
+    [HttpPatch("review")]
     public async Task<IActionResult> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request)
     {
         var result = await _paintingService.ReviewDecisionOfPainting(request);
@@ -140,7 +140,7 @@ public class PaintingController : Controller
         {
             Status = Ok().StatusCode,
             Result = result,
-            Message = "Delete Successfully"
+            Message = "Review Successfully"
         });
     }
 
@@ -148,7 +148,7 @@ public class PaintingController : Controller
     
     #region  Final Decision of Painting
 
-    [HttpPost]
+    [HttpPatch("finaldecision")]
     public async Task<IActionResult> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
     {
         var result = await _paintingService.FinalDecisionOfPainting(request);
@@ -166,7 +166,7 @@ public class PaintingController : Controller
     #region Get Painting By Code
 
     [HttpGet("code")]
-    public async Task<IActionResult> GetPaintingByCode(string code)
+    public async Task<IActionResult> GetPaintingByCode([FromRoute]string code)
     {
         try
         {
@@ -195,7 +195,7 @@ public class PaintingController : Controller
     #region Get Painting By Id
 
     [HttpGet("id")]
-    public async Task<IActionResult> GetPaintingById(Guid id)
+    public async Task<IActionResult> GetPaintingById([FromRoute]Guid id)
     {
         try
         {

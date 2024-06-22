@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
     #region Login
 
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("/login")]
     public async Task<LoginResponse> Login(LoginRequest request)
     {
         if (!ModelState.IsValid)
@@ -44,7 +44,7 @@ public class AuthenticationController : ControllerBase
     #region Create Account
 
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("/create")]
     public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
     {
         if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ public class AuthenticationController : ControllerBase
     #region Active Account
 
     [AllowAnonymous]
-    [HttpGet("{id}")]
+    [HttpGet("verify/{id}")]
     public async Task<ActionResult> VerifyAccount(Guid id)
     {
         var result = await _authenticationService.VerifyEmail(id);
@@ -81,7 +81,7 @@ public class AuthenticationController : ControllerBase
     #region ReGenerateJwtToken
 
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("/regeneratejwttoken")]
     public async Task<ActionResult<string>> ReGenerateJwtToken(RefreshTokenRequest token)
     {
         if (!ModelState.IsValid)
