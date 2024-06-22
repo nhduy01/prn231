@@ -37,7 +37,7 @@ app.UseSession();
 
 app.MapHealthChecks("/healthz");
 
-//app.UseCors("_myAllowSpecificOrigins");
+app.UseCors("_myAllowSpecificOrigins");
 
 #endregion
 

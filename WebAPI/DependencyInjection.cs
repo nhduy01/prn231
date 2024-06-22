@@ -58,7 +58,7 @@ public static class DependencyInjection
 
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll",
+            options.AddPolicy("_myAllowSpecificOrigins",
                 policy =>
                 {
                     policy.AllowAnyOrigin()
