@@ -18,8 +18,8 @@ public class NotificationController : Controller
 
     #region Get 5 Notification
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get5Notification(Guid id)
+    [HttpGet("get5notification/{id}")]
+    public async Task<IActionResult> Get5Notification([FromRoute] Guid id)
     {
         try
         {
@@ -50,7 +50,7 @@ public class NotificationController : Controller
     #region Get Notification By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetNotificationById(Guid id)
+    public async Task<IActionResult> GetNotificationById([FromRoute] Guid id)
     {
         try
         {
