@@ -20,7 +20,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
-    dbContext.Database.Migrate();
+    //dbContext.Database.Migrate();
 }
 
 // // Configure the HTTP request pipeline.
@@ -37,7 +37,7 @@ app.UseSession();
 
 app.MapHealthChecks("/healthz");
 
-app.UseCors("_myAllowSpecificOrigins");
+//app.UseCors("_myAllowSpecificOrigins");
 
 #endregion
 
