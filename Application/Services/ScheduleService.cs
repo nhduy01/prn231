@@ -76,9 +76,8 @@ public class ScheduleService : IScheduleService
 
     public async Task<ScheduleViewModel?> GetScheduleById(Guid id)
     {
-        var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
+        var Schedule = await _unitOfWork.ScheduleRepo.GetById(id);
         if (Schedule == null) throw new Exception("Khong tim thay Schedule");
-
         return _mapper.Map<ScheduleViewModel>(Schedule);
     }
 

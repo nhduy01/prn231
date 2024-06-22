@@ -8,6 +8,7 @@ public interface IPostService
 {
     public Task<bool> CreatePost(PostRequest Post);
     public Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels);
+    public Task<List<PostViewModel>> Get10Post();
     public Task<PostViewModel?> GetPostById(Guid id);
     public Task<bool> UpdatePost(PostUpdateRequest updatePost);
     public Task<bool> DeletePost(Guid id);

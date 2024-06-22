@@ -51,6 +51,34 @@ public class PostController : Controller
 
     #endregion
 
+    #region Get 10 Post
+
+    [HttpGet]
+    public async Task<IActionResult> Get10Post()
+    {
+        try
+        {
+            var result = await _postService.Get10Post();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Inventory Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+    
     #region Get Post By Page
 
     [HttpGet]

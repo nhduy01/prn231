@@ -55,6 +55,12 @@ public class PostService : IPostService
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
 
+    public async Task<List<PostViewModel>> Get10Post()
+    {
+        var list = await _unitOfWork.PostRepo.Get10Post();
+        return _mapper.Map<List<PostViewModel>>(list);
+    }
+
     #endregion
 
     #region Get By Id
