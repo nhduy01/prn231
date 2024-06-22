@@ -106,4 +106,8 @@ public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel
         var values = DbSet.Entry(model).CurrentValues.Clone().ToObject() as TModel;
         return values;
     }
+    public virtual async Task DeleteAsync(TModel model)
+    {
+        DbSet.Remove(model);
+    } 
 }

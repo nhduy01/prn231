@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Net.WebSockets;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
 using Application.ViewModels.RoundViewModels;
@@ -91,4 +92,22 @@ public class RoundService : IRoundService
     }
 
     #endregion
+
+    #region Get Topic
+
+    public async Task<(ICollection<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels)
+    {
+        var list = await _unitOfWork.RoundRepo.GetTopic(id);
+        ICollection<Topic> result = list.Topic; 
+
+        //page division
+        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    #endregion
+
 }
