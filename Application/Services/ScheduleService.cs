@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Painting;
 using Application.SendModels.Schedule;
 using Application.ViewModels.ScheduleViewModels;
 using AutoMapper;
@@ -23,10 +24,15 @@ public class ScheduleService : IScheduleService
 
     #region Create
 
-    public async Task<bool> CreateSchedule(ScheduleRequest schedule)
+    public async Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest schedule)
     {
-        //Get Paintings Of Preliminary roud
+        //Get Paintings Of Preliminary round
         var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
+
+        var award = _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId).Result?.EducationalLevel.Award
+            .FirstOrDefault(a => a.Rank == RankAward.Preliminary.ToString());
+
+        int quantityAward = award.Quantity;
         
         List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
         
@@ -40,6 +46,26 @@ public class ScheduleService : IScheduleService
             newSchedule.RoundId = schedule.RoundId;
             newSchedule.Description = schedule.Description;
             newSchedule.Status = ScheduleStatus.Active.ToString();
+            
+            //Add award schudele
+            var newAwardSchedule = new AwardSchedule();
+            newAwardSchedule.Id = Guid.NewGuid();
+            newAwardSchedule.ScheduleId = newSchedule.Id;
+            newAwardSchedule.AwardId = award.Id;
+            
+            if (i == schedule.ListExaminer.Count - 1)
+            {
+                newAwardSchedule.Quantity = quantityAward;
+            }
+            else
+            {
+                newAwardSchedule.Quantity = (int)Math.Ceiling(quantityAward / (double)schedule.ListExaminer.Count);
+                quantityAward =- newAwardSchedule.Quantity;
+            }
+
+            newSchedule.AwardSchedule = new List<AwardSchedule>();
+            newSchedule.AwardSchedule.Add(newAwardSchedule);
+            
             await _unitOfWork.ScheduleRepo.AddAsync(newSchedule);
             foreach (var painting in result[i])
             {
@@ -82,6 +108,24 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
+    
+    public async Task<bool> RatingPreliminaryRound(RatingPainting ratingPainting)
+    {
+        var schedules = await _unitOfWork.ScheduleRepo.GetById(ratingPainting.ScheduleId);
+        if (schedules.Painting.Any(p => p.Status != PaintingStatus.Accepted.ToString()))
+        {
+            return false;
+        }
+        var listPass = schedules.Painting.Where(p => ratingPainting.Paintings.Contains(p.Id)).ToList();
+        var listNotPass = schedules.Painting.Where(p => !ratingPainting.Paintings.Contains(p.Id)).ToList();
+        
+        listPass.ForEach(p => p.Status = PaintingStatus.Pass.ToString());
+        listNotPass.ForEach(p => p.Status = PaintingStatus.NotPass.ToString());
+        
+        await _unitOfWork.SaveChangesAsync();
+
+        return true;
+    }
 
     #region Update
 

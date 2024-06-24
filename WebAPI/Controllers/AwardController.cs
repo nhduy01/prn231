@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.ViewModels.AwardViewModels;
+using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,14 @@ public class AwardController : Controller
     {
         try
         {
+            if (!Enum.IsDefined(typeof(RankAward), award.Rank))
+            {
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Rank is not Exist!"
+                });
+            }
             var result = await _awardService.AddAward(award);
             return Ok(new BaseResponseModel
             {

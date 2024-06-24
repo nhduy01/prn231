@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Painting;
 using Application.SendModels.Schedule;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,10 +17,10 @@ public class ScheduleController : Controller
         _scheduleService = scheduleService;
     }
 
-    #region Create Schedule
+    #region Create Schedule For Preliminary Round
 
     [HttpPost]
-    public async Task<IActionResult> CreateSchedule(ScheduleRequest Schedule)
+    public async Task<IActionResult> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule)
     {
         try
         {
@@ -30,7 +31,15 @@ public class ScheduleController : Controller
                 return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
             }
 
-            var result = await _scheduleService.CreateSchedule(Schedule);
+            var result = await _scheduleService.CreateScheduleForPreliminaryRound(Schedule);
+            if (result == false)
+            {
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status",
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -143,6 +152,48 @@ public class ScheduleController : Controller
             Result = result,
             Message = "Delete Successfully"
         });
+    }
+
+    #endregion
+
+    #region Rating Preliminary Round
+
+    [HttpPost("RatingPreliminaryRound")]
+    public async Task<IActionResult> RatingPreliminaryRound(RatingPainting rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+            var result = await _scheduleService.RatingPreliminaryRound(rating);
+            if (result == false)
+            {
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status",
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
     }
 
     #endregion

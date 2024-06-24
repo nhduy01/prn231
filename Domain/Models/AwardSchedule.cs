@@ -2,7 +2,7 @@
 
 namespace Domain.Models;
 
-public class AwardSchedule : BaseModel
+public class  AwardSchedule : BaseModel
 {
     public int Quantity { get; set; }
     public Guid? AwardId { get; set; }

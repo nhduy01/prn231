@@ -53,7 +53,7 @@ public class PostController : Controller
 
     #region Get 10 Post
 
-    [HttpGet]
+    [HttpGet("get10post")]
     public async Task<IActionResult> Get10Post()
     {
         try

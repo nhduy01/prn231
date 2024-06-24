@@ -115,10 +115,9 @@ namespace Infracstructures.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Artifact")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Cash")
+                    b.Property<double?>("Cash")
                         .HasColumnType("float");
 
                     b.Property<Guid?>("CreatedBy")
@@ -517,6 +516,8 @@ namespace Infracstructures.Migrations
                     b.HasIndex("RoundId");
 
                     b.HasIndex("ScheduleId");
+
+                    b.HasIndex("TopicId");
 
                     b.ToTable("Painting", (string)null);
                 });
@@ -934,6 +935,12 @@ namespace Infracstructures.Migrations
                         .WithMany("Painting")
                         .HasForeignKey("ScheduleId");
 
+                    b.HasOne("Domain.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Account");
 
                     b.Navigation("Award");
@@ -941,6 +948,8 @@ namespace Infracstructures.Migrations
                     b.Navigation("Round");
 
                     b.Navigation("Schedule");
+
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("Domain.Models.PaintingCollection", b =>

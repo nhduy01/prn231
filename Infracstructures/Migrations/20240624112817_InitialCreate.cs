@@ -254,8 +254,8 @@ namespace Infracstructures.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Rank = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Cash = table.Column<double>(type: "float", nullable: false),
-                    Artifact = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cash = table.Column<double>(type: "float", nullable: true),
+                    Artifact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EducationalLevelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -429,6 +429,12 @@ namespace Infracstructures.Migrations
                         column: x => x.ScheduleId,
                         principalTable: "Schedule",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Painting_Topic_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topic",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -526,6 +532,11 @@ namespace Infracstructures.Migrations
                 column: "ScheduleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Painting_TopicId",
+                table: "Painting",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaintingCollection_CollectionId",
                 table: "PaintingCollection",
                 column: "CollectionId");
@@ -590,9 +601,6 @@ namespace Infracstructures.Migrations
                 name: "Resources");
 
             migrationBuilder.DropTable(
-                name: "Topic");
-
-            migrationBuilder.DropTable(
                 name: "Post");
 
             migrationBuilder.DropTable(
@@ -609,6 +617,9 @@ namespace Infracstructures.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schedule");
+
+            migrationBuilder.DropTable(
+                name: "Topic");
 
             migrationBuilder.DropTable(
                 name: "Round");

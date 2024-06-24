@@ -4,18 +4,21 @@ namespace Application.SendModels.Authentication;
 
 public class CreateAccountRequest
 {
-    [MinLength(10, ErrorMessage = "Password must be at least 10 characters long")]
+    [Required]
     public string? UserName { get; set; }
+    [Required]
     public string FullName { get; set; }
     [EmailAddress] 
     public string Email { get; set; }
+    [Required]
     public string Role { get; set; }
-    public string Address { get; set; }
-    [MinLength(6, ErrorMessage = "Password must be at least 6  characters long")]
+    [Required]
     public string Password { get; set; }
-    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits")]
+    [Required]
     public string? Phone { get; set; }
+    [Required]
 
     public bool Gender { get; set; } = true;
+    [Required]
     public DateTime Birthday { get; set; }
 }

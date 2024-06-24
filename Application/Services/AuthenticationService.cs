@@ -36,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<LoginResponse> Login(LoginRequest accountLogin)
     {
         var response = new LoginResponse();
-        var account = await _unitOfWork.AccountRepo.Login(accountLogin.UserName);
+        var account = await _unitOfWork.AccountRepo.Login(accountLogin.Username);
         //check null
         if (account != null)
         {
@@ -82,9 +82,9 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone))
+        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone, account.UserName))
         {
-            response.Message = "Email or Phone is Exist !";
+            response.Message = "Email or Phone or UserName is Exist !";
             response.Success = false;
             return response;
         }

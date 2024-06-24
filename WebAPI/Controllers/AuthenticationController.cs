@@ -45,16 +45,23 @@ public class AuthenticationController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("/create")]
-    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
+    public async Task<ActionResult<RegisterResponse>> CreateAccount(CreateAccountRequest account)
     {
         if (!ModelState.IsValid)
+        {
+            var errorMessages = ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage)
+                .ToList();
+        
             return new RegisterResponse
             {
                 Success = false,
-                Message = "Invalid input data. " + string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)),
+                Message = "Invalid input data. " + string.Join("; ", errorMessages),
                 Data = ""
             };
+        }
+
         return await _authenticationService.CreateAccount(account);
     }
     

@@ -21,8 +21,8 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
         return await DbSet.FirstOrDefaultAsync(a => a.RefreshToken == token);
     }
 
-    public async Task<bool> CheckDuplicate(string email, string phone)
+    public async Task<bool> CheckDuplicate(string email, string phone, string userName)
     {
-        return await DbSet.AnyAsync(a => a.Email == email || a.Phone == phone);
+        return await DbSet.AnyAsync(a => a.Email == email || a.Phone == phone || a.UserName == userName);
     }
 }

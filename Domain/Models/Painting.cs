@@ -22,6 +22,7 @@ public class Painting : BaseModel
 
     public ICollection<PaintingCollection> PaintingCollection { get; set; }
     public Round Round { get; set; }
+    public Topic Topic { get; set; }
     public Award? Award { get; set; }
     public Account Account { get; set; }
     public Schedule? Schedule { get; set; }
