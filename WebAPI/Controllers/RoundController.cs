@@ -145,4 +145,31 @@ public class RoundController : Controller
     }
 
     #endregion
+
+    #region Get Topic
+    [HttpGet("gettopic/{id}")]
+    public async Task<IActionResult> GetTopicInRound(Guid id)
+    {
+        try
+        {
+            ListModels listmodels = new ListModels();
+            var result = await _roundService.GetTopicInRound(id, listmodels) ;
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Inventory Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+    #endregion
 }
