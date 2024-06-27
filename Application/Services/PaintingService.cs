@@ -31,9 +31,9 @@ public class PaintingService : IPaintingService
         _claimsService = claimsService;
     }
 
-    #region Add Painting Preliminary Round
+    #region Draft Painting Preliminary Round 
 
-    public async Task<bool> AddPaintingForPreliminaryRound(PaintingRequest request)
+    public async Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.CreatedBy = _claimsService.GetCurrentUserId();
@@ -44,6 +44,26 @@ public class PaintingService : IPaintingService
     }
 
     #endregion
+
+    #region Submit Painting Preliminary Round
+
+    public async Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request)
+    {
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
+        if (check)
+        {
+            var painting = _mapper.Map<Painting>(request);
+            painting.CreatedBy = _claimsService.GetCurrentUserId();
+            painting.Status = PaintingStatus.Submitted.ToString();
+            await _unitOfWork.PaintingRepo.AddAsync(painting);
+
+            return await _unitOfWork.SaveChangesAsync() > 0;
+        }
+        throw new Exception("Khong trong thoi gian nop bai");
+    }
+
+    #endregion
+
     #region Add Painting Final Round
 
     public async Task<bool> AddPaintingForFinalRound(PaintingRequest request)
@@ -57,6 +77,7 @@ public class PaintingService : IPaintingService
     }
 
     #endregion
+
     #region Get List Painting
 
     public async Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel)
@@ -116,7 +137,7 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    #region Submit Painting
+    /*#region Submit Painting
 
     public async Task<bool> SubmitPainting(Guid paintingId)
     {
@@ -135,7 +156,7 @@ public class PaintingService : IPaintingService
         return await _unitOfWork.SaveChangesAsync()>0;
     }
 
-    #endregion
+    #endregion*/
 
     #region Review Decision of Painting
 

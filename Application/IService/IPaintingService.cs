@@ -8,7 +8,9 @@ namespace Application.IService;
 
 public interface IPaintingService
 {
-    Task<bool> AddPaintingForPreliminaryRound(PaintingRequest request);
+
+    Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest request);
+    Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request);
     Task<bool> AddPaintingForFinalRound(PaintingRequest request);
     Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
     Task<bool> DeletePainting(Guid paintingId);
@@ -18,7 +20,7 @@ public interface IPaintingService
     Task<PaintingViewModel> List20WiningPainting();
 
 
-    public Task<bool> SubmitPainting(Guid paintingId);
+    /*public Task<bool> SubmitPainting(Guid paintingId);*/
     public Task<PaintingViewModel?> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request);
     public Task<PaintingViewModel?> FinalDecisionOfPainting(PaintingUpdateStatusRequest request);
 }

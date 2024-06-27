@@ -19,14 +19,14 @@ public class PaintingController : Controller
     }
 
 
-    #region Create Painting For Preliminary Round
+    #region Draft Painting For Preliminary Round
 
-    [HttpPost("createpainting1stround")]
-    public async Task<IActionResult> CreatePaintingForPreliminaryRound(PaintingRequest painting)
+    [HttpPost("draftepainting1stround")]
+    public async Task<IActionResult> DraftPaintingForPreliminaryRound(PaintingRequest painting)
     {
         try
         {
-            var result = await _paintingService.AddPaintingForPreliminaryRound(painting);
+            var result = await _paintingService.DraftPaintingForPreliminaryRound(painting);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
@@ -47,7 +47,36 @@ public class PaintingController : Controller
     }
 
     #endregion
-    
+
+    #region Submit Painting For Preliminary Round
+
+    [HttpPost("submitepainting1stround")]
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(PaintingRequest painting)
+    {
+        try
+        {
+            var result = await _paintingService.SubmitPaintingForPreliminaryRound(painting);
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Create Painting Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
     #region Create Painting For Final Round
 
     [HttpPost("createpaintingfinalround")]
@@ -112,7 +141,7 @@ public class PaintingController : Controller
 
     #endregion
     
-    #region Submitted Painting
+    /*#region Submitted Painting
 
     [HttpPost("submit")]
     public async Task<IActionResult> SubmittedPainting(Guid id)
@@ -127,7 +156,7 @@ public class PaintingController : Controller
         });
     }
 
-    #endregion
+    #endregion*/
     
     #region  Review Decision of Painting
 
