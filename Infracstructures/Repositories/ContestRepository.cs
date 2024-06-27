@@ -29,4 +29,15 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
         var result = DbSet.Select(x => x.CreatedTime.Year).Take(5).ToListAsync();
         return await result;
     }
+
+    public virtual async Task<bool> CheckValidEducationalLevelDate(Guid ContestId, DateTime EducationalLevelStartTime, DateTime EducationalLevelEndTime)
+    {
+        var temp = await DbSet.FirstOrDefaultAsync(x => x.Id == ContestId);
+        bool check = false;
+        if ((EducationalLevelStartTime >= temp.StartTime) && (EducationalLevelEndTime <= temp.EndTime) && (EducationalLevelStartTime < EducationalLevelEndTime))
+        {
+            check = true;
+        }
+        return check;
+    }
 }

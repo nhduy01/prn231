@@ -42,6 +42,13 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         //StaffId
         builder.Property(u => u.StaffId).IsRequired();
 
+        //Category
+        builder.Property(u=>u.CategoryId);
+
+
+        //Relation
+        builder.HasOne(u => u.Category).WithMany(u => u.Post).HasForeignKey(u => u.CategoryId)
+            .OnDelete(DeleteBehavior.ClientSetNull); ;
 
         builder.HasMany(u => u.Images).WithOne(u => u.Post).HasForeignKey(u => u.PostId)
             .OnDelete(DeleteBehavior.ClientSetNull);
