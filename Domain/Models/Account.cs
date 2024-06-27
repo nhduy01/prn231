@@ -32,4 +32,5 @@ public class Account : BaseModel
     public ICollection<Schedule> Schedule { get; set; }
     public ICollection<Collection> Collection { get; set; }
     public ICollection<Painting> Painting { get; set; }
+    public ICollection<Report> Report { get; set; }
 }
