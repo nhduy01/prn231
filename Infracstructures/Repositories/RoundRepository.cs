@@ -19,4 +19,14 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
         return await DbSet.Include(a => a.Topic)
             .FirstOrDefaultAsync(x => x.Id == RoundId);
     }
+
+    public virtual async Task<bool> CheckSubmitValidDate(Guid RoundId)
+    {
+        var temp =  await DbSet.FirstOrDefaultAsync(x=>x.Id == RoundId);
+        bool check=false;
+        if((DateTime.Now <= temp.EndTime) && (DateTime.Now >= temp.StartTime)) {
+            check = true;
+        }
+        return check ;
+    }
 }
