@@ -91,6 +91,14 @@ public static class DependencyInjection
         services.AddTransient<IContestRepository, ContestRepository>();
         services.AddTransient<IContestService, ContestService>();
 
+        //Category
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddTransient<ICategoryService, CategoryService>();
+
+        //Report
+        services.AddTransient<IReportRepository, ReportRepository>();
+        services.AddTransient<IReportService, ReportService>();
+
         #endregion
 
         #region Config validators
