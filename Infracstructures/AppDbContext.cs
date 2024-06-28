@@ -19,6 +19,7 @@ public class AppDbContext : DbContext
     public DbSet<Account> Account { get; set; }
     public DbSet<Award> Award { get; set; }
     public DbSet<Collection> Collection { get; set; }
+    public DbSet<Category> Category { get; set; }
     public DbSet<Contest> Contest { get; set; }
     public DbSet<EducationalLevel> EducationalLevel { get; set; }
     public DbSet<Image> Image { get; set; }
@@ -31,6 +32,7 @@ public class AppDbContext : DbContext
     public DbSet<Schedule> Schedule { get; set; }
     public DbSet<Sponsor> Sponsor { get; set; }
     public DbSet<Topic> Topic { get; set; }
+    public DbSet<Report> Report { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.IRepositories;
 
@@ -6,5 +7,8 @@ public interface IAccountRepository : IGenericRepository<Account>
 {
     public Task<Account?> Login(string email);
     public Task<Account?> GetByRefreshToken(string token);
-    public Task<bool> CheckDuplicate(string email, string phone, string userName);
+    Task<bool> CheckDuplicateEmail(string email);
+    Task<bool> CheckDuplicatePhone(string phone);
+    Task<bool> CheckDuplicateUsername(string userName);
+    
 }

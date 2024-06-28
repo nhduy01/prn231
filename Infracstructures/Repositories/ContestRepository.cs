@@ -14,14 +14,14 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
     {
 
         return await DbSet
-            .Include(x=>x.Resources)
-            .ThenInclude(x=>x.Sponsor)
+            .Include(x => x.Resources)
+            .ThenInclude(x => x.Sponsor)
             .Include(x => x.EducationalLevel)
-            .ThenInclude(x=>x.Round)
-            .ThenInclude(x=>x.Topic)
+            .ThenInclude(x => x.Round)
+            .ThenInclude(x => x.Topic)
             .Include(x => x.EducationalLevel)
-            .ThenInclude(x=>x.Award)
-            .FirstOrDefaultAsync(x =>x .Id == contestId);
+            .ThenInclude(x => x.Award)
+            .FirstOrDefaultAsync(x => x.Id == contestId);
     }
 
     public async Task<List<int>> Get5RecentYearAsync()
@@ -33,11 +33,14 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
     public virtual async Task<bool> CheckValidEducationalLevelDate(Guid ContestId, DateTime EducationalLevelStartTime, DateTime EducationalLevelEndTime)
     {
         var temp = await DbSet.FirstOrDefaultAsync(x => x.Id == ContestId);
-        bool check = false;
-        if ((EducationalLevelStartTime >= temp.StartTime) && (EducationalLevelEndTime <= temp.EndTime) && (EducationalLevelStartTime < EducationalLevelEndTime))
+        if (temp != null)
         {
-            check = true;
+            if ((EducationalLevelStartTime >= temp.StartTime) && (EducationalLevelEndTime <= temp.EndTime) && (EducationalLevelStartTime < EducationalLevelEndTime))
+            {
+                return true;
+            }
+            return false;
         }
-        return check;
+        throw new Exception("Contest Id sai");
     }
 }

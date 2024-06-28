@@ -20,6 +20,7 @@ public interface IUnitOfWork
     public ISponsorRepository SponsorRepo { get; }
     public ITopicRepository TopicRepo { get; }
     public IContestRepository ContestRepo { get; }
+    public ICategoryRepository CategoryRepo { get; }
 
     public Task<int> SaveChangesAsync();
 }

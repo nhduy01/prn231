@@ -82,9 +82,21 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicate(account.Email, account.Phone, account.UserName))
+        if (await _unitOfWork.AccountRepo.CheckDuplicateEmail(account.Email))
         {
-            response.Message = "Email or Phone or UserName is Exist !";
+            response.Message = "Email is Exist !";
+            response.Success = false;
+            return response;
+        }
+        if (await _unitOfWork.AccountRepo.CheckDuplicatePhone(account.Phone))
+        {
+            response.Message = "Phone is Exist !";
+            response.Success = false;
+            return response;
+        }
+        if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(account.UserName))
+        {
+            response.Message = "UserName is Exist !";
             response.Success = false;
             return response;
         }

@@ -22,7 +22,8 @@ public class UnitOfWork : IUnitOfWork
         IScheduleRepository scheduleRepository,
         ISponsorRepository sponsorRepository,
         ITopicRepository topicRepository,
-        IContestRepository contestRepository)
+        IContestRepository contestRepository,
+        ICategoryRepository categoryRepository)
 
     {
         _context = context;
@@ -42,6 +43,7 @@ public class UnitOfWork : IUnitOfWork
         SponsorRepo = sponsorRepository;
         TopicRepo = topicRepository;
         ContestRepo = contestRepository;
+        CategoryRepo = categoryRepository;
     }
 
     public IAccountRepository AccountRepo { get; }
@@ -75,6 +77,8 @@ public class UnitOfWork : IUnitOfWork
     public ITopicRepository TopicRepo { get; }
 
     public IContestRepository ContestRepo { get; }
+
+    public ICategoryRepository CategoryRepo { get; }
 
     public async Task<int> SaveChangesAsync()
     {
