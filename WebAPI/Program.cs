@@ -20,7 +20,16 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetService<AppDbContext>();
-    //dbContext.Database.Migrate();
+    var appliedMigrations = dbContext.Database.GetAppliedMigrations();
+
+    var allMigrations = dbContext.Database.GetMigrations();
+
+    var pendingMigrations = allMigrations.Except(appliedMigrations);
+
+    if (pendingMigrations.Any())
+    {
+        dbContext.Database.Migrate();
+    }
 }
 
 // // Configure the HTTP request pipeline.
