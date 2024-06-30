@@ -45,6 +45,10 @@ public partial class MapperConfigs : Profile
         AddTopicMapperConfig();
 
         AddContestMapperConfig();
+
+        AddCategoryMapperConfig();
+
+        AddReportMapperConfig()
     }
 
     partial void AddAccountMapperConfig();
@@ -63,4 +67,6 @@ public partial class MapperConfigs : Profile
     partial void AddSponsorMapperConfig();
     partial void AddTopicMapperConfig();
     partial void AddContestMapperConfig();
+    partial void AddCategoryMapperConfig();
+    partial void AddReportMapperConfig();
 }
