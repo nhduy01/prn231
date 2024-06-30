@@ -42,7 +42,7 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime);
+        list = (List<Post>)list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime);
 
         var result = new List<Post>();
 
@@ -104,7 +104,7 @@ public class PostService : IPostService
         var Post = await _unitOfWork.PostRepo.GetByIdAsync(id);
         if (Post == null) throw new Exception("Khong tim thay Post");
 
-        Post.Status = "INACTIVE";
+        Post.Status = PostStatus.Inactive.ToString();
         
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -116,16 +116,18 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == "ACTIVE").OrderByDescending(x => x.CreatedTime).Take(10);
+        list = (List<Post>)list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).Take(10);
 
         var result = new List<Post>();
 
-        //page division
+        #region  Pagination
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
         result = result.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
+        #endregion
+
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
 

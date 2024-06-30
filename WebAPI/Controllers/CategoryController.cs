@@ -108,6 +108,34 @@ public class CategoryController : ControllerBase
 
     #endregion
 
+    #region List All Category
+
+    [HttpGet("getcategoryunused")]
+    public async Task<IActionResult> ListCategoryUnused(ListModels listCategoryModel)
+    {
+        try
+        {
+            var result = await _categoryService.ListCategoryUnused(listCategoryModel);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
     #region List Post By Category Id
 
     [HttpGet("getpostbycategory/{id}")]
