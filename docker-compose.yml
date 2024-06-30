@@ -10,6 +10,8 @@ services:
       - "5000:80"
     depends_on:
       - database
+    environment:
+      - ConnectionStrings:NetVeXanh=Server=netvexanh.database;Database=NetVeXanh;User Id=sa;Password=Netvexanh2024!;TrustServerCertificate=True;
     networks:
       - implement-net
 
