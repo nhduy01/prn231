@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infracstructures.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,6 +63,30 @@ namespace Infracstructures.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sponsor", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_Account_StaffId",
+                        column: x => x.StaffId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +167,30 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Report",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CompetitorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Report", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Report_Account_CompetitorId",
+                        column: x => x.CompetitorId,
+                        principalTable: "Account",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Post",
                 columns: table => new
                 {
@@ -151,6 +199,7 @@ namespace Infracstructures.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StaffId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
@@ -164,6 +213,11 @@ namespace Infracstructures.Migrations
                         name: "FK_Post_Account_StaffId",
                         column: x => x.StaffId,
                         principalTable: "Account",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Post_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
                         principalColumn: "Id");
                 });
 
@@ -487,6 +541,11 @@ namespace Infracstructures.Migrations
                 column: "ScheduleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_StaffId",
+                table: "Category",
+                column: "StaffId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Collection_AccountId",
                 table: "Collection",
                 column: "AccountId");
@@ -547,9 +606,19 @@ namespace Infracstructures.Migrations
                 column: "PaintingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Post_CategoryId",
+                table: "Post",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Post_StaffId",
                 table: "Post",
                 column: "StaffId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Report_CompetitorId",
+                table: "Report",
+                column: "CompetitorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resources_ContestId",
@@ -598,6 +667,9 @@ namespace Infracstructures.Migrations
                 name: "PaintingCollection");
 
             migrationBuilder.DropTable(
+                name: "Report");
+
+            migrationBuilder.DropTable(
                 name: "Resources");
 
             migrationBuilder.DropTable(
@@ -611,6 +683,9 @@ namespace Infracstructures.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sponsor");
+
+            migrationBuilder.DropTable(
+                name: "Category");
 
             migrationBuilder.DropTable(
                 name: "Award");

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240624112817_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240630092131_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -206,6 +206,46 @@ namespace Infracstructures.Migrations
                     b.HasIndex("ScheduleId");
 
                     b.ToTable("AwardSchedule", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("StaffId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Domain.Models.Collection", b =>
@@ -556,6 +596,9 @@ namespace Infracstructures.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -591,9 +634,54 @@ namespace Infracstructures.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("StaffId");
 
                     b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Models.Report", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid>("CompetitorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("False");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompetitorId");
+
+                    b.ToTable("Report", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Models.Resources", b =>
@@ -868,6 +956,16 @@ namespace Infracstructures.Migrations
                     b.Navigation("Schedule");
                 });
 
+            modelBuilder.Entity("Domain.Models.Category", b =>
+                {
+                    b.HasOne("Domain.Models.Account", "Account")
+                        .WithMany("Categories")
+                        .HasForeignKey("StaffId")
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("Domain.Models.Collection", b =>
                 {
                     b.HasOne("Domain.Models.Account", "Account")
@@ -974,9 +1072,26 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Post", b =>
                 {
+                    b.HasOne("Domain.Models.Category", "Category")
+                        .WithMany("Post")
+                        .HasForeignKey("CategoryId")
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.Account", "Account")
                         .WithMany("Post")
                         .HasForeignKey("StaffId")
+                        .IsRequired();
+
+                    b.Navigation("Account");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Domain.Models.Report", b =>
+                {
+                    b.HasOne("Domain.Models.Account", "Account")
+                        .WithMany("Report")
+                        .HasForeignKey("CompetitorId")
                         .IsRequired();
 
                     b.Navigation("Account");
@@ -1038,6 +1153,8 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Account", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Collection");
 
                     b.Navigation("CreateContest");
@@ -1047,6 +1164,8 @@ namespace Infracstructures.Migrations
                     b.Navigation("Painting");
 
                     b.Navigation("Post");
+
+                    b.Navigation("Report");
 
                     b.Navigation("Schedule");
 
@@ -1058,6 +1177,11 @@ namespace Infracstructures.Migrations
                     b.Navigation("AwardSchedule");
 
                     b.Navigation("Painting");
+                });
+
+            modelBuilder.Entity("Domain.Models.Category", b =>
+                {
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Domain.Models.Collection", b =>

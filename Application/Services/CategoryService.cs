@@ -14,6 +14,7 @@ using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.AwardViewModels;
 using Application.BaseModels;
 using Infracstructures.ViewModels.PostViewModels;
+using Domain.Enums;
 
 namespace Application.Services
 {
@@ -40,6 +41,8 @@ namespace Application.Services
         public async Task<bool> AddCategory(AddCategoryViewModel addCategoryViewModel)
         {
             var category = _mapper.Map<Category>(addCategoryViewModel);
+            category.CreatedBy = _claimsService.GetCurrentUserId();
+            category.Status = CategoryStatus.Unused.ToString();
 
             await _unitOfWork.CategoryRepo.AddAsync(category);
 
@@ -51,11 +54,18 @@ namespace Application.Services
 
         #region Delete Category
 
-        public async Task<bool> DeleteCategory(Guid collectionId)
+        public async Task<bool> DeleteCategory(Guid categoryId)
         {
-            var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
-            if (collection == null) throw new Exception("Khong tim thay Collection");
-            await _unitOfWork.CollectionRepo.DeleteAsync(collection);
+            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(categoryId);
+            if (category == null) throw new Exception("Khong tim thay Category");
+            if (category.Status == CategoryStatus.Unused.ToString())
+            {
+                await _unitOfWork.CategoryRepo.DeleteAsync(category);
+            }
+            else
+            {
+                category.Status = CategoryStatus.Deleted.ToString();
+            }
 
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
@@ -67,7 +77,7 @@ namespace Application.Services
         public async Task<bool> UpdateCategory(UpdateCategoryViewModel updateCategory)
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateCategory.Id);
-            if (category == null) throw new Exception("Khong tim thay Collection"); ;
+            if (category == null) throw new Exception("Khong tim thay Category"); 
 
             category = _mapper.Map<Category>(updateCategory);
             return await _unitOfWork.SaveChangesAsync() > 0;
@@ -91,22 +101,45 @@ namespace Application.Services
 
         #endregion
 
+        #region List Category Unused
+
+        public async Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel)
+        {
+            var result = _mapper.Map<List<CategoryViewModel>>(_unitOfWork.CategoryRepo.GetCategoryUnused);
+
+            var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
+            int? itemsToSkip = (listCategoryModel.PageNumber - 1) * listCategoryModel.PageSize;
+            result = result.Skip((int)itemsToSkip)
+                .Take(listCategoryModel.PageSize)
+                .ToList();
+            return (result, totalPages);
+        }
+
+        #endregion
+
         #region List Post By Category Id
 
         public async Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel,Guid categoryId)
         {
+            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(categoryId);
+            if (category == null) throw new Exception("Khong tim thay Category");
+
             var result = _mapper.Map<List<PostViewModel>>(_unitOfWork.PostRepo.GetPostByCategory(categoryId));
 
+            #region pagination
             var totalPages = (int)Math.Ceiling((double)result.Count / listPostModel.PageSize);
             int? itemsToSkip = (listPostModel.PageNumber - 1) * listPostModel.PageSize;
             result = result.Skip((int)itemsToSkip)
                 .Take(listPostModel.PageSize)
                 .ToList();
+            #endregion
+
             return (result, totalPages);
         }
 
-
         #endregion
+
+
     }
 
 

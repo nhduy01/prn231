@@ -48,7 +48,7 @@ public partial class MapperConfigs : Profile
 
         AddCategoryMapperConfig();
 
-        AddReportMapperConfig()
+        AddReportMapperConfig();
     }
 
     partial void AddAccountMapperConfig();

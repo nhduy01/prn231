@@ -76,5 +76,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .OnDelete(DeleteBehavior.ClientSetNull);
         builder.HasMany(u=>u.Report).WithOne(u => u.Account).HasForeignKey(u=>u.CompetitorId)
             .OnDelete(DeleteBehavior.ClientSetNull);
+        builder.HasMany(u => u.Categories).WithOne(u => u.Account).HasForeignKey(u => u.StaffId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
     }
 }

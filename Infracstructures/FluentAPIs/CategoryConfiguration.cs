@@ -21,11 +21,27 @@ namespace Infracstructures.FluentAPIs
             builder.Property(u => u.Id)
                 .HasDefaultValueSql("NEWID()");
 
+            //CreateTime
+            builder.Property(u => u.CreatedTime);
+
+            //CreateBy
+            builder.Property(u => u.CreatedBy);
+
+            //UpdateTime
+            builder.Property(u => u.UpdatedTime);
+
+            //UpdateBy
+            builder.Property(u => u.UpdatedBy);
+
+            //Status
+            builder.Property(u => u.Status).HasDefaultValue("False");
+
             //Name
             builder.Property(u => u.Name);
 
             //Description
             builder.Property(u => u.Description);
+
         }
     }
 }
