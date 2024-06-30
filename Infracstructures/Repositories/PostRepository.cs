@@ -14,4 +14,9 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     {
         return await DbSet.OrderByDescending(p => p.CreatedTime).Take(10).ToListAsync();
     }
+
+    public async Task<List<Post>> GetPostByCategory(Guid categoryId)
+    {
+        return await DbSet.Where(x=>x.CategoryId == categoryId).ToListAsync();
+    }
 }

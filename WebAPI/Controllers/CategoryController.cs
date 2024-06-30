@@ -1,4 +1,8 @@
-﻿using Application.IService;
+﻿using Application.BaseModels;
+using Application.IService;
+using Application.Services;
+using Application.ViewModels.CategoryViewModels;
+using Application.ViewModels.CollectionViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -13,5 +17,123 @@ public class CategoryController : ControllerBase
     {
         _categoryService = categoryService;
     }
+
+    #region Create Category
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCategory(AddCategoryViewModel category)
+    {
+        try
+        {
+            var result = await _categoryService.AddCategory(category);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Create Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Update Category
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
+    {
+        var result = await _categoryService.UpdateCategory(updateCategoryViewModel);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Update Successfully"
+        });
+    }
+
+    #endregion
+
+    #region Delete Category
+
+    [HttpPatch]
+    public async Task<IActionResult> DeleteCategory(Guid id)
+    {
+        var result = await _categoryService.DeleteCategory(id);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Delete Successfully"
+        });
+    }
+
+    #endregion
+
+    #region List All Category
+
+    [HttpGet("getallcategory")]
+    public async Task<IActionResult> ListAllCategory(ListModels listCategoryModel)
+    {
+        try
+        {
+            var result = await _categoryService.ListAllCategory(listCategoryModel);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List Post By Category Id
+
+    [HttpGet("getpostbycategory/{id}")]
+    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid categoryId , ListModels listCategoryModel)
+    {
+        try
+        {
+            var result = await _categoryService.ListPostByCategoryId(listCategoryModel,categoryId);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }
 

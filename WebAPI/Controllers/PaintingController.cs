@@ -261,7 +261,7 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Painting Success",
                 Result = new
                 {
                     List = list,
