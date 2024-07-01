@@ -3,6 +3,7 @@ using Application.IService;
 using Application.IService.ICommonService;
 using Application.ViewModels.AwardViewModels;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +34,7 @@ public class AwardService : IAwardService
     {
         var award = _mapper.Map<Award>(addAwardViewModel);
         award.CreatedBy = _claimsService.GetCurrentUserId();
-        award.Status = "ACTIVE";
+        award.Status = AwardStatus.Active.ToString();
         await _unitOfWork.AwardRepo.AddAsync(award);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
@@ -47,7 +48,7 @@ public class AwardService : IAwardService
     public async Task<(List<AwardViewModel>, int)> GetListAward(ListModels listAwardModel)
     {
         var awardList = await _unitOfWork.AwardRepo.GetAllAsync();
-        awardList = (List<Award>)awardList.Where(x => x.Status == "ACTIVE");
+        awardList = (List<Award>)awardList.Where(x => x.Status == AwardStatus.Active.ToString());
         var result = _mapper.Map<List<AwardViewModel>>(awardList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);
@@ -67,7 +68,7 @@ public class AwardService : IAwardService
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
         if (award == null) return false;
 
-        award.Status = "INACTIVE";
+        award.Status = AwardStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
