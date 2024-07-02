@@ -2,6 +2,7 @@ namespace Domain.Enums;
 
 public enum ScheduleStatus
 {
-    Active,
-    Inactive
+    Rating,
+    Done,
+    Delete
 }

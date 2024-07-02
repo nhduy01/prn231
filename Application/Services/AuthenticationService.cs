@@ -3,7 +3,6 @@ using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Authentication;
-using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.AuthenticationViewModels;
 using AutoMapper;
 using Domain.Enums;
@@ -46,7 +45,7 @@ public class AuthenticationService : IAuthenticationService
             {
                 response.Success = true;
                 response.Message = "Login Success";
-                response.JwtToken =_authentication.GenerateToken(account.UserName, account.Id.ToString(), account.Role);
+                response.JwtToken =_authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
 
@@ -94,7 +93,7 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(account.UserName))
+        if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(account.Username))
         {
             response.Message = "UserName is Exist !";
             response.Success = false;
@@ -135,7 +134,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(refreshToken.Id);
         if (account != null)
-            return _authentication.GenerateToken(account.UserName, account.Id.ToString(), account.Role);
+            return _authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
         return "";
     }
 
