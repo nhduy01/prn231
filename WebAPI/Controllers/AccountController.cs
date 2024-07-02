@@ -47,7 +47,7 @@ public class AccountController : ControllerBase
 
     #endregion
 
-    /*#region Get Account
+    #region Get Account
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAwardById(Guid id)
@@ -81,6 +81,6 @@ public class AccountController : ControllerBase
         }
     }
 
-    #endregion*/
+    #endregion
     
 }
