@@ -98,12 +98,12 @@ public class RoundService : IRoundService
 
     #endregion
 
-   /* #region Get Topic
+    #region Get Topic
 
-    public async Task<(ICollection<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels)
+    public async Task<(List<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels)
     {
         var list = await _unitOfWork.RoundRepo.GetTopic(id);
-        ICollection<Topic> result = list.Topic; 
+        List<Topic> result = list;
 
         //page division
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -113,6 +113,6 @@ public class RoundService : IRoundService
             .ToList();
         return (result, totalPages);
     }
-    #endregion*/
+    #endregion
 
 }
