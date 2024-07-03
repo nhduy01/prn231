@@ -146,7 +146,7 @@ public class RoundController : Controller
 
     #endregion
 
-    #region Get Topic
+    /*#region Get Topic
     [HttpGet("gettopic/{id}")]
     public async Task<IActionResult> GetTopicInRound(Guid id)
     {
@@ -171,5 +171,5 @@ public class RoundController : Controller
             });
         }
     }
-    #endregion
+    #endregion*/
 }

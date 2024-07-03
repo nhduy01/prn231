@@ -16,8 +16,8 @@ public class ScheduleController : Controller
     {
         _scheduleService = scheduleService;
     }
-
-    #region Create Schedule
+/*
+    #region Create Schedule For Preliminary Round
 
     [HttpPost("/Preliminary")]
     public async Task<IActionResult> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule)
@@ -57,47 +57,8 @@ public class ScheduleController : Controller
             });
         }
     }
-    
-    [HttpPost("/Final")]
-    public async Task<IActionResult> CreateScheduleForFinalRound(ScheduleRequest Schedule)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
 
-            var result = await _scheduleService.CreateScheduleForFinalRound(Schedule);
-            if (result == false)
-            {
-                return BadRequest(new BaseFailedResponseModel
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Create Schedule Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new BaseFailedResponseModel
-            {
-                Status = BadRequest().StatusCode,
-                Message = ex.Message,
-                Errors = ex
-            });
-        }
-    }
-
-    #endregion
+    #endregion*/
 
     #region Get Schedule By Page
 

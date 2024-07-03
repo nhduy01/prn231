@@ -52,13 +52,10 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
         builder.Property(u => u.AwardId);
 
         //RoundId
-        builder.Property(u => u.RoundId).IsRequired();
+        builder.Property(u => u.RoundTopicId).IsRequired();
 
         //AccountId
         builder.Property(u => u.AccountId).IsRequired();
-
-        //TopicId
-        builder.Property(u => u.TopicId).IsRequired();
 
         //ScheduleId
         builder.Property(u => u.ScheduleId);

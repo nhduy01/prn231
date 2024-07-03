@@ -33,6 +33,7 @@ public class AppDbContext : DbContext
     public DbSet<Sponsor> Sponsor { get; set; }
     public DbSet<Topic> Topic { get; set; }
     public DbSet<Report> Report { get; set; }
+    public DbSet<RoundTopic> RoundTopic {  get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
