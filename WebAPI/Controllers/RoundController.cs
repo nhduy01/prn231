@@ -153,11 +153,11 @@ public class RoundController : Controller
         try
         {
             ListModels listmodels = new ListModels();
-            var result = await _roundService.GetTopicInRound(id, listmodels) ;
+            var result = await _roundService.GetTopicInRound(id, listmodels);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Topic In Round Success",
                 Result = result
             });
         }

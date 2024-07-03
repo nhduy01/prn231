@@ -23,7 +23,7 @@ public class ScheduleService : IScheduleService
         _mapper = mapper;
     }
 
-    #region Create
+    /*#region Create
 
     public async Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest schedule)
     {
@@ -192,6 +192,7 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
+    */
 
     #region Get All
 

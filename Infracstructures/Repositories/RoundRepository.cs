@@ -14,10 +14,11 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
     {
         return await DbSet.Include(r => r.EducationalLevel).ThenInclude(e => e.Award).FirstOrDefaultAsync(r => r.Id == id);
     }
-    public virtual async Task<Round?> GetTopic(Guid RoundId)
+    public virtual async Task<List<Topic>> GetTopic(Guid RoundId)
     {
-        return await DbSet.Include(a => a.Topic)
-            .FirstOrDefaultAsync(x => x.Id == RoundId);
+        return await  DbSet.Where(x => x.Id == RoundId)
+            .SelectMany(x => x.RoundTopic.Select(x => x.Topic))
+            .ToListAsync() ;
     }
 
     public virtual async Task<bool> CheckSubmitValidDate(Guid RoundId)

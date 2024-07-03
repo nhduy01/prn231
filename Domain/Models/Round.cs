@@ -4,6 +4,7 @@ namespace Domain.Models;
 
 public class Round : BaseModel
 {
+    public string Name {  get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string Location { get; set; }
@@ -14,6 +15,5 @@ public class Round : BaseModel
     //Relation
     public EducationalLevel EducationalLevel { get; set; }
     public ICollection<Schedule> Schedule { get; set; }
-    public ICollection<Topic> Topic { get; set; }
-    public ICollection<Painting> Painting { get; set; }
+    public ICollection<RoundTopic> RoundTopic { get; set; }
 }

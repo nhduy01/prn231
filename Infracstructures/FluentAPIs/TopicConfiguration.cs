@@ -39,7 +39,5 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
         //Image
         builder.Property(u => u.Image);
 
-        //RoundId
-        builder.Property(u => u.RoundId).IsRequired();
     }
 }

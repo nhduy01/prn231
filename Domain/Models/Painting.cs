@@ -11,9 +11,8 @@ public class Painting : BaseModel
     public DateTime? ReviewedTimestamp  { get; set; }
     public DateTime? FinalDecisionTimestamp  { get; set; }
     public Guid? AwardId { get; set; }
-    public Guid RoundId { get; set; }
+    public Guid? RoundTopicId { get; set; }
     public Guid AccountId { get; set; }
-    public Guid? TopicId { get; set; }
     public Guid? ScheduleId { get; set; }
     public string? Code { get; set; }
 
@@ -21,8 +20,7 @@ public class Painting : BaseModel
     //Relation
 
     public ICollection<PaintingCollection> PaintingCollection { get; set; }
-    public Round Round { get; set; }
-    public Topic Topic { get; set; }
+    public RoundTopic RoundTopic { get; set; }
     public Award? Award { get; set; }
     public Account Account { get; set; }
     public Schedule? Schedule { get; set; }
