@@ -18,9 +18,8 @@ namespace Infracstructures.Repositories
         
         public async Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId)
         {
-            return await DbSet
+            return await DbSet.Include(tr => tr.Painting)
                 .Where(tr => tr.RoundId == roundId)
-                .Include(tr => tr.Painting)
                 .SelectMany(tr => tr.Painting)
                 .Where(p => p.Status == PaintingStatus.Accepted.ToString())
                 .OrderByDescending(p => p.UpdatedTime) 
