@@ -13,5 +13,5 @@ public interface IRoundService
     public Task<bool> UpdateRound(RoundUpdateRequest updateRound);
     public Task<bool> DeleteRound(Guid id);
 
-    //Task<(ICollection<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels);
+    Task<(List<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels);
 }
