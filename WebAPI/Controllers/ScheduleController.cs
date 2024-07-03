@@ -16,7 +16,7 @@ public class ScheduleController : Controller
     {
         _scheduleService = scheduleService;
     }
-
+/*
     #region Create Schedule For Preliminary Round
 
     [HttpPost]
@@ -58,7 +58,7 @@ public class ScheduleController : Controller
         }
     }
 
-    #endregion
+    #endregion*/
 
     #region Get Schedule By Page
 

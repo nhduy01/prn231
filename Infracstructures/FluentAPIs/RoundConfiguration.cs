@@ -30,6 +30,9 @@ internal class RoundConfiguration : IEntityTypeConfiguration<Round>
         //Status
         builder.Property(u => u.Status).HasDefaultValue("False");
 
+        //Name 
+        builder.Property(u => u.Name);
+
         //StartTime
         builder.Property(u => u.StartTime);
 
@@ -45,12 +48,8 @@ internal class RoundConfiguration : IEntityTypeConfiguration<Round>
         //EducationalLevel
         builder.Property(u => u.EducationalLevelId);
 
-
-        builder.HasMany(u => u.Topic).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
-            .OnDelete(DeleteBehavior.ClientSetNull);
         builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
             .OnDelete(DeleteBehavior.ClientSetNull);
-        builder.HasMany(u => u.Painting).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
-            .OnDelete(DeleteBehavior.ClientSetNull);
+
     }
 }

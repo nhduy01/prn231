@@ -16,7 +16,8 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
     }
     public virtual async Task<Round?> GetTopic(Guid RoundId)
     {
-        return await DbSet.Include(a => a.Topic)
+        return await DbSet.Include(a => a.RoundTopic)
+            .ThenInclude(a=>a.Topic)
             .FirstOrDefaultAsync(x => x.Id == RoundId);
     }
 

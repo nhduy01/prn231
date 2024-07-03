@@ -22,10 +22,10 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Take(20).ToListAsync();
     }
 
-    public async Task<List<Painting>> ListPaintingForPreliminaryRound(Guid id)
+    /*public async Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId)
     {
         return await DbSet.Where(x => x.RoundId == id && x.Status == PaintingStatus.Accepted.ToString()).OrderByDescending(x => x.UpdatedTime).ToListAsync();
-    }
+    }*/
 
     /*public async Task<List<Acc>> ListCompetitorPassRound(Guid id)
     {

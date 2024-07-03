@@ -22,6 +22,7 @@ public interface IUnitOfWork
     public IContestRepository ContestRepo { get; }
     public ICategoryRepository CategoryRepo { get; }
     public IReportRepository ReportRepo { get; }
+    public IRoundTopicRepository RoundTopicRepo { get; }
 
     public Task<int> SaveChangesAsync();
 }

@@ -42,8 +42,8 @@ public class EducationalLevelConfiguration : IEntityTypeConfiguration<Educationa
         //Description
         builder.Property(u => u.Description);
 
-        //EducationLevel
-        builder.Property(u => u.EducationLevel);
+        //Level
+        builder.Property(u => u.Level);
 
 
         //Relation

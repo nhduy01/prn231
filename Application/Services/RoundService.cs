@@ -98,7 +98,7 @@ public class RoundService : IRoundService
 
     #endregion
 
-    #region Get Topic
+   /* #region Get Topic
 
     public async Task<(ICollection<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels)
     {
@@ -113,6 +113,6 @@ public class RoundService : IRoundService
             .ToList();
         return (result, totalPages);
     }
-    #endregion
+    #endregion*/
 
 }

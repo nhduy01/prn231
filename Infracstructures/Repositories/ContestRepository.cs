@@ -18,6 +18,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ThenInclude(x => x.Sponsor)
             .Include(x => x.EducationalLevel)
             .ThenInclude(x => x.Round)
+            .ThenInclude(x=>x.RoundTopic)
             .ThenInclude(x => x.Topic)
             .Include(x => x.EducationalLevel)
             .ThenInclude(x => x.Award)

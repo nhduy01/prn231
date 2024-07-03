@@ -7,7 +7,7 @@ public class EducationalLevel : BaseModel
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string Description { get; set; }
-    public string EducationLevel { get; set; }
+    public string Level { get; set; }
     public Guid? ContestId { get; set; }
 
     //Relation

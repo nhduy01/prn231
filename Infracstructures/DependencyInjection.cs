@@ -99,6 +99,10 @@ public static class DependencyInjection
         services.AddTransient<IReportRepository, ReportRepository>();
         services.AddTransient<IReportService, ReportService>();
 
+        //RoundTopic
+        services.AddTransient<IRoundTopicRepository, RoundTopicRepository>();
+        services.AddTransient<IRoundTopicService, RoundTopicService>();
+
         #endregion
 
         #region Config validators

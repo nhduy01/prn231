@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infracstructures.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class IntialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,6 +63,25 @@ namespace Infracstructures.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sponsor", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Topic",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topic", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,7 +248,7 @@ namespace Infracstructures.Migrations
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EducationLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -333,6 +352,7 @@ namespace Infracstructures.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -355,11 +375,35 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RoundTopic",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TopicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoundTopic", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RoundTopic_Round_RoundId",
+                        column: x => x.RoundId,
+                        principalTable: "Round",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RoundTopic_Topic_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topic",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Schedule",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ExaminerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -378,31 +422,6 @@ namespace Infracstructures.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Schedule_Round_RoundId",
-                        column: x => x.RoundId,
-                        principalTable: "Round",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Topic",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false, defaultValue: "False"),
-                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Topic", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Topic_Round_RoundId",
                         column: x => x.RoundId,
                         principalTable: "Round",
                         principalColumn: "Id");
@@ -449,9 +468,8 @@ namespace Infracstructures.Migrations
                     ReviewedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FinalDecisionTimestamp = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AwardId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RoundId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoundTopicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TopicId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -474,21 +492,15 @@ namespace Infracstructures.Migrations
                         principalTable: "Award",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Painting_Round_RoundId",
-                        column: x => x.RoundId,
-                        principalTable: "Round",
+                        name: "FK_Painting_RoundTopic_RoundTopicId",
+                        column: x => x.RoundTopicId,
+                        principalTable: "RoundTopic",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Painting_Schedule_ScheduleId",
                         column: x => x.ScheduleId,
                         principalTable: "Schedule",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Painting_Topic_TopicId",
-                        column: x => x.TopicId,
-                        principalTable: "Topic",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -581,19 +593,14 @@ namespace Infracstructures.Migrations
                 column: "AwardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Painting_RoundId",
+                name: "IX_Painting_RoundTopicId",
                 table: "Painting",
-                column: "RoundId");
+                column: "RoundTopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Painting_ScheduleId",
                 table: "Painting",
                 column: "ScheduleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Painting_TopicId",
-                table: "Painting",
-                column: "TopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaintingCollection_CollectionId",
@@ -636,6 +643,16 @@ namespace Infracstructures.Migrations
                 column: "EducationalLevelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RoundTopic_RoundId",
+                table: "RoundTopic",
+                column: "RoundId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoundTopic_TopicId",
+                table: "RoundTopic",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Schedule_ExaminerId",
                 table: "Schedule",
                 column: "ExaminerId");
@@ -643,11 +660,6 @@ namespace Infracstructures.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Schedule_RoundId",
                 table: "Schedule",
-                column: "RoundId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Topic_RoundId",
-                table: "Topic",
                 column: "RoundId");
         }
 
@@ -689,6 +701,9 @@ namespace Infracstructures.Migrations
 
             migrationBuilder.DropTable(
                 name: "Award");
+
+            migrationBuilder.DropTable(
+                name: "RoundTopic");
 
             migrationBuilder.DropTable(
                 name: "Schedule");

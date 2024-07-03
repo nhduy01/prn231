@@ -367,12 +367,12 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EducationLevel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -524,7 +524,8 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime?>("ReviewedTimestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("RoundId")
+                    b.Property<Guid?>("RoundTopicId")
+                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ScheduleId")
@@ -536,10 +537,6 @@ namespace Infracstructures.Migrations
 
                     b.Property<DateTime?>("SubmittedTimestamp")
                         .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("TopicId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UpdatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -553,11 +550,9 @@ namespace Infracstructures.Migrations
 
                     b.HasIndex("AwardId");
 
-                    b.HasIndex("RoundId");
+                    b.HasIndex("RoundTopicId");
 
                     b.HasIndex("ScheduleId");
-
-                    b.HasIndex("TopicId");
 
                     b.ToTable("Painting", (string)null);
                 });
@@ -759,6 +754,10 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -781,6 +780,30 @@ namespace Infracstructures.Migrations
                     b.ToTable("Round", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Models.RoundTopic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid?>("RoundId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("TopicId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoundId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("RoundTopic", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Models.Schedule", b =>
                 {
                     b.Property<Guid>("Id")
@@ -796,6 +819,9 @@ namespace Infracstructures.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ExaminerId")
                         .IsRequired()
@@ -893,10 +919,6 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoundId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -910,8 +932,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoundId");
 
                     b.ToTable("Topic", (string)null);
                 });
@@ -1024,30 +1044,22 @@ namespace Infracstructures.Migrations
                         .WithMany("Painting")
                         .HasForeignKey("AwardId");
 
-                    b.HasOne("Domain.Models.Round", "Round")
+                    b.HasOne("Domain.Models.RoundTopic", "RoundTopic")
                         .WithMany("Painting")
-                        .HasForeignKey("RoundId")
+                        .HasForeignKey("RoundTopicId")
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Schedule", "Schedule")
                         .WithMany("Painting")
                         .HasForeignKey("ScheduleId");
 
-                    b.HasOne("Domain.Models.Topic", "Topic")
-                        .WithMany()
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Account");
 
                     b.Navigation("Award");
 
-                    b.Navigation("Round");
+                    b.Navigation("RoundTopic");
 
                     b.Navigation("Schedule");
-
-                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("Domain.Models.PaintingCollection", b =>
@@ -1121,6 +1133,23 @@ namespace Infracstructures.Migrations
                     b.Navigation("EducationalLevel");
                 });
 
+            modelBuilder.Entity("Domain.Models.RoundTopic", b =>
+                {
+                    b.HasOne("Domain.Models.Round", "Round")
+                        .WithMany("RoundTopic")
+                        .HasForeignKey("RoundId")
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Topic", "Topic")
+                        .WithMany("RoundTopic")
+                        .HasForeignKey("TopicId")
+                        .IsRequired();
+
+                    b.Navigation("Round");
+
+                    b.Navigation("Topic");
+                });
+
             modelBuilder.Entity("Domain.Models.Schedule", b =>
                 {
                     b.HasOne("Domain.Models.Account", "Account")
@@ -1134,16 +1163,6 @@ namespace Infracstructures.Migrations
                         .IsRequired();
 
                     b.Navigation("Account");
-
-                    b.Navigation("Round");
-                });
-
-            modelBuilder.Entity("Domain.Models.Topic", b =>
-                {
-                    b.HasOne("Domain.Models.Round", "Round")
-                        .WithMany("Topic")
-                        .HasForeignKey("RoundId")
-                        .IsRequired();
 
                     b.Navigation("Round");
                 });
@@ -1212,11 +1231,14 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Round", b =>
                 {
-                    b.Navigation("Painting");
+                    b.Navigation("RoundTopic");
 
                     b.Navigation("Schedule");
+                });
 
-                    b.Navigation("Topic");
+            modelBuilder.Entity("Domain.Models.RoundTopic", b =>
+                {
+                    b.Navigation("Painting");
                 });
 
             modelBuilder.Entity("Domain.Models.Schedule", b =>
@@ -1229,6 +1251,11 @@ namespace Infracstructures.Migrations
             modelBuilder.Entity("Domain.Models.Sponsor", b =>
                 {
                     b.Navigation("Resources");
+                });
+
+            modelBuilder.Entity("Domain.Models.Topic", b =>
+                {
+                    b.Navigation("RoundTopic");
                 });
 #pragma warning restore 612, 618
         }

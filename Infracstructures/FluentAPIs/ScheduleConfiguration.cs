@@ -30,6 +30,9 @@ public class ScheduleConfiguration : IEntityTypeConfiguration<Schedule>
         //Status
         builder.Property(u => u.Status).HasDefaultValue("False");
 
+        //EndDate
+        builder.Property(u => u.EndDate);
+
         //Description
         builder.Property(u => u.Description);
 
