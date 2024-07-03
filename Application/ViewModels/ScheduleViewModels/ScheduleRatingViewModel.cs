@@ -8,5 +8,4 @@ public class ScheduleRatingViewModel
     public string? Description { get; set; }
     public Guid? RoundId { get; set; }
     public Guid? ExaminerId { get; set; }
-    public List<PaintingViewModel> PaintingViewModelsList { get; set; }
 }
