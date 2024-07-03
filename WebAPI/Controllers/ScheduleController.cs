@@ -387,4 +387,33 @@ public class ScheduleController : Controller
         }
     }
     #endregion
+
+    #region Get Schedule for examiner by examiner Id
+
+    [HttpGet("/examiner/{id}")]
+    public async Task<IActionResult> GetScheduleByExaminerId(Guid id)
+    {
+        try
+        {
+            var result = await _scheduleService.GetScheduleByExaminerId(id);
+            if (result == null) return NotFound(new { Success = false, Message = "Schedule not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Inventory Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }

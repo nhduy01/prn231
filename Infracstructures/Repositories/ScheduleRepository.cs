@@ -10,8 +10,14 @@ public class ScheduleRepository : GenericRepository<Schedule>, IScheduleReposito
     {
     }
 
+    override 
     public async Task<Schedule?> GetByIdAsync(Guid id)
     {
         return await DbSet.Include(s => s.Painting).Include(s => s.AwardSchedule).ThenInclude(a => a.Award).FirstOrDefaultAsync(s => s.Id == id);
+    }
+
+    public async Task<List<Schedule>> GetByExaminerId(Guid id)
+    {
+        return await DbSet.Where(s => s.ExaminerId == id).ToListAsync();
     }
 }
