@@ -11,9 +11,9 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
     }
 
-    public async Task<Account?> Login(string userName)
+    public async Task<Account?> Login(string username)
     {
-        return await DbSet.FirstOrDefaultAsync(a => a.UserName == userName && a.Status == AccountStatus.Active.ToString());
+        return await DbSet.FirstOrDefaultAsync(a => a.Username == username && a.Status == AccountStatus.Active.ToString());
     }
 
     public async Task<Account?> GetByRefreshToken(string token)
@@ -31,8 +31,8 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
         return await DbSet.AnyAsync(a => a.Phone == phone);
     }
 
-    public async Task<bool> CheckDuplicateUsername(string userName)
+    public async Task<bool> CheckDuplicateUsername(string username)
     {
-        return await DbSet.AnyAsync(a => a.UserName == userName);
+        return await DbSet.AnyAsync(a => a.Username == username);
     }
 }

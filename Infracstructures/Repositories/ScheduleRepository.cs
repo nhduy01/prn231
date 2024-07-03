@@ -10,8 +10,8 @@ public class ScheduleRepository : GenericRepository<Schedule>, IScheduleReposito
     {
     }
 
-    public async Task<Schedule?> GetById(Guid id)
+    public async Task<Schedule?> GetByIdAsync(Guid id)
     {
-        return await DbSet.Include(s => s.Painting).FirstOrDefaultAsync(s => s.Id == id);
+        return await DbSet.Include(s => s.Painting).Include(s => s.AwardSchedule).ThenInclude(a => a.Award).FirstOrDefaultAsync(s => s.Id == id);
     }
 }

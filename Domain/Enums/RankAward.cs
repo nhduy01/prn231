@@ -2,8 +2,9 @@
 
 public enum RankAward
 {
-    FirstPlace,
-    SecondPlace,
-    ThirdPlace,
-    Preliminary
+    FirstPrize = 1,
+    SecondPrize = 2,
+    ThirdPrize = 3,
+    ConsolationPrize = 4,
+    Preliminary = 5
 }

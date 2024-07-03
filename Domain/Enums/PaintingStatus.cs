@@ -12,5 +12,6 @@ public enum PaintingStatus
     
     // For Final Round
     
-    FinalRound
+    FinalRound,
+    HasPrizes
 }

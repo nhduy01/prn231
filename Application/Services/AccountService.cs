@@ -67,10 +67,14 @@ public class AccountService : IAccountService
         return (result, totalPages);
     }
     
-
-    public Task<AccountViewModel?> GetAccountById(Guid id)
+    public async Task<AccountViewModel?> GetAccountById(Guid id)
     {
-        throw new NotImplementedException();
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        if (account == null || account.Status == AccountStatus.Inactive.ToString())
+        {
+            return null;
+        }
+        return _mapper.Map<AccountViewModel>(account);
     }
 
     public Task<AccountViewModel?> UpdateAccount(AccountUpdateRequest updateAccount)

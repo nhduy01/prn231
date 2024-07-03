@@ -5,7 +5,7 @@ namespace Application.SendModels.Authentication;
 public class CreateAccountRequest
 {
     [Required]
-    public string? UserName { get; set; }
+    public string? Username { get; set; }
     [Required]
     public string FullName { get; set; }
     [EmailAddress] 

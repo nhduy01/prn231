@@ -9,6 +9,6 @@ public interface IAccountRepository : IGenericRepository<Account>
     public Task<Account?> GetByRefreshToken(string token);
     Task<bool> CheckDuplicateEmail(string email);
     Task<bool> CheckDuplicatePhone(string phone);
-    Task<bool> CheckDuplicateUsername(string userName);
+    Task<bool> CheckDuplicateUsername(string username);
     
 }
