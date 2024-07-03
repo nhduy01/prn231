@@ -22,13 +22,8 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Take(20).ToListAsync();
     }
 
-    /*public async Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId)
+    public async Task<List<Account>> ListCompetitorPassRound(Guid id)
     {
-        return await DbSet.Where(x => x.RoundId == id && x.Status == PaintingStatus.Accepted.ToString()).OrderByDescending(x => x.UpdatedTime).ToListAsync();
-    }*/
-
-    /*public async Task<List<Acc>> ListCompetitorPassRound(Guid id)
-    {
-        return await DbSet.Include(p => p.Competitor).Where(p => p.Status == PaintingStatus.Pass.ToString() && p.RoundId == id).Select(p => p.Competitor).ToListAsync();
-    }*/
+        return await DbSet.Include(p => p.Account).Where(p => p.Status == PaintingStatus.Pass.ToString() && p.RoundTopicId == id).Select(p => p.Account).ToListAsync();
+    }
 }

@@ -23,12 +23,12 @@ public class ScheduleService : IScheduleService
         _mapper = mapper;
     }
 
-    /*#region Create
+    #region Create
 
     public async Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest schedule)
     {
         //Get Paintings Of Preliminary round
-        var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
+        var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
 
         var award = _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId).Result?.EducationalLevel.Award
             .FirstOrDefault(a => a.Rank == RankAward.Preliminary.ToString());
@@ -86,7 +86,7 @@ public class ScheduleService : IScheduleService
         try
         {
             //Get Paintings Of Preliminary round
-            var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForFinalRound(schedule.RoundId);
+            var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForFinalRound(schedule.RoundId);
             List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
 
 
@@ -192,7 +192,6 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
-    */
 
     #region Get All
 

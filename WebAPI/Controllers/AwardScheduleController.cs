@@ -17,7 +17,7 @@ public class AwardScheduleController : Controller
 
     #region Get By Id
 
-    [HttpGet("{id")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         try
