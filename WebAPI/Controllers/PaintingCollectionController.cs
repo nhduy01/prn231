@@ -29,7 +29,7 @@ public class PaintingCollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Painting Success",
+                Message = "Create Painting Collection Success",
                 Result = result
             });
         }

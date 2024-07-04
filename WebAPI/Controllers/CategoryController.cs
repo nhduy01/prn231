@@ -83,7 +83,7 @@ public class CategoryController : ControllerBase
     #region List All Category
 
     [HttpGet("getallcategory")]
-    public async Task<IActionResult> ListAllCategory(ListModels listCategoryModel)
+    public async Task<IActionResult> ListAllCategory([FromRoute] ListModels listCategoryModel)
     {
         try
         {
@@ -111,7 +111,7 @@ public class CategoryController : ControllerBase
     #region List All Category
 
     [HttpGet("getcategoryunused")]
-    public async Task<IActionResult> ListCategoryUnused(ListModels listCategoryModel)
+    public async Task<IActionResult> ListCategoryUnused([FromRoute] ListModels listCategoryModel)
     {
         try
         {

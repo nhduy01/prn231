@@ -87,7 +87,7 @@ public class SponsorController : Controller
     #region Get Sponsor By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetsponsorById(Guid id)
+    public async Task<IActionResult> GetsponsorById([FromRoute] Guid id)
     {
         try
         {

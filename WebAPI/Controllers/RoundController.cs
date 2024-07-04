@@ -86,7 +86,7 @@ public class RoundController : Controller
     #region Get Round By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetRoundById(Guid id)
+    public async Task<IActionResult> GetRoundById([FromRoute]Guid id)
     {
         try
         {
@@ -148,7 +148,7 @@ public class RoundController : Controller
 
     #region Get Topic
     [HttpGet("gettopic/{id}")]
-    public async Task<IActionResult> GetTopicInRound(Guid id)
+    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id)
     {
         try
         {

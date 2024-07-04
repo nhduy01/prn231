@@ -28,7 +28,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Award Success",
+                Message = "Create Collection Success",
                 Result = result
             });
         }
@@ -90,7 +90,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Collection Success",
                 Result = result
             });
         }

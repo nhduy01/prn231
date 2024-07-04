@@ -15,10 +15,10 @@ public class AwardScheduleController : Controller
         _awardSchedule = awardSchedule;
     }
 
-    #region Get By Id
+    #region Get Award Schedule By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetAwardScheduleById(Guid id)
     {
         try
         {
@@ -26,7 +26,7 @@ public class AwardScheduleController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Award Schedule Success",
                 Result = result
             });
         }

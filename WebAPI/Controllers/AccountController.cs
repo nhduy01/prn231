@@ -18,15 +18,15 @@ public class AccountController : ControllerBase
     #region Get All Competitor
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAward([FromQuery] ListModels listAwardModel)
+    public async Task<IActionResult> GetAllCompetitor([FromQuery] ListModels listCompetitorModel)
     {
         try
         {
-            var (list, totalPage) = await _accountService.GetListCompetitor(listAwardModel);
+            var (list, totalPage) = await _accountService.GetListCompetitor(listCompetitorModel);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Account Success",
                 Result = new
                 {
                     List = list,
@@ -66,7 +66,7 @@ public class AccountController : ControllerBase
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Account Success",
                 Result = result
             });
         }

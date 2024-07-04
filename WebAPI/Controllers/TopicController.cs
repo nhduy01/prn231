@@ -86,7 +86,7 @@ public class TopicController : Controller
     #region Get Topic By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTopicById(Guid id)
+    public async Task<IActionResult> GetTopicById([FromRoute] Guid id)
     {
         try
         {
