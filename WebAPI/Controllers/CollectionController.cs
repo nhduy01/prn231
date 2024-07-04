@@ -82,11 +82,11 @@ public class CollectionController : Controller
     #region Get Collection By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCollectionById(Guid collectionId)
+    public async Task<IActionResult> GetCollectionById([FromRoute]Guid id)
     {
         try
         {
-            var result = await _collectionService.GetCollectionById(collectionId);
+            var result = await _collectionService.GetCollectionById(id);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -109,12 +109,12 @@ public class CollectionController : Controller
 
     #region Get Painting By Collection
 
-    [HttpGet("Painting")]
-    public async Task<IActionResult> GetPaintingByCollection(Guid collectionId)
+    [HttpGet("Painting/{id}")]
+    public async Task<IActionResult> GetPaintingByCollection(Guid id)
     {
         try
         {
-            var result = await _collectionService.GetPaintingByCollection(collectionId);
+            var result = await _collectionService.GetPaintingByCollection(id);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

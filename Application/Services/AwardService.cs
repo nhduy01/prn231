@@ -36,6 +36,7 @@ public class AwardService : IAwardService
         var award = _mapper.Map<Award>(addAwardViewModel);
         award.Status = AwardStatus.Active.ToString();
         await _unitOfWork.AwardRepo.AddAsync(award);
+        award.CreatedTime = _currentTime.GetCurrentTime();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
 

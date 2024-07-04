@@ -10,7 +10,8 @@ public partial class MapperConfigs : Profile
     partial void AddCollectionMapperConfig()
     {
         CreateMap<Collection, CollectionRequest>().ReverseMap()
-             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
+             .ForMember(x => x.AccountId, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Collection, CollectionViewModel>().ReverseMap();
         CreateMap<Collection, UpdateCollectionRequest>().ReverseMap()
             .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));

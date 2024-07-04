@@ -1,24 +1,32 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.IService.ICommonService;
 using Application.SendModels.Topic;
 using Application.ViewModels.TopicViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;
 
 public class TopicService : ITopicService
 {
+    private readonly IClaimsService _claimsService;
+    private readonly IConfiguration _configuration;
+    private readonly ICurrentTime _currentTime;
     private readonly IMapper _mapper;
-
     private readonly IUnitOfWork _unitOfWork;
 
-    public TopicService(IUnitOfWork unitOfWork, IMapper mapper)
+    public TopicService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime,
+        IConfiguration configuration, IClaimsService claimsService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentTime = currentTime;
+        _configuration = configuration;
+        _claimsService = claimsService;
     }
 
     #region Create
@@ -69,6 +77,7 @@ public class TopicService : ITopicService
         if (Topic == null) throw new Exception("Khong tim thay Topic");
 
         _mapper.Map(updateTopic, Topic);
+        Topic.UpdatedTime = _currentTime.GetCurrentTime(); 
         return await _unitOfWork.SaveChangesAsync()>0;
 
     }

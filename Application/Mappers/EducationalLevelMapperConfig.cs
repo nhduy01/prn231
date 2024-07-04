@@ -11,10 +11,10 @@ public partial class MapperConfigs : Profile
 {
     partial void AddEducationalLevelMapperConfig()
     {
-        CreateMap<EducationalLevelRequest, EducationalLevel>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
-        CreateMap<EducationalLevelUpdateRequest, EducationalLevel>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
+        CreateMap<EducationalLevel, EducationalLevelRequest>().ReverseMap()
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+        CreateMap<EducationalLevel, EducationalLevelUpdateRequest>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<EducationalLevel, EducationalLevelViewModel>().ReverseMap();
     }
 }
