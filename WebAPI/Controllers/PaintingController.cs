@@ -22,7 +22,7 @@ public class PaintingController : Controller
     #region Draft Painting For Preliminary Round
 
     [HttpPost("draftepainting1stround")]
-    public async Task<IActionResult> DraftPaintingForPreliminaryRound(PaintingRequest painting)
+    public async Task<IActionResult> DraftPaintingForPreliminaryRound(Application.SendModels.Painting.PaintingRequest painting)
     {
         try
         {
@@ -51,7 +51,7 @@ public class PaintingController : Controller
     #region Submit Painting For Preliminary Round
 
     [HttpPost("submitepainting1stround")]
-    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(PaintingRequest painting)
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(Application.SendModels.Painting.PaintingRequest painting)
     {
         try
         {
@@ -80,7 +80,7 @@ public class PaintingController : Controller
     #region Create Painting For Final Round
 
     [HttpPost("createpaintingfinalround")]
-    public async Task<IActionResult> CreatePaintingForFinalRound(PaintingRequest painting)
+    public async Task<IActionResult> CreatePaintingForFinalRound(Application.SendModels.Painting.PaintingRequest painting)
     {
         try
         {
@@ -110,7 +110,7 @@ public class PaintingController : Controller
     #region Update Painting
 
     [HttpPut("update")]
-    public async Task<IActionResult> UpdatePainting(UpdatePaintingViewModel updatePaintingViewModel)
+    public async Task<IActionResult> UpdatePainting(UpdatePaintingRequest updatePaintingViewModel)
     {
         var result = await _paintingService.UpdatePainting(updatePaintingViewModel);
         if (result == null) return NotFound();

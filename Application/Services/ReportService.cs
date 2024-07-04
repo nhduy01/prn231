@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.Report;
 using Application.ViewModels.AwardViewModels;
 using Application.ViewModels.ReportViewModels;
 using AutoMapper;
@@ -18,28 +19,24 @@ namespace Application.Services
 {
     public class ReportService : IReportService
     {
-        private readonly IClaimsService _claimsService;
         private readonly IConfiguration _configuration;
         private readonly ICurrentTime _currentTime;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ReportService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime, IConfiguration configuration,
-            IClaimsService claimsService)
+        public ReportService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _currentTime = currentTime;
             _configuration = configuration;
-            _claimsService = claimsService;
         }
 
         #region Add Report
 
-        public async Task<bool> AddReport(AddReportViewModel addReportViewModel)
+        public async Task<bool> AddReport(ReportRequest addReportViewModel)
         {
             var report = _mapper.Map<Report>(addReportViewModel);
-            report.CreatedBy = _claimsService.GetCurrentUserId();
             report.Status = ReportStatus.Pending.ToString();
             await _unitOfWork.ReportRepo.AddAsync(report);
 
@@ -72,7 +69,7 @@ namespace Application.Services
         public async Task<bool> DeleteReport(Guid reportId)
         {
             var report = await _unitOfWork.ReportRepo.GetByIdAsync(reportId);
-            if (report == null) return false;
+            if (report == null) throw new Exception("Khong tim thay Report");
 
             report.Status = ReportStatus.Inactive.ToString();
 
@@ -83,13 +80,12 @@ namespace Application.Services
 
         #region Update Report
 
-        public async Task<bool> UpdateReport(UpdateReportViewModel updateReport)
+        public async Task<bool> UpdateReport(UpdateReportRequest updateReport)
         {
             var report = await _unitOfWork.ReportRepo.GetByIdAsync(updateReport.Id);
-            if (report == null) return false;
+            if (report == null) throw new Exception("Khong tim thay Report");
 
             report = _mapper.Map<Report>(updateReport);
-            report.UpdatedBy = _claimsService.GetCurrentUserId();
             report.UpdatedTime = _currentTime.GetCurrentTime();
 
 

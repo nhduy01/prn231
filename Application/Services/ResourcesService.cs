@@ -55,7 +55,7 @@ public class ResourcesService : IResourcesService
     public async Task<ResourcesViewModel?> GetResourcesById(Guid id)
     {
         var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(id);
-        if (Resources == null) return null;
+        if (Resources == null) throw new Exception("Khong tim thay Resource");
         return _mapper.Map<ResourcesViewModel>(Resources);
     }
 
@@ -80,7 +80,7 @@ public class ResourcesService : IResourcesService
     {
         var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(id);
         if (Resources == null) throw new Exception("Khong tim thay Resource");
-        Resources.Status = "INACTIVE";
+        Resources.Status = ResourcesStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync()>0;
     }

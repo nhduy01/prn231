@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Award;
 using Application.ViewModels.AwardViewModels;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ public class AwardController : Controller
     #region Create Award
 
     [HttpPost]
-    public async Task<IActionResult> CreateAward(AddAwardViewModel award)
+    public async Task<IActionResult> CreateAward(AwardRequest award)
     {
         try
         {
@@ -58,7 +59,7 @@ public class AwardController : Controller
     #region Update Award
 
     [HttpPut]
-    public async Task<IActionResult> UpdateAward(UpdateAwardViewModel updateAward)
+    public async Task<IActionResult> UpdateAward(UpdateAwardRequest updateAward)
     {
         var result = await _awardService.UpdateAward(updateAward);
         if (result == null) return NotFound();
@@ -100,7 +101,7 @@ public class AwardController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Award Success",
                 Result = new
                 {
                     List = list,
@@ -132,7 +133,7 @@ public class AwardController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Award Success",
                 Result = result
             });
         }

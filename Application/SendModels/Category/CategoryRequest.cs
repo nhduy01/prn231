@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models;
 
-namespace Application.ViewModels.CategoryViewModels
+namespace Application.SendModels.Category
 {
-    public class UpdateCategoryViewModel
+    public class CategoryRequest
     {
-        public Guid Id { get; set; }
+        public Guid CurrentUserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
     }
 }

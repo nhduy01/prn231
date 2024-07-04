@@ -1,6 +1,6 @@
 ﻿using Application.IService;
 using Application.IService.ICommonService;
-using Application.ViewModels.PaintingCollectionViewModels;
+using Application.SendModels.PaintingCollection;
 using AutoMapper;
 using Domain.Models;
 using Infracstructures;
@@ -25,7 +25,7 @@ public class PaintingCollectionService : IPaintingCollectionService
         _mapper = mapper;
     }
 
-    public async Task<bool> AddPaintingToCollection(AddPaintingCollectionViewModel addPaintingCollectionViewModel)
+    public async Task<bool> AddPaintingToCollection(PaintingCollectionRequest addPaintingCollectionViewModel)
     {
         var paintingCollection = _mapper.Map<PaintingCollection>(addPaintingCollectionViewModel);
         await _unitOfWork.PaintingCollectionRepo.AddAsync(paintingCollection);

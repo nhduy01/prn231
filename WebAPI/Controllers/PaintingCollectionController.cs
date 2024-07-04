@@ -1,8 +1,8 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Painting;
+using Application.SendModels.PaintingCollection;
 using Application.Services;
-using Application.ViewModels.PaintingCollectionViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -21,7 +21,7 @@ public class PaintingCollectionController : Controller
 
     #region Add Painting To Collection
     [HttpPost("addpaintingtocollection")]
-    public async Task<IActionResult> AddPaintingToCollection(AddPaintingCollectionViewModel addPaintingCollectionViewModel)
+    public async Task<IActionResult> AddPaintingToCollection(PaintingCollectionRequest addPaintingCollectionViewModel)
     {
         try
         {
@@ -29,7 +29,7 @@ public class PaintingCollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Painting Success",
+                Message = "Create Painting Collection Success",
                 Result = result
             });
         }

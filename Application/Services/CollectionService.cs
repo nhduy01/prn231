@@ -1,7 +1,9 @@
 ﻿using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.Collection;
 using Application.ViewModels.CollectionViewModels;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Microsoft.Extensions.Configuration;
@@ -28,11 +30,10 @@ public class CollectionService : ICollectionService
 
     #region Add Collection
 
-    public async Task<bool> AddCollection(AddCollectionViewModel addCollectionViewModel)
+    public async Task<bool> AddCollection(CollectionRequest addCollectionViewModel)
     {
         var collection = _mapper.Map<Collection>(addCollectionViewModel);
-        collection.CreatedBy = _claimsService.GetCurrentUserId();
-        collection.Status = "ACTIVE";
+        collection.Status = CollectionStatus.Active.ToString();
         await _unitOfWork.CollectionRepo.AddAsync(collection);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
@@ -49,7 +50,7 @@ public class CollectionService : ICollectionService
         if (collection == null) throw new Exception("Khong tim thay Collection");
 
 
-        collection.Status = "INACTIVE";
+        collection.Status = CollectionStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync()>0;
     }
@@ -58,7 +59,7 @@ public class CollectionService : ICollectionService
 
     #region Update Collection
 
-    public async Task<bool> UpdateCollection(UpdateCollectionViewModel updateCollection)
+    public async Task<bool> UpdateCollection(UpdateCollectionRequest updateCollection)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateCollection.Id);
         if (collection == null) throw new Exception("Khong tim thay Collection"); ;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModels.PaintingCollectionViewModels
+namespace Application.SendModels.PaintingCollection
 {
-    public class AddPaintingCollectionViewModel
+    public class PaintingCollectionRequest
     {
         public Guid? PaintingId { get; set; }
 

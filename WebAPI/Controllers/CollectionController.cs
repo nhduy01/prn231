@@ -1,6 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
-using Application.ViewModels.CollectionViewModels;
+using Application.SendModels.Collection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -20,7 +20,7 @@ public class CollectionController : Controller
     #region Create Collection
 
     [HttpPost]
-    public async Task<IActionResult> CreateCollection(AddCollectionViewModel collection)
+    public async Task<IActionResult> CreateCollection(CollectionRequest collection)
     {
         try
         {
@@ -28,7 +28,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Award Success",
+                Message = "Create Collection Success",
                 Result = result
             });
         }
@@ -48,7 +48,7 @@ public class CollectionController : Controller
     #region Update Collection
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCollection(UpdateCollectionViewModel updateCollectionViewModel)
+    public async Task<IActionResult> UpdateCollection(UpdateCollectionRequest updateCollectionViewModel)
     {
         var result = await _collectionService.UpdateCollection(updateCollectionViewModel);
         if (result == null) return NotFound();
@@ -90,7 +90,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Collection Success",
                 Result = result
             });
         }

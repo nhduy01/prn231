@@ -20,7 +20,7 @@ public class ScheduleController : Controller
     
     #region Create Schedule For Preliminary Round
 
-    [HttpPost("/Preliminary")]
+    [HttpPost("/preliminary")]
     public async Task<IActionResult> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule)
     {
         try
@@ -63,7 +63,7 @@ public class ScheduleController : Controller
     
     #region Create Schedule For Preliminary Round
 
-    [HttpPost("/Final")]
+    [HttpPost("/final")]
     public async Task<IActionResult> CreateScheduleForFinalRound(ScheduleRequest Schedule)
     {
         try
@@ -139,7 +139,7 @@ public class ScheduleController : Controller
     #region Get Schedule By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetScheduleById(Guid id)
+    public async Task<IActionResult> GetScheduleById([FromRoute] Guid id)
     {
         try
         {
@@ -396,7 +396,7 @@ public class ScheduleController : Controller
     #region Get Schedule for examiner by examiner Id
 
     [HttpGet("/examiner/{id}")]
-    public async Task<IActionResult> GetScheduleByExaminerId(Guid id)
+    public async Task<IActionResult> GetScheduleByExaminerId([FromRoute] Guid id)
     {
         try
         {

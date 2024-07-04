@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Category;
 using Application.Services;
 using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.CollectionViewModels;
@@ -21,7 +22,7 @@ public class CategoryController : ControllerBase
     #region Create Category
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory(AddCategoryViewModel category)
+    public async Task<IActionResult> CreateCategory(CategoryRequest category)
     {
         try
         {
@@ -49,7 +50,7 @@ public class CategoryController : ControllerBase
     #region Update Category
 
     [HttpPut]
-    public async Task<IActionResult> UpdateCategory(UpdateCategoryViewModel updateCategoryViewModel)
+    public async Task<IActionResult> UpdateCategory(UpdateCategoryRequest updateCategoryViewModel)
     {
         var result = await _categoryService.UpdateCategory(updateCategoryViewModel);
         if (result == null) return NotFound();
@@ -83,7 +84,7 @@ public class CategoryController : ControllerBase
     #region List All Category
 
     [HttpGet("getallcategory")]
-    public async Task<IActionResult> ListAllCategory(ListModels listCategoryModel)
+    public async Task<IActionResult> ListAllCategory([FromRoute] ListModels listCategoryModel)
     {
         try
         {
@@ -111,7 +112,7 @@ public class CategoryController : ControllerBase
     #region List All Category
 
     [HttpGet("getcategoryunused")]
-    public async Task<IActionResult> ListCategoryUnused(ListModels listCategoryModel)
+    public async Task<IActionResult> ListCategoryUnused([FromRoute] ListModels listCategoryModel)
     {
         try
         {

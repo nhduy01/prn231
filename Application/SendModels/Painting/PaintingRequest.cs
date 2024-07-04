@@ -8,4 +8,6 @@ public class PaintingRequest
     public string? Description { get; set; }
     public Guid RoundId { get; set; }
     public Guid TopicId { get; set; }
+    public Guid CurrentUserId { get; set; }
+
 }

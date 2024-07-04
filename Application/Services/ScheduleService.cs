@@ -484,7 +484,7 @@ public class ScheduleService : IScheduleService
     {
         var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
         if (Schedule == null) throw new Exception("Khong tim thay Schedule");
-        Schedule.Status = "INACTIVE";
+        Schedule.Status = ScheduleStatus.Delete.ToString();
 
 
         return await _unitOfWork.SaveChangesAsync() > 0;

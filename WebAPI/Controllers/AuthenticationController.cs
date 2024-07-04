@@ -44,7 +44,7 @@ public class AuthenticationController : ControllerBase
     #region Create Account
 
     [AllowAnonymous]
-    [HttpPost("/create")]
+    [HttpPost("/register")]
     public async Task<ActionResult<RegisterResponse>> CreateAccount(CreateAccountRequest account)
     {
         if (!ModelState.IsValid)

@@ -1,10 +1,12 @@
-﻿namespace Application.ViewModels.ContestViewModels;
+﻿namespace Application.SendModels.Contest;
 
-public class AddContestViewModel
+public class UpdateContest
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public string Description { get; set; }
     public string Content { get; set; }
+    public Guid CurrentUserId { get; set; }
 }

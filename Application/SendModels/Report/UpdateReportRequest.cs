@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModels.ReportViewModels
+namespace Application.SendModels.Report
 {
-    public class AddReportViewModel
+    public class UpdateReportRequest
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public Guid CurrentUserId { get; set; }
     }
 }

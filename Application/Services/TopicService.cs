@@ -66,7 +66,7 @@ public class TopicService : ITopicService
     public async Task<bool> UpdateTopic(TopicUpdateRequest updateTopic)
     {
         var Topic = await _unitOfWork.TopicRepo.GetByIdAsync(updateTopic.Id);
-        if (Topic == null) throw new Exception("Khong tim thay Sponsor");
+        if (Topic == null) throw new Exception("Khong tim thay Topic");
 
         _mapper.Map(updateTopic, Topic);
         return await _unitOfWork.SaveChangesAsync()>0;
@@ -80,9 +80,9 @@ public class TopicService : ITopicService
     public async Task<bool> DeleteTopic(Guid id)
     {
         var Topic = await _unitOfWork.TopicRepo.GetByIdAsync(id);
-        if (Topic == null) throw new Exception("Khong tim thay Sponsor");
+        if (Topic == null) throw new Exception("Khong tim thay Topic");
 
-        Topic.Status = "INACTIVE";
+        Topic.Status = TopicStatus.Inactive.ToString();
         return await _unitOfWork.SaveChangesAsync()>0;
     }
 

@@ -7,4 +7,5 @@ public class TopicUpdateRequest
     public string Description { get; set; }
     public string Image { get; set; }
     public Guid? RoundId { get; set; }
+    public Guid CurrentUserId { get; set; }
 }

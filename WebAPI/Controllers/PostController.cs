@@ -114,7 +114,7 @@ public class PostController : Controller
     #region Get Post By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetPostById(Guid id)
+    public async Task<IActionResult> GetPostById([FromRoute]Guid id)
     {
         try
         {

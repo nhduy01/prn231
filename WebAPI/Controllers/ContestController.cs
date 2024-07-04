@@ -1,7 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IRepositories;
 using Application.IService;
-using Application.ViewModels.ContestViewModels;
+using Application.SendModels.Contest;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -20,7 +20,7 @@ public class ContestController : Controller
     #region Create Contest
 
     [HttpPost]
-    public async Task<IActionResult> CreateContest(AddContestViewModel contest)
+    public async Task<IActionResult> CreateContest(ContestRequest contest)
     {
         try
         {
@@ -48,7 +48,7 @@ public class ContestController : Controller
     #region Update Contest
 
     [HttpPut]
-    public async Task<IActionResult> UpdateContest(UpdateContestViewModel updateContestViewModel)
+    public async Task<IActionResult> UpdateContest(UpdateContest updateContestViewModel)
     {
         var result = await _contestService.UpdateContest(updateContestViewModel);
         if (result == null) return NotFound();

@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.AwardViewModels;
+﻿using Application.SendModels.Award;
+using Application.ViewModels.AwardViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -10,8 +11,10 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<Award, AwardViewModel>().ReverseMap();
 
-        CreateMap<Award, AddAwardViewModel>().ReverseMap();
+        CreateMap<Award, AwardRequest>().ReverseMap()
+            .ForMember(x=>x.CreatedBy, x=>x.MapFrom(x=>x.CurrentUserId));
 
-        CreateMap<Award, UpdateAwardViewModel>().ReverseMap();
+        CreateMap<Award, UpdateAwardRequest>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
     }
 }

@@ -15,6 +15,7 @@ using Application.ViewModels.AwardViewModels;
 using Application.BaseModels;
 using Infracstructures.ViewModels.PostViewModels;
 using Domain.Enums;
+using Application.SendModels.Category;
 
 namespace Application.Services
 {
@@ -38,10 +39,9 @@ namespace Application.Services
 
         #region Add Category
 
-        public async Task<bool> AddCategory(AddCategoryViewModel addCategoryViewModel)
+        public async Task<bool> AddCategory(CategoryRequest addCategoryViewModel)
         {
             var category = _mapper.Map<Category>(addCategoryViewModel);
-            category.CreatedBy = _claimsService.GetCurrentUserId();
             category.Status = CategoryStatus.Unused.ToString();
 
             await _unitOfWork.CategoryRepo.AddAsync(category);
@@ -74,7 +74,7 @@ namespace Application.Services
 
         #region Update Category
 
-        public async Task<bool> UpdateCategory(UpdateCategoryViewModel updateCategory)
+        public async Task<bool> UpdateCategory(UpdateCategoryRequest updateCategory)
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateCategory.Id);
             if (category == null) throw new Exception("Khong tim thay Category"); 
