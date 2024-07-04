@@ -3,5 +3,5 @@
 public class PaintingUpdateStatusRequest
 {
     public Guid Id { get; set; }
-    public Boolean Result { get; set; }
+    public Boolean IsPassed { get; set; }
 }

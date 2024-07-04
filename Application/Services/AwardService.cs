@@ -33,7 +33,6 @@ public class AwardService : IAwardService
     public async Task<bool> AddAward(AddAwardViewModel addAwardViewModel)
     {
         var award = _mapper.Map<Award>(addAwardViewModel);
-        award.CreatedBy = _claimsService.GetCurrentUserId();
         award.Status = AwardStatus.Active.ToString();
         await _unitOfWork.AwardRepo.AddAsync(award);
 
@@ -66,7 +65,7 @@ public class AwardService : IAwardService
     public async Task<bool> DeleteAward(Guid awardId)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
-        if (award == null) return false;
+        if (award == null) throw new Exception("Khong tim thay Award");
 
         award.Status = AwardStatus.Inactive.ToString();
 
@@ -80,10 +79,9 @@ public class AwardService : IAwardService
     public async Task<bool> UpdateAward(UpdateAwardViewModel updateAward)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(updateAward.Id);
-        if (award == null) return false;
+        if (award == null) throw new Exception("Khong tim thay Award");
 
         award = _mapper.Map<Award>(updateAward);
-        award.UpdatedBy = _claimsService.GetCurrentUserId();
         award.UpdatedTime = _currentTime.GetCurrentTime();
 
        

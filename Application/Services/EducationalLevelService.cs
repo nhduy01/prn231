@@ -28,16 +28,12 @@ public class EducationalLevelService : IEducationalLevelService
 
     public async Task<bool> CreateEducationalLevel(EducationalLevelRequest EducationalLevel)
     {
-        var check = await _unitOfWork.ContestRepo.CheckValidEducationalLevelDate(EducationalLevel.ContestId, EducationalLevel.StartTime, EducationalLevel.EndTime);
-        if (check)
-        {
+        
             var newEducationalLevel = _mapper.Map<EducationalLevel>(EducationalLevel);
             newEducationalLevel.Status = EducationalLevelStatus.Active.ToString();
             await _unitOfWork.EducationalLevelRepo.AddAsync(newEducationalLevel);
 
-            return await _unitOfWork.SaveChangesAsync() > 0;
-        }
-        throw new Exception("Start Time với End Time không hợp lệ");
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -89,7 +85,7 @@ public class EducationalLevelService : IEducationalLevelService
     {
         var EducationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
         if (EducationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
-        EducationalLevel.Status = "INACTIVE";
+        EducationalLevel.Status = EducationalLevelStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

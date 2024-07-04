@@ -9,8 +9,10 @@ public partial class MapperConfigs : Profile
 {
     partial void AddRoundMapperConfig()
     {
-        CreateMap<RoundRequest, Round>().ReverseMap();
-        CreateMap<RoundUpdateRequest, Round>().ReverseMap();
+        CreateMap<RoundRequest, Round>().ReverseMap()
+            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
+        CreateMap<RoundUpdateRequest, Round>().ReverseMap()
+            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
         CreateMap<Round, RoundViewModel>().ReverseMap();
         CreateMap<Round,ListTopicViewModel>().ReverseMap();
     }

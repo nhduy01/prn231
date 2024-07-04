@@ -1,6 +1,7 @@
 ﻿using Application.IService;
 using Application.SendModels.Notification;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Infracstructures.ViewModels.NotificationViewModels;
@@ -24,7 +25,7 @@ public class NotificationService : INotificationService
     public async Task<bool> CreateNotification(NotificationRequest Notification)
     {
         var newNotification = _mapper.Map<Notification>(Notification);
-        newNotification.Status = "ACTIVE";
+        newNotification.Status = NotificationStatus.Active.ToString();
         newNotification.IsReaded = false;
         await _unitOfWork.NotificationRepo.AddAsync(newNotification);
         
@@ -49,7 +50,7 @@ public class NotificationService : INotificationService
     public async Task<NotificationDetailViewModel?> GetNotificationById(Guid id)
     {
         var Notification = await _unitOfWork.NotificationRepo.GetByIdAsync(id);
-        if (Notification == null) return null;
+        if (Notification == null) throw new Exception("Khong tim thay Notification");
         return _mapper.Map<NotificationDetailViewModel>(Notification);
     }
 

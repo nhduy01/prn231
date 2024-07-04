@@ -82,7 +82,7 @@ public class SponsorService : ISponsorService
         var sponsor = await _unitOfWork.SponsorRepo.GetByIdAsync(id);
         if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
 
-        sponsor.Status = "INACTIVE";
+        sponsor.Status = SponsorStatus.Inactive.ToString();
         return await _unitOfWork.SaveChangesAsync()>0;
 
     }

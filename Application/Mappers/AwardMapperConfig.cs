@@ -10,8 +10,10 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<Award, AwardViewModel>().ReverseMap();
 
-        CreateMap<Award, AddAwardViewModel>().ReverseMap();
+        CreateMap<Award, AddAwardViewModel>().ReverseMap()
+            .ForMember(x=>x.CreatedBy, x=>x.MapFrom(x=>x.CurrentUserId));
 
-        CreateMap<Award, UpdateAwardViewModel>().ReverseMap();
+        CreateMap<Award, UpdateAwardViewModel>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
     }
 }

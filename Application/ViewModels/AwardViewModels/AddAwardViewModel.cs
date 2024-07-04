@@ -7,5 +7,6 @@ public class AddAwardViewModel
     public double Cash { get; set; }
     public string Artifact { get; set; }
     public string Description { get; set; }
-    public Guid? EducationalLevelId { get; set; }
+    public Guid EducationalLevelId { get; set; }
+    public Guid CurrentUserId { get; set; }
 }

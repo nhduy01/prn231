@@ -32,7 +32,7 @@ public class PostService : IPostService
         newPost.Images = newImages;
         newPost.Status = PostStatus.Active.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -88,9 +88,13 @@ public class PostService : IPostService
 
         if (updatePost.DeleteImages != null)
             foreach (var image in updatePost.DeleteImages)
-                post.Images.FirstOrDefault(img => img.Id == image)!.Status = ImageStatus.Inactive.ToString();
+            {
+                var deleteImage = post.Images.FirstOrDefault(x => x.Id == image);
+                post.Images.Remove(deleteImage);
+            }
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -103,7 +107,7 @@ public class PostService : IPostService
         if (Post == null) throw new Exception("Khong tim thay Post");
 
         Post.Status = PostStatus.Inactive.ToString();
-        
+
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 

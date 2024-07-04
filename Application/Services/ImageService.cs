@@ -27,7 +27,6 @@ public class ImageService : IImageService
     public async Task<bool> CreateImage(ImageRequest Image)
     {
         var newImage = _mapper.Map<Image>(Image);
-        newImage.Status = ImageStatus.Active.ToString();
         await _unitOfWork.ImageRepo.AddAsync(newImage);
         
         return await _unitOfWork.SaveChangesAsync()>0;
@@ -67,11 +66,11 @@ public class ImageService : IImageService
 
     public async Task<bool> DeleteImage(Guid id)
     {
-        var Image = await _unitOfWork.ImageRepo.GetByIdAsync(id);
-        if (Image == null) throw new Exception("Khong tim thay Image");
-        Image.Status = "INACTIVE";
+        var image = await _unitOfWork.PaintingCollectionRepo.GetByIdAsync(id);
+        if (image == null) throw new Exception("Khong tim thay Image");
+        await _unitOfWork.PaintingCollectionRepo.DeleteAsync(image);
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

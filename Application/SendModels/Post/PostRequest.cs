@@ -9,4 +9,6 @@ public class PostRequest
     public string Description { get; set; }
     public Guid CategoryId { get; set; }
     public List<ImageRequest>? Images { get; set; }
+    public Guid CurrentUserId { get; set; }
+
 }

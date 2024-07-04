@@ -36,7 +36,6 @@ public class PaintingService : IPaintingService
     public async Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
-        painting.CreatedBy = _claimsService.GetCurrentUserId();
         painting.Status = PaintingStatus.Draft.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
@@ -53,7 +52,6 @@ public class PaintingService : IPaintingService
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
-            painting.CreatedBy = _claimsService.GetCurrentUserId();
             painting.Status = PaintingStatus.Submitted.ToString();
             await _unitOfWork.PaintingRepo.AddAsync(painting);
 
@@ -69,7 +67,6 @@ public class PaintingService : IPaintingService
     public async Task<bool> AddPaintingForFinalRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
-        painting.CreatedBy = _claimsService.GetCurrentUserId();
         painting.Status = PaintingStatus.FinalRound.ToString();
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
@@ -170,7 +167,7 @@ public class PaintingService : IPaintingService
             return null;
         }
 
-        if (request.Result == true)
+        if (request.IsPassed == true)
         {
             painting.Status = PaintingStatus.Accepted.ToString();
         }
@@ -200,7 +197,7 @@ public class PaintingService : IPaintingService
             return null;
         }
 
-        if (request.Result == true)
+        if (request.IsPassed == true)
         {
             painting.Status = PaintingStatus.Pass.ToString();
         }

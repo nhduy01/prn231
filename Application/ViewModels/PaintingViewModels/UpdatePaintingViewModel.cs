@@ -13,4 +13,6 @@ public class UpdatePaintingViewModel
     public Guid? TopicId { get; set; }
     public Guid? ScheduleId { get; set; }
     public string Code { get; set; }
+    public Guid CurrentUserId { get; set; }
+
 }

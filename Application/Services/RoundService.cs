@@ -26,16 +26,11 @@ public class RoundService : IRoundService
 
     public async Task<bool> CreateRound(RoundRequest Round)
     {
-        var check = await _unitOfWork.EducationalLevelRepo.CheckValidRoundDate(Round.EducationalLevelId, Round.StartTime, Round.EndTime);
-        if (check)
-        {
-            var newRound = _mapper.Map<Round>(Round);
-            newRound.Status = RoundStatus.Active.ToString();
-            await _unitOfWork.RoundRepo.AddAsync(newRound);
+        var newRound = _mapper.Map<Round>(Round);
+        newRound.Status = RoundStatus.Active.ToString();
+        await _unitOfWork.RoundRepo.AddAsync(newRound);
 
-            return await _unitOfWork.SaveChangesAsync() > 0;
-        }
-        throw new Exception("Start Time với End Time không hợp lệ");
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -75,8 +70,8 @@ public class RoundService : IRoundService
         var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
         if (Round == null) throw new Exception("Khong tim thay Round");
         _mapper.Map(updateRound, Round);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -87,9 +82,9 @@ public class RoundService : IRoundService
     {
         var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
         if (Round == null) throw new Exception("Khong tim thay Round");
-        Round.Status = "INACTIVE";
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+        Round.Status = RoundStatus.Inactive.ToString();
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

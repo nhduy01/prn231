@@ -33,12 +33,6 @@ public class EducationalLevelConfiguration : IEntityTypeConfiguration<Educationa
         //ContestId
         builder.Property(u => u.ContestId).IsRequired();
 
-        //StartTime
-        builder.Property(u => u.StartTime);
-
-        //EndTime
-        builder.Property(u => u.EndTime);
-
         //Description
         builder.Property(u => u.Description);
 

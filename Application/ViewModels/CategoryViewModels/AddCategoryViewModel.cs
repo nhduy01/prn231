@@ -9,7 +9,9 @@ namespace Application.ViewModels.CategoryViewModels
 {
     public class AddCategoryViewModel
     {
+        public Guid CurrentUserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
     }
 }

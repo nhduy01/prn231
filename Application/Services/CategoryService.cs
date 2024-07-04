@@ -41,7 +41,6 @@ namespace Application.Services
         public async Task<bool> AddCategory(AddCategoryViewModel addCategoryViewModel)
         {
             var category = _mapper.Map<Category>(addCategoryViewModel);
-            category.CreatedBy = _claimsService.GetCurrentUserId();
             category.Status = CategoryStatus.Unused.ToString();
 
             await _unitOfWork.CategoryRepo.AddAsync(category);

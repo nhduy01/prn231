@@ -8,4 +8,5 @@ public class RoundUpdateRequest
     public string Location { get; set; }
     public string Description { get; set; }
     public Guid? EducationalLevelId { get; set; }
+    public Guid CurrentUserId { get; set; }
 }

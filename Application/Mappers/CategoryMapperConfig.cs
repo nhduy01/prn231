@@ -15,8 +15,10 @@ public partial class MapperConfigs : Profile
 {
     partial void AddCategoryMapperConfig()
     {
-        CreateMap<AddCategoryViewModel, Category>().ReverseMap();
-        CreateMap<UpdateCategoryViewModel, Category>().ReverseMap();
+        CreateMap<AddCategoryViewModel, Category>().ReverseMap()
+            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
+        CreateMap<UpdateCategoryViewModel, Category>().ReverseMap()
+             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
         CreateMap<CategoryViewModel, Category>().ReverseMap();
     }
 }
