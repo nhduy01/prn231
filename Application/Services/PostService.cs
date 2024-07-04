@@ -42,14 +42,12 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime);
-
-        var result = new List<Post>();
+        list = list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).ToList();
 
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);

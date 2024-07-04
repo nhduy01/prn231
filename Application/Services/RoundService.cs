@@ -45,14 +45,10 @@ public class RoundService : IRoundService
     public async Task<(List<RoundViewModel>, int)> GetListRound(ListModels listModels)
     {
         var list = await _unitOfWork.RoundRepo.GetAllAsync();
-        list = (List<Round>)list.Where(x => x.Status == "ACTIVE");
-
-        var result = new List<Round>();
-
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<RoundViewModel>>(result), totalPages);

@@ -48,7 +48,7 @@ public class AwardService : IAwardService
     public async Task<(List<AwardViewModel>, int)> GetListAward(ListModels listAwardModel)
     {
         var awardList = await _unitOfWork.AwardRepo.GetAllAsync();
-        awardList = (List<Award>)awardList.Where(x => x.Status == AwardStatus.Active.ToString());
+        awardList = awardList.Where(x => x.Status == AwardStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AwardViewModel>>(awardList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);

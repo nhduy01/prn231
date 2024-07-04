@@ -47,14 +47,10 @@ public class EducationalLevelService : IEducationalLevelService
     public async Task<(List<EducationalLevelViewModel>, int)> GetListEducationalLevel(ListModels listModels)
     {
         var list = await _unitOfWork.EducationalLevelRepo.GetAllAsync();
-        list = (List<EducationalLevel>)list.Where(x => x.Status == "ACTIVE");
-
-        var result = new List<EducationalLevel>();
-
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<EducationalLevelViewModel>>(result), totalPages);
