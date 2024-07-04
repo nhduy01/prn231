@@ -34,7 +34,7 @@ public class EducationalLevelConfiguration : IEntityTypeConfiguration<Educationa
         builder.Property(u => u.ContestId).IsRequired();
 
         //Description
-        builder.Property(u => u.Description);
+        builder.Property(u => u.Description).HasDefaultValue("");
 
         //Level
         builder.Property(u => u.Level);

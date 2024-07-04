@@ -40,10 +40,10 @@ internal class RoundConfiguration : IEntityTypeConfiguration<Round>
         builder.Property(u => u.EndTime);
 
         //Location
-        builder.Property(u => u.Location);
+        builder.Property(u => u.Location).HasDefaultValue("");
 
         //Description
-        builder.Property(u => u.Description);
+        builder.Property(u => u.Description).HasDefaultValue("");
 
         //EducationalLevel
         builder.Property(u => u.EducationalLevelId);

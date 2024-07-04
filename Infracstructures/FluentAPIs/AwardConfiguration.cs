@@ -37,13 +37,13 @@ public class AwardConfiguration : IEntityTypeConfiguration<Award>
         builder.Property(u => u.Quantity);
 
         //Cash
-        builder.Property(u => u.Cash);
+        builder.Property(u => u.Cash).HasDefaultValue(0.0);
 
         //Artifact
-        builder.Property(u => u.Artifact);
+        builder.Property(u => u.Artifact).HasDefaultValue("");
 
         //Description
-        builder.Property(u => u.Description);
+        builder.Property(u => u.Description).HasDefaultValue("");
 
         //Relation
         //EducationLevel

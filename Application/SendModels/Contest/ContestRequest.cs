@@ -1,4 +1,6 @@
-﻿namespace Application.SendModels.Contest;
+﻿using Application.SendModels.EducationalLevel;
+
+namespace Application.SendModels.Contest;
 
 public class ContestRequest
 {
@@ -7,4 +9,14 @@ public class ContestRequest
     public DateTime EndTime { get; set; }
     public string Description { get; set; }
     public string Content { get; set; }
+    public Guid CurrentUserId { get; set; }
+    public DateTime Round1StartTime {get; set; }
+    public DateTime Round1EndTime { get; set; }
+    public DateTime Round2StartTime { get; set; }
+    public DateTime Round2EndTime { get; set; }
+    public int Rank1 { get; set; }
+    public int Rank2 { get; set; }
+    public int Rank3 { get; set; }
+    public int Rank4 { get; set; }
+
 }
