@@ -1,6 +1,6 @@
-﻿namespace Application.ViewModels.ContestViewModels;
+﻿namespace Application.SendModels.Contest;
 
-public class AddContestViewModel
+public class ContestRequest
 {
     public string Name { get; set; }
     public DateTime StartTime { get; set; }

@@ -9,12 +9,12 @@ public partial class MapperConfigs : Profile
 {
     partial void AddPaintingMapperConfig()
     {
-        CreateMap<PaintingRequest, Painting>().ReverseMap()
+        CreateMap<SendModels.Painting.PaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
 
         CreateMap<Painting, PaintingViewModel>().ReverseMap();
 
-        CreateMap<UpdatePaintingViewModel, Painting>().ReverseMap()
+        CreateMap<UpdatePaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
     }
 }

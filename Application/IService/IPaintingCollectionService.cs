@@ -1,10 +1,10 @@
-﻿using Application.ViewModels.PaintingCollectionViewModels;
+﻿using Application.SendModels.PaintingCollection;
 
 namespace Application.IService;
 
 public interface IPaintingCollectionService
 {
-    Task<bool> AddPaintingToCollection(AddPaintingCollectionViewModel addPaintingCollectionViewModel);
+    Task<bool> AddPaintingToCollection(PaintingCollectionRequest addPaintingCollectionViewModel);
 
     Task<bool> DeletePaintingInCollection(Guid paintingcollectionId);
 }

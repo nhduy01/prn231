@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.Report;
 using Application.ViewModels.AwardViewModels;
 using Application.ViewModels.ReportViewModels;
 using AutoMapper;
@@ -33,7 +34,7 @@ namespace Application.Services
 
         #region Add Report
 
-        public async Task<bool> AddReport(AddReportViewModel addReportViewModel)
+        public async Task<bool> AddReport(ReportRequest addReportViewModel)
         {
             var report = _mapper.Map<Report>(addReportViewModel);
             report.Status = ReportStatus.Pending.ToString();
@@ -79,7 +80,7 @@ namespace Application.Services
 
         #region Update Report
 
-        public async Task<bool> UpdateReport(UpdateReportViewModel updateReport)
+        public async Task<bool> UpdateReport(UpdateReportRequest updateReport)
         {
             var report = await _unitOfWork.ReportRepo.GetByIdAsync(updateReport.Id);
             if (report == null) throw new Exception("Khong tim thay Report");

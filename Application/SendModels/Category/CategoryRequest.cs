@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Models;
 
-namespace Application.ViewModels.CategoryViewModels
+namespace Application.SendModels.Category
 {
-    public class AddCategoryViewModel
+    public class CategoryRequest
     {
         public Guid CurrentUserId { get; set; }
         public string Name { get; set; }

@@ -1,8 +1,8 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.Report;
 using Application.Services;
 using Application.ViewModels.AwardViewModels;
-using Application.ViewModels.ReportViewModels;
 using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +22,7 @@ public class ReportController : ControllerBase
     #region Create Report
 
     [HttpPost]
-    public async Task<IActionResult> CreateReport(AddReportViewModel report)
+    public async Task<IActionResult> CreateReport(ReportRequest report)
     {
         try
         {
@@ -50,7 +50,7 @@ public class ReportController : ControllerBase
     #region Update Report
 
     [HttpPut]
-    public async Task<IActionResult> UpdateReport(UpdateReportViewModel updateReport)
+    public async Task<IActionResult> UpdateReport(UpdateReportRequest updateReport)
     {
         var result = await _reportService.UpdateReport(updateReport);
         if (result == null) return NotFound();

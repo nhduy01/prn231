@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModels.CategoryViewModels
+namespace Application.SendModels.Report
 {
-    public class UpdateCategoryViewModel
+    public class UpdateReportRequest
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public Guid CurrentUserId { get; set; }
     }

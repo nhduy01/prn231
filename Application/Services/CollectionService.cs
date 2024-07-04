@@ -1,5 +1,6 @@
 ﻿using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.Collection;
 using Application.ViewModels.CollectionViewModels;
 using AutoMapper;
 using Domain.Enums;
@@ -29,7 +30,7 @@ public class CollectionService : ICollectionService
 
     #region Add Collection
 
-    public async Task<bool> AddCollection(AddCollectionViewModel addCollectionViewModel)
+    public async Task<bool> AddCollection(CollectionRequest addCollectionViewModel)
     {
         var collection = _mapper.Map<Collection>(addCollectionViewModel);
         collection.Status = CollectionStatus.Active.ToString();
@@ -58,7 +59,7 @@ public class CollectionService : ICollectionService
 
     #region Update Collection
 
-    public async Task<bool> UpdateCollection(UpdateCollectionViewModel updateCollection)
+    public async Task<bool> UpdateCollection(UpdateCollectionRequest updateCollection)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateCollection.Id);
         if (collection == null) throw new Exception("Khong tim thay Collection"); ;

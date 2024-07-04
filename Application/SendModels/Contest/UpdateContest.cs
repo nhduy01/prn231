@@ -1,6 +1,6 @@
-﻿namespace Application.ViewModels.ContestViewModels;
+﻿namespace Application.SendModels.Contest;
 
-public class UpdateContestViewModel
+public class UpdateContest
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

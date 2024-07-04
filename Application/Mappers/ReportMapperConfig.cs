@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.SendModels.AccountSendModels;
 using Application.SendModels.Authentication;
 using Application.SendModels.Post;
+using Application.SendModels.Report;
 using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.ReportViewModels;
 using AutoMapper;
@@ -17,9 +18,9 @@ public partial class MapperConfigs : Profile
 {
     partial void AddReportMapperConfig()
     {
-        CreateMap<Report, AddReportViewModel>().ReverseMap()
+        CreateMap<Report, ReportRequest>().ReverseMap()
             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
-        CreateMap<Report, UpdateReportViewModel>().ReverseMap()
+        CreateMap<Report, UpdateReportRequest>().ReverseMap()
             .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Report, ReportViewModel>().ReverseMap();
     }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Application.IService;
 using Application.IService.ICommonService;
-using Application.ViewModels.ContestViewModels;
+using Application.SendModels.Contest;
 using AutoMapper;
+using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Microsoft.Extensions.Configuration;
@@ -29,11 +30,11 @@ public class ContestService : IContestService
 
     #region Add Contest
 
-    public async Task<bool> AddContest(AddContestViewModel addContestViewModel)
+    public async Task<bool> AddContest(ContestRequest addContestViewModel)
     {
         var contest = _mapper.Map<Contest>(addContestViewModel);
         contest.CreatedBy = _claimsService.GetCurrentUserId();
-        contest.Status = "ACTIVE";
+        contest.Status = ContestStatus.Active.ToString();
         await _unitOfWork.ContestRepo.AddAsync(contest);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
@@ -48,7 +49,7 @@ public class ContestService : IContestService
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
         if (contest == null) throw new Exception("Khong tim thay Contest"); 
 
-        contest.Status = "INACTIVE";
+        contest.Status = ContestStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync()>0;
     }
@@ -57,7 +58,7 @@ public class ContestService : IContestService
 
     #region Update Contest
 
-    public async Task<bool> UpdateContest(UpdateContestViewModel updateContest)
+    public async Task<bool> UpdateContest(UpdateContest updateContest)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(updateContest.Id);
         if (contest == null) throw new Exception("Khong tim thay Contest");

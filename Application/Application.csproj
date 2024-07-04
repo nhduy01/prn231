@@ -19,6 +19,7 @@
 
     <ItemGroup>
         <Folder Include="IValidators\" />
+        <Folder Include="ViewModels\PaintingCollectionViewModels\" />
     </ItemGroup>
 
 

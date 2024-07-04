@@ -1,6 +1,6 @@
-﻿namespace Application.ViewModels.CollectionViewModels;
+﻿namespace Application.SendModels.Collection;
 
-public class AddCollectionViewModel
+public class CollectionRequest
 {
     public string Name { get; set; }
     public string Image { get; set; }
