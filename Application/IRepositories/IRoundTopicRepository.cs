@@ -9,6 +9,10 @@ namespace Application.IRepositories
 {
     public interface IRoundTopicRepository : IGenericRepository<RoundTopic>
     {
-      
+        public Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId);
+
+        public Task<List<Painting>> ListPaintingForFinalRound(Guid roundId);
+
+
     }
 }

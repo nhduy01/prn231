@@ -223,7 +223,8 @@ public class PaintingController : Controller
     
     #region Get Painting By Id
 
-    [HttpGet("id")]
+    [HttpGet("{id}")]
+
     public async Task<IActionResult> GetPaintingById([FromRoute]Guid id)
     {
         try

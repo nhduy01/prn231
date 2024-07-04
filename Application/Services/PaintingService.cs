@@ -83,7 +83,7 @@ public class PaintingService : IPaintingService
     public async Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel)
     {
         var paintingList = await _unitOfWork.PaintingRepo.GetAllAsync();
-        paintingList = (List<Painting>)paintingList.Where(x => x.Status != PaintingStatus.Delete.ToString());
+        paintingList = paintingList.Where(x => x.Status != PaintingStatus.Delete.ToString()).ToList();
         var result = _mapper.Map<List<PaintingViewModel>>(paintingList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listPaintingModel.PageSize);
@@ -137,7 +137,7 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    /*#region Submit Painting
+    #region Submit Painting
 
     public async Task<bool> SubmitPainting(Guid paintingId)
     {
@@ -156,7 +156,7 @@ public class PaintingService : IPaintingService
         return await _unitOfWork.SaveChangesAsync()>0;
     }
 
-    #endregion*/
+    #endregion
 
     #region Review Decision of Painting
 

@@ -39,14 +39,10 @@ public class TopicService : ITopicService
     public async Task<(List<TopicViewModel>, int)> GetListTopic(ListModels listModels)
     {
         var list = await _unitOfWork.TopicRepo.GetAllAsync();
-        list = (List<Topic>)list.Where(x => x.Status == "ACTIVE");
-
-        var result = new List<Topic>();
-
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<TopicViewModel>>(result), totalPages);

@@ -23,12 +23,12 @@ public class ScheduleService : IScheduleService
         _mapper = mapper;
     }
 
-    /*#region Create
+    #region Create
 
     public async Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest schedule)
     {
         //Get Paintings Of Preliminary round
-        var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
+        var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
 
         var award = _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId).Result?.EducationalLevel.Award
             .FirstOrDefault(a => a.Rank == RankAward.Preliminary.ToString());
@@ -86,7 +86,7 @@ public class ScheduleService : IScheduleService
         try
         {
             //Get Paintings Of Preliminary round
-            var listPainting = await _unitOfWork.PaintingRepo.ListPaintingForFinalRound(schedule.RoundId);
+            var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForFinalRound(schedule.RoundId);
             List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
 
 
@@ -192,35 +192,38 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
-    */
 
     #region Get All
 
-    public async Task<(List<ScheduleViewModel>, int)> GetListSchedule(ListModels listModels)
+    public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)
     {
         var list = await _unitOfWork.ScheduleRepo.GetAllAsync();
-        list = (List<Schedule>)list.Where(x => x.Status == "ACTIVE");
-
-        var result = new List<Schedule>();
-
+        list = list.Where(x => x.Status != ScheduleStatus.Delete.ToString()).ToList();
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
-        return (_mapper.Map<List<ScheduleViewModel>>(result), totalPages);
+        return (_mapper.Map<List<ScheduleRatingViewModel>>(result), totalPages);
     }
 
     #endregion
 
     #region Get By Id
 
-    public async Task<ScheduleViewModel?> GetScheduleById(Guid id)
+    public async Task<ScheduleRatingViewModel?> GetScheduleById(Guid id)
     {
         var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
         if (Schedule == null) throw new Exception("Khong tim thay Schedule");
-        return _mapper.Map<ScheduleViewModel>(Schedule);
+        return _mapper.Map<ScheduleRatingViewModel>(Schedule);
+    }
+
+    public async Task<List<ScheduleViewModel?>> GetScheduleByExaminerId(Guid id)
+    {
+        var schedule = await _unitOfWork.ScheduleRepo.GetByExaminerId(id);
+        if (schedule == null) throw new Exception("Khong tim thay Schedule");
+        return _mapper.Map<List<ScheduleViewModel>>(schedule);
     }
 
     #endregion
@@ -408,7 +411,7 @@ public class ScheduleService : IScheduleService
 
         return true;
     }
-    
+
     public async Task<bool> RatingConsolationPrize(RatingRequest ratingPainting)
     {
         //Get schedule with list painting 

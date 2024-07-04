@@ -42,7 +42,7 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = (List<Account>)accountList.Where(x => x.Status == "ACTIVE" && x.Role == Role.Examiner.ToString());
+        accountList = accountList.Where(x => x.Role == Role.Examiner.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -56,7 +56,7 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = (List<Account>)accountList.Where(x => x.Status == "ACTIVE" && x.Role == Role.Competitor.ToString());
+        accountList = accountList.Where(x => x.Role == Role.Competitor.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);

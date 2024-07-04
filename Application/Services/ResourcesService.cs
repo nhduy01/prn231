@@ -39,14 +39,10 @@ public class ResourcesService : IResourcesService
     public async Task<(List<ResourcesViewModel>, int)> GetListResources(ListModels listModels)
     {
         var list = await _unitOfWork.ResourcesRepo.GetAllAsync();
-        list = (List<Resources>)list.Where(x => x.Status == "ACTIVE");
-
-        var result = new List<Resources>();
-
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<ResourcesViewModel>>(result), totalPages);

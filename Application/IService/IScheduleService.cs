@@ -7,9 +7,11 @@ namespace Application.IService;
 
 public interface IScheduleService
 {
-    /*public Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule);*/
-    public Task<(List<ScheduleViewModel>, int)> GetListSchedule(ListModels listModels);
-    public Task<ScheduleViewModel?> GetScheduleById(Guid id);
+    public Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule);
+    public Task<bool> CreateScheduleForFinalRound(ScheduleRequest Schedule);
+    public Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels);
+    public Task<ScheduleRatingViewModel?> GetScheduleById(Guid id);
+    public Task<List<ScheduleViewModel?>> GetScheduleByExaminerId(Guid id);
     public Task<bool> RatingPreliminaryRound(RatingRequest ratingPainting);
     public Task<bool> RatingFirstPrize(RatingRequest ratingPainting);
     public Task<bool> RatingSecondPrize(RatingRequest ratingPainting);

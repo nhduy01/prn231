@@ -54,7 +54,7 @@ namespace Application.Services
         public async Task<(List<ReportViewModel>, int)> GetAllReportPending(ListModels listAwardModel)
         {
             var reportList = await _unitOfWork.ReportRepo.GetAllAsync();
-            reportList = (List<Report>)reportList.Where(x => x.Status == ReportStatus.Pending.ToString());
+            reportList = reportList.Where(x => x.Status == ReportStatus.Pending.ToString()).ToList();
             var result = _mapper.Map<List<ReportViewModel>>(reportList);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);

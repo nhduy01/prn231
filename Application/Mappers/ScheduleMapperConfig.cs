@@ -11,7 +11,7 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<ScheduleRequest, Schedule>().ReverseMap();
         CreateMap<ScheduleUpdateRequest, Schedule>().ReverseMap();
-        CreateMap<Schedule, ScheduleViewModel>()
-            .ForMember(dest => dest.PaintingViewModelsList, opt => opt.MapFrom(src => src.Painting));
+        CreateMap<Schedule, ScheduleViewModel>();
+        CreateMap<Schedule, ScheduleRatingViewModel>();
     }
 }
