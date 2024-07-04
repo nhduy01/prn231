@@ -42,6 +42,7 @@ namespace Application.Services
         public async Task<bool> AddCategory(CategoryRequest addCategoryViewModel)
         {
             var category = _mapper.Map<Category>(addCategoryViewModel);
+
             category.Status = CategoryStatus.Unused.ToString();
 
             await _unitOfWork.CategoryRepo.AddAsync(category);
@@ -79,7 +80,9 @@ namespace Application.Services
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateCategory.Id);
             if (category == null) throw new Exception("Khong tim thay Category"); 
 
-            category = _mapper.Map<Category>(updateCategory);
+
+            _mapper.Map(updateCategory, category);
+            category.UpdatedTime = _currentTime.GetCurrentTime();
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
 
