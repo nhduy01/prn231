@@ -19,7 +19,8 @@ public partial class MapperConfigs : Profile
     partial void AddReportMapperConfig()
     {
         CreateMap<Report, ReportRequest>().ReverseMap()
-            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
+            .ForMember(x => x.CompetitorId, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Report, UpdateReportRequest>().ReverseMap()
             .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Report, ReportViewModel>().ReverseMap();

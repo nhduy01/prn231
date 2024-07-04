@@ -39,7 +39,7 @@ public class CategoryController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Category Fail",
                 Errors = ex
             });
         }
@@ -52,14 +52,26 @@ public class CategoryController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateCategory(UpdateCategoryRequest updateCategoryViewModel)
     {
-        var result = await _categoryService.UpdateCategory(updateCategoryViewModel);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _categoryService.UpdateCategory(updateCategoryViewModel);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -69,31 +81,15 @@ public class CategoryController : ControllerBase
     [HttpPatch]
     public async Task<IActionResult> DeleteCategory(Guid id)
     {
-        var result = await _categoryService.DeleteCategory(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
-        {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
-    }
-
-    #endregion
-
-    #region List All Category
-
-    [HttpGet("getallcategory")]
-    public async Task<IActionResult> ListAllCategory([FromRoute] ListModels listCategoryModel)
-    {
         try
         {
-            var result = await _categoryService.ListAllCategory(listCategoryModel);
+            var result = await _categoryService.DeleteCategory(id);
+            if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Category Success",
-                Result = result
+                Result = result,
+                Message = "Delete Successfully"
             });
         }
         catch (Exception ex)
@@ -101,7 +97,7 @@ public class CategoryController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Delete Fail",
                 Errors = ex
             });
         }
@@ -111,17 +107,69 @@ public class CategoryController : ControllerBase
 
     #region List All Category
 
-    [HttpGet("getcategoryunused")]
-    public async Task<IActionResult> ListCategoryUnused([FromRoute] ListModels listCategoryModel)
+    [HttpGet("getallcategory")]
+    public async Task<IActionResult> ListAllCategory([FromQuery] ListModels listCategoryModel)
     {
         try
         {
-            var result = await _categoryService.ListCategoryUnused(listCategoryModel);
+            var (list, totalPage) = await _categoryService.ListAllCategory(listCategoryModel);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Category Success",
-                Result = result
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Get Category Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List Category Unused
+
+    [HttpGet("getcategoryunused")]
+    public async Task<IActionResult> ListCategoryUnused([FromQuery] ListModels listCategoryModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _categoryService.ListCategoryUnused(listCategoryModel);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
             });
         }
         catch (Exception ex)
@@ -144,12 +192,24 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            var result = await _categoryService.ListPostByCategoryId(listCategoryModel,categoryId);
+            var (list, totalPage) = await _categoryService.ListPostByCategoryId(listCategoryModel,categoryId);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Category Success",
-                Result = result
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
             });
         }
         catch (Exception ex)

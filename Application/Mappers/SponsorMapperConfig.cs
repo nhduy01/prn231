@@ -9,11 +9,12 @@ public partial class MapperConfigs : Profile
 {
     partial void AddSponsorMapperConfig()
     {
-        CreateMap<SponsorRequest, Sponsor>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
 
-        CreateMap<SponsorUpdateRequest, Sponsor>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
+        CreateMap<Sponsor, SponsorRequest>().ReverseMap()
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+
+        CreateMap<Sponsor, SponsorUpdateRequest>().ReverseMap()
+           .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Sponsor, SponsorViewModel>().ReverseMap();
     }
 }

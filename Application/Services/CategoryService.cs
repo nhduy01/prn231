@@ -92,7 +92,8 @@ namespace Application.Services
 
         public async Task<(List<CategoryViewModel>, int)> ListAllCategory(ListModels listCategoryModel)
         {
-            var result =  _mapper.Map<List<CategoryViewModel>>(_unitOfWork.CategoryRepo.GetAllAsync());
+            var list = await _unitOfWork.CategoryRepo.GetAllAsync();
+            var result =  _mapper.Map<List<CategoryViewModel>>(list);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
             int? itemsToSkip = (listCategoryModel.PageNumber - 1) * listCategoryModel.PageSize;
@@ -108,7 +109,8 @@ namespace Application.Services
 
         public async Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel)
         {
-            var result = _mapper.Map<List<CategoryViewModel>>(_unitOfWork.CategoryRepo.GetCategoryUnused);
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUnused();
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
             int? itemsToSkip = (listCategoryModel.PageNumber - 1) * listCategoryModel.PageSize;

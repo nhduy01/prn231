@@ -82,15 +82,15 @@ public class ContestController : Controller
     #region Get Contest By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetContestById(Guid contestId)
+    public async Task<IActionResult> GetContestById([FromRoute] Guid id)
     {
         try
         {
-            var result = await _contestService.GetContestById(contestId);
+            var result = await _contestService.GetContestById(id);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Contest Success",
                 Result = result
             });
         }
@@ -109,7 +109,7 @@ public class ContestController : Controller
 
     #region Get 5 recent contest year
 
-    [HttpGet]
+    [HttpGet("get5recentyear")]
     public async Task<IActionResult> Get5RecentContestYear()
     {
         try

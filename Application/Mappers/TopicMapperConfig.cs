@@ -9,10 +9,11 @@ public partial class MapperConfigs : Profile
 {
     partial void AddTopicMapperConfig()
     {
-        CreateMap<TopicRequest, Topic>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
-        CreateMap<TopicUpdateRequest, Topic>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
+
+        CreateMap<Topic, TopicRequest>().ReverseMap()
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+        CreateMap<Topic, TopicUpdateRequest>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Topic, TopicViewModel>().ReverseMap();
     }
 }

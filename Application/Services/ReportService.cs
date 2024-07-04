@@ -85,7 +85,7 @@ namespace Application.Services
             var report = await _unitOfWork.ReportRepo.GetByIdAsync(updateReport.Id);
             if (report == null) throw new Exception("Khong tim thay Report");
 
-            report = _mapper.Map<Report>(updateReport);
+            _mapper.Map(updateReport, report);
             report.UpdatedTime = _currentTime.GetCurrentTime();
 
 
@@ -99,7 +99,8 @@ namespace Application.Services
 
         public async Task<ReportViewModel> GetReportById(Guid reportId)
         {
-            return _mapper.Map<ReportViewModel>(await _unitOfWork.AwardRepo.GetByIdAsync(reportId));
+            var result = await _unitOfWork.ReportRepo.GetByIdAsync(reportId);
+            return _mapper.Map<ReportViewModel>(result);
         }
 
         #endregion

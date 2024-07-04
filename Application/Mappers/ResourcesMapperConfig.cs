@@ -9,11 +9,12 @@ public partial class MapperConfigs : Profile
 {
     partial void AddResourcesMapperConfig()
     {
-        CreateMap<ResourcesRequest, Resources>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
 
-        CreateMap<ResourcesUpdateRequest, Resources>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
+        CreateMap<Resources, ResourcesRequest>().ReverseMap()
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+       
+        CreateMap<Resources, ResourcesUpdateRequest>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Resources, ResourcesViewModel>().ReverseMap();
     }
 }

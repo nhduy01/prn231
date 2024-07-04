@@ -249,7 +249,7 @@ public class ContestService : IContestService
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(updateContest.Id);
         if (contest == null) throw new Exception("Khong tim thay Contest");
 
-        contest = _mapper.Map<Contest>(updateContest);
+        _mapper.Map(updateContest, contest);
         contest.UpdatedTime = _currentTime.GetCurrentTime();
 
 

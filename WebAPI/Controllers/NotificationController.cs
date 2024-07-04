@@ -78,8 +78,8 @@ public class NotificationController : Controller
 
     #region Read Notification
 
-    [HttpPatch]
-    public async Task<IActionResult> IsReadNotification(Guid id)
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> IsReadNotification([FromRoute] Guid id)
     {
         var result = await _notificationService.ReadNotification(id);
         if (result == null) return NotFound();

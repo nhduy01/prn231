@@ -19,13 +19,12 @@ public partial class MapperConfigs : Profile
         CreateMap<Category, CategoryRequest>().ReverseMap()
             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
             .ForMember(x => x.StaffId, x => x.MapFrom(x => x.CurrentUserId));
-        CreateMap<CategoryRequest, Category>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy))
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.StaffId));
-        CreateMap<UpdateCategoryRequest, Category>().ReverseMap()
-             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
+        
+        
         CreateMap<Category, UpdateCategoryRequest>().ReverseMap()
              .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
-        CreateMap<CategoryViewModel, Category>().ReverseMap();
+        CreateMap<CategoryViewModel, Category>();
+
+        CreateMap<Category, CategoryViewModel>();
     }
 }

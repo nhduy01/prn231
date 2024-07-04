@@ -95,7 +95,7 @@ public class TopicController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Topic Success",
                 Result = result
             });
         }

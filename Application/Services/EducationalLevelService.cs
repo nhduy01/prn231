@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.Common;
 using Application.IService;
+using Application.IService.ICommonService;
 using Application.SendModels.EducationalLevel;
 using Application.SendModels.Round;
 using Application.ViewModels.EducationalLevelViewModels;
@@ -9,19 +10,26 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;
 
 public class EducationalLevelService : IEducationalLevelService
 {
+    private readonly IClaimsService _claimsService;
+    private readonly IConfiguration _configuration;
+    private readonly ICurrentTime _currentTime;
     private readonly IMapper _mapper;
-
     private readonly IUnitOfWork _unitOfWork;
 
-    public EducationalLevelService(IUnitOfWork unitOfWork, IMapper mapper)
+    public EducationalLevelService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime,
+        IConfiguration configuration, IClaimsService claimsService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentTime = currentTime;
+        _configuration = configuration;
+        _claimsService = claimsService;
     }
 
     #region Create
@@ -73,6 +81,7 @@ public class EducationalLevelService : IEducationalLevelService
         var EducationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(updateEducationalLevel.Id);
         if (EducationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
         _mapper.Map(updateEducationalLevel, EducationalLevel);
+        EducationalLevel.UpdatedTime = _currentTime.GetCurrentTime();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
