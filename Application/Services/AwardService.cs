@@ -82,11 +82,11 @@ public class AwardService : IAwardService
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(updateAward.Id);
         if (award == null) throw new Exception("Khong tim thay Award");
 
-        award = _mapper.Map<Award>(updateAward);
+        _mapper.Map(updateAward, award);
+
         award.UpdatedTime = _currentTime.GetCurrentTime();
 
-       
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

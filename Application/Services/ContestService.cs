@@ -136,50 +136,94 @@ public class ContestService : IContestService
         //List level
         List<Award> listAward = new List<Award>();
 
-        //Create 1st prize
+        //Create 1st prize Level 1
         var award1 = new Award();
-        award1.Rank = "1";
+        award1.Rank = "FirstPrize";
         award1.CreatedBy = addContestViewModel.CurrentUserId;
         award1.CreatedTime = _currentTime.GetCurrentTime();
         award1.Quantity = addContestViewModel.Rank1;
         award1.Status = ContestStatus.Active.ToString();
+        award1.EducationalLevelId = level.Id;
         listAward.Add(award1);
 
-        //Create 1st prize
+        //Create 2nd prize  Level 1
         var award2 = new Award();
-        award2.Rank = "2";
+        award2.Rank = "SecondPrize";
         award2.CreatedBy = addContestViewModel.CurrentUserId;
         award2.CreatedTime = _currentTime.GetCurrentTime();
         award2.Quantity = addContestViewModel.Rank2;
         award2.Status = ContestStatus.Active.ToString();
+        award2.EducationalLevelId = level.Id;
         listAward.Add(award2);
 
-        //Create 1st prize
+        //Create 3rd prize Level 1
         var award3 = new Award();
-        award3.Rank = "3";
+        award3.Rank = "ThirdPrize";
         award3.CreatedBy = addContestViewModel.CurrentUserId;
         award3.CreatedTime = _currentTime.GetCurrentTime();
         award3.Quantity = addContestViewModel.Rank3;
         award3.Status = ContestStatus.Active.ToString();
+        award3.EducationalLevelId = level.Id;
         listAward.Add(award3);
 
-        //Create 1st prize
+        //Create 4th prize Level 1
         var award4 = new Award();
-        award4.Rank = "4";
+        award4.Rank = "ConsolationPrize";
         award4.CreatedBy = addContestViewModel.CurrentUserId;
         award4.CreatedTime = _currentTime.GetCurrentTime();
         award4.Quantity = addContestViewModel.Rank4;
         award4.Status = ContestStatus.Active.ToString();
+        award4.EducationalLevelId = level.Id;
         listAward.Add(award4);
 
+        //Create 1st prize Level 2
+        var award5 = new Award();
+        award5.Rank = "FirstPrize";
+        award5.CreatedBy = addContestViewModel.CurrentUserId;
+        award5.CreatedTime = _currentTime.GetCurrentTime();
+        award5.Quantity = addContestViewModel.Rank1;
+        award5.Status = ContestStatus.Active.ToString();
+        award5.EducationalLevelId = level2.Id;
+        listAward.Add(award5);
 
+        //Create 2nd prize  Level 2
+        var award6 = new Award();
+        award6.Rank = "SecondPrize";
+        award6.CreatedBy = addContestViewModel.CurrentUserId;
+        award6.CreatedTime = _currentTime.GetCurrentTime();
+        award6.Quantity = addContestViewModel.Rank2;
+        award6.Status = ContestStatus.Active.ToString();
+        award6.EducationalLevelId = level2.Id;
+        listAward.Add(award6);
+
+        //Create 3rd prize Level 2
+        var award7 = new Award();
+        award7.Rank = "ThirdPrize";
+        award7.CreatedBy = addContestViewModel.CurrentUserId;
+        award7.CreatedTime = _currentTime.GetCurrentTime();
+        award7.Quantity = addContestViewModel.Rank3;
+        award7.Status = ContestStatus.Active.ToString();
+        award7.EducationalLevelId = level2.Id;
+        listAward.Add(award7);
+
+        //Create 4th prize Level 2
+        var award8 = new Award();
+        award8.Rank = "ConsolationPrize";
+        award8.CreatedBy = addContestViewModel.CurrentUserId;
+        award8.CreatedTime = _currentTime.GetCurrentTime();
+        award8.Quantity = addContestViewModel.Rank4;
+        award8.Status = ContestStatus.Active.ToString();
+        award8.EducationalLevelId = level2.Id;
+        listAward.Add(award8);
+
+        await _unitOfWork.AwardRepo.AddRangeAsync(listAward);
+        check = await _unitOfWork.SaveChangesAsync() > 0;
         //check
         if (check == false) throw new Exception("Tạo Level Thất Bại");
         #endregion
 
         return check;
     
-        
     }
 
     #endregion
