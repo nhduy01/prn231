@@ -24,6 +24,14 @@ public class AccountController : ControllerBase
         try
         {
             var (list, totalPage) = await _accountService.GetListCompetitor(listCompetitorModel);
+            if (totalPage < listCompetitorModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -76,7 +84,7 @@ public class AccountController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Account Fail",
                 Errors = ex
             });
         }
@@ -89,14 +97,26 @@ public class AccountController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateRound(AccountUpdateRequest update)
     {
-        var result = await _accountService.UpdateAccount(update);
-        if (result == null) return NotFound(new { Success = false, Message = "Account not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _accountService.UpdateAccount(update);
+            if (result == null) return NotFound(new { Success = false, Message = "Account not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -106,14 +126,26 @@ public class AccountController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteRound(Guid id)
     {
-        var result = await _accountService.DeleteAccount(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _accountService.DeleteAccount(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",              
+                Errors = ex
+            });
+        }
     }
 
     #endregion

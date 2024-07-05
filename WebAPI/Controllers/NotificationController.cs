@@ -27,7 +27,7 @@ public class NotificationController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Notification Success",
                 Result = new
                 {
                     List = list
@@ -39,7 +39,7 @@ public class NotificationController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Notification Fail",
                 Errors = ex
             });
         }
@@ -59,7 +59,7 @@ public class NotificationController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Notification Success",
                 Result = result
             });
         }
@@ -68,7 +68,7 @@ public class NotificationController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Notification Fail",
                 Errors = ex
             });
         }
@@ -81,14 +81,26 @@ public class NotificationController : Controller
     [HttpPatch("{id}")]
     public async Task<IActionResult> IsReadNotification([FromRoute] Guid id)
     {
-        var result = await _notificationService.ReadNotification(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Successfully"
-        });
+            var result = await _notificationService.ReadNotification(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion

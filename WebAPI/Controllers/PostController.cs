@@ -43,7 +43,7 @@ public class PostController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Post Fail",
                 Errors = ex
             });
         }
@@ -62,7 +62,7 @@ public class PostController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Post Success",
                 Result = result
             });
         }
@@ -71,7 +71,7 @@ public class PostController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Post Fail",
                 Errors = ex
             });
         }
@@ -90,7 +90,7 @@ public class PostController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Post Success",
                 Result = new
                 {
                     List = list,
@@ -103,7 +103,7 @@ public class PostController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Post Fail",
                 Errors = ex
             });
         }
@@ -123,7 +123,7 @@ public class PostController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Post Success",
                 Result = result
             });
         }
@@ -132,7 +132,7 @@ public class PostController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Post Fail",
                 Errors = ex
             });
         }
@@ -145,14 +145,26 @@ public class PostController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdatePost(PostUpdateRequest updatePost)
     {
-        var result = await _postService.UpdatePost(updatePost);
-        if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _postService.UpdatePost(updatePost);
+            if (result == null) return NotFound(new { Success = false, Message = "Post not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -162,14 +174,26 @@ public class PostController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeletePost(Guid id)
     {
-        var result = await _postService.DeletePost(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _postService.DeletePost(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion

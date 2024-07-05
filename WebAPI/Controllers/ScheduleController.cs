@@ -53,7 +53,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Schedule Fail",
                 Errors = ex
             });
         }
@@ -96,7 +96,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Schedule Fail",
                 Errors = ex
             });
         }
@@ -115,7 +115,7 @@ public class ScheduleController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Schedule Success",
                 Result = new
                 {
                     List = list,
@@ -128,7 +128,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Schedule Fail",
                 Errors = ex
             });
         }
@@ -148,7 +148,7 @@ public class ScheduleController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Schedule Success",
                 Result = result
             });
         }
@@ -157,7 +157,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Schedule Fail",
                 Errors = ex
             });
         }
@@ -170,14 +170,26 @@ public class ScheduleController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
     {
-        var result = await _scheduleService.UpdateSchedule(updateSchedule);
-        if (result == null) return NotFound(new { Success = false, Message = "Schedule not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _scheduleService.UpdateSchedule(updateSchedule);
+            if (result == null) return NotFound(new { Success = false, Message = "Schedule not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -187,15 +199,27 @@ public class ScheduleController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteSchedule(Guid id)
     {
-        var result = await _scheduleService
-            .DeleteSchedule(id);
-        if (result == false) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _scheduleService
+                .DeleteSchedule(id);
+            if (result == false) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -234,7 +258,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Rating Fail",
                 Errors = ex
             });
         }
@@ -272,7 +296,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Rating Fail",
                 Errors = ex
             });
         }
@@ -310,7 +334,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Rating Fail",
                 Errors = ex
             });
         }
@@ -348,7 +372,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Rating Fail",
                 Errors = ex
             });
         }
@@ -386,7 +410,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Rating Fail",
                 Errors = ex
             });
         }
@@ -405,7 +429,7 @@ public class ScheduleController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Schedule Fail",
                 Result = result
             });
         }
@@ -414,7 +438,7 @@ public class ScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Schedule Fail",
                 Errors = ex
             });
         }

@@ -48,7 +48,7 @@ public class AwardController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Award Fail",
                 Errors = ex
             });
         }
@@ -61,14 +61,26 @@ public class AwardController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAward(UpdateAwardRequest updateAward)
     {
-        var result = await _awardService.UpdateAward(updateAward);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _awardService.UpdateAward(updateAward);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update  Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -78,14 +90,26 @@ public class AwardController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteAward(Guid id)
     {
-        var result = await _awardService.DeleteAward(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _awardService.DeleteAward(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -98,6 +122,14 @@ public class AwardController : Controller
         try
         {
             var (list, totalPage) = await _awardService.GetListAward(listAwardModel);
+            if (totalPage < listAwardModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -114,7 +146,7 @@ public class AwardController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Award Fail",
                 Errors = ex
             });
         }
@@ -142,7 +174,7 @@ public class AwardController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Award Fail",
                 Errors = ex
             });
         }

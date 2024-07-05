@@ -31,7 +31,7 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Painting Success",
+                Message = "Draft Painting Success",
                 Result = result
             });
         }
@@ -40,7 +40,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Draft Painting Fail",
                 Errors = ex
             });
         }
@@ -60,7 +60,7 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Painting Success",
+                Message = "Submit Painting Success",
                 Result = result
             });
         }
@@ -69,7 +69,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Submit Painting Fail",
                 Errors = ex
             });
         }
@@ -90,7 +90,7 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Painting Success",
+                Message = "Create Painting For Final Round Success",
                 Result = result
             });
         }
@@ -99,7 +99,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Painting For Final Round Fail",
                 Errors = ex
             });
         }
@@ -112,14 +112,27 @@ public class PaintingController : Controller
     [HttpPut("update")]
     public async Task<IActionResult> UpdatePainting(UpdatePaintingRequest updatePaintingViewModel)
     {
-        var result = await _paintingService.UpdatePainting(updatePaintingViewModel);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+
+            var result = await _paintingService.UpdatePainting(updatePaintingViewModel);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -129,14 +142,26 @@ public class PaintingController : Controller
     [HttpPatch("deletepainting")]
     public async Task<IActionResult> DeletePainting(Guid id)
     {
-        var result = await _paintingService.DeletePainting(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _paintingService.DeletePainting(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -163,14 +188,26 @@ public class PaintingController : Controller
     [HttpPatch("review")]
     public async Task<IActionResult> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request)
     {
-        var result = await _paintingService.ReviewDecisionOfPainting(request);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Review Successfully"
-        });
+            var result = await _paintingService.ReviewDecisionOfPainting(request);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Review Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Review Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -180,14 +217,26 @@ public class PaintingController : Controller
     [HttpPatch("finaldecision")]
     public async Task<IActionResult> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
     {
-        var result = await _paintingService.FinalDecisionOfPainting(request);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _paintingService.FinalDecisionOfPainting(request);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -213,7 +262,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Painting Fail",
                 Errors = ex
             });
         }
@@ -243,7 +292,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Painting Fail",
                 Errors = ex
             });
         }
@@ -275,7 +324,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Painting Fail",
                 Errors = ex
             });
         }
@@ -294,7 +343,7 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Painting Success",
                 Result = result
             });
         }
@@ -303,7 +352,7 @@ public class PaintingController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Painting Fail",
                 Errors = ex
             });
         }

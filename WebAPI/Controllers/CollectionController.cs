@@ -37,7 +37,7 @@ public class CollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Collection Fail",
                 Errors = ex
             });
         }
@@ -50,14 +50,27 @@ public class CollectionController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateCollection(UpdateCollectionRequest updateCollectionViewModel)
     {
-        var result = await _collectionService.UpdateCollection(updateCollectionViewModel);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _collectionService.UpdateCollection(updateCollectionViewModel);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
+
     }
 
     #endregion
@@ -67,14 +80,26 @@ public class CollectionController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteCollection(Guid id)
     {
-        var result = await _collectionService.DeleteCollection(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _collectionService.DeleteCollection(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -99,7 +124,7 @@ public class CollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Collection Fail",
                 Errors = ex
             });
         }
@@ -127,7 +152,7 @@ public class CollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Collection Fail",
                 Errors = ex
             });
         }
