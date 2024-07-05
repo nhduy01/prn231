@@ -43,7 +43,7 @@ public class TopicController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Topic Fail",
                 Errors = ex
             });
         }
@@ -54,15 +54,23 @@ public class TopicController : Controller
     #region Get Topic By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listTopicModel)
     {
         try
         {
-            var (list, totalPage) = await _topicService.GetListTopic(listModel);
+            var (list, totalPage) = await _topicService.GetListTopic(listTopicModel);
+            if (totalPage < listTopicModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Topic Success",
                 Result = new
                 {
                     List = list,
@@ -75,7 +83,7 @@ public class TopicController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Topic Fail",
                 Errors = ex
             });
         }
@@ -104,7 +112,7 @@ public class TopicController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Topic Fail",
                 Errors = ex
             });
         }
@@ -117,14 +125,26 @@ public class TopicController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateTopic(TopicUpdateRequest updateTopic)
     {
-        var result = await _topicService.UpdateTopic(updateTopic);
-        if (result == null) return NotFound(new { Success = false, Message = "Topic not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _topicService.UpdateTopic(updateTopic);
+            if (result == null) return NotFound(new { Success = false, Message = "Topic not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -134,14 +154,26 @@ public class TopicController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteTopic(Guid id)
     {
-        var result = await _topicService.DeleteTopic(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _topicService.DeleteTopic(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion

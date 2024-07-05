@@ -38,7 +38,7 @@ public class PaintingCollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Painting Collection Fail",
                 Errors = ex
             });
         }
@@ -66,7 +66,7 @@ public class PaintingCollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Delete Fail",
                 Errors = ex
             });
         }

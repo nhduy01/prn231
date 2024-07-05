@@ -39,7 +39,7 @@ public class ReportController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Report Fail",
                 Errors = ex
             });
         }
@@ -52,14 +52,27 @@ public class ReportController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateReport(UpdateReportRequest updateReport)
     {
-        var result = await _reportService.UpdateReport(updateReport);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _reportService.UpdateReport(updateReport);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
+
     }
 
     #endregion
@@ -69,14 +82,26 @@ public class ReportController : ControllerBase
     [HttpPatch]
     public async Task<IActionResult> DeleteReport(Guid id)
     {
-        var result = await _reportService.DeleteReport(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _reportService.DeleteReport(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -89,6 +114,14 @@ public class ReportController : ControllerBase
         try
         {
             var (list, totalPage) = await _reportService.GetAllReportPending(listReportModel);
+            if (totalPage < listReportModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -105,7 +138,7 @@ public class ReportController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Report Fail",
                 Errors = ex
             });
         }
@@ -133,7 +166,7 @@ public class ReportController : ControllerBase
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Report Fail",
                 Errors = ex
             });
         }

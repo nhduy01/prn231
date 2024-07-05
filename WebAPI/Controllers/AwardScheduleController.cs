@@ -35,7 +35,7 @@ public class AwardScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Award Schedule Fail",
                 Errors = ex
             });
         }

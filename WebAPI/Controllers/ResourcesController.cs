@@ -43,7 +43,7 @@ public class ResourcesController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Resources Success",
                 Errors = ex
             });
         }
@@ -54,15 +54,23 @@ public class ResourcesController : Controller
     #region Get Resources By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetResourcesByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetResourcesByPage([FromQuery] ListModels listResourceModel)
     {
         try
         {
-            var (list, totalPage) = await _resourcesService.GetListResources(listModel);
+            var (list, totalPage) = await _resourcesService.GetListResources(listResourceModel);
+            if (totalPage < listResourceModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Resources Success",
                 Result = new
                 {
                     List = list,
@@ -75,7 +83,7 @@ public class ResourcesController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Resources Fail",
                 Errors = ex
             });
         }
@@ -95,7 +103,7 @@ public class ResourcesController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Resources Success",
                 Result = result
             });
         }
@@ -104,7 +112,7 @@ public class ResourcesController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Resources Fail",
                 Errors = ex
             });
         }
@@ -117,14 +125,26 @@ public class ResourcesController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateResources(ResourcesUpdateRequest updateResources)
     {
-        var result = await _resourcesService.UpdateResources(updateResources);
-        if (result == null) return NotFound(new { Success = false, Message = "Resources not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _resourcesService.UpdateResources(updateResources);
+            if (result == null) return NotFound(new { Success = false, Message = "Resources not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -134,14 +154,26 @@ public class ResourcesController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteResources(Guid id)
     {
-        var result = await _resourcesService.DeleteResources(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _resourcesService.DeleteResources(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion

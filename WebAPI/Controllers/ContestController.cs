@@ -37,7 +37,7 @@ public class ContestController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Award Fail",
                 Errors = ex
             });
         }
@@ -50,14 +50,26 @@ public class ContestController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateContest(UpdateContest updateContestViewModel)
     {
-        var result = await _contestService.UpdateContest(updateContestViewModel);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _contestService.UpdateContest(updateContestViewModel);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -67,14 +79,27 @@ public class ContestController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteContest(Guid id)
     {
-        var result = await _contestService.DeleteContest(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _contestService.DeleteContest(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
+
     }
 
     #endregion
@@ -99,7 +124,7 @@ public class ContestController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Contest Fail",
                 Errors = ex
             });
         }
@@ -127,7 +152,7 @@ public class ContestController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get 5 Recent Contest Year Fail",
                 Errors = ex
             });
         }
