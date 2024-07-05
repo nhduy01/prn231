@@ -2,14 +2,10 @@
 
 public class AccountUpdateRequest
 {
+    public Guid Id { get; set; }
     public DateTime Birthday { get; set; }
-    public string FullName { get; set; }
-    public string Email { get; set; }
-    public string Role { get; set; }
-    public string Address { get; set; }
-    public string Password { get; set; }
-    public string Phone { get; set; }
-    public string? Avatar { get; set; }
-    public bool Gender { get; set; } = true;
-    public string? RefreshToken { get; set; }
+    public String FullName { get; set; }
+    public String Address { get; set; }
+    public String Phone { get; set; }
+    public String? Avatar { get; set; }
 }

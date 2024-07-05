@@ -10,6 +10,6 @@ public interface IAccountService
     public Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels);
     public Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels);
     public Task<AccountViewModel?> GetAccountById(Guid id);
-    public Task<AccountViewModel?> UpdateAccount(AccountUpdateRequest updateAccount);
+    public Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount);
     public Task<bool?> DeleteAccount(Guid id);
 }

@@ -27,9 +27,15 @@ public class RoundService : IRoundService
     public async Task<bool> CreateRound(RoundRequest Round)
     {
         var newRound = _mapper.Map<Round>(Round);
+        foreach (var id in Round.ListTopic)
+        {
+            var roundTopic = new RoundTopic();
+            roundTopic.RoundId = newRound.Id;
+            roundTopic.TopicId = id;
+            newRound.RoundTopic.Add(roundTopic);
+        }
         newRound.Status = RoundStatus.Active.ToString();
         await _unitOfWork.RoundRepo.AddAsync(newRound);
-
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 

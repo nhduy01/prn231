@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.SendModels.AccountSendModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -79,6 +80,40 @@ public class AccountController : ControllerBase
                 Errors = ex
             });
         }
+    }
+
+    #endregion
+    
+    #region Update
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateRound(AccountUpdateRequest update)
+    {
+        var result = await _accountService.UpdateAccount(update);
+        if (result == null) return NotFound(new { Success = false, Message = "Account not found" });
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Update Successfully"
+        });
+    }
+
+    #endregion
+
+    #region Delete
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteRound(Guid id)
+    {
+        var result = await _accountService.DeleteAccount(id);
+        if (result == null) return NotFound();
+        return Ok(new BaseResponseModel
+        {
+            Status = Ok().StatusCode,
+            Result = result,
+            Message = "Delete Successfully"
+        });
     }
 
     #endregion

@@ -77,13 +77,18 @@ public class AccountService : IAccountService
         return _mapper.Map<AccountViewModel>(account);
     }
 
-    public Task<AccountViewModel?> UpdateAccount(AccountUpdateRequest updateAccount)
+    public async Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount)
     {
-        throw new NotImplementedException();
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(updateAccount.Id);
+        if (account == null) throw new Exception("Khong tim thay account");
+        _mapper.Map(updateAccount, account);
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
-    public Task<bool?> DeleteAccount(Guid id)
+    public async Task<bool?> DeleteAccount(Guid id)
     {
-        throw new NotImplementedException();
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        account.Status = AccountStatus.Inactive.ToString();
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 }
