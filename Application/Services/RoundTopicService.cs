@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.IService;
+using Application.SendModels.RoundTopic;
+using Application.SendModels.Topic;
 using AutoMapper;
+using Domain.Enums;
+using Domain.Models;
 using Infracstructures;
 
 namespace Application.Services
@@ -20,5 +24,30 @@ namespace Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        #region Add Topic To Round
+
+        public async Task<bool> AddTopicToRound(RoundTopicRequest roundTopicRequest)
+        {
+            var newRoundTopic = _mapper.Map<RoundTopic>(roundTopicRequest);
+            await _unitOfWork.RoundTopicRepo.AddAsync(newRoundTopic);
+
+            return await _unitOfWork.SaveChangesAsync() > 0;
+        }
+
+        #endregion
+
+        #region Delete Topic In Round
+
+        public async Task<bool> DeleteTopicInRound(Guid id)
+        {
+            var roundtopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(id);
+            if (roundtopic == null) throw new Exception("Khong tim thay RoundTopic");
+            await _unitOfWork.RoundTopicRepo.DeleteAsync(roundtopic);
+
+            return await _unitOfWork.SaveChangesAsync() > 0;
+        }
+
+        #endregion
     }
 }

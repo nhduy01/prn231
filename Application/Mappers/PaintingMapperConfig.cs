@@ -9,7 +9,7 @@ public partial class MapperConfigs : Profile
 {
     partial void AddPaintingMapperConfig()
     {
-        CreateMap<SendModels.Painting.PaintingRequest, Painting>().ReverseMap()
+        CreateMap<PaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
 
         CreateMap<Painting, PaintingViewModel>().ReverseMap();
