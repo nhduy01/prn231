@@ -45,7 +45,7 @@ public class EducationalLevelController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create EducationalLevel Fail",
                 Errors = ex
             });
         }
@@ -56,11 +56,19 @@ public class EducationalLevelController : Controller
     #region Get EducationalLevel By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetEducationalLevelByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetEducationalLevelByPage([FromQuery] ListModels listLevelModel)
     {
         try
         {
-            var (list, totalPage) = await _educationalLevelService.GetListEducationalLevel(listModel);
+            var (list, totalPage) = await _educationalLevelService.GetListEducationalLevel(listLevelModel);
+            if (totalPage < listLevelModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -77,7 +85,7 @@ public class EducationalLevelController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get EducationalLevel Fail",
                 Errors = ex
             });
         }
@@ -106,7 +114,7 @@ public class EducationalLevelController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get EducationalLevel Fail",
                 Errors = ex
             });
         }
@@ -119,14 +127,26 @@ public class EducationalLevelController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateEducationalLevel(EducationalLevelUpdateRequest updateEducationalLevel)
     {
-        var result = await _educationalLevelService.UpdateEducationalLevel(updateEducationalLevel);
-        if (result == null) return NotFound(new { Success = false, Message = "EducationalLevel not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _educationalLevelService.UpdateEducationalLevel(updateEducationalLevel);
+            if (result == null) return NotFound(new { Success = false, Message = "EducationalLevel not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -136,14 +156,26 @@ public class EducationalLevelController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteEducationalLevel(Guid id)
     {
-        var result = await _educationalLevelService.DeleteEducationalLevel(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _educationalLevelService.DeleteEducationalLevel(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion

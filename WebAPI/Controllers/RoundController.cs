@@ -43,7 +43,7 @@ public class RoundController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Create Round Fail",
                 Errors = ex
             });
         }
@@ -54,15 +54,23 @@ public class RoundController : Controller
     #region Get Round By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetRoundByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetRoundByPage([FromQuery] ListModels listRoundModel)
     {
         try
         {
-            var (list, totalPage) = await _roundService.GetListRound(listModel);
+            var (list, totalPage) = await _roundService.GetListRound(listRoundModel);
+            if (totalPage < listRoundModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Round Success",
                 Result = new
                 {
                     List = list,
@@ -75,7 +83,7 @@ public class RoundController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Round Fail",
                 Errors = ex
             });
         }
@@ -95,7 +103,7 @@ public class RoundController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Inventory Success",
+                Message = "Get Round Success",
                 Result = result
             });
         }
@@ -104,7 +112,7 @@ public class RoundController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Round Fail",
                 Errors = ex
             });
         }
@@ -117,14 +125,26 @@ public class RoundController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateRound(RoundUpdateRequest updateRound)
     {
-        var result = await _roundService.UpdateRound(updateRound);
-        if (result == null) return NotFound(new { Success = false, Message = "Round not found" });
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Update Successfully"
-        });
+            var result = await _roundService.UpdateRound(updateRound);
+            if (result == null) return NotFound(new { Success = false, Message = "Round not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Update Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Update Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -134,14 +154,26 @@ public class RoundController : Controller
     [HttpPatch]
     public async Task<IActionResult> DeleteRound(Guid id)
     {
-        var result = await _roundService.DeleteRound(id);
-        if (result == null) return NotFound();
-        return Ok(new BaseResponseModel
+        try
         {
-            Status = Ok().StatusCode,
-            Result = result,
-            Message = "Delete Successfully"
-        });
+            var result = await _roundService.DeleteRound(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Delete Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Delete Fail",
+                Errors = ex
+            });
+        }
     }
 
     #endregion
@@ -166,7 +198,7 @@ public class RoundController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = ex.Message,
+                Message = "Get Topic In Round Fail",
                 Errors = ex
             });
         }
