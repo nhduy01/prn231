@@ -12,4 +12,5 @@ public interface IPostService
     public Task<PostViewModel?> GetPostById(Guid id);
     public Task<bool> UpdatePost(PostUpdateRequest updatePost);
     public Task<bool> DeletePost(Guid id);
+    Task<(List<PostViewModel>, int)> GetPosByStaffId(ListModels listModels, Guid staffId);
 }
