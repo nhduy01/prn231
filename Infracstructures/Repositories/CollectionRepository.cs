@@ -10,10 +10,10 @@ public class CollectionRepository : GenericRepository<Collection>, ICollectionRe
     {
     }
 
-    public virtual async Task<Collection?> GetPaintingByCollectionAsync(Guid collectionId)
+    public virtual async Task<List<Painting>> GetPaintingByCollectionAsync(Guid collectionId)
     {
-        return await DbSet.Include(a => a.PaintingCollection)
-            .ThenInclude(x => x.Painting)
-            .FirstOrDefaultAsync(x => x.Id == collectionId);
+        return await DbSet.Where(x => x.Id == collectionId)
+            .SelectMany(x => x.PaintingCollection.Select(x => x.Painting))
+            .ToListAsync();
     }
 }
