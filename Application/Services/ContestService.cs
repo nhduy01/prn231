@@ -4,6 +4,7 @@ using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Contest;
 using Application.SendModels.EducationalLevel;
+using Application.ViewModels.ContestViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -277,5 +278,13 @@ public class ContestService : IContestService
 
     #endregion
 
-    
+    #region Get All Contest
+    public async Task<List<ContestViewModel>> GetAllContest()
+    {
+        var contest = await _unitOfWork.ContestRepo.GetAllAsync();
+        return _mapper.Map<List<ContestViewModel>>(contest);
+    }
+    #endregion
+
+
 }
