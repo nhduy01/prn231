@@ -14,6 +14,10 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
     {
     }
 
+    public override async Task<List<Contest>> GetAllAsync()
+    {
+        return await DbSet.Include(x=>x.Account).ToListAsync();
+    }
     public async Task<Contest> GetAllContestInformationAsync(Guid contestId)
     {
 

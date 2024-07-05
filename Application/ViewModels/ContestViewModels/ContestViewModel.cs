@@ -13,6 +13,7 @@ public class ContestViewModel
     public string Content { get; set; }
 
     public Guid? StaffId { get; set; }
+    public string AccountFullName {  get; set; }
 
     //public ICollection<EducationalLevelViewModel> EducationalLevelViewModels { get; set;}
 }
