@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/round/")]
+[Route("api/rounds/")]
 public class RoundController : Controller
 {
     private readonly IRoundService _roundService;
@@ -180,17 +180,20 @@ public class RoundController : Controller
 
     #region Get Topic
     [HttpGet("gettopic/{id}")]
-    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id)
+    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id, [FromQuery] ListModels listTopicmodel)
     {
         try
         {
-            ListModels listmodels = new ListModels();
-            var result = await _roundService.GetTopicInRound(id, listmodels);
+            var (list, totalPage) = await _roundService.GetTopicInRound(id, listTopicmodel);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Topic In Round Success",
-                Result = result
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
             });
         }
         catch (Exception ex)

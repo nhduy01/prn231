@@ -9,8 +9,11 @@ public partial class MapperConfigs : Profile
 {
     partial void AddPostMapperConfig()
     {
-        CreateMap<PostRequest, Post>();
-        CreateMap<PostUpdateRequest, Post>().ReverseMap();
+        CreateMap<Post, PostRequest>().ReverseMap()
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
+            .ForMember(x => x.StaffId, x => x.MapFrom(x => x.CurrentUserId));
+        CreateMap<Post, PostUpdateRequest>().ReverseMap()
+            .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Post, PostViewModel>().ReverseMap();
     }
 }

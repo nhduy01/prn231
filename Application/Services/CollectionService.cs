@@ -2,6 +2,7 @@
 using Application.IService.ICommonService;
 using Application.SendModels.Collection;
 using Application.ViewModels.CollectionViewModels;
+using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -87,10 +88,10 @@ public class CollectionService : ICollectionService
 
     #region Get Painting By Collection
 
-    public async Task<Collection> GetPaintingByCollection(Guid collectionId)
+    public async Task<List<PaintingViewModel>> GetPaintingByCollection(Guid collectionId)
     {
-        var collection = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
-        return _mapper.Map<Collection>(collection);
+        var listPainting = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
+        return _mapper.Map<List<PaintingViewModel>>(listPainting);
     }
 
     #endregion

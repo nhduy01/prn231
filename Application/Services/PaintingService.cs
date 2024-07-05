@@ -46,9 +46,10 @@ public class PaintingService : IPaintingService
 
     #region Submit Painting Preliminary Round
 
-    public async Task<bool> SubmitPaintingForPreliminaryRound(SendModels.Painting.PaintingRequest request)
+    public async Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request)
     {
-        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
+        var roundId = await _unitOfWork.RoundTopicRepo.GetRoundId(request.RoundTopicId);
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate((Guid)roundId);
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
@@ -64,7 +65,7 @@ public class PaintingService : IPaintingService
 
     #region Add Painting Final Round
 
-    public async Task<bool> AddPaintingForFinalRound(SendModels.Painting.PaintingRequest request)
+    public async Task<bool> AddPaintingForFinalRound(PaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.FinalRound.ToString();
