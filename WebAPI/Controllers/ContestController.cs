@@ -104,6 +104,7 @@ public class ContestController : Controller
 
     #endregion
 
+
     #region Get Contest By Id
 
     [HttpGet("{id}")]
@@ -112,6 +113,34 @@ public class ContestController : Controller
         try
         {
             var result = await _contestService.GetContestById(id);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Contest Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Get Contest Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Contest
+
+    [HttpGet("getallcontest")]
+    public async Task<IActionResult> GetAllContest()
+    {
+        try
+        {
+            var result = await _contestService.GetAllContest();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -159,4 +188,5 @@ public class ContestController : Controller
     }
 
     #endregion
+
 }
