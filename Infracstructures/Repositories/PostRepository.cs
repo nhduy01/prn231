@@ -10,10 +10,6 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     public PostRepository(AppDbContext context) : base(context)
     {
     }
-    public virtual async Task<Post> GetByIdAsync(Guid id)
-    {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status != PostStatus.Inactive.ToString());
-    }
 
     public async Task<List<Post>> Get10Post()
     {
