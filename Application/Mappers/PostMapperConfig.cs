@@ -14,6 +14,8 @@ public partial class MapperConfigs : Profile
             .ForMember(x => x.StaffId, x => x.MapFrom(x => x.CurrentUserId));
         CreateMap<Post, PostUpdateRequest>().ReverseMap()
             .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
-        CreateMap<Post, PostViewModel>().ReverseMap();
+        CreateMap<Post, PostViewModel>().ReverseMap()
+            .ForPath(x => x.Category.Id, x => x.MapFrom(x => x.CategoryId))
+            .ForPath(x => x.Category.Name, x => x.MapFrom(x => x.CategoryName));
     }
 }

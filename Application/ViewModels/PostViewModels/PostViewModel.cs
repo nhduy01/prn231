@@ -8,4 +8,6 @@ public class PostViewModel
     public string Description { get; set; }
     public Guid? ContestId { get; set; }
     public Guid? StaffId { get; set; }
+    public Guid CategoryId { get; set; }
+    public String CategoryName {  get; set; }
 }
