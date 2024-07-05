@@ -308,6 +308,14 @@ public class PaintingController : Controller
         try
         {
             var (list, totalPage) = await _paintingService.GetListPainting(listPaintingModel);
+            if (totalPage < listPaintingModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

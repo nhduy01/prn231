@@ -55,11 +55,19 @@ public class SponsorController : Controller
     #region Get sponsor By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetSponsorByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetSponsorByPage([FromQuery] ListModels listSponsorModel)
     {
         try
         {
-            var (list, totalPage) = await _sponsorService.GetListSponsor(listModel);
+            var (list, totalPage) = await _sponsorService.GetListSponsor(listSponsorModel);
+            if (totalPage < listSponsorModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

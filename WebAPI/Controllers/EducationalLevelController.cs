@@ -56,11 +56,19 @@ public class EducationalLevelController : Controller
     #region Get EducationalLevel By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetEducationalLevelByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetEducationalLevelByPage([FromQuery] ListModels listLevelModel)
     {
         try
         {
-            var (list, totalPage) = await _educationalLevelService.GetListEducationalLevel(listModel);
+            var (list, totalPage) = await _educationalLevelService.GetListEducationalLevel(listLevelModel);
+            if (totalPage < listLevelModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

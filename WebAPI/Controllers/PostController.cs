@@ -82,11 +82,19 @@ public class PostController : Controller
     #region Get Post By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetPostByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetPostByPage([FromQuery] ListModels listPostModel)
     {
         try
         {
-            var (list, totalPage) = await _postService.GetListPost(listModel);
+            var (list, totalPage) = await _postService.GetListPost(listPostModel);
+            if (totalPage < listPostModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

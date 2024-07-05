@@ -56,7 +56,7 @@ public class AccountController : ControllerBase
 
     #endregion
 
-    #region Get Account
+    #region Get Account By Id
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAwardById(Guid id)
@@ -92,10 +92,10 @@ public class AccountController : ControllerBase
 
     #endregion
     
-    #region Update
+    #region Update Account
 
     [HttpPut]
-    public async Task<IActionResult> UpdateRound(AccountUpdateRequest update)
+    public async Task<IActionResult> UpdateAccount(AccountUpdateRequest update)
     {
         try
         {

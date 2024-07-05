@@ -54,11 +54,19 @@ public class ResourcesController : Controller
     #region Get Resources By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetResourcesByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetResourcesByPage([FromQuery] ListModels listResourceModel)
     {
         try
         {
-            var (list, totalPage) = await _resourcesService.GetListResources(listModel);
+            var (list, totalPage) = await _resourcesService.GetListResources(listResourceModel);
+            if (totalPage < listResourceModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

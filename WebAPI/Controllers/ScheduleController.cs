@@ -107,11 +107,19 @@ public class ScheduleController : Controller
     #region Get Schedule By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetScheduleByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetScheduleByPage([FromQuery] ListModels listScheduleModel)
     {
         try
         {
-            var (list, totalPage) = await _scheduleService.GetListSchedule(listModel);
+            var (list, totalPage) = await _scheduleService.GetListSchedule(listScheduleModel);
+            if (totalPage < listScheduleModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

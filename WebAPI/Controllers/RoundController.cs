@@ -54,11 +54,19 @@ public class RoundController : Controller
     #region Get Round By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetRoundByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetRoundByPage([FromQuery] ListModels listRoundModel)
     {
         try
         {
-            var (list, totalPage) = await _roundService.GetListRound(listModel);
+            var (list, totalPage) = await _roundService.GetListRound(listRoundModel);
+            if (totalPage < listRoundModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

@@ -135,7 +135,7 @@ public class CollectionController : Controller
     #region Get Painting By Collection
 
     [HttpGet("Painting/{id}")]
-    public async Task<IActionResult> GetPaintingByCollection(Guid id)
+    public async Task<IActionResult> GetPaintingByCollection([FromRoute]Guid id)
     {
         try
         {
@@ -143,7 +143,7 @@ public class CollectionController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Collection Success",
+                Message = "Get Painting Success",
                 Result = result
             });
         }
@@ -152,7 +152,7 @@ public class CollectionController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = "Get Collection Fail",
+                Message = "Get Painting Fail",
                 Errors = ex
             });
         }

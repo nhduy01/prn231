@@ -54,11 +54,19 @@ public class TopicController : Controller
     #region Get Topic By Page
 
     [HttpGet]
-    public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listModel)
+    public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listTopicModel)
     {
         try
         {
-            var (list, totalPage) = await _topicService.GetListTopic(listModel);
+            var (list, totalPage) = await _topicService.GetListTopic(listTopicModel);
+            if (totalPage < listTopicModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

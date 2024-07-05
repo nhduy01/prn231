@@ -114,6 +114,14 @@ public class ReportController : ControllerBase
         try
         {
             var (list, totalPage) = await _reportService.GetAllReportPending(listReportModel);
+            if (totalPage < listReportModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
