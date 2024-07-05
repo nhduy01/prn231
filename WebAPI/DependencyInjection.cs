@@ -65,7 +65,7 @@ public static class DependencyInjection
             options.AddPolicy("_myAllowSpecificOrigins",
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:*")
+                    policy.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();
                 });
