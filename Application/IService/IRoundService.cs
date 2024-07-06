@@ -15,4 +15,6 @@ public interface IRoundService
     public Task<bool> DeleteRound(Guid id);
 
     Task<(List<TopicViewModel>, int)> GetTopicInRound(Guid id, ListModels listModels);
+
+    Task<(List<RoundViewModel>, int)> GetRoundByEducationalLevelId(ListModels listLevelModel, Guid levelId);
 }
