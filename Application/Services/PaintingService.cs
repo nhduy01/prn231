@@ -34,7 +34,7 @@ public class PaintingService : IPaintingService
 
     #region Draft Painting Preliminary Round 
 
-    public async Task<bool> DraftPaintingForPreliminaryRound(SendModels.Painting.PaintingRequest request)
+    public async Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest2 request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.Draft.ToString();
@@ -54,6 +54,27 @@ public class PaintingService : IPaintingService
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
+            painting.Status = PaintingStatus.Submitted.ToString();
+            await _unitOfWork.PaintingRepo.AddAsync(painting);
+
+            return await _unitOfWork.SaveChangesAsync() > 0;
+        }
+        throw new Exception("Khong trong thoi gian nop bai");
+    }
+
+    #endregion
+
+    #region Submit Painting Preliminary Round For Competitor
+
+    public async Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request)
+    {
+        var roundId = await _unitOfWork.RoundTopicRepo.GetRoundId(request.RoundTopicId);
+
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate((Guid)roundId);
+        if (check)
+        {
+            var painting = _mapper.Map<Painting>(request);
+
             painting.Status = PaintingStatus.Submitted.ToString();
             await _unitOfWork.PaintingRepo.AddAsync(painting);
 
