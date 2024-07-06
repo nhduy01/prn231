@@ -13,3 +13,4 @@
 - Lấy Post kèm List Image
 - Get Painting By AccountId
 - Đổi path Get Paintg By Collection(Controller)
+- Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model)
