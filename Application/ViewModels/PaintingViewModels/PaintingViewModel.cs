@@ -11,4 +11,5 @@ public class PaintingViewModel
     public Guid? ScheduleId { get; set; }
     public string Status { get; set; }
     public string Code { get; set; }
+    public string OwnerName { get; set; }
 }

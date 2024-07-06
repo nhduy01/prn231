@@ -6,5 +6,6 @@ public interface IPaintingRepository : IGenericRepository<Painting>
 {
     Task<Painting?> GetByCodeAsync(string code);
     Task<List<Painting>> List20WiningPaintingAsync();
-    Task<List<Account>> ListCompetitorPassRound(Guid id);
+    Task<List<Account>> ListCompetitorPassByRound(Guid roundId);
+    Task<List<Painting>> ListByAccountIdAsync(Guid accountId);
 }

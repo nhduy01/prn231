@@ -23,7 +23,7 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
     public override async Task<Painting?> GetByIdAsync(Guid id)
     {
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
-            .FirstOrDefaultAsync(x => x.Id == id && x.Status == AwardStatus.Active.ToString());
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
     public virtual async Task<List<Painting>> List20WiningPaintingAsync()
     {
@@ -33,9 +33,15 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Take(20).ToListAsync();
     }
 
-    public async Task<List<Account>> ListCompetitorPassRound(Guid id)
+    public async Task<List<Account>> ListCompetitorPassByRound(Guid roundId)
     {
-        return await DbSet.Include(p => p.Account).Where(p => p.Status == PaintingStatus.Pass.ToString() && p.RoundTopicId == id)
+        return await DbSet.Include(p => p.Account).Where(p => p.Status == PaintingStatus.Pass.ToString() && p.RoundTopicId == roundId)
             .Select(p => p.Account).ToListAsync();
+    }
+    public async Task<List<Painting>> ListByAccountIdAsync(Guid accountId)
+    {
+        return await DbSet.Where(x => x.AccountId == accountId && x.Status != PaintingStatus.Delete.ToString())
+            .Include(x => x.Account)
+            .ToListAsync();
     }
 }

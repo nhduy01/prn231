@@ -26,4 +26,5 @@ public interface IPaintingService
 
 
     Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request);
+    Task<(List<PaintingViewModel>, int)> ListPaintingByAccountId(Guid accountId, ListModels listPaintingModel);
 }
