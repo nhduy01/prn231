@@ -1,6 +1,9 @@
-﻿using Application.IService;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
+using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Collection;
+using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.CollectionViewModels;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
@@ -38,7 +41,7 @@ public class CollectionService : ICollectionService
         await _unitOfWork.CollectionRepo.AddAsync(collection);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
-        
+
     }
 
     #endregion
@@ -53,7 +56,7 @@ public class CollectionService : ICollectionService
 
         collection.Status = CollectionStatus.Inactive.ToString();
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -70,7 +73,7 @@ public class CollectionService : ICollectionService
         collection.Image = updateCollection.Image;*/
         collection = _mapper.Map<Collection>(updateCollection);
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
 
     }
 
@@ -81,18 +84,58 @@ public class CollectionService : ICollectionService
     public async Task<CollectionViewModel> GetCollectionById(Guid collectionId)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(collectionId);
+        if (collection == null) throw new Exception("Khong tim thay Collection");
         return _mapper.Map<CollectionViewModel>(collection);
     }
 
     #endregion
 
     #region Get Painting By Collection
-
-    public async Task<List<PaintingViewModel>> GetPaintingByCollection(Guid collectionId)
+    public async Task<(List<PaintingViewModel>, int)> GetPaintingByCollection(ListModels listPaintingModel, Guid collectionId)
     {
         var listPainting = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
-        return _mapper.Map<List<PaintingViewModel>>(listPainting);
-    }
+        if (listPainting.Count == 0) throw new Exception("Khong co Painting nao trong Collection");
+        var result = _mapper.Map<List<PaintingViewModel>>(listPainting);
 
+
+        var totalPages = (int)Math.Ceiling((double)result.Count / listPaintingModel.PageSize);
+        int? itemsToSkip = (listPaintingModel.PageNumber - 1) * listPaintingModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listPaintingModel.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    #endregion
+
+    #region Get All Collection
+    public async Task<(List<CollectionViewModel>, int)> GetAllCollection(ListModels listCollectionModel)
+    {
+        var listCollection = await _unitOfWork.CollectionRepo.GetAllAsync();
+        if (listCollection.Count == 0) throw new Exception("Khong co Collection nao");
+        var result = _mapper.Map<List<CollectionViewModel>>(listCollection);
+
+        var totalPages = (int)Math.Ceiling((double)result.Count / listCollectionModel.PageSize);
+        int? itemsToSkip = (listCollectionModel.PageNumber - 1) * listCollectionModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listCollectionModel.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    #endregion
+
+    #region Get Collection By AccountId
+    public async Task<(List<CollectionViewModel>, int)> GetCollectionByAccountId(ListModels listCollectionModel, Guid accountId)
+    {
+        var listCollection = await _unitOfWork.CollectionRepo.GetCollectionByAccountIdAsync(accountId);
+        if (listCollection.Count == 0) throw new Exception("Khong co Collection nao");
+        var result = _mapper.Map<List<CollectionViewModel>>(listCollection);
+
+        var totalPages = (int)Math.Ceiling((double)result.Count / listCollectionModel.PageSize);
+        int? itemsToSkip = (listCollectionModel.PageNumber - 1) * listCollectionModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listCollectionModel.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
     #endregion
 }

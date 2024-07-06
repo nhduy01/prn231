@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +11,18 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     {
     }
 
-    public async Task<List<EducationalLevel>> GetListEducationalLevel(Guid contestId)
+    public override async Task<List<EducationalLevel>> GetAllAsync()
+    {
+        return await DbSet.Where(x => x.Status == EducationalLevelStatus.Active.ToString()).ToListAsync();
+    }
+    public override async Task<EducationalLevel?> GetByIdAsync(Guid id)
+    {
+        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status != EducationalLevelStatus.Inactive.ToString());
+    }
+
+    /*public async Task<List<EducationalLevel>> GetListEducationalLevel(Guid contestId)
     {
         return await DbSet.Where(x => x.ContestId == contestId).ToListAsync();
-    }
+    }*/
 
 }

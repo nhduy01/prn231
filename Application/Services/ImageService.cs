@@ -39,6 +39,7 @@ public class ImageService : IImageService
     public async Task<(List<ImageViewModel>, int)> GetListImage(ListModels listModels)
     {
         var list = await _unitOfWork.ImageRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay Image");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;

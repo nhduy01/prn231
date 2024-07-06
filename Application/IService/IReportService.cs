@@ -16,5 +16,6 @@ namespace Application.IService
         Task<bool> DeleteReport(Guid reportId);
         Task<bool> UpdateReport(UpdateReportRequest updateReport);
         Task<ReportViewModel> GetReportById(Guid reportId);
+        Task<(List<ReportViewModel>, int)> GetAllReport(ListModels listAwardModel);
     }
 }

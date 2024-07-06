@@ -39,6 +39,7 @@ public class SponsorService : ISponsorService
     public async Task<(List<SponsorViewModel>, int)> GetListSponsor(ListModels listModels)
     {
         var list = await _unitOfWork.SponsorRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay Sponsor nao");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;

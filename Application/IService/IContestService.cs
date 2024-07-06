@@ -15,5 +15,5 @@ public interface IContestService
 
     Task<List<int>> Get5RecentYear();
 
-    Task<List<ContestViewModel>> GetAllContest();
+    Task<List<ContestViewModel?>> GetAllContest();
 }

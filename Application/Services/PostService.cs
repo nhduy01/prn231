@@ -42,7 +42,7 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).ToList();
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
 
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
@@ -58,6 +58,7 @@ public class PostService : IPostService
     public async Task<List<PostViewModel>> Get10Post()
     {
         var list = await _unitOfWork.PostRepo.Get10Post();
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
         return _mapper.Map<List<PostViewModel>>(list);
     }
 
@@ -68,7 +69,7 @@ public class PostService : IPostService
     public async Task<PostViewModel?> GetPostById(Guid id)
     {
         var Post = await _unitOfWork.PostRepo.GetByIdAsync(id);
-        if (Post == null) return null;
+        if (Post == null) throw new Exception("Khong tim thay Post");
         return _mapper.Map<PostViewModel>(Post);
     }
 
@@ -79,7 +80,7 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetPosByStaffId(ListModels listModels, Guid staffId)
     {
         var list = await _unitOfWork.PostRepo.GetPostByStaffId(staffId);
-
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
@@ -132,25 +133,5 @@ public class PostService : IPostService
 
     #endregion
 
-    #region Get 10 Post
-
-    public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
-    {
-        var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).Take(10);
-
-        var result = new List<Post>();
-
-        #region  Pagination
-        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
-        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
-            .Take(listModels.PageSize)
-            .ToList();
-        #endregion
-
-        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
-    }
-
-    #endregion
+    
 }

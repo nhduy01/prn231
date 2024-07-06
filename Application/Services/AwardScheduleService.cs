@@ -20,7 +20,7 @@ public class AwardScheduleService : IAwardScheduleService
     public async Task<List<AwardScheduleListModels>> GetListByScheduleId(Guid id)
     {
         var list = await _unitOfWork.AwardScheduleRepo.GetListByscheduleId(id);
-        return _mapper.Map<List<AwardScheduleListModels>>(list);
+        return list.Count == 0 ? throw new Exception("Không tìm thấy AwardSchedule") : _mapper.Map<List<AwardScheduleListModels>>(list);
     }
-    
+
 }
