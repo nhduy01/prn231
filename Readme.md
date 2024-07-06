@@ -4,3 +4,6 @@
 - Chưa bắt validate date contest
 - bắt validate nếu get list null
 - 
+
+# Sửa: 
+- Sửa Output cho GetContestById
