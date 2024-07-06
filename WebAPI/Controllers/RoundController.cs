@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -206,5 +207,45 @@ public class RoundController : Controller
             });
         }
     }
+    #endregion
+
+    #region Get Round By EducationalLevel Id
+
+    [HttpGet("getroundbyeducationallevelid/{id}")]
+    public async Task<IActionResult> GetRoundByEducationalLevelId([FromQuery] ListModels listRoundModel, [FromRoute] Guid id)
+    {
+        try
+        {
+            var (list, totalPage) = await _roundService.GetRoundByEducationalLevelId(listRoundModel, id);
+            if (totalPage < listRoundModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Round Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Get Round Fail",
+                Errors = ex
+            });
+        }
+    }
+
     #endregion
 }

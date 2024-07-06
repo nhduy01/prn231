@@ -2,6 +2,7 @@
 using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
+using Application.ViewModels.EducationalLevelViewModels;
 using Application.ViewModels.RoundViewModels;
 using Application.ViewModels.TopicViewModels;
 using AutoMapper;
@@ -112,6 +113,23 @@ public class RoundService : IRoundService
             .ToList();
         return (_mapper.Map<List<TopicViewModel>>(result), totalPages);
     }
+    #endregion
+
+    #region Get Round By Educational LevelId
+
+    public async Task<(List<RoundViewModel>, int)> GetRoundByEducationalLevelId(ListModels listLevelModel, Guid levelId)
+    {
+        var list = await _unitOfWork.RoundRepo.GetRoundByLevelId(levelId);
+        if (list.Count == 0) throw new Exception("Khong tim thay Round nao");
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listLevelModel.PageSize);
+        int? itemsToSkip = (listLevelModel.PageNumber - 1) * listLevelModel.PageSize;
+        var result = list.Skip((int)itemsToSkip)
+            .Take(listLevelModel.PageSize)
+            .ToList();
+        return (_mapper.Map<List<RoundViewModel>>(result), totalPages);
+    }
+
     #endregion
 
 }

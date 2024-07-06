@@ -30,6 +30,10 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
             .SelectMany(x => x.RoundTopic.Select(x => x.Topic).Where (x=>x.Status == TopicStatus.Active.ToString()))
             .ToListAsync();
     }
+    public async Task<List<Round>> GetRoundByLevelId(Guid levelId)
+    {
+        return await DbSet.Where(x => x.EducationalLevelId == levelId && x.Status == RoundStatus.Active.ToString()).ToListAsync();
+    }
 
     public virtual async Task<bool> CheckSubmitValidDate(Guid RoundId)
     {

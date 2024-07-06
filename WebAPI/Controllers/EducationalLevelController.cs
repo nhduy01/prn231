@@ -122,6 +122,46 @@ public class EducationalLevelController : Controller
 
     #endregion
 
+    #region Get EducationalLevel By ContestId
+
+    [HttpGet("geteducationlevelbycontestid/{id}")]
+    public async Task<IActionResult> GetEducationalLevelByContestId([FromQuery] ListModels listLevelModel, [FromRoute] Guid id)
+    {
+        try
+        {
+            var (list, totalPage) = await _educationalLevelService.GetEducationalLevelByContestId(listLevelModel, id);
+            if (totalPage < listLevelModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get EducationalLevel Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Get EducationalLevel Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
     #region Update EducationalLevel
 
     [HttpPut]

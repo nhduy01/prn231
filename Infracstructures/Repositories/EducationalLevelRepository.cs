@@ -19,6 +19,10 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     {
         return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status != EducationalLevelStatus.Inactive.ToString());
     }
+    public async Task<List<EducationalLevel>> GetEducationalLevelByContestId(Guid contestId)
+    {
+        return await DbSet.Where(x =>x.ContestId == contestId && x.Status == EducationalLevelStatus.Active.ToString()).ToListAsync();
+    }
 
     /*public async Task<List<EducationalLevel>> GetListEducationalLevel(Guid contestId)
     {
