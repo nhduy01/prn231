@@ -13,6 +13,7 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Services
@@ -46,12 +47,30 @@ namespace Application.Services
 
         #endregion
 
-        #region Get All Report
+        #region Get All Report Pending
 
         public async Task<(List<ReportViewModel>, int)> GetAllReportPending(ListModels listAwardModel)
         {
+            var reportList = await _unitOfWork.ReportRepo.GetAllReportPendingAsync();
+            if (reportList.Count == 0) throw new Exception("Khong tim thay Report nao Pending");
+            var result = _mapper.Map<List<ReportViewModel>>(reportList);
+
+            var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);
+            int? itemsToSkip = (listAwardModel.PageNumber - 1) * listAwardModel.PageSize;
+            result = result.Skip((int)itemsToSkip)
+                .Take(listAwardModel.PageSize)
+                .ToList();
+            return (result, totalPages);
+        }
+
+        #endregion
+
+        #region Get All Report
+
+        public async Task<(List<ReportViewModel>, int)> GetAllReport(ListModels listAwardModel)
+        {
             var reportList = await _unitOfWork.ReportRepo.GetAllAsync();
-            reportList = reportList.Where(x => x.Status == ReportStatus.Pending.ToString()).ToList();
+            if (reportList.Count == 0) throw new Exception("Khong tim thay Report nao");
             var result = _mapper.Map<List<ReportViewModel>>(reportList);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);
@@ -100,6 +119,7 @@ namespace Application.Services
         public async Task<ReportViewModel> GetReportById(Guid reportId)
         {
             var result = await _unitOfWork.ReportRepo.GetByIdAsync(reportId);
+            if (result == null) throw new Exception("Khong tim thay Report");
             return _mapper.Map<ReportViewModel>(result);
         }
 

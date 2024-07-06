@@ -3,10 +3,12 @@ using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
 using Application.ViewModels.RoundViewModels;
+using Application.ViewModels.TopicViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Services;
 
@@ -41,11 +43,12 @@ public class RoundService : IRoundService
 
     #endregion
 
-    #region Get All
+    #region Get All Round
 
     public async Task<(List<RoundViewModel>, int)> GetListRound(ListModels listModels)
     {
         var list = await _unitOfWork.RoundRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay Round nao");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
@@ -97,18 +100,17 @@ public class RoundService : IRoundService
 
     #region Get Topic
 
-    public async Task<(List<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels)
+    public async Task<(List<TopicViewModel>, int)> GetTopicInRound(Guid id, ListModels listModels)
     {
         var list = await _unitOfWork.RoundRepo.GetTopic(id);
-        List<Topic> result = list;
-
+        if (list.Count == 0) throw new Exception("Khong tim thay Topic nao trong Round");
         //page division
-        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
-        return (result, totalPages);
+        return (_mapper.Map<List<TopicViewModel>>(result), totalPages);
     }
     #endregion
 

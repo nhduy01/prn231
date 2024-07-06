@@ -16,7 +16,7 @@ namespace Infracstructures.Repositories
         {
 
         }
-        public override async Task<Category> GetByIdAsync(Guid id)
+        public override async Task<Category?> GetByIdAsync(Guid id)
         {
             return await DbSet.FirstOrDefaultAsync(x=>x.Id == id && x.Status != CategoryStatus.Deleted.ToString());
         }

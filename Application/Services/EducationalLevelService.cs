@@ -51,6 +51,7 @@ public class EducationalLevelService : IEducationalLevelService
     public async Task<(List<EducationalLevelViewModel>, int)> GetListEducationalLevel(ListModels listModels)
     {
         var list = await _unitOfWork.EducationalLevelRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
@@ -66,10 +67,10 @@ public class EducationalLevelService : IEducationalLevelService
 
     public async Task<EducationalLevelViewModel?> GetEducationalLevelById(Guid id)
     {
-        var EducationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
-        if (EducationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
+        var educationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
+        if (educationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
 
-        return _mapper.Map<EducationalLevelViewModel>(EducationalLevel);
+        return _mapper.Map<EducationalLevelViewModel>(educationalLevel);
     }
 
     #endregion

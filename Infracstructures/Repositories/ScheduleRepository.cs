@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,10 +11,17 @@ public class ScheduleRepository : GenericRepository<Schedule>, IScheduleReposito
     {
     }
 
-    override 
-    public async Task<Schedule?> GetByIdAsync(Guid id)
+    public override async Task<List<Schedule>> GetAllAsync()
     {
-        return await DbSet.Include(s => s.Painting).Include(s => s.AwardSchedule).ThenInclude(a => a.Award).FirstOrDefaultAsync(s => s.Id == id);
+        return await DbSet.Where(x => x.Status != ScheduleStatus.Delete.ToString()).ToListAsync();
+    }
+    public override async Task<Schedule?> GetByIdAsync(Guid id)
+    {
+        return await DbSet.Where(x=>x.Status != ScheduleStatus.Delete.ToString())
+            .Include(s => s.Painting.Where(x => x.Status != PaintingStatus.Delete.ToString()))
+            .Include(s => s.AwardSchedule.Where(x => x.Status != AwardScheduleStatus.Delete.ToString()))
+            .ThenInclude(a => a.Award)
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task<List<Schedule>> GetByExaminerId(Guid id)

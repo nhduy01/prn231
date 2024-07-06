@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using Application.IService;
 using Application.IService.ICommonService;
@@ -272,16 +273,19 @@ public class ContestService : IContestService
     
     #region Get 5 recent contest year
     public async Task<List<int>> Get5RecentYear()
-    {
-        return await _unitOfWork.ContestRepo.Get5RecentYearAsync();
+    { 
+
+        var result = await _unitOfWork.ContestRepo.Get5RecentYearAsync();
+        return result ;
     }
 
     #endregion
 
     #region Get All Contest
-    public async Task<List<ContestViewModel>> GetAllContest()
+    public async Task<List<ContestViewModel?>> GetAllContest()
     {
         var contest = await _unitOfWork.ContestRepo.GetAllAsync();
+        if (contest.Count == 0) throw new Exception("Khong co Contest nao");
         return _mapper.Map<List<ContestViewModel>>(contest);
     }
     #endregion
