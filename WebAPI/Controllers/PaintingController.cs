@@ -22,7 +22,7 @@ public class PaintingController : Controller
     #region Draft Painting For Preliminary Round
 
     [HttpPost("draftepainting1stround")]
-    public async Task<IActionResult> DraftPaintingForPreliminaryRound(Application.SendModels.Painting.PaintingRequest painting)
+    public async Task<IActionResult> DraftPaintingForPreliminaryRound(PaintingRequest2 painting)
     {
         try
         {
@@ -51,11 +51,40 @@ public class PaintingController : Controller
     #region Submit Painting For Preliminary Round
 
     [HttpPost("submitepainting1stround")]
-    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(Application.SendModels.Painting.PaintingRequest painting)
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(PaintingRequest painting)
     {
         try
         {
             var result = await _paintingService.SubmitPaintingForPreliminaryRound(painting);
+            if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Submit Painting Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Submit Painting Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Submit Painting For Preliminary Round For Competitor
+
+    [HttpPost("submitepainting1stroundforCompetitor")]
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 painting)
+    {
+        try
+        {
+            var result = await _paintingService.SubmitPaintingForPreliminaryRoundForCompetitor(painting);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
@@ -367,4 +396,6 @@ public class PaintingController : Controller
     }
 
     #endregion
+
+    
 }
