@@ -7,3 +7,7 @@
 
 # Sửa: 
 - Sửa Output cho GetContestById
+- (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
+
+
+- Đổi path Get Paintg By Collection(Controller)
