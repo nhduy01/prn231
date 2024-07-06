@@ -10,6 +10,6 @@
 
 - Sửa Messege khi bắt Exception = ex.Message
 - Chuyển Stauts của report
-- Lấy Post kèm List<Image>
+- Lấy Post kèm List Image
 - Get Painting By AccountId
 - Đổi path Get Paintg By Collection(Controller)
