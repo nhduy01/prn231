@@ -16,7 +16,11 @@ public partial class MapperConfigs : Profile
             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
             .ForMember(x => x.AccountId, x => x.MapFrom(x => x.CurrentUserId));
 
-        CreateMap<Painting, PaintingViewModel>().ReverseMap();
+        CreateMap<Painting, PaintingViewModel>()
+            .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Account.FullName));
+
+        CreateMap<PaintingViewModel, Painting>()
+            .ForPath(dest => dest.Account.FullName, opt => opt.MapFrom(src => src.OwnerName));
 
         CreateMap<UpdatePaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));

@@ -9,6 +9,7 @@ using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Infracstructures.SendModels.Painting;
+using Infracstructures.ViewModels.PostViewModels;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;
@@ -268,6 +269,27 @@ public class PaintingService : IPaintingService
         var painting = await _unitOfWork.PaintingRepo.List20WiningPaintingAsync();
         if (painting.Count == 0) throw new Exception("Khong tim thay Painting nao");
         return _mapper.Map<List<PaintingViewModel>>(painting);
+    }
+
+    #endregion
+
+    #region List Painting By AccountId
+
+    public async Task<(List<PaintingViewModel>,int )> ListPaintingByAccountId(Guid accountId,ListModels listPaintingModel)
+    {
+        var listPainting = await _unitOfWork.PaintingRepo.ListByAccountIdAsync(accountId);
+        if (listPainting.Count==0) throw new Exception("Khong tim thay Painting");
+        var result = _mapper.Map<List<PaintingViewModel>>(listPainting);
+
+        #region pagination
+        var totalPages = (int)Math.Ceiling((double)result.Count / listPaintingModel.PageSize);
+        int? itemsToSkip = (listPaintingModel.PageNumber - 1) * listPaintingModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listPaintingModel.PageSize)
+            .ToList();
+        #endregion
+
+        return (result, totalPages);
     }
 
     #endregion

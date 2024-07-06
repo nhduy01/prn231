@@ -1,5 +1,6 @@
 ﻿using Application.SendModels.Contest;
 using Application.ViewModels.ContestViewModels;
+using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -9,8 +10,12 @@ public partial class MapperConfigs : Profile
 {
     partial void AddContestMapperConfig()
     {
-        CreateMap<Contest, ContestViewModel>().ReverseMap()
-            .ForPath(x => x.Account.FullName, x => x.MapFrom(x => x.AccountFullName));
+        
+        CreateMap<Contest, ContestViewModel>()
+            .ForMember(dest => dest.AccountFullName, opt => opt.MapFrom(src => src.Account.FullName));
+        CreateMap<ContestViewModel, Contest>()
+            .ForPath(dest => dest.Account.FullName, opt => opt.MapFrom(src => src.AccountFullName));
+
         CreateMap<Contest, ContestRequest>().ReverseMap()
             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
             .ForMember(x => x.StaffId, x => x.MapFrom(x => x.CurrentUserId));

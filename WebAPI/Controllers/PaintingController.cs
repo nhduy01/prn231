@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Painting;
+using Application.Services;
 using Application.ViewModels.PaintingViewModels;
 using Infracstructures.SendModels.Painting;
 using Microsoft.AspNetCore.Mvc;
@@ -397,5 +398,45 @@ public class PaintingController : Controller
 
     #endregion
 
-    
+    #region List Painting By Account Id
+
+    [HttpGet("listpaintingbyaccountid/{id}")]
+    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] ListModels listPaintingModel, [FromRoute] Guid id)
+    {
+        try
+        {
+            var (list, totalPage) = await _paintingService.ListPaintingByAccountId(id, listPaintingModel);
+            if (totalPage < listPaintingModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = "Get Category Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+
 }
