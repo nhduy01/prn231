@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.IValidators
 {
-    public interface IEducationalLevel
+    public interface IEducationalLevelValidator
     {
     }
 }

@@ -32,6 +32,8 @@ public class PostService : IPostService
         newPost.Images = newImages;
         newPost.Status = PostStatus.Active.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
+        var category = await _unitOfWork.CategoryRepo.GetByIdAsync(post.CategoryId);
+        category.Status = CategoryStatus.Used.ToString();
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
