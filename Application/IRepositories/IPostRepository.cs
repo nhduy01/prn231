@@ -7,4 +7,5 @@ public interface IPostRepository : IGenericRepository<Post>
     Task<List<Post>> Get10Post();
     Task<List<Post>> GetPostByCategory(Guid categoryId);
     Task<List<Post>> GetPostByStaffId(Guid staffId);
+    Task<List<Post>> SearchTitleDescription(string searchString);
 }
