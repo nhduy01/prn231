@@ -44,6 +44,7 @@ namespace Application.Services
             var category = _mapper.Map<Category>(addCategoryViewModel);
 
             category.Status = CategoryStatus.Unused.ToString();
+            category.Description = ""; //Xóa Desciption trong db xóa dòng này
 
             await _unitOfWork.CategoryRepo.AddAsync(category);
 
@@ -78,10 +79,11 @@ namespace Application.Services
         public async Task<bool> UpdateCategory(UpdateCategoryRequest updateCategory)
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateCategory.Id);
-            if (category == null) throw new Exception("Khong tim thay Category"); 
-
-
+            if (category == null) throw new Exception("Khong tim thay Category");
+            
             _mapper.Map(updateCategory, category);
+            category.Description = ""; //Xóa Desciption trong db xóa dòng này
+
             category.UpdatedTime = _currentTime.GetCurrentTime();
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
