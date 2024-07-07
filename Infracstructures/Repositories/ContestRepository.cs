@@ -43,4 +43,18 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
         return await result;
     }
 
+    public async Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId) 
+    {
+        var round = await DbSet
+           .Where(c => c.Status != ContestStatus.Inactive.ToString())
+           .Include(c => c.EducationalLevel.Where(l => l.Status != EducationalLevelStatus.Inactive.ToString()))
+               .ThenInclude(l => l.Round)
+           .SelectMany(c => c.EducationalLevel)
+           .SelectMany(l => l.Round)
+           .Select(r => new { r.StartTime, r.EndTime })
+           .FirstOrDefaultAsync();
+
+        return round != null ? (round.StartTime, round.EndTime) : (DateTime.MinValue, DateTime.MinValue);
+        ;
+    }
 }

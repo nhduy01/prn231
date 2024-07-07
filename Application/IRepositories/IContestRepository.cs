@@ -7,4 +7,5 @@ public interface IContestRepository : IGenericRepository<Contest>
 {
     Task<Contest> GetAllContestInformationAsync(Guid contestId);
     Task<List<int>> Get5RecentYearAsync();
+    Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId);
 }
