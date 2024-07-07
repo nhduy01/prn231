@@ -18,5 +18,6 @@ public class ContestRequest
     public int Rank2 { get; set; }
     public int Rank3 { get; set; }
     public int Rank4 { get; set; }
+    public int PassRound1 { get; set; }
 
 }
