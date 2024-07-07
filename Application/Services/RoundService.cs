@@ -30,15 +30,19 @@ public class RoundService : IRoundService
     public async Task<bool> CreateRound(RoundRequest Round)
     {
         var newRound = _mapper.Map<Round>(Round);
+
+        newRound.Status = RoundStatus.Active.ToString();
+        await _unitOfWork.RoundRepo.AddAsync(newRound);
+
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
+        if (check == false) throw new Exception("Tao Round Fail");
         foreach (var id in Round.ListTopic)
         {
             var roundTopic = new RoundTopic();
             roundTopic.RoundId = newRound.Id;
             roundTopic.TopicId = id;
-            newRound.RoundTopic.Add(roundTopic);
+            _unitOfWork.RoundTopicRepo.AddAsync(roundTopic);
         }
-        newRound.Status = RoundStatus.Active.ToString();
-        await _unitOfWork.RoundRepo.AddAsync(newRound);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
