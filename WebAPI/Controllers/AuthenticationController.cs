@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
     #region Login
 
     [AllowAnonymous]
-    [HttpPost("/login")]
+    [HttpPost("login")]
     public async Task<LoginResponse> Login(LoginRequest request)
     {
         if (!ModelState.IsValid)
@@ -44,7 +44,7 @@ public class AuthenticationController : ControllerBase
     #region Create Account
 
     [AllowAnonymous]
-    [HttpPost("/register")]
+    [HttpPost("register")]
     public async Task<ActionResult<RegisterResponse>> CreateAccount(CreateAccountRequest account)
     {
         if (!ModelState.IsValid)
