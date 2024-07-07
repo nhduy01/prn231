@@ -12,7 +12,7 @@ namespace Application.IRepositories
         public Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId);
 
         public Task<List<Painting>> ListPaintingForFinalRound(Guid roundId);
-        Task<Guid?> GetRoundId(Guid roundTopicId);
+        Task<Guid?> GetRoundTopicId(Guid roundId, Guid topicId);
 
 
     }

@@ -39,6 +39,7 @@ public class PaintingService : IPaintingService
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.Draft.ToString();
+        painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
@@ -50,12 +51,12 @@ public class PaintingService : IPaintingService
 
     public async Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request)
     {
-        var roundId = await _unitOfWork.RoundTopicRepo.GetRoundId(request.RoundTopicId);
-        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate((Guid)roundId);
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
             painting.Status = PaintingStatus.Submitted.ToString();
+            painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
             await _unitOfWork.PaintingRepo.AddAsync(painting);
 
             return await _unitOfWork.SaveChangesAsync() > 0;
@@ -69,14 +70,14 @@ public class PaintingService : IPaintingService
 
     public async Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request)
     {
-        var roundId = await _unitOfWork.RoundTopicRepo.GetRoundId(request.RoundTopicId);
 
-        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate((Guid)roundId);
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
 
             painting.Status = PaintingStatus.Submitted.ToString();
+            painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
             await _unitOfWork.PaintingRepo.AddAsync(painting);
 
             return await _unitOfWork.SaveChangesAsync() > 0;
