@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Post;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -239,6 +240,86 @@ public class PostController : Controller
             {
                 Status = BadRequest().StatusCode,
                 Message = "Get Post Fail",
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List Post By Category Id
+
+    [HttpGet("getpostbycategory/{id}")]
+    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid categoryId,[FromQuery] ListModels listCategoryModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _postService.ListPostByCategoryId(listCategoryModel, categoryId);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Post Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List Post By Category Id
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchTitleDescription(String searchString,[FromQuery] ListModels listCategoryModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _postService.SearchByTitleDescription(listCategoryModel, searchString);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Post Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new BaseFailedResponseModel
+            {
+                Status = BadRequest().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }

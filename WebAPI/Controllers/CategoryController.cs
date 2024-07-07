@@ -185,44 +185,6 @@ public class CategoryController : ControllerBase
 
     #endregion
 
-    #region List Post By Category Id
-
-    [HttpGet("getpostbycategory/{id}")]
-    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid categoryId , ListModels listCategoryModel)
-    {
-        try
-        {
-            var (list, totalPage) = await _categoryService.ListPostByCategoryId(listCategoryModel,categoryId);
-            if (totalPage < listCategoryModel.PageNumber)
-            {
-                return NotFound(new BaseResponseModel
-                {
-                    Status = NotFound().StatusCode,
-                    Message = "Over number page"
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Get Category Success",
-                Result = new
-                {
-                    List = list,
-                    TotalPage = totalPage
-                }
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new BaseFailedResponseModel
-            {
-                Status = BadRequest().StatusCode,
-                Message = ex.Message,
-                Errors = ex
-            });
-        }
-    }
-
-    #endregion
+    
 }
 

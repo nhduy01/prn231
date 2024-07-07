@@ -117,15 +117,15 @@ public class RoundService : IRoundService
 
     #region Get Round By Educational LevelId
 
-    public async Task<(List<RoundViewModel>, int)> GetRoundByEducationalLevelId(ListModels listLevelModel, Guid levelId)
+    public async Task<(List<RoundViewModel>, int)> GetRoundByEducationalLevelId(ListModels listRoundModel, Guid levelId)
     {
         var list = await _unitOfWork.RoundRepo.GetRoundByLevelId(levelId);
         if (list.Count == 0) throw new Exception("Khong tim thay Round nao");
         //page division
-        var totalPages = (int)Math.Ceiling((double)list.Count / listLevelModel.PageSize);
-        int? itemsToSkip = (listLevelModel.PageNumber - 1) * listLevelModel.PageSize;
+        var totalPages = (int)Math.Ceiling((double)list.Count / listRoundModel.PageSize);
+        int? itemsToSkip = (listRoundModel.PageNumber - 1) * listRoundModel.PageSize;
         var result = list.Skip((int)itemsToSkip)
-            .Take(listLevelModel.PageSize)
+            .Take(listRoundModel.PageSize)
             .ToList();
         return (_mapper.Map<List<RoundViewModel>>(result), totalPages);
     }

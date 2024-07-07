@@ -27,7 +27,8 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
 
     public async Task<List<Post>> GetPostByCategory(Guid categoryId)
     {
-        return await DbSet.Where(x => x.CategoryId == categoryId && x.Status != PostStatus.Inactive.ToString())
+        return await DbSet.Where(x => x.CategoryId == categoryId && x.Status == PostStatus.Active.ToString())
+            .Include(x => x.Category)
             .ToListAsync();
     }
 
@@ -40,5 +41,13 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     public override async Task<Post?> GetByIdAsync(Guid id)
     {
         return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status == PostStatus.Active.ToString());
+    }
+
+    public async Task<List<Post>> SearchTitleDescription(string searchString)
+    {
+        return await DbSet.Where(p=> p.Status == PostStatus.Active.ToString())
+            .Where(p => p.Title.Contains(searchString) || p.Description.Contains(searchString) )
+            .Include(x => x.Category)
+            .ToListAsync();
     }
 }

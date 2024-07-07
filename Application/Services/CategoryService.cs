@@ -124,30 +124,7 @@ namespace Application.Services
 
         #endregion
 
-        #region List Post By Category Id
-
-        public async Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel,Guid categoryId)
-        {
-            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(categoryId);
-            if (category == null) throw new Exception("Khong tim thay Category");
-
-            var listPost =await _unitOfWork.PostRepo.GetPostByCategory(categoryId);
-            if (listPost.Count == 0) throw new Exception("Khong co Post nao trong Category");
-
-            var result = _mapper.Map<List<PostViewModel>>(listPost);
-
-            #region pagination
-            var totalPages = (int)Math.Ceiling((double)result.Count / listPostModel.PageSize);
-            int? itemsToSkip = (listPostModel.PageNumber - 1) * listPostModel.PageSize;
-            result = result.Skip((int)itemsToSkip)
-                .Take(listPostModel.PageSize)
-                .ToList();
-            #endregion
-
-            return (result, totalPages);
-        }
-
-        #endregion
+        
 
 
     }
