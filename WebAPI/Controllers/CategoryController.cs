@@ -1,9 +1,11 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Category;
 using Application.Services;
 using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.CollectionViewModels;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -178,6 +180,11 @@ public class CategoryController : ControllerBase
             {
                 Status = BadRequest().StatusCode,
                 Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }

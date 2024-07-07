@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.IValidators;
 
 namespace Infracstructures.Validators
 {
-    internal class ImageValidator
+    public class ImageValidator : IImageValidator
     {
     }
 }
