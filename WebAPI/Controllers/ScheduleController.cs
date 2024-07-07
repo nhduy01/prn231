@@ -20,7 +20,7 @@ public class ScheduleController : Controller
     
     #region Create Schedule For Preliminary Round
 
-    [HttpPost("/preliminary")]
+    [HttpPost("preliminary")]
     public async Task<IActionResult> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule)
     {
         try
@@ -63,7 +63,7 @@ public class ScheduleController : Controller
     
     #region Create Schedule For Preliminary Round
 
-    [HttpPost("/final")]
+    [HttpPost("final")]
     public async Task<IActionResult> CreateScheduleForFinalRound(ScheduleRequest Schedule)
     {
         try
