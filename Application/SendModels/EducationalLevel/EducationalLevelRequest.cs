@@ -13,5 +13,6 @@ namespace Application.SendModels.EducationalLevel
         public Guid ContestId { get; set; }
         public Guid CurrentUserId { get; set; }
 
+
     }
 }
