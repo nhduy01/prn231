@@ -12,6 +12,7 @@ namespace Application.SendModels.Painting
         public string Image { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Status { get; set; }
         public DateTime SubmitTime { get; set; }
         public Guid? AwardId { get; set; }
         public Guid? RoundTopicId { get; set; }
