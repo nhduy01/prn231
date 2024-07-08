@@ -40,7 +40,10 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     }
     public override async Task<Post?> GetByIdAsync(Guid id)
     {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status == PostStatus.Active.ToString());
+        var a =  await DbSet
+            .Include(x => x.Images)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status == PostStatus.Active.ToString());
+        return a;
     }
 
     public async Task<List<Post>> SearchTitleDescription(string searchString)

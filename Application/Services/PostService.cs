@@ -72,7 +72,8 @@ public class PostService : IPostService
     {
         var Post = await _unitOfWork.PostRepo.GetByIdAsync(id);
         if (Post == null) throw new Exception("Khong tim thay Post");
-        return _mapper.Map<PostViewModel>(Post);
+        var reusult = _mapper.Map<PostViewModel>(Post);
+        return reusult;
     }
 
     #endregion
