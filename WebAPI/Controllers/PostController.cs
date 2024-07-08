@@ -210,11 +210,11 @@ public class PostController : Controller
     #region Get Post By StaffId
 
     [HttpGet("getpostbyStaffId/{id}")]
-    public async Task<IActionResult> GetPostByPage([FromQuery] ListModels listPostModel, [FromRoute] Guid staffid)
+    public async Task<IActionResult> GetPostByPage([FromQuery] ListModels listPostModel, [FromRoute] Guid id)
     {
         try
         {
-            var (list, totalPage) = await _postService.GetPosByStaffId(listPostModel, staffid);
+            var (list, totalPage) = await _postService.GetPosByStaffId(listPostModel, id);
             if (totalPage < listPostModel.PageNumber)
             {
                 return NotFound(new BaseResponseModel
@@ -250,11 +250,11 @@ public class PostController : Controller
     #region List Post By Category Id
 
     [HttpGet("getpostbycategory/{id}")]
-    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid categoryId,[FromQuery] ListModels listCategoryModel)
+    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid id,[FromQuery] ListModels listCategoryModel)
     {
         try
         {
-            var (list, totalPage) = await _postService.ListPostByCategoryId(listCategoryModel, categoryId);
+            var (list, totalPage) = await _postService.ListPostByCategoryId(listCategoryModel, id);
             if (totalPage < listCategoryModel.PageNumber)
             {
                 return NotFound(new BaseResponseModel
