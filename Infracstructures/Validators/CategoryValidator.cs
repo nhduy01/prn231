@@ -21,7 +21,7 @@ namespace Infracstructures.Validators
             _updatecategoryvalidator = updatecategoryvalidator;
         }
 
-        public IValidator<CategoryRequest> AwardCreateValidator => _categoryvalidator;
-        public IValidator<UpdateCategoryRequest> UserAwardValidator => _updatecategoryvalidator;
+        public IValidator<CategoryRequest> CategoryRequestValidator => _categoryvalidator;
+        public IValidator<UpdateCategoryRequest> UpdateCategoryRequestValidator => _updatecategoryvalidator;
     }
 }

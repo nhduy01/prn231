@@ -111,12 +111,12 @@ public class CategoryController : ControllerBase
 
     #region List All Category
 
-    [HttpGet("getallcategory")]
-    public async Task<IActionResult> ListAllCategory([FromQuery] ListModels listCategoryModel)
+    [HttpGet("getcategory")]
+    public async Task<IActionResult> ListCategory([FromQuery] ListModels listCategoryModel)
     {
         try
         {
-            var (list, totalPage) = await _categoryService.ListAllCategory(listCategoryModel);
+            var (list, totalPage) = await _categoryService.ListCategory(listCategoryModel);
             if (totalPage < listCategoryModel.PageNumber)
             {
                 return NotFound(new BaseResponseModel
@@ -134,6 +134,39 @@ public class CategoryController : ControllerBase
                     List = list,
                     TotalPage = totalPage
                 }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List All Category
+
+    [HttpGet("getallcategory")]
+    public async Task<IActionResult> ListAllCategory()
+    {
+        try
+        {
+            var result = await _categoryService.ListAllCategory();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
             });
         }
         catch (Exception ex)
