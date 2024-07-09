@@ -27,5 +27,9 @@ public partial class MapperConfigs : Profile
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
+
+        CreateMap<Collection, CollectionPaintingViewModel>()
+            .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account))
+            .ForMember(dest => dest.PaintingCollection, opt => opt.MapFrom(src => src.PaintingCollection));
     }
 }

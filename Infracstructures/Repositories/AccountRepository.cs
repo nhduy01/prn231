@@ -2,6 +2,7 @@
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace Infracstructures.Repositories;
 
@@ -34,5 +35,12 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     public async Task<bool> CheckDuplicateUsername(string username)
     {
         return await DbSet.AnyAsync(a => a.Username == username);
+    }
+
+    public async Task<List<Account>> GetAccountByListAccountId(List<Guid> listAccountId)
+    {
+        return await DbSet
+            .Where(x => listAccountId.Contains((Guid)x.Id))
+            .ToListAsync();
     }
 }

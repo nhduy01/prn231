@@ -44,4 +44,12 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Include(x => x.Account)
             .ToListAsync();
     }
+
+    public async Task<List<Guid>> ListAccountIdByListAwardId (List<Guid> listAwardId)
+    {
+        return await DbSet
+            .Where(x => listAwardId.Contains((Guid)x.AwardId))
+            .Select(x => x.AccountId)
+            .ToListAsync();
+    }
 }

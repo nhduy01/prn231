@@ -320,5 +320,15 @@ public class ContestService : IContestService
     }
     #endregion
 
+    #region Get Nearest Contest
+    public async Task<Contest?> GetNearestContest()
+    {
+        var contest = await _unitOfWork.ContestRepo.GetNearestContestInformationAsync();
+        if (contest == null) throw new Exception("Không có Contest nào");
+
+        return _mapper.Map<Contest>(contest);
+    }
+    #endregion
+
 
 }
