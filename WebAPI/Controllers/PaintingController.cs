@@ -1,8 +1,10 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Painting;
 using Application.Services;
 using Application.ViewModels.PaintingViewModels;
+using Domain.Models;
 using Infracstructures.SendModels.Painting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,10 +40,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Draft Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -67,10 +70,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Submit Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -96,11 +100,12 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Submit Painting Fail",
-                Errors = ex
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Errors = ex,
+                Result = false,
             });
         }
     }
@@ -126,10 +131,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Painting For Final Round Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -156,10 +162,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -185,10 +192,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -231,10 +239,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Review Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -260,10 +269,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -289,10 +299,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -319,10 +330,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -359,10 +371,15 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Painting>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -387,10 +404,11 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -427,10 +445,15 @@ public class PaintingController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Category Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Painting>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }

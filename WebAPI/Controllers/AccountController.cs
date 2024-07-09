@@ -45,9 +45,9 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
+                Status = Ok().StatusCode,
                 Message = ex.Message,
                 Errors = ex
             });
@@ -81,10 +81,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Account Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -110,10 +110,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -139,10 +139,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",              
+                Status = Ok().StatusCode,
+                Message = ex.Message,              
                 Errors = ex
             });
         }

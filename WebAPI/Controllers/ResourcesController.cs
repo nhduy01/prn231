@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Resources;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -40,10 +41,10 @@ public class ResourcesController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Resources Success",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -80,10 +81,15 @@ public class ResourcesController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Resources Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Resources>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -109,10 +115,11 @@ public class ResourcesController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Resources Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -138,10 +145,11 @@ public class ResourcesController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -167,10 +175,11 @@ public class ResourcesController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }

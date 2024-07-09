@@ -50,10 +50,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -78,9 +79,9 @@ public class ScheduleController : Controller
             var result = await _scheduleService.CreateScheduleForFinalRound(Schedule);
             if (result == false)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return Ok(new BaseFailedResponseModel
                 {
-                    Status = BadRequest().StatusCode,
+                    Status = Ok().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status",
                 });
             }
@@ -93,10 +94,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -133,10 +135,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -162,10 +165,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -191,10 +195,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -221,10 +226,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -263,10 +269,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Rating Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -286,9 +293,9 @@ public class ScheduleController : Controller
             var result = await _scheduleService.RatingFirstPrize(rating);
             if (result == false)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return Ok(new BaseFailedResponseModel
                 {
-                    Status = BadRequest().StatusCode,
+                    Status = Ok().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status",
                 });
             }
@@ -301,10 +308,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Rating Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -324,9 +332,9 @@ public class ScheduleController : Controller
             var result = await _scheduleService.RatingSecondPrize(rating);
             if (result == false)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return Ok(new BaseFailedResponseModel
                 {
-                    Status = BadRequest().StatusCode,
+                    Status = Ok().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status",
                 });
             }
@@ -339,10 +347,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Rating Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -362,9 +371,9 @@ public class ScheduleController : Controller
             var result = await _scheduleService.RatingThirdPrize(rating);
             if (result == false)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return Ok(new BaseFailedResponseModel
                 {
-                    Status = BadRequest().StatusCode,
+                    Status = Ok().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status",
                 });
             }
@@ -377,10 +386,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Rating Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -395,12 +405,12 @@ public class ScheduleController : Controller
             {
                 var errorMessages = string.Join("; ",
                     ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+                return Ok(new { Success = false, Message = "Invalid input data. " + errorMessages });
             }
             var result = await _scheduleService.RatingConsolationPrize(rating);
             if (result == false)
             {
-                return BadRequest(new BaseFailedResponseModel
+                return Ok(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status",
@@ -415,10 +425,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Rating Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -443,10 +454,11 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }

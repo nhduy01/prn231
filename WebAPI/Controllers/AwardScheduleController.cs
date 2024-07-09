@@ -32,10 +32,11 @@ public class AwardScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Award Schedule Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }

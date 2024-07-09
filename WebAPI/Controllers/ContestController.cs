@@ -34,10 +34,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Award Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -63,10 +64,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -92,10 +94,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -122,10 +125,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Contest Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }
@@ -150,10 +154,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Contest Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }
@@ -178,10 +183,11 @@ public class ContestController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get 5 Recent Contest Year Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }

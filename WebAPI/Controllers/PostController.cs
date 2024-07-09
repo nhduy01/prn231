@@ -2,6 +2,7 @@
 using Application.IService;
 using Application.SendModels.Post;
 using Application.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -41,10 +42,11 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Post Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -69,10 +71,11 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Post Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -109,10 +112,15 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Post Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Post>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -138,10 +146,11 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Post Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -167,10 +176,11 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -196,10 +206,11 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -236,10 +247,15 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Post Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Post>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -276,10 +292,15 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
+                Status = Ok().StatusCode,
                 Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Post>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -316,10 +337,15 @@ public class PostController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
+                Status = Ok().StatusCode,
                 Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Post>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }

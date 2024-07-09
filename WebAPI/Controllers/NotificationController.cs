@@ -36,10 +36,10 @@ public class NotificationController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Notification Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -65,10 +65,10 @@ public class NotificationController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Notification Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -94,10 +94,10 @@ public class NotificationController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }

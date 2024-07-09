@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Topic;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -40,10 +41,11 @@ public class TopicController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Topic Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -80,10 +82,15 @@ public class TopicController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Topic Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Topic>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -109,10 +116,11 @@ public class TopicController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Topic Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }
@@ -138,10 +146,11 @@ public class TopicController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -167,10 +176,11 @@ public class TopicController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }

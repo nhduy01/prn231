@@ -38,10 +38,11 @@ public class CategoryController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Category Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -57,7 +58,6 @@ public class CategoryController : ControllerBase
         try
         {
             var result = await _categoryService.UpdateCategory(updateCategoryViewModel);
-            if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -67,10 +67,11 @@ public class CategoryController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -96,10 +97,11 @@ public class CategoryController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -136,10 +138,15 @@ public class CategoryController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Category Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -147,7 +154,7 @@ public class CategoryController : ControllerBase
 
     #endregion
 
-    #region List Category Unused
+    #region List Category Unused With Pagination
 
     [HttpGet("getcategoryunused")]
     public async Task<IActionResult> ListCategoryUnused([FromQuery] ListModels listCategoryModel)
@@ -176,9 +183,9 @@ public class CategoryController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
+                Status = Ok().StatusCode,
                 Message = ex.Message,
                 Result = new
                 {
@@ -192,6 +199,115 @@ public class CategoryController : ControllerBase
 
     #endregion
 
-    
+    #region List Category Used With Pagination
+
+    [HttpGet("getcategoryused")]
+    public async Task<IActionResult> ListCategoryUsed([FromQuery] ListModels listCategoryModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _categoryService.ListCategoryUsed(listCategoryModel);
+            if (totalPage < listCategoryModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List All Category Unused 
+
+    [HttpGet("getallcategoryunused")]
+    public async Task<IActionResult> ListAllCategoryUnused()
+    {
+        try
+        {
+            var result = await _categoryService.ListAllCategoryUnused();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result  = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region List All Category Used
+
+    [HttpGet("getallcategoryused")]
+    public async Task<IActionResult> ListAllCategoryUsed()
+    {
+        try
+        {
+            var result = await _categoryService.ListAllCategoryUsed();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Category Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Category>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }
 

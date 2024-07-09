@@ -108,7 +108,7 @@ namespace Application.Services
 
         #endregion
 
-        #region List Category Unused
+        #region List Category Unused With Pagination
 
         public async Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel)
         {
@@ -126,9 +126,49 @@ namespace Application.Services
 
         #endregion
 
-        
+
+        #region List Category Used With Pagination
+
+        public async Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel)
+        {
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUsed();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+
+            var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
+            int? itemsToSkip = (listCategoryModel.PageNumber - 1) * listCategoryModel.PageSize;
+            result = result.Skip((int)itemsToSkip)
+                .Take(listCategoryModel.PageSize)
+                .ToList();
+            return (result, totalPages);
+        }
+
+        #endregion
+
+        #region List All Category Unused 
+
+        public async Task<List<CategoryViewModel>> ListAllCategoryUnused()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUnused();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang khong duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+            return result;
+        }
+
+        #endregion
 
 
+        #region List All Category Used With Pagination
+
+        public async Task<List<CategoryViewModel>> ListAllCategoryUsed()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUsed();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+            return result;
+        }
+
+        #endregion
     }
 
 
