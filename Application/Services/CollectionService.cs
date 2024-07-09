@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
@@ -136,6 +137,17 @@ public class CollectionService : ICollectionService
             .Take(listCollectionModel.PageSize)
             .ToList();
         return (result, totalPages);
+    }
+    #endregion
+
+    #region Get 6 Staff Collection
+    public async Task<List<CollectionPaintingViewModel>> Get6StaffCollection()
+    {
+        var listCollection = await _unitOfWork.CollectionRepo.GetCollectionsWithStaffAccountsAsync();
+        if (listCollection.Count == 0) throw new Exception("Không có Collection nào tạo bởi Staff");
+        var result = _mapper.Map<List<CollectionPaintingViewModel>>(listCollection);
+
+        return result;
     }
     #endregion
 }

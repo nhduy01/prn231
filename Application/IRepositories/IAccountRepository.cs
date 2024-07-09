@@ -10,5 +10,8 @@ public interface IAccountRepository : IGenericRepository<Account>
     Task<bool> CheckDuplicateEmail(string email);
     Task<bool> CheckDuplicatePhone(string phone);
     Task<bool> CheckDuplicateUsername(string username);
-    
+
+    Task<List<Account>> GetAccountByListAccountId(List<Guid> listAccountId);
+
+
 }

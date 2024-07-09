@@ -1,4 +1,5 @@
-﻿using Application.IRepositories;
+﻿using System.Linq;
+using Application.IRepositories;
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ namespace Infracstructures.Repositories;
 
 public class EducationalLevelRepository : GenericRepository<EducationalLevel>, IEducationalLevelRepository
 {
+
     public EducationalLevelRepository(AppDbContext context) : base(context)
     {
     }
@@ -28,5 +30,12 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     {
         return await DbSet.Where(x => x.ContestId == contestId).ToListAsync();
     }*/
+    public async Task<List<Guid>> GetLevelIdByListContestId(List<Guid> contestIdList)
+    {
+        return await DbSet
+            .Where(x => contestIdList.Contains((Guid)x.ContestId))
+            .Select(x=> x.Id)
+            .ToListAsync();
+    }
 
 }

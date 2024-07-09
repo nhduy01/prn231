@@ -195,4 +195,33 @@ public class ContestController : Controller
 
     #endregion
 
+
+    #region Get Nearest Contest
+
+    [HttpGet()]
+    public async Task<IActionResult> GetNearestContest()
+    {
+        try
+        {
+            var result = await _contestService.GetNearestContest();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Contest Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }

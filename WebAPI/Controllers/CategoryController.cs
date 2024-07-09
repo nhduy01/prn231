@@ -109,7 +109,7 @@ public class CategoryController : ControllerBase
 
     #endregion
 
-    #region List All Category
+    #region List Category
 
     [HttpGet("getcategory")]
     public async Task<IActionResult> ListCategory([FromQuery] ListModels listCategoryModel)
