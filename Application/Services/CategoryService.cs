@@ -92,7 +92,7 @@ namespace Application.Services
 
         #region List All Category
 
-        public async Task<(List<CategoryViewModel>, int)> ListAllCategory(ListModels listCategoryModel)
+        public async Task<(List<CategoryViewModel>, int)> ListCategory(ListModels listCategoryModel)
         {
             var list = await _unitOfWork.CategoryRepo.GetAllAsync();
             if (list.Count == 0) throw new Exception("Khong tim thay Category nao");
@@ -107,6 +107,19 @@ namespace Application.Services
         }
 
         #endregion
+
+        #region List All Category
+
+        public async Task<List<CategoryViewModel>> ListAllCategory()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetAllAsync();
+            if (list.Count == 0) throw new Exception("Khong tim thay Category nao");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+
+            return result;
+        }
+
+#endregion
 
         #region List Category Unused With Pagination
 
