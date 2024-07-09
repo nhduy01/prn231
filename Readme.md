@@ -1,5 +1,8 @@
 # Sửa DB:
 - Xóa description category
+- Xóa Image trong Topic
+- Thêm Image trong Sponsor
+- 
 
 # Validate:
 - Bắt validate add RoundTOpic ( Add Trùng)
