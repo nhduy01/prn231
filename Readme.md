@@ -6,14 +6,13 @@
 - RoundTopic có thêm status (xem lại)
 
 # Validate:
+- Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
 - Bắt validate add PaintingCollection (Add Trùng)
 - Chưa bắt validate date contest
 - 
 
 # Sửa: 
-- tạo bộ sưu tập
-- xem bài của tôi
 - xem các cuộc thi
 - xem chi tiết cuộc thi
 - xem các bộ sưu tập
