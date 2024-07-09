@@ -387,14 +387,14 @@ public class PaintingController : Controller
 
     #endregion
 
-    #region List 20 Wining Painting
+    #region List 16 Wining Painting
 
-    [HttpGet("list20")]
-    public async Task<IActionResult> List20WiningPainting()
+    [HttpGet("list16winingpainting")]
+    public async Task<IActionResult> List16WiningPainting()
     {
         try
         {
-            var result = await _paintingService.List20WiningPainting();
+            var result = await _paintingService.List16WiningPainting();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -408,7 +408,7 @@ public class PaintingController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result = false,
+                Result = new List<Painting>(),
                 Errors = ex
             });
         }
