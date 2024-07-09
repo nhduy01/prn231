@@ -30,5 +30,10 @@ namespace Infracstructures.Repositories
         {
             return await DbSet.Where(x => x.Status == CategoryStatus.Unused.ToString()).ToListAsync();
         }
+
+        public async Task<List<Category>> GetCategoryUsed()
+        {
+            return await DbSet.Where(x => x.Status == CategoryStatus.Used.ToString()).ToListAsync();
+        }
     }
 }

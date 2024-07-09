@@ -17,7 +17,11 @@ public interface ICategoryService
     Task<bool> UpdateCategory(UpdateCategoryRequest updateCategory);
     Task<(List<CategoryViewModel>, int)> ListAllCategory(ListModels listCategoryModel);
     Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel);
-    
+    Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel);
+    Task<List<CategoryViewModel>> ListAllCategoryUnused();
+    Task<List<CategoryViewModel>> ListAllCategoryUsed();
+
+
 
 }
 
