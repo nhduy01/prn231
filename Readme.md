@@ -2,7 +2,7 @@
 - Xóa description category
 - Xóa Image trong Topic
 - Thêm Image trong Sponsor
-- 
+- Thêm Content trong post
 
 # Validate:
 - Bắt validate add RoundTOpic ( Add Trùng)
