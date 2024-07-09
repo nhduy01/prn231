@@ -15,4 +15,5 @@ public interface ICollectionService
     Task<(List<PaintingViewModel>, int)> GetPaintingByCollection(ListModels listPaintingModel, Guid collectionId);
     Task<(List<CollectionViewModel>, int)> GetAllCollection(ListModels listCollectionModel);
     Task<(List<CollectionViewModel>, int)> GetCollectionByAccountId(ListModels listCollectionModel, Guid accountId);
+    Task<List<CollectionPaintingViewModel>> Get6StaffCollection();
 }

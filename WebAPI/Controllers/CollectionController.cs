@@ -273,4 +273,35 @@ public class CollectionController : Controller
     }
 
     #endregion
+
+    #region Get 6 Collection tạo bởi Staff (gần nhất) 
+
+    [HttpGet("get6staffcollection")]
+    public async Task<IActionResult> Get6CollectionCreatedByStaff()
+    {
+        try
+        {
+            var result = await _collectionService.Get6StaffCollection();
+            
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Collection Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Collection>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
 }

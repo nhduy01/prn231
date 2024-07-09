@@ -1,4 +1,5 @@
 ﻿using Application.SendModels.Painting;
+using Application.ViewModels.CollectionViewModels;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -37,6 +38,6 @@ public partial class MapperConfigs : Profile
                 });
             });
 
-
+        CreateMap<Painting, PaintingInCollectionViewModel>();
     }
 }
