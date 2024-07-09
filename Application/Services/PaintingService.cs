@@ -263,11 +263,11 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    #region List 20 Wining Painting
+    #region List 16 Wining Painting
 
-    public async Task<List<PaintingViewModel>> List20WiningPainting()
+    public async Task<List<PaintingViewModel>> List16WiningPainting()
     {
-        var painting = await _unitOfWork.PaintingRepo.List20WiningPaintingAsync();
+        var painting = await _unitOfWork.PaintingRepo.List16WiningPaintingAsync();
         if (painting.Count == 0) throw new Exception("Khong tim thay Painting nao");
         return _mapper.Map<List<PaintingViewModel>>(painting);
     }

@@ -25,12 +25,11 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
             .FirstOrDefaultAsync(x => x.Id == id);
     }
-    public virtual async Task<List<Painting>> List20WiningPaintingAsync()
+    public virtual async Task<List<Painting>> List16WiningPaintingAsync()
     {
         return await DbSet.Where(x => x.AwardId != null && x.Status != PaintingStatus.Delete.ToString())
             .OrderByDescending(x => x.UpdatedTime)
-            .Include(x => x.Award)
-            .Take(20).ToListAsync();
+            .Take(16).ToListAsync();
     }
 
     public async Task<List<Account>> ListCompetitorPassByRound(Guid roundId)

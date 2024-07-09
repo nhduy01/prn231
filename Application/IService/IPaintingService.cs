@@ -17,7 +17,7 @@ public interface IPaintingService
     Task<bool> UpdatePainting(UpdatePaintingRequest updatePainting);
     Task<PaintingViewModel?> GetPaintingByCode(string code);
     Task<PaintingViewModel?> GetPaintingById(Guid id);
-    Task<List<PaintingViewModel>> List20WiningPainting();
+    Task<List<PaintingViewModel>> List16WiningPainting();
 
 
     /*public Task<bool> SubmitPainting(Guid paintingId);*/
