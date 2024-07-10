@@ -10,7 +10,6 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<AwardSchedule, AwardScheduleListModels>()
             .ForMember(dest => dest.PaintingViewModelsList, opt => opt.MapFrom(src => src.Schedule.Painting));
-
     }
 }
 

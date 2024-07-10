@@ -20,6 +20,6 @@ public class AwardScheduleRepository : GenericRepository<AwardSchedule>, IAwardS
     {
         return DbSet
             .Include(a => a.Schedule)
-            .ThenInclude(s => s.Painting.Where(p => p.Status == PaintingStatus.Accepted.ToString() || p.Status == PaintingStatus.FinalRound.ToString())) // Lọc các Painting có Status là Active
+            .ThenInclude(s => s.Painting.Where(p => p.Status == PaintingStatus.Accepted.ToString() || p.Status == PaintingStatus.FinalRound.ToString())) 
             .FirstOrDefaultAsync(a => a.Id == id);}
 }
