@@ -198,7 +198,7 @@ public class ScheduleService : IScheduleService
     public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)
     {
         var list = await _unitOfWork.ScheduleRepo.GetAllAsync();
-        list = list.Where(x => x.Status != ScheduleStatus.Delete.ToString()).ToList();
+        if (list.Count == 0) throw new Exception("Khong tim thay Schedule nao");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;

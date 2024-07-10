@@ -4,6 +4,7 @@ using Application.SendModels.Report;
 using Application.Services;
 using Application.ViewModels.AwardViewModels;
 using Domain.Enums;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -36,10 +37,11 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Report Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -65,10 +67,11 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -95,10 +98,11 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -106,10 +110,10 @@ public class ReportController : ControllerBase
 
     #endregion
 
-    #region Get All Report
+    #region Get All Report Pending
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllReport([FromQuery] ListModels listReportModel)
+    [HttpGet("getallreportpending")]
+    public async Task<IActionResult> GetAllReportPending([FromQuery] ListModels listReportModel)
     {
         try
         {
@@ -135,10 +139,60 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Report Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Report>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Report
+
+    [HttpGet("getallreport")]
+    public async Task<IActionResult> GetAllReport([FromQuery] ListModels listReportModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _reportService.GetAllReport(listReportModel);
+            if (totalPage < listReportModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Report Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Report>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -163,10 +217,11 @@ public class ReportController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Report Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection.Emit;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Contest;
 using Application.SendModels.EducationalLevel;
+using Application.ViewModels.ContestViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -42,14 +44,14 @@ public class ContestService : IContestService
         var check = await _unitOfWork.SaveChangesAsync() > 0;
 
         //check
-        if(check == false) throw new Exception("Tạo Contest Thất Bại");
+        if (check == false) throw new Exception("Tạo Contest Thất Bại");
 
         #endregion
 
 
         #region Tạo Level
         //List level
-        List<EducationalLevel> listLevel= new List<EducationalLevel>();
+        List<EducationalLevel> listLevel = new List<EducationalLevel>();
 
         //Create Level Mầm Non
         var level = new EducationalLevel();
@@ -58,15 +60,17 @@ public class ContestService : IContestService
         level.ContestId = contest.Id;
         level.Status = EducationalLevelStatus.Active.ToString();
         level.CreatedTime = _currentTime.GetCurrentTime();
+        level.Description = "Không có mô tả";
         listLevel.Add(level);
 
         //Create Level Cấp 1
         var level2 = new EducationalLevel();
-            level2.Level = "Cấp 1";
-            level2.CreatedBy = addContestViewModel.CurrentUserId;
-            level2.ContestId = contest.Id;
-            level2.Status = EducationalLevelStatus.Active.ToString();
-            level2.CreatedTime = _currentTime.GetCurrentTime();
+        level2.Level = "Tiểu Học";
+        level2.CreatedBy = addContestViewModel.CurrentUserId;
+        level2.ContestId = contest.Id;
+        level2.Status = EducationalLevelStatus.Active.ToString();
+        level2.CreatedTime = _currentTime.GetCurrentTime();
+        level2.Description = "Không có mô tả";
         listLevel.Add(level2);
         await _unitOfWork.EducationalLevelRepo.AddRangeAsync(listLevel);
         check = await _unitOfWork.SaveChangesAsync() > 0;
@@ -89,6 +93,8 @@ public class ContestService : IContestService
         round.CreatedTime = _currentTime.GetCurrentTime();
         round.StartTime = addContestViewModel.Round1StartTime;
         round.EndTime = addContestViewModel.Round1EndTime;
+        round.Description = "Không có mô tả";
+        round.Location = "Chưa có thông tin địa điểm";
         listRound.Add(round);
 
         // Create Round 2 Level 1
@@ -100,6 +106,8 @@ public class ContestService : IContestService
         round2.CreatedTime = _currentTime.GetCurrentTime();
         round2.StartTime = addContestViewModel.Round2StartTime;
         round2.EndTime = addContestViewModel.Round2EndTime;
+        round2.Description = "Không có mô tả";
+        round2.Location = "Chưa có thông tin địa điểm";
         listRound.Add(round2);
 
         // Create Round 1 Level 2
@@ -111,6 +119,8 @@ public class ContestService : IContestService
         round3.CreatedTime = _currentTime.GetCurrentTime();
         round3.StartTime = addContestViewModel.Round1StartTime;
         round3.EndTime = addContestViewModel.Round1EndTime;
+        round3.Description = "Không có mô tả";
+        round3.Location = "Chưa có thông tin địa điểm";
         listRound.Add(round3);
 
         // Create Round 2 Level 2
@@ -122,6 +132,8 @@ public class ContestService : IContestService
         round4.CreatedTime = _currentTime.GetCurrentTime();
         round4.StartTime = addContestViewModel.Round2StartTime;
         round4.EndTime = addContestViewModel.Round2EndTime;
+        round4.Description = "Không có mô tả";
+        round4.Location = "Chưa có thông tin địa điểm";
         listRound.Add(round4);
         await _unitOfWork.RoundRepo.AddRangeAsync(listRound);
         check = await _unitOfWork.SaveChangesAsync() > 0;
@@ -176,6 +188,16 @@ public class ContestService : IContestService
         award4.EducationalLevelId = level.Id;
         listAward.Add(award4);
 
+        //Create Passed Level 1
+        var award9 = new Award();
+        award9.Rank = "Preliminary";
+        award9.CreatedBy = addContestViewModel.CurrentUserId;
+        award9.CreatedTime = _currentTime.GetCurrentTime();
+        award9.Quantity = addContestViewModel.PassRound1;
+        award9.Status = ContestStatus.Active.ToString();
+        award9.EducationalLevelId = level.Id;
+        listAward.Add(award9);
+
         //Create 1st prize Level 2
         var award5 = new Award();
         award5.Rank = "FirstPrize";
@@ -216,6 +238,16 @@ public class ContestService : IContestService
         award8.EducationalLevelId = level2.Id;
         listAward.Add(award8);
 
+        //Create Passed Level 2
+        var award10 = new Award();
+        award10.Rank = "Preliminary";
+        award10.CreatedBy = addContestViewModel.CurrentUserId;
+        award10.CreatedTime = _currentTime.GetCurrentTime();
+        award10.Quantity = addContestViewModel.PassRound1;
+        award10.Status = ContestStatus.Active.ToString();
+        award10.EducationalLevelId = level.Id;
+        listAward.Add(award10);
+
         await _unitOfWork.AwardRepo.AddRangeAsync(listAward);
         check = await _unitOfWork.SaveChangesAsync() > 0;
         //check
@@ -223,7 +255,7 @@ public class ContestService : IContestService
         #endregion
 
         return check;
-    
+
     }
 
     #endregion
@@ -233,11 +265,11 @@ public class ContestService : IContestService
     public async Task<bool> DeleteContest(Guid contestId)
     {
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
-        if (contest == null) throw new Exception("Khong tim thay Contest"); 
+        if (contest == null) throw new Exception("Khong tim thay Contest");
 
         contest.Status = ContestStatus.Inactive.ToString();
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -253,7 +285,7 @@ public class ContestService : IContestService
         contest.UpdatedTime = _currentTime.GetCurrentTime();
 
 
-        return await _unitOfWork.SaveChangesAsync() > 0 ;
+        return await _unitOfWork.SaveChangesAsync() > 0;
 
     }
 
@@ -268,14 +300,35 @@ public class ContestService : IContestService
         return _mapper.Map<Contest>(contest);
     }
     #endregion
-    
+
     #region Get 5 recent contest year
     public async Task<List<int>> Get5RecentYear()
     {
-        return await _unitOfWork.ContestRepo.Get5RecentYearAsync();
+
+        var result = await _unitOfWork.ContestRepo.Get5RecentYearAsync();
+        return result;
     }
 
     #endregion
 
-    
+    #region Get All Contest
+    public async Task<List<ContestViewModel?>> GetAllContest()
+    {
+        var contest = await _unitOfWork.ContestRepo.GetAllAsync();
+        if (contest.Count == 0) throw new Exception("Khong co Contest nao");
+        return _mapper.Map<List<ContestViewModel>>(contest);
+    }
+    #endregion
+
+    #region Get Nearest Contest
+    public async Task<Contest?> GetNearestContest()
+    {
+        var contest = await _unitOfWork.ContestRepo.GetNearestContestInformationAsync();
+        if (contest == null) throw new Exception("Không có Contest nào");
+
+        return _mapper.Map<Contest>(contest);
+    }
+    #endregion
+
+
 }

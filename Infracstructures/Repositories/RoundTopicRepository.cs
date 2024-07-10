@@ -37,5 +37,13 @@ namespace Infracstructures.Repositories
                 .ToListAsync();
         }
         
+        public async Task<Guid?> GetRoundTopicId(Guid roundId,Guid topicId)
+        {
+            return await DbSet.Where(rt => rt.RoundId == roundId && rt.TopicId == topicId)
+                .Select(rt => rt.Id)
+                .FirstOrDefaultAsync(); 
+        }
+
+
     }
 }

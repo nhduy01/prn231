@@ -49,7 +49,7 @@ public class AwardService : IAwardService
     public async Task<(List<AwardViewModel>, int)> GetListAward(ListModels listAwardModel)
     {
         var awardList = await _unitOfWork.AwardRepo.GetAllAsync();
-        awardList = awardList.Where(x => x.Status == AwardStatus.Active.ToString()).ToList();
+        if (awardList.Count == 0) throw new Exception("Khong co Award");
         var result = _mapper.Map<List<AwardViewModel>>(awardList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listAwardModel.PageSize);
@@ -98,6 +98,7 @@ public class AwardService : IAwardService
     public async Task<AwardViewModel> GetAwardById(Guid awardId)
     {
         var award = await _unitOfWork.AwardRepo.GetByIdAsync(awardId);
+        if (award == null) throw new Exception("Khong tim thay Award");
         return _mapper.Map<AwardViewModel>(award);
     }
 

@@ -49,6 +49,8 @@ public partial class MapperConfigs : Profile
         AddCategoryMapperConfig();
 
         AddReportMapperConfig();
+
+        AddRoundTopicMapperConfig();
     }
 
     partial void AddAccountMapperConfig();
@@ -69,4 +71,5 @@ public partial class MapperConfigs : Profile
     partial void AddContestMapperConfig();
     partial void AddCategoryMapperConfig();
     partial void AddReportMapperConfig();
+    partial void AddRoundTopicMapperConfig();
 }

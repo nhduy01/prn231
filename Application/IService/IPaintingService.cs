@@ -9,18 +9,22 @@ namespace Application.IService;
 public interface IPaintingService
 {
 
-    Task<bool> DraftPaintingForPreliminaryRound(SendModels.Painting.PaintingRequest request);
-    Task<bool> SubmitPaintingForPreliminaryRound(SendModels.Painting.PaintingRequest request);
-    Task<bool> AddPaintingForFinalRound(SendModels.Painting.PaintingRequest request);
+    Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest2 request);
+    Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request);
+    Task<bool> AddPaintingForFinalRound(PaintingRequest request);
     Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
     Task<bool> DeletePainting(Guid paintingId);
     Task<bool> UpdatePainting(UpdatePaintingRequest updatePainting);
     Task<PaintingViewModel?> GetPaintingByCode(string code);
     Task<PaintingViewModel?> GetPaintingById(Guid id);
-    Task<PaintingViewModel> List20WiningPainting();
+    Task<List<PaintingViewModel>> List16WiningPainting();
 
 
     /*public Task<bool> SubmitPainting(Guid paintingId);*/
     public Task<PaintingViewModel?> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request);
     public Task<PaintingViewModel?> FinalDecisionOfPainting(PaintingUpdateStatusRequest request);
+
+
+    Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request);
+    Task<(List<PaintingViewModel>, int)> ListPaintingByAccountId(Guid accountId, ListModels listPaintingModel);
 }

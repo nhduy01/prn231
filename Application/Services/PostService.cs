@@ -32,6 +32,8 @@ public class PostService : IPostService
         newPost.Images = newImages;
         newPost.Status = PostStatus.Active.ToString();
         await _unitOfWork.PostRepo.AddAsync(newPost);
+        var category = await _unitOfWork.CategoryRepo.GetByIdAsync(post.CategoryId);
+        category.Status = CategoryStatus.Used.ToString();
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -42,7 +44,7 @@ public class PostService : IPostService
     public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).ToList();
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
 
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
@@ -52,10 +54,13 @@ public class PostService : IPostService
             .ToList();
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
+    #endregion
 
+    #region Get 10 Post
     public async Task<List<PostViewModel>> Get10Post()
     {
         var list = await _unitOfWork.PostRepo.Get10Post();
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
         return _mapper.Map<List<PostViewModel>>(list);
     }
 
@@ -66,8 +71,54 @@ public class PostService : IPostService
     public async Task<PostViewModel?> GetPostById(Guid id)
     {
         var Post = await _unitOfWork.PostRepo.GetByIdAsync(id);
-        if (Post == null) return null;
-        return _mapper.Map<PostViewModel>(Post);
+        if (Post == null) throw new Exception("Khong tim thay Post");
+        var reusult = _mapper.Map<PostViewModel>(Post);
+        return reusult;
+    }
+
+    #endregion
+
+    #region Get By Staff Id
+
+    public async Task<(List<PostViewModel>, int)> GetPosByStaffId(ListModels listModels, Guid staffId)
+    {
+        var staff = await _unitOfWork.AccountRepo.GetByIdAsync(staffId);
+        if (staff == null) throw new Exception("Khong tim thay Staff");
+
+        var list = await _unitOfWork.PostRepo.GetPostByStaffId(staffId);
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        var result = list.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region List Post By Category Id
+
+    public async Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel, Guid categoryId)
+    {
+        var category = await _unitOfWork.CategoryRepo.GetByIdAsync(categoryId);
+        if (category == null) throw new Exception("Khong tim thay Category");
+
+        var listPost = await _unitOfWork.PostRepo.GetPostByCategory(categoryId);
+        if (listPost.Count == 0) throw new Exception("Khong co Post nao trong Category");
+
+        var result = _mapper.Map<List<PostViewModel>>(listPost);
+
+        #region pagination
+        var totalPages = (int)Math.Ceiling((double)result.Count / listPostModel.PageSize);
+        int? itemsToSkip = (listPostModel.PageNumber - 1) * listPostModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listPostModel.PageSize)
+            .ToList();
+        #endregion
+
+        return (result, totalPages);
     }
 
     #endregion
@@ -113,25 +164,20 @@ public class PostService : IPostService
 
     #endregion
 
-    #region Get 10 Post
+    #region Search By Title Description
 
-    public async Task<(List<PostViewModel>, int)> GetList10Post(ListModels listModels)
+    public async Task<(List<PostViewModel>, int)> SearchByTitleDescription(ListModels listModels, string searchString)
     {
-        var list = await _unitOfWork.PostRepo.GetAllAsync();
-        list = (List<Post>)list.Where(x => x.Status == PostStatus.Active.ToString()).OrderByDescending(x => x.CreatedTime).Take(10);
-
-        var result = new List<Post>();
-
-        #region  Pagination
+        var list = await _unitOfWork.PostRepo.SearchTitleDescription(searchString);
+        if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
+        //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        result = result.Skip((int)itemsToSkip)
+        var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
-        #endregion
-
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
-
     #endregion
+
 }

@@ -1,6 +1,7 @@
 ﻿using Application.SendModels.AccountSendModels;
 using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
+using Application.ViewModels.CollectionViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -13,5 +14,8 @@ public partial class MapperConfigs : Profile
         CreateMap<CreateAccountRequest, Account>();
         CreateMap<AccountUpdateRequest, Account>().ReverseMap();
         CreateMap<Account, AccountViewModel>().ReverseMap();
+
+
+        CreateMap<Account, AccountInPainting>();
     }
 }

@@ -16,7 +16,7 @@ namespace Infracstructures.Repositories
         {
 
         }
-        public override async Task<Category> GetByIdAsync(Guid id)
+        public override async Task<Category?> GetByIdAsync(Guid id)
         {
             return await DbSet.FirstOrDefaultAsync(x=>x.Id == id && x.Status != CategoryStatus.Deleted.ToString());
         }
@@ -29,6 +29,11 @@ namespace Infracstructures.Repositories
         public async Task<List<Category>> GetCategoryUnused()
         {
             return await DbSet.Where(x => x.Status == CategoryStatus.Unused.ToString()).ToListAsync();
+        }
+
+        public async Task<List<Category>> GetCategoryUsed()
+        {
+            return await DbSet.Where(x => x.Status == CategoryStatus.Used.ToString()).ToListAsync();
         }
     }
 }

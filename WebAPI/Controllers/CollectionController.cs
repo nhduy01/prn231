@@ -1,6 +1,9 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Collection;
+using Application.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -34,10 +37,11 @@ public class CollectionController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Collection Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -63,10 +67,11 @@ public class CollectionController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -93,10 +98,11 @@ public class CollectionController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -121,10 +127,11 @@ public class CollectionController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Collection Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -135,28 +142,166 @@ public class CollectionController : Controller
     #region Get Painting By Collection
 
     [HttpGet("Painting/{id}")]
-    public async Task<IActionResult> GetPaintingByCollection([FromRoute]Guid id)
+    public async Task<IActionResult> GetPaintingByCollection([FromRoute]Guid collectionId, [FromQuery] ListModels listPaintingmodel)
     {
         try
         {
-            var result = await _collectionService.GetPaintingByCollection(id);
+            var (list, totalPage) = await _collectionService.GetPaintingByCollection(listPaintingmodel, collectionId);
+            if (totalPage < listPaintingmodel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Painting Success",
-                Result = result
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
             });
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Painting Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Collection>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
     }
 
     #endregion
+
+    #region Get All Collection
+
+    [HttpGet("getallcollection")]
+    public async Task<IActionResult> GetAllCollection([FromQuery] ListModels listPaintingmodel)
+    {
+        try
+        {
+            var (list, totalPage) = await _collectionService.GetAllCollection(listPaintingmodel);
+            if (totalPage < listPaintingmodel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Collection Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Collection>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get Collection By AccountId
+
+    [HttpGet("getcollectionbyaccountid/{id}")]
+    public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid accountId, [FromQuery] ListModels listPaintingmodel)
+    {
+        try
+        {
+            var (list, totalPage) = await _collectionService.GetCollectionByAccountId(listPaintingmodel, accountId);
+            if (totalPage < listPaintingmodel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Collection Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Collection>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get 6 Collection tạo bởi Staff (gần nhất) 
+
+    [HttpGet("get6staffcollection")]
+    public async Task<IActionResult> Get6CollectionCreatedByStaff()
+    {
+        try
+        {
+            var result = await _collectionService.Get6StaffCollection();
+            
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Collection Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Collection>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
 }

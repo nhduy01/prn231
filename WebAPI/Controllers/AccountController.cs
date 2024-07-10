@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.AccountSendModels;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -45,9 +46,9 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
+                Status = Ok().StatusCode,
                 Message = ex.Message,
                 Errors = ex
             });
@@ -81,10 +82,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Account Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -110,10 +111,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
                 Errors = ex
             });
         }
@@ -139,10 +140,10 @@ public class AccountController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",              
+                Status = Ok().StatusCode,
+                Message = ex.Message,              
                 Errors = ex
             });
         }
@@ -150,4 +151,33 @@ public class AccountController : ControllerBase
 
     #endregion
     
+    #region Delete
+
+    [HttpGet("getlistwinnerin3nearestcontest")]
+    public async Task<IActionResult> ListAccountHaveAwardIn3NearestContest()
+    {
+        try
+        {
+            var result = await _accountService.ListAccountHaveAwardIn3NearestContest();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Get List Account Success"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Account>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
 }

@@ -1,12 +1,14 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
+using Application.Services;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/round/")]
+[Route("api/rounds/")]
 public class RoundController : Controller
 {
     private readonly IRoundService _roundService;
@@ -40,10 +42,11 @@ public class RoundController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Create Round Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -80,10 +83,15 @@ public class RoundController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Round Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Round>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -109,10 +117,11 @@ public class RoundController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Round Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
                 Errors = ex
             });
         }
@@ -138,10 +147,11 @@ public class RoundController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Update Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -167,10 +177,11 @@ public class RoundController : Controller
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
@@ -180,28 +191,82 @@ public class RoundController : Controller
 
     #region Get Topic
     [HttpGet("gettopic/{id}")]
-    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id)
+    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id, [FromQuery] ListModels listTopicmodel)
     {
         try
         {
-            ListModels listmodels = new ListModels();
-            var result = await _roundService.GetTopicInRound(id, listmodels);
+            var (list, totalPage) = await _roundService.GetTopicInRound(id, listTopicmodel);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Topic In Round Success",
-                Result = result
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
             });
         }
         catch (Exception ex)
         {
-            return BadRequest(new BaseFailedResponseModel
+            return Ok(new BaseFailedResponseModel
             {
-                Status = BadRequest().StatusCode,
-                Message = "Get Topic In Round Fail",
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Round>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+
+            });
+        }
+    }
+    #endregion
+
+    #region Get Round By EducationalLevel Id
+
+    [HttpGet("getroundbyeducationallevelid/{id}")]
+    public async Task<IActionResult> GetRoundByEducationalLevelId([FromQuery] ListModels listRoundModel, [FromRoute] Guid id)
+    {
+        try
+        {
+            var (list, totalPage) = await _roundService.GetRoundByEducationalLevelId(listRoundModel, id);
+            if (totalPage < listRoundModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Round Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Round>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
     }
+
     #endregion
 }

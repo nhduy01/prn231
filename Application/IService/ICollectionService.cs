@@ -1,5 +1,7 @@
-﻿using Application.SendModels.Collection;
+﻿using Application.BaseModels;
+using Application.SendModels.Collection;
 using Application.ViewModels.CollectionViewModels;
+using Application.ViewModels.PaintingViewModels;
 using Domain.Models;
 
 namespace Application.IService;
@@ -10,6 +12,8 @@ public interface ICollectionService
     Task<bool> DeleteCollection(Guid collectionId);
     Task<bool> UpdateCollection(UpdateCollectionRequest updateCollection);
     Task<CollectionViewModel> GetCollectionById(Guid collectionId);
-
-    Task<Collection> GetPaintingByCollection(Guid collectionId);
+    Task<(List<PaintingViewModel>, int)> GetPaintingByCollection(ListModels listPaintingModel, Guid collectionId);
+    Task<(List<CollectionViewModel>, int)> GetAllCollection(ListModels listCollectionModel);
+    Task<(List<CollectionViewModel>, int)> GetCollectionByAccountId(ListModels listCollectionModel, Guid accountId);
+    Task<List<CollectionPaintingViewModel>> Get6StaffCollection();
 }

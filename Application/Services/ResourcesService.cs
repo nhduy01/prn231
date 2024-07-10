@@ -39,6 +39,7 @@ public class ResourcesService : IResourcesService
     public async Task<(List<ResourcesViewModel>, int)> GetListResources(ListModels listModels)
     {
         var list = await _unitOfWork.ResourcesRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay Resource nao");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
@@ -54,9 +55,9 @@ public class ResourcesService : IResourcesService
 
     public async Task<ResourcesViewModel?> GetResourcesById(Guid id)
     {
-        var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(id);
-        if (Resources == null) throw new Exception("Khong tim thay Resource");
-        return _mapper.Map<ResourcesViewModel>(Resources);
+        var resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(id);
+        if (resources == null) throw new Exception("Khong tim thay Resource");
+        return _mapper.Map<ResourcesViewModel>(resources);
     }
 
     #endregion

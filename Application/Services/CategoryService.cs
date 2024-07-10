@@ -44,6 +44,7 @@ namespace Application.Services
             var category = _mapper.Map<Category>(addCategoryViewModel);
 
             category.Status = CategoryStatus.Unused.ToString();
+            category.Description = ""; //Xóa Desciption trong db xóa dòng này
 
             await _unitOfWork.CategoryRepo.AddAsync(category);
 
@@ -78,10 +79,11 @@ namespace Application.Services
         public async Task<bool> UpdateCategory(UpdateCategoryRequest updateCategory)
         {
             var category = await _unitOfWork.CategoryRepo.GetByIdAsync(updateCategory.Id);
-            if (category == null) throw new Exception("Khong tim thay Category"); 
-
-
+            if (category == null) throw new Exception("Khong tim thay Category");
+            
             _mapper.Map(updateCategory, category);
+            category.Description = ""; //Xóa Desciption trong db xóa dòng này
+
             category.UpdatedTime = _currentTime.GetCurrentTime();
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
@@ -90,9 +92,10 @@ namespace Application.Services
 
         #region List All Category
 
-        public async Task<(List<CategoryViewModel>, int)> ListAllCategory(ListModels listCategoryModel)
+        public async Task<(List<CategoryViewModel>, int)> ListCategory(ListModels listCategoryModel)
         {
             var list = await _unitOfWork.CategoryRepo.GetAllAsync();
+            if (list.Count == 0) throw new Exception("Khong tim thay Category nao");
             var result =  _mapper.Map<List<CategoryViewModel>>(list);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
@@ -105,11 +108,25 @@ namespace Application.Services
 
         #endregion
 
-        #region List Category Unused
+        #region List All Category
+
+        public async Task<List<CategoryViewModel>> ListAllCategory()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetAllAsync();
+            if (list.Count == 0) throw new Exception("Khong tim thay Category nao");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+
+            return result;
+        }
+
+#endregion
+
+        #region List Category Unused With Pagination
 
         public async Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel)
         {
             var list = await _unitOfWork.CategoryRepo.GetCategoryUnused();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang khong duoc su dung");
             var result = _mapper.Map<List<CategoryViewModel>>(list);
 
             var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
@@ -122,29 +139,49 @@ namespace Application.Services
 
         #endregion
 
-        #region List Post By Category Id
 
-        public async Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel,Guid categoryId)
+        #region List Category Used With Pagination
+
+        public async Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel)
         {
-            var category = await _unitOfWork.CategoryRepo.GetByIdAsync(categoryId);
-            if (category == null) throw new Exception("Khong tim thay Category");
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUsed();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
 
-            var result = _mapper.Map<List<PostViewModel>>(_unitOfWork.PostRepo.GetPostByCategory(categoryId));
-
-            #region pagination
-            var totalPages = (int)Math.Ceiling((double)result.Count / listPostModel.PageSize);
-            int? itemsToSkip = (listPostModel.PageNumber - 1) * listPostModel.PageSize;
+            var totalPages = (int)Math.Ceiling((double)result.Count / listCategoryModel.PageSize);
+            int? itemsToSkip = (listCategoryModel.PageNumber - 1) * listCategoryModel.PageSize;
             result = result.Skip((int)itemsToSkip)
-                .Take(listPostModel.PageSize)
+                .Take(listCategoryModel.PageSize)
                 .ToList();
-            #endregion
-
             return (result, totalPages);
         }
 
         #endregion
 
+        #region List All Category Unused 
 
+        public async Task<List<CategoryViewModel>> ListAllCategoryUnused()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUnused();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang khong duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+            return result;
+        }
+
+        #endregion
+
+
+        #region List All Category Used With Pagination
+
+        public async Task<List<CategoryViewModel>> ListAllCategoryUsed()
+        {
+            var list = await _unitOfWork.CategoryRepo.GetCategoryUsed();
+            if (list.Count == 0) throw new Exception("Khong co Category nao dang duoc su dung");
+            var result = _mapper.Map<List<CategoryViewModel>>(list);
+            return result;
+        }
+
+        #endregion
     }
 
 

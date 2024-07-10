@@ -91,4 +91,25 @@ public class AccountService : IAccountService
         account.Status = AccountStatus.Inactive.ToString();
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
+
+    public async Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest()
+    {
+        var listContestId = await _unitOfWork.ContestRepo.Get3NearestContestId();
+        if (listContestId == null || listContestId.Count == 0) throw new Exception("Không tìm thấy Contest");
+
+        var listLevelId = await _unitOfWork.EducationalLevelRepo.GetLevelIdByListContestId(listContestId);
+        if (listLevelId == null || listLevelId.Count == 0) throw new Exception("Không tìm thấy Level trong Contest");
+
+        var listAwardId = await _unitOfWork.AwardRepo.GetAwardIdByListLevelId(listLevelId);
+        if (listAwardId == null || listAwardId.Count == 0) throw new Exception("Không tìm thấy Award trong Level");
+
+        var listAccountId = await _unitOfWork.PaintingRepo.ListAccountIdByListAwardId(listAwardId);
+        if (listAccountId == null || listAccountId.Count == 0) throw new Exception("Không tìm thấy Painting nào đạt giải");
+
+        var listAccount = await _unitOfWork.AccountRepo.GetAccountByListAccountId(listAccountId);
+        if (listAccount == null || listAccount.Count == 0) throw new Exception("Không tìm thấy Account");
+
+        return _mapper.Map<List<AccountViewModel>>(listAccount);
+    }
+
 }

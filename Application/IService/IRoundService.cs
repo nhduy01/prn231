@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.SendModels.Round;
 using Application.ViewModels.RoundViewModels;
+using Application.ViewModels.TopicViewModels;
 using Domain.Models;
 
 namespace Application.IService;
@@ -13,5 +14,7 @@ public interface IRoundService
     public Task<bool> UpdateRound(RoundUpdateRequest updateRound);
     public Task<bool> DeleteRound(Guid id);
 
-    Task<(List<Topic>, int)> GetTopicInRound(Guid id, ListModels listModels);
+    Task<(List<TopicViewModel>, int)> GetTopicInRound(Guid id, ListModels listModels);
+
+    Task<(List<RoundViewModel>, int)> GetRoundByEducationalLevelId(ListModels listLevelModel, Guid levelId);
 }

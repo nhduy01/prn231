@@ -15,9 +15,14 @@ public interface ICategoryService
     Task<bool> AddCategory(CategoryRequest addCategoryViewModel);
     Task<bool> DeleteCategory(Guid collectionId);
     Task<bool> UpdateCategory(UpdateCategoryRequest updateCategory);
-    Task<(List<CategoryViewModel>, int)> ListAllCategory(ListModels listCategoryModel);
+    Task<(List<CategoryViewModel>, int)> ListCategory(ListModels listCategoryModel);
+    Task<List<CategoryViewModel>> ListAllCategory();
     Task<(List<CategoryViewModel>, int)> ListCategoryUnused(ListModels listCategoryModel);
-    Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel, Guid categoryId);
+    Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel);
+    Task<List<CategoryViewModel>> ListAllCategoryUnused();
+    Task<List<CategoryViewModel>> ListAllCategoryUsed();
+
+
 
 }
 

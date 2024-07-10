@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Reflection.Emit;
+using Application.BaseModels;
 using Application.Common;
 using Application.IService;
 using Application.IService.ICommonService;
@@ -36,12 +37,49 @@ public class EducationalLevelService : IEducationalLevelService
 
     public async Task<bool> CreateEducationalLevel(EducationalLevelRequest EducationalLevel)
     {
+        var a = await _unitOfWork.ContestRepo.GetStartEndTimeByContestId(EducationalLevel.ContestId);
         
             var newEducationalLevel = _mapper.Map<EducationalLevel>(EducationalLevel);
             newEducationalLevel.Status = EducationalLevelStatus.Active.ToString();
             await _unitOfWork.EducationalLevelRepo.AddAsync(newEducationalLevel);
+        var check = await _unitOfWork.SaveChangesAsync() > 0;
+        if (check == false) throw new Exception("Tạo EducationalLevl Thất Bại");
+        #region Tạo Round
+        //List level
+        List<Round> listRound = new List<Round>();
+        // Create Round 1 Level 1
+        var round = new Round();
+        round.Name = "Vòng Sơ Khảo";
+        round.CreatedBy = EducationalLevel.CurrentUserId;
+        round.EducationalLevelId = newEducationalLevel.Id;
+        round.Status = RoundStatus.Active.ToString();
+        round.CreatedTime = _currentTime.GetCurrentTime();
+        round.StartTime = a.Value.StartTime;
+        round.EndTime = a.Value.EndTime;
+        round.Description = "Không có mô tả";
+        round.Location = "Chưa có thông tin địa điểm";
+        listRound.Add(round);
 
-        return await _unitOfWork.SaveChangesAsync() > 0;
+        // Create Round 2 Level 1
+        var round2 = new Round();
+        round2.Name = "Vòng Chung Kết";
+        round2.CreatedBy = EducationalLevel.CurrentUserId;
+        round2.EducationalLevelId = newEducationalLevel.Id;
+        round2.Status = RoundStatus.Active.ToString();
+        round2.CreatedTime = _currentTime.GetCurrentTime();
+        round2.StartTime = a.Value.StartTime;
+        round2.EndTime = a.Value.EndTime;
+        round2.Description = "Không có mô tả";
+        round2.Location = "Chưa có thông tin địa điểm";
+        listRound.Add(round2);
+
+        await _unitOfWork.RoundRepo.AddRangeAsync(listRound);
+        check = await _unitOfWork.SaveChangesAsync() > 0;
+
+        //check
+        if (check == false) throw new Exception("Tạo Round Thất Bại");
+        #endregion
+        return check;
     }
 
     #endregion
@@ -51,6 +89,7 @@ public class EducationalLevelService : IEducationalLevelService
     public async Task<(List<EducationalLevelViewModel>, int)> GetListEducationalLevel(ListModels listModels)
     {
         var list = await _unitOfWork.EducationalLevelRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel");
         //page division
         var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
         int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
@@ -64,12 +103,29 @@ public class EducationalLevelService : IEducationalLevelService
 
     #region Get By Id
 
-    public async Task<EducationalLevelViewModel?> GetEducationalLevelById(Guid id)
+    public async Task<EducationalLevelViewModel?> GetEducationalLevelById(Guid levelId)
     {
-        var EducationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
-        if (EducationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
+        var educationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(levelId);
+        if (educationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
 
-        return _mapper.Map<EducationalLevelViewModel>(EducationalLevel);
+        return _mapper.Map<EducationalLevelViewModel>(educationalLevel);
+    }
+
+    #endregion
+
+    #region Get Level By ContestId
+
+    public async Task<(List<EducationalLevelViewModel>, int)> GetEducationalLevelByContestId(ListModels listLevelModel , Guid contestId)
+    {
+        var list = await _unitOfWork.EducationalLevelRepo.GetEducationalLevelByContestId(contestId);
+        if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel nao");
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listLevelModel.PageSize);
+        int? itemsToSkip = (listLevelModel.PageNumber - 1) * listLevelModel.PageSize;
+        var result = list.Skip((int)itemsToSkip)
+            .Take(listLevelModel.PageSize)
+            .ToList();
+        return (_mapper.Map<List<EducationalLevelViewModel>>(result), totalPages);
     }
 
     #endregion

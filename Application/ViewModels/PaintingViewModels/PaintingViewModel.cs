@@ -7,8 +7,9 @@ public class PaintingViewModel
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime SubmitTime { get; set; }
-    public Guid? RoundId { get; set; }
+    public Guid? RoundTopicId { get; set; }
     public Guid? ScheduleId { get; set; }
     public string Status { get; set; }
     public string Code { get; set; }
+    public string OwnerName { get; set; }
 }
