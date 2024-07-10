@@ -9,6 +9,7 @@ public partial class MapperConfigs : Profile
     partial void AddAwardScheduleMapperConfig()
     {
         CreateMap<AwardSchedule, AwardScheduleListModels>()
+            .ForMember(dest => dest.Rank, opt => opt.MapFrom(src => src.Award.Rank))
             .ForMember(dest => dest.PaintingViewModelsList, opt => opt.MapFrom(src => src.Schedule.Painting));
     }
 }
