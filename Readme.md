@@ -1,4 +1,5 @@
 # Sửa DB:
+- Sửa Cash với Artifact trong Resource thành 1 cột
 - Xóa description category
 - Xóa Image trong Topic
 - Thêm Image trong Sponsor
