@@ -437,7 +437,7 @@ public class ScheduleController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Schedule Fail",
+                Message = "Get Schedule Success",
                 Result = result
             });
         }

@@ -22,11 +22,12 @@ public class AwardScheduleController : Controller
     {
         try
         {
-            var result = _awardSchedule.GetListByScheduleId(id);
+            var result = await _awardSchedule.GetListByScheduleId(id);
+            if (result == null) return NotFound(new { Success = false, Message = "Schedule not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Award Schedule Success",
+                Message = "Get Schedule Award Success",
                 Result = result
             });
         }
@@ -35,7 +36,7 @@ public class AwardScheduleController : Controller
             return BadRequest(new BaseFailedResponseModel
             {
                 Status = BadRequest().StatusCode,
-                Message = "Get Award Schedule Fail",
+                Message = "Get Schedule Award Fail",
                 Errors = ex
             });
         }
