@@ -34,7 +34,7 @@ public class SponsorService : ISponsorService
 
     #endregion
 
-    #region Get All
+    #region Get All With Pagination
 
     public async Task<(List<SponsorViewModel>, int)> GetListSponsor(ListModels listModels)
     {
@@ -47,6 +47,18 @@ public class SponsorService : ISponsorService
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<SponsorViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region Get All
+
+    public async Task<List<SponsorViewModel>> GetAllSponsor()
+    {
+        var result = await _unitOfWork.SponsorRepo.GetAllAsync();
+        if (result.Count == 0) throw new Exception("Khong tim thay Sponsor nao");
+        
+        return _mapper.Map<List<SponsorViewModel>>(result);
     }
 
     #endregion
