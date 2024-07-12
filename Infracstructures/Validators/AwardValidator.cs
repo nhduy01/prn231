@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.IValidators;
+﻿using Application.IValidators;
 using Application.SendModels.Award;
 using FluentValidation;
 
@@ -20,7 +15,7 @@ namespace Infracstructures.Validators
             _updateAwardvalidator = updateAwardvalidator;
         }
 
-        public IValidator<AwardRequest> AwardCreateValidator => _awardvalidator;
-        public IValidator<UpdateAwardRequest> UserAwardValidator => _updateAwardvalidator;
+        public IValidator<AwardRequest> AwardRequestValidator => _awardvalidator;
+        public IValidator<UpdateAwardRequest> UpdateAwardRequestValidator => _updateAwardvalidator;
     }
 }

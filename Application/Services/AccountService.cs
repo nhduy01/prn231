@@ -80,7 +80,7 @@ public class AccountService : IAccountService
     public async Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(updateAccount.Id);
-        if (account == null) throw new Exception("Khong tim thay account");
+        if (account == null) throw new Exception("Không tìm thấy tài khoản");
         _mapper.Map(updateAccount, account);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -95,7 +95,7 @@ public class AccountService : IAccountService
     public async Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest()
     {
         var listContestId = await _unitOfWork.ContestRepo.Get3NearestContestId();
-        if (listContestId == null || listContestId.Count == 0) throw new Exception("Không tìm thấy Contest");
+        if (listContestId == null || listContestId.Count == 0) throw new Exception("Không tìm thấy cuộc thi");
 
         var listLevelId = await _unitOfWork.EducationalLevelRepo.GetLevelIdByListContestId(listContestId);
         if (listLevelId == null || listLevelId.Count == 0) throw new Exception("Không tìm thấy Level trong Contest");
@@ -112,4 +112,11 @@ public class AccountService : IAccountService
         return _mapper.Map<List<AccountViewModel>>(listAccount);
     }
 
+
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.AccountRepo.IsExistIdAsync(id);
+    }
 }
