@@ -21,7 +21,7 @@ namespace Infracstructures.Validators
             _updatelevelvalidator = updatelevelvalidator;
         }
 
-        public IValidator<EducationalLevelRequest> AwardCreateValidator => _levelvalidator;
-        public IValidator<EducationalLevelUpdateRequest> UserAwardValidator => _updatelevelvalidator;
+        public IValidator<EducationalLevelRequest> EducationalLevelRequestValidator => _levelvalidator;
+        public IValidator<EducationalLevelUpdateRequest> EducationalLevelUpdateRequestValidator => _updatelevelvalidator;
     }
 }

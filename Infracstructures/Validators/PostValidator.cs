@@ -21,7 +21,7 @@ namespace Infracstructures.Validators
             _updatepostvalidator = updatepostvalidator;
         }
 
-        public IValidator<PostRequest> AwardCreateValidator => _postvalidator;
-        public IValidator<PostUpdateRequest> UserAwardValidator => _updatepostvalidator;
+        public IValidator<PostRequest> PostRequestValidator => _postvalidator;
+        public IValidator<PostUpdateRequest> UpdatePostValidator => _updatepostvalidator;
     }
 }

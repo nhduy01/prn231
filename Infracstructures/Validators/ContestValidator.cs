@@ -22,7 +22,7 @@ namespace Infracstructures.Validators
             _updatecontestvalidator = updatecontestvalidator;
         }
 
-        public IValidator<ContestRequest> AwardCreateValidator => _contestvalidator;
-        public IValidator<UpdateContest> UserAwardValidator => _updatecontestvalidator;
+        public IValidator<ContestRequest> ContestRequestValidator => _contestvalidator;
+        public IValidator<UpdateContest> UpdateContestValidator => _updatecontestvalidator;
     }
 }

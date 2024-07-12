@@ -1,12 +1,18 @@
-﻿using Application.IRepositories;
+﻿using System.Reflection;
+using Application.IRepositories;
 using Application.IService;
 using Application.IService.ICommonService;
+using Application.IValidators;
 using Application.Mappers;
+using Application.SendModels.Topic;
 using Application.Services;
 using Application.Services.CommonService;
+using FluentValidation;
 using Infracstructures;
 using Infracstructures.Repositories;
+using Infracstructures.Validators;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -108,6 +114,9 @@ public static class DependencyInjection
         #region Config validators
 
         //User Validator
+        services.AddTransient<ITopicValidator, TopicValidator>();
+
+
         //services.AddTransient<IAccountValidator, AccountValidator>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -123,7 +132,6 @@ public static class DependencyInjection
 
 
         services.AddAutoMapper(typeof(MapperConfigs).Assembly);
-
 
         return services;
     }

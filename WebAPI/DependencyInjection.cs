@@ -2,7 +2,9 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.IService.ICommonService;
+using Application.SendModels.Topic;
 using Application.Services.CommonService;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infracstructures;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using WebAPI.Validation.TopicValidation;
 
 namespace WebAPI;
 
@@ -28,7 +31,7 @@ public static class DependencyInjection
         {
             o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         });
-        
+       
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -99,5 +102,15 @@ public static class DependencyInjection
                 }
             });
         });
+
+        
+    }
+    public static IServiceCollection AddModelValidator(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining<TopicRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<TopicUpdateRequestValidator>();
+
+
+        return services;
     }
 }

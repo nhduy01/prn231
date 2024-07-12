@@ -14,4 +14,7 @@ public interface IAccountService
     public Task<bool?> DeleteAccount(Guid id);
 
     Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest();
+
+
+    Task<bool> IsExistedId(Guid id);
 }

@@ -21,7 +21,7 @@ namespace Infracstructures.Validators
             _updatecollectionvalidator = updatecollectionvalidator;
         }
 
-        public IValidator<CollectionRequest> AwardCreateValidator => _collectionvalidator;
-        public IValidator<UpdateCollectionRequest> UserAwardValidator => _updatecollectionvalidator;
+        public IValidator<CollectionRequest> CollectionRequestValidator => _collectionvalidator;
+        public IValidator<UpdateCollectionRequest> UpdateCollectionRequestValidator => _updatecollectionvalidator;
     }
 }
