@@ -12,6 +12,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using WebAPI.Validation.AccountValidation;
+using WebAPI.Validation.AwardValidation;
+using WebAPI.Validation.CategoryValidation;
+using WebAPI.Validation.CollectionValidation;
+using WebAPI.Validation.ContestValidation;
+using WebAPI.Validation.EducationalLevelValidation;
+using WebAPI.Validation.ImageValidation;
+using WebAPI.Validation.NotificationValidation;
+using WebAPI.Validation.PaintingCollectionValidation;
+using WebAPI.Validation.PaintingValidation;
+using WebAPI.Validation.PostValidation;
+using WebAPI.Validation.ReportValidation;
+using WebAPI.Validation.ResourceValidation;
+using WebAPI.Validation.RoundTopicValidation;
+using WebAPI.Validation.RoundValidation;
+using WebAPI.Validation.ScheduleValidation;
+using WebAPI.Validation.SponsorValidation;
 using WebAPI.Validation.TopicValidation;
 
 namespace WebAPI;
@@ -109,8 +126,40 @@ public static class DependencyInjection
     {
         services.AddValidatorsFromAssemblyContaining<TopicRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<TopicUpdateRequestValidator>();
-
-
+        services.AddValidatorsFromAssemblyContaining<AccountUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<SubAccountRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<AwardRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateAwardRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<CategoryRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateCategoryRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<CollectionRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateCollectionRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ContestRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateContestValidator>();
+        services.AddValidatorsFromAssemblyContaining<EducationalLevelRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<EducationalLevelUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ImageRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<NotificationRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<PaintingCollectionRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<PaintingRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<PaintingRequest2Validator>();
+        services.AddValidatorsFromAssemblyContaining<PaintingUpdateStatusRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<RatingRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdatePaintingRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<PostRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdatePostValidator>();
+        services.AddValidatorsFromAssemblyContaining<ReportRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateReportRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ResourcesUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ResourcesRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<RoundTopicRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<RoundRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<RoundUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ScheduleRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ScheduleUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<ScheduleForFinalRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<SponsorRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<SponsorUpdateRequestValidator>();
         return services;
     }
 }

@@ -113,11 +113,64 @@ public static class DependencyInjection
 
         #region Config validators
 
-        //User Validator
+        //Account Validator
+        services.AddTransient<IAccountValidator, AccountValidator>();
+
+        //AwardSchedule Validator
+        services.AddTransient<IAwardScheduleValidator, AwardScheduleValidator>();
+
+        //Award Validator
+        services.AddTransient<IAwardValidator, AwardValidator>();
+
+        //Category Validator
+        services.AddTransient<ICategoryValidator, CategoryValidator>();
+
+        //Collection Validator
+        services.AddTransient<ICollectionValidator, CollectionValidator>();
+
+        //Contest Validator
+        services.AddTransient<IContestValidator, ContestValidator>();
+
+        //EducationalLevel Validator
+        services.AddTransient<IEducationalLevelValidator, EducationalLevelValidator>();
+
+        //Image Validator
+        services.AddTransient<IImageValidator, ImageValidator>();
+
+        //Notification Validator
+        services.AddTransient<INotificationValidator, NotificationValidator>();
+
+        //PaintingCollection Validator
+        services.AddTransient<IPaintingCollectionValidator, PaintingCollectionValidator>();
+
+        //Painting Validator
+        services.AddTransient<IPaintingValidator, PaintingValidator>();
+
+        //Post Validator
+        services.AddTransient<IPostValidator, PostValidator>();
+
+        //Report Validator
+        services.AddTransient<IReportValidator, ReportValidator>();
+
+        //Resource Validator
+        services.AddTransient<IResourceValidator, ResourceValidator>();
+
+        //RoundTopic Validator
+        services.AddTransient<IRoundTopicValidator, RoundTopicValidator>();
+
+        //Round Validator
+        services.AddTransient<IRoundValidator, RoundValidator>();
+
+        //Schedule Validator
+        services.AddTransient<IScheduleValidator, ScheduleValidator>();
+
+        //Sponsor Validator
+        services.AddTransient<ISponsorValidator, SponsorValidator>();
+
+        //Topic Validator
         services.AddTransient<ITopicValidator, TopicValidator>();
 
 
-        //services.AddTransient<IAccountValidator, AccountValidator>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         #endregion
