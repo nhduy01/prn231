@@ -34,6 +34,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ThenInclude(x => x.Topic)
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
             .ThenInclude(x => x.Award)
+            .Include(x=>x.Account)
             .FirstOrDefaultAsync(x => x.Id == contestId);
     }
 
@@ -50,6 +51,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ThenInclude(x => x.Topic)
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
             .ThenInclude(x => x.Award)
+            .Include(x => x.Account)
             .OrderBy(x=>x.CreatedTime)
             .FirstOrDefaultAsync();
     }

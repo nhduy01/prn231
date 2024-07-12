@@ -1,5 +1,7 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
+using Domain.Models;
 using Infracstructures.SendModels.Sponsor;
 using Microsoft.AspNetCore.Mvc;
 
@@ -86,7 +88,45 @@ public class SponsorController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result = false,
+                Result  = new
+                {
+                    List = new List<Sponsor>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get sponsor By Page
+
+    [HttpGet("getallsponsor")]
+    public async Task<IActionResult> GetAllSponsor()
+    {
+        try
+        {
+            var result = await _sponsorService.GetAllSponsor();
+            
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Sponsor Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Sponsor>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -116,7 +156,7 @@ public class SponsorController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result = false,
+                Result = null,
                 Errors = ex
             });
         }
