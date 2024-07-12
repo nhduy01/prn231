@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddWebAPIService(builder, builder.Configuration);
 builder.Services.AddInfractstructure(builder.Configuration);
+builder.Services.AddModelValidator();
 
 
 var app = builder.Build();

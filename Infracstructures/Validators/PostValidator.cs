@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.IValidators;
-using Application.SendModels.Award;
+﻿using Application.IValidators;
 using Application.SendModels.Post;
 using FluentValidation;
 
 namespace Infracstructures.Validators
 {
-    public  class PostValidator : IPostValidator
+    public class PostValidator : IPostValidator
     {
         private readonly IValidator<PostRequest> _postvalidator;
         private readonly IValidator<PostUpdateRequest> _updatepostvalidator;
@@ -21,7 +15,7 @@ namespace Infracstructures.Validators
             _updatepostvalidator = updatepostvalidator;
         }
 
-        public IValidator<PostRequest> AwardCreateValidator => _postvalidator;
-        public IValidator<PostUpdateRequest> UserAwardValidator => _updatepostvalidator;
+        public IValidator<PostRequest> PostRequestValidator => _postvalidator;
+        public IValidator<PostUpdateRequest> UpdatePostValidator => _updatepostvalidator;
     }
 }

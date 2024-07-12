@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.IValidators;
-using Application.SendModels.Collection;
+﻿using Application.IValidators;
 using Application.SendModels.Contest;
-using Domain.Models;
 using FluentValidation;
 
 namespace Infracstructures.Validators
@@ -22,7 +15,7 @@ namespace Infracstructures.Validators
             _updatecontestvalidator = updatecontestvalidator;
         }
 
-        public IValidator<ContestRequest> AwardCreateValidator => _contestvalidator;
-        public IValidator<UpdateContest> UserAwardValidator => _updatecontestvalidator;
+        public IValidator<ContestRequest> ContestRequestValidator => _contestvalidator;
+        public IValidator<UpdateContest> UpdateContestValidator => _updatecontestvalidator;
     }
 }

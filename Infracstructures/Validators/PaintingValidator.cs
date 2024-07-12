@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.IValidators;
+﻿using Application.IValidators;
 using Application.SendModels.Painting;
-using Application.SendModels.PaintingCollection;
 using FluentValidation;
 using Infracstructures.SendModels.Painting;
 

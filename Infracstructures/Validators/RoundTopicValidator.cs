@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.IValidators;
+using Application.SendModels.RoundTopic;
+using FluentValidation;
 
 namespace Infracstructures.Validators
 {
-    internal class RoundTopicValidator
+    public class RoundTopicValidator : IRoundTopicValidator
     {
+        private readonly IValidator<RoundTopicRequest> _roundtopicvalidator;
+
+        public RoundTopicValidator(IValidator<RoundTopicRequest> roundtopicvalidator)
+        {
+            _roundtopicvalidator = roundtopicvalidator;
+        }
+
+        public IValidator<RoundTopicRequest> RoundTopicRequestValidator => _roundtopicvalidator;
     }
 }

@@ -1,12 +1,18 @@
-﻿using Application.IRepositories;
+﻿using System.Reflection;
+using Application.IRepositories;
 using Application.IService;
 using Application.IService.ICommonService;
+using Application.IValidators;
 using Application.Mappers;
+using Application.SendModels.Topic;
 using Application.Services;
 using Application.Services.CommonService;
+using FluentValidation;
 using Infracstructures;
 using Infracstructures.Repositories;
+using Infracstructures.Validators;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -107,8 +113,64 @@ public static class DependencyInjection
 
         #region Config validators
 
-        //User Validator
-        //services.AddTransient<IAccountValidator, AccountValidator>();
+        //Account Validator
+        services.AddTransient<IAccountValidator, AccountValidator>();
+
+        //AwardSchedule Validator
+        services.AddTransient<IAwardScheduleValidator, AwardScheduleValidator>();
+
+        //Award Validator
+        services.AddTransient<IAwardValidator, AwardValidator>();
+
+        //Category Validator
+        services.AddTransient<ICategoryValidator, CategoryValidator>();
+
+        //Collection Validator
+        services.AddTransient<ICollectionValidator, CollectionValidator>();
+
+        //Contest Validator
+        services.AddTransient<IContestValidator, ContestValidator>();
+
+        //EducationalLevel Validator
+        services.AddTransient<IEducationalLevelValidator, EducationalLevelValidator>();
+
+        //Image Validator
+        services.AddTransient<IImageValidator, ImageValidator>();
+
+        //Notification Validator
+        services.AddTransient<INotificationValidator, NotificationValidator>();
+
+        //PaintingCollection Validator
+        services.AddTransient<IPaintingCollectionValidator, PaintingCollectionValidator>();
+
+        //Painting Validator
+        services.AddTransient<IPaintingValidator, PaintingValidator>();
+
+        //Post Validator
+        services.AddTransient<IPostValidator, PostValidator>();
+
+        //Report Validator
+        services.AddTransient<IReportValidator, ReportValidator>();
+
+        //Resource Validator
+        services.AddTransient<IResourceValidator, ResourceValidator>();
+
+        //RoundTopic Validator
+        services.AddTransient<IRoundTopicValidator, RoundTopicValidator>();
+
+        //Round Validator
+        services.AddTransient<IRoundValidator, RoundValidator>();
+
+        //Schedule Validator
+        services.AddTransient<IScheduleValidator, ScheduleValidator>();
+
+        //Sponsor Validator
+        services.AddTransient<ISponsorValidator, SponsorValidator>();
+
+        //Topic Validator
+        services.AddTransient<ITopicValidator, TopicValidator>();
+
+
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         #endregion
@@ -123,7 +185,6 @@ public static class DependencyInjection
 
 
         services.AddAutoMapper(typeof(MapperConfigs).Assembly);
-
 
         return services;
     }
