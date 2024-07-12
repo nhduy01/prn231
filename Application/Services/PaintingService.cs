@@ -9,7 +9,6 @@ using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Infracstructures.SendModels.Painting;
-using Infracstructures.ViewModels.PostViewModels;
 using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;

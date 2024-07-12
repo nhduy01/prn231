@@ -1,4 +1,4 @@
-﻿namespace Infracstructures.ViewModels.PostViewModels;
+﻿namespace Application.ViewModels.PostViewModels;
 
 public class PostViewModel
 {

@@ -13,7 +13,6 @@ using Domain.Models;
 using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.AwardViewModels;
 using Application.BaseModels;
-using Infracstructures.ViewModels.PostViewModels;
 using Domain.Enums;
 using Application.SendModels.Category;
 

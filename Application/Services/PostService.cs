@@ -1,11 +1,11 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Post;
+using Application.ViewModels.PostViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Services;
 
@@ -41,7 +41,7 @@ public class PostService : IPostService
 
     #region Get All
 
-    public async Task<(List<PostViewModel>, int)> GetListPost(ListModels listModels)
+    public async Task<(List<ListPostViewModel>, int)> GetListPost(ListModels listModels)
     {
         var list = await _unitOfWork.PostRepo.GetAllAsync();
         if (list.Count == 0) throw new Exception("Khong tim thay Post nao");
@@ -52,7 +52,7 @@ public class PostService : IPostService
         var result = list.Skip((int)itemsToSkip)
             .Take(listModels.PageSize)
             .ToList();
-        return (_mapper.Map<List<PostViewModel>>(result), totalPages);
+        return (_mapper.Map<List<ListPostViewModel>>(result), totalPages);
     }
     #endregion
 

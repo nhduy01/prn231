@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Application.BaseModels;
 using Application.SendModels.Category;
 using Application.ViewModels.CategoryViewModels;
-using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.IService;
 
