@@ -5,6 +5,7 @@
 - Thêm Image trong Sponsor
 - Thêm Content trong post
 - RoundTopic có thêm status (xem lại)
+- URL trong Post
 
 # Validate:
 - Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
@@ -22,7 +23,6 @@
 - Sửa Output cho GetContestById
 - (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
 
-- Sửa Messege khi bắt Exception = ex.Message
 - Chuyển Stauts của report
 - Get Painting By AccountId
 - Đổi path Get Paintg By Collection(Controller)
