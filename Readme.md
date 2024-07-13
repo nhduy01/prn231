@@ -4,7 +4,7 @@
 - Xóa Image trong Topic
 - Thêm Image trong Sponsor
 - Thêm Content trong post
-- RoundTopic có thêm status (xem lại)
+- RoundTopic có thêm status 
 - URL trong Post
 - Thêm image trong contest
 
