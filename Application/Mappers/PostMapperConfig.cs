@@ -1,7 +1,7 @@
 ﻿using Application.SendModels.Post;
+using Application.ViewModels.PostViewModels;
 using AutoMapper;
 using Domain.Models;
-using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Mappers;
 
@@ -29,5 +29,11 @@ public partial class MapperConfigs : Profile
         CreateMap<Post, PostViewModel>().ReverseMap()
             .ForPath(x => x.Category.Id, x => x.MapFrom(x => x.CategoryId))
             .ForPath(x => x.Category.Name, x => x.MapFrom(x => x.CategoryName));
+        
+        CreateMap<Post, ListPostViewModel>()
+            .ForPath(x => x.Image, x => x.MapFrom(x => x.Images.First().Url))
+            .ForPath(x => x.CategoryId, x => x.MapFrom(x => x.CategoryId))
+            .ForPath(x => x.CategoryName, x => x.MapFrom(x => x.Category.Name));
+
     }
 }

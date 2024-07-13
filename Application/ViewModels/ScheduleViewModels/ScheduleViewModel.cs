@@ -7,4 +7,5 @@ public class ScheduleViewModel
     public string? Description { get; set; }
     public Guid? ExaminerId { get; set; }
     public String? Status { get; set; }
+    public DateTime EndDate { get; set; }
 }

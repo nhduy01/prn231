@@ -11,7 +11,6 @@ using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.ReportViewModels;
 using AutoMapper;
 using Domain.Models;
-using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Mappers;
 public partial class MapperConfigs : Profile
