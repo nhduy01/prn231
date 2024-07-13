@@ -11,6 +11,8 @@
 
 - Status hasprize trong painting
 
+- Rule sửa xóa của contest 
+
 # Validate:
 - Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
