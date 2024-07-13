@@ -6,6 +6,7 @@
 - Thêm Content trong post
 - RoundTopic có thêm status (xem lại)
 - URL trong Post
+- Thêm image trong contest
 
 # Validate:
 - Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
