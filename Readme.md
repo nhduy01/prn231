@@ -9,6 +9,8 @@
 - Thêm image trong contest
 - Content với description trong contest
 
+- Status hasprize trong painting
+
 # Validate:
 - Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
@@ -29,3 +31,9 @@
 - Get Painting By AccountId
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model)
+
+
+- Tạo Round add cho toàn bộ level (thay levelid = contestid) với bỏ listtopic.
+- Add nhiều topicround
+- get alltopic (không phân trang)
+- 
