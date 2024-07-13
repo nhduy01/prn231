@@ -58,6 +58,7 @@ public class ScheduleService : IScheduleService
             newAwardSchedule.Id = Guid.NewGuid();
             newAwardSchedule.ScheduleId = newSchedule.Id;
             newAwardSchedule.AwardId = award.Id;
+            newAwardSchedule.Status = AwardScheduleStatus.Rating.ToString();
 
             if (i == schedule.ListExaminer.Count - 1)
             {
@@ -242,17 +243,19 @@ public class ScheduleService : IScheduleService
         {
             throw new Exception("Have ID not Exist In schedule");
         }
-
         var listPass = schedules.Painting.Where(p => ratingPainting.Paintings.Contains(p.Id)).ToList();
         var listNotPass = schedules.Painting.Where(p => !ratingPainting.Paintings.Contains(p.Id)).ToList();
 
         listPass.ForEach(p => p.Status = PaintingStatus.Pass.ToString());
         listNotPass.ForEach(p => p.Status = PaintingStatus.NotPass.ToString());
         schedules.Painting.ToList().ForEach(p => p.FinalDecisionTimestamp = DateTime.Now);
+        schedules.AwardSchedule.First().Status = AwardScheduleStatus.Done.ToString();
+        schedules.Status = ScheduleStatus.Done.ToString();
         if (listPass.Count != schedules.AwardSchedule.First().Quantity)
         {
             throw new Exception("The Quantity of paiting is wrong");
         }
+        
 
         await _unitOfWork.SaveChangesAsync();
 

@@ -1,8 +1,8 @@
 ﻿using Application.SendModels.Image;
 using Application.SendModels.Post;
+using Application.ViewModels.PostViewModels;
 using AutoMapper;
 using Domain.Models;
-using Infracstructures.ViewModels.PostViewModels;
 
 namespace Application.Mappers;
 
