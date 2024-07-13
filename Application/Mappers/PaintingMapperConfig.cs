@@ -18,10 +18,12 @@ public partial class MapperConfigs : Profile
             .ForMember(x => x.AccountId, x => x.MapFrom(x => x.CurrentUserId));
 
         CreateMap<Painting, PaintingViewModel>()
-            .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Account.FullName));
+            .ForPath(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Account.FullName))
+            .ForPath(dest => dest.TopicName, opt => opt.MapFrom(src => src.RoundTopic.Topic.Name));
 
         CreateMap<PaintingViewModel, Painting>()
-            .ForPath(dest => dest.Account.FullName, opt => opt.MapFrom(src => src.OwnerName));
+            .ForPath(dest => dest.Account.FullName, opt => opt.MapFrom(src => src.OwnerName))
+            .ForPath(dest => dest.RoundTopic.Topic.Name, opt => opt.MapFrom(src => src.TopicName));
 
         CreateMap<UpdatePaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy))

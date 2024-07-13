@@ -13,22 +13,30 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
     public override async Task<List<Painting>> GetAllAsync()
     {
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
             .ToListAsync();
     }
     public virtual async Task<Painting?> GetByCodeAsync(string code)
     {
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
             .FirstOrDefaultAsync(x => x.Code == code);
     }
     public override async Task<Painting?> GetByIdAsync(Guid id)
     {
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
     public virtual async Task<List<Painting>> List16WiningPaintingAsync()
     {
         return await DbSet.Where(x => x.AwardId != null && x.Status != PaintingStatus.Delete.ToString())
             .OrderByDescending(x => x.UpdatedTime)
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
             .Take(16).ToListAsync();
     }
 
@@ -41,6 +49,8 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
     {
         return await DbSet.Where(x => x.AccountId == accountId && x.Status != PaintingStatus.Delete.ToString())
             .Include(x => x.Account)
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x=>x.Topic)
             .ToListAsync();
     }
 
