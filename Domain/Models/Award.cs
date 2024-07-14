@@ -4,8 +4,8 @@ namespace Domain.Models;
 
 public class Award : BaseModel
 {
-    public string Rank { get; set; }
-    public int Quantity { get; set; }
+    public string? Rank { get; set; }
+    public int? Quantity { get; set; }
     public double? Cash { get; set; }
     public string? Artifact { get; set; }
     public string? Description { get; set; }
