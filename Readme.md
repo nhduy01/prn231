@@ -9,6 +9,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Sửa viewmodel resource lấy các bảng liên quan
 - xem các cuộc thi
 - xem chi tiết cuộc thi
 - xem các bộ sưu tập
