@@ -49,9 +49,10 @@ public class NotificationService : INotificationService
 
     public async Task<NotificationDetailViewModel?> GetNotificationById(Guid id)
     {
-        var Notification = await _unitOfWork.NotificationRepo.GetByIdAsync(id);
-        if (Notification == null) throw new Exception("Khong tim thay Notification");
-        return _mapper.Map<NotificationDetailViewModel>(Notification);
+        var notification = await _unitOfWork.NotificationRepo.GetByIdAsync(id);
+        if (notification == null) throw new Exception("Khong tim thay Notification");
+        await ReadNotification(id);
+        return _mapper.Map<NotificationDetailViewModel>(notification);
     }
 
     #endregion

@@ -10,8 +10,8 @@ public class NotificationRepository : GenericRepository<Notification>, INotifica
     {
     }
 
-    public async Task<List<Notification>> Get5NotificationOfUser(Guid id)
+    public async Task<List<Notification?>> Get5NotificationOfUser(Guid id)
     {
-        return await DbSet.Where(n => n.AccountId == id).Take(5).ToListAsync();
+        return (await DbSet.Where(n => n.AccountId == id).Take(5).ToListAsync())!;
     }
 }

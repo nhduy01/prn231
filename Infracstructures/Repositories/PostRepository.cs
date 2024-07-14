@@ -13,6 +13,7 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     public override async Task<List<Post>> GetAllAsync()
     {
         return await DbSet.Where(x => x.Status == PostStatus.Active.ToString())
+            .Include(x => x.Images)
             .OrderByDescending(x => x.CreatedTime)
             .Include(x=>x.Category)
             .ToListAsync();
