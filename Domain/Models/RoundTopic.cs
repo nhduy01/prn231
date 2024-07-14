@@ -8,7 +8,7 @@ namespace Domain.Models
 {
     public class RoundTopic
     {
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? RoundId { get; set; }
         public Guid? TopicId { get; set; }
 

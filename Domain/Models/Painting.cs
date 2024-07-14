@@ -4,8 +4,8 @@ namespace Domain.Models;
 
 public class Painting : BaseModel
 {
-    public string? Image { get; set; }
-    public string? Name { get; set; }
+    public string Image { get; set; }
+    public string Name { get; set; }
     public string? Description { get; set; }
     public DateTime? SubmittedTimestamp  { get; set; }
     public DateTime? ReviewedTimestamp  { get; set; }
@@ -14,7 +14,7 @@ public class Painting : BaseModel
     public Guid? RoundTopicId { get; set; }
     public Guid AccountId { get; set; }
     public Guid? ScheduleId { get; set; }
-    public string? Code { get; set; }
+    public string Code { get; set; }
 
 
     //Relation
