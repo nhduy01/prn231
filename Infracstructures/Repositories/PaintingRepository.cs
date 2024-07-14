@@ -65,4 +65,14 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Select(x => x.AccountId)
             .ToListAsync();
     }
+
+    public async Task<int> GetNumPaintingInContest(Guid contestId)
+    {
+        return await DbSet
+                .Include(p => p.RoundTopic)
+                .ThenInclude(r=>r.Round)
+                .ThenInclude(r => r.EducationalLevel)
+                .Where(p => p.RoundTopic.Round.EducationalLevel.ContestId == contestId)
+                .CountAsync();
+    }
 }

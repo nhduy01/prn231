@@ -7,6 +7,6 @@ public class RoundRequest
     public DateTime EndTime { get; set; }
     public string Location { get; set; }
     public string Description { get; set; }
-    public Guid EducationalLevelId { get; set; }
+    public Guid ContestId { get; set; }
     public Guid CurrentUserId { get; set; }
 }

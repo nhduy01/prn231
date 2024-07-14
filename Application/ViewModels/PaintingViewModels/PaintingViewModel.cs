@@ -12,4 +12,5 @@ public class PaintingViewModel
     public string Status { get; set; }
     public string Code { get; set; }
     public string OwnerName { get; set; }
+    public int? NumberOfPainting {  get; set; }
 }
