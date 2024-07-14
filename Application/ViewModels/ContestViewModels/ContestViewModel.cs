@@ -9,8 +9,8 @@ public class ContestViewModel
     public string Name { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    public string Description { get; set; }
     public string Content { get; set; }
+    public string Logo { get; set; }
 
     public Guid? StaffId { get; set; }
     public string AccountFullName {  get; set; }

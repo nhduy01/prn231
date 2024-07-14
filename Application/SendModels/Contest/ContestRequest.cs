@@ -9,6 +9,8 @@ public class ContestRequest
     public DateTime EndTime { get; set; }
     public string Description { get; set; }
     public string Content { get; set; }
+    public string Logo { get; set; }
+
     public Guid CurrentUserId { get; set; }
     public DateTime Round1StartTime {get; set; }
     public DateTime Round1EndTime { get; set; }

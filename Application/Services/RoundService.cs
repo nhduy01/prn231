@@ -35,13 +35,14 @@ public class RoundService : IRoundService
 
         var check = await _unitOfWork.SaveChangesAsync() > 0;
         if (check == false) throw new Exception("Tao Round Fail");
-        foreach (var id in Round.ListTopic)
+        // Add Topic to Round
+        /*foreach (var id in Round.ListTopic)
         {
             var roundTopic = new RoundTopic();
             roundTopic.RoundId = newRound.Id;
             roundTopic.TopicId = id;
             _unitOfWork.RoundTopicRepo.AddAsync(roundTopic);
-        }
+        }*/
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
