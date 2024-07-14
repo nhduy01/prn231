@@ -38,7 +38,7 @@ public static class DependencyInjection
     public static void AddWebAPIService(this IServiceCollection services, WebApplicationBuilder builder,  IConfiguration config)
     {
 
-        services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));
+        services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh"), sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()));
         services.AddControllers().AddJsonOptions(opt =>
         {
             opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
