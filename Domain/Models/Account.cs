@@ -33,5 +33,4 @@ public class Account : BaseModel
     public ICollection<Collection> Collection { get; set; }
     public ICollection<Painting> Painting { get; set; }
     public ICollection<Report> Report { get; set; }
-    public ICollection<Category> Categories { get; set; }
 }

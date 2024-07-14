@@ -36,14 +36,14 @@ public class ContestConfiguration : IEntityTypeConfiguration<Contest>
         //Content
         builder.Property(u => u.Content);
 
-        //Description
-        builder.Property(u => u.Description);
-
         //EndTime
         builder.Property(u => u.EndTime);
 
         //StartTime
         builder.Property(u => u.StartTime);
+
+        //Logo
+        builder.Property(u => u.Logo);
 
 
         //Relation

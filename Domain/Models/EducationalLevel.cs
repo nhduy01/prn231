@@ -5,7 +5,7 @@ namespace Domain.Models;
 public class EducationalLevel : BaseModel
 {
     public string? Description { get; set; }
-    public string Level { get; set; }
+    public string? Level { get; set; }
     public Guid? ContestId { get; set; }
 
     //Relation

@@ -36,8 +36,6 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
         //Description
         builder.Property(u => u.Description);
 
-        //Image
-        builder.Property(u => u.Image);
 
     }
 }

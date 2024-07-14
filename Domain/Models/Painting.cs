@@ -4,8 +4,8 @@ namespace Domain.Models;
 
 public class Painting : BaseModel
 {
-    public string Image { get; set; }
-    public string Name { get; set; }
+    public string? Image { get; set; }
+    public string? Name { get; set; }
     public string? Description { get; set; }
     public DateTime? SubmittedTimestamp  { get; set; }
     public DateTime? ReviewedTimestamp  { get; set; }

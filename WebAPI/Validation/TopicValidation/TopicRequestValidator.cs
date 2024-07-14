@@ -19,7 +19,7 @@ namespace WebAPI.Validation.TopicValidation
             RuleFor(x => x.CurrentUserId)
                 .NotEmpty()
                 .WithMessage("CurrentUserId is required.")
-                .MustAsync(async (userId, cancellation) => await accountService.IsExistedId(userId))
+                .MustAsync(async (userId, cancellation) => await _accountService.IsExistedId(userId))
                 .WithMessage("CurrentUserId does not exist."); 
         }
     }

@@ -17,8 +17,7 @@ public partial class MapperConfigs : Profile
     partial void AddCategoryMapperConfig()
     {
         CreateMap<Category, CategoryRequest>().ReverseMap()
-            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
-            .ForMember(x => x.StaffId, x => x.MapFrom(x => x.CurrentUserId));
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
         
         
         CreateMap<Category, UpdateCategoryRequest>().ReverseMap()

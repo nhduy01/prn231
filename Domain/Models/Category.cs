@@ -10,10 +10,7 @@ namespace Domain.Models
     public class Category : BaseModel
     {
         public string Name { get; set; }
-        public string Description { get; set; }
-        public Guid StaffId { get; set; }
 
         public ICollection<Post> Post { get; set;}
-        public Account Account { get; set; }
     }
 }

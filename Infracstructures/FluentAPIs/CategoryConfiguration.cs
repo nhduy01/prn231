@@ -39,9 +39,6 @@ namespace Infracstructures.FluentAPIs
             //Name
             builder.Property(u => u.Name);
 
-            //Description
-            builder.Property(u => u.Description);
-
         }
     }
 }

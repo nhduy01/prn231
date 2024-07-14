@@ -11,6 +11,7 @@ public class Sponsor : BaseModel
     public string? Delegate { get; set; }
 
     public string? PhoneNumber { get; set; }
+    public string? Logo { get; set; }
 
     //Relation
     public ICollection<Resources> Resources { get; set; }
