@@ -11,7 +11,7 @@ namespace Domain.Models
     {
         public string? Title {  get; set; }
         public string? Description { get; set; }
-        public Guid CompetitorId { get; set; }
+        public Guid? CompetitorId { get; set; }
 
 
         public Account Account { get; set; }
