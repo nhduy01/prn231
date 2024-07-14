@@ -23,6 +23,8 @@
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
 
+- Viết Generate code account, tranh ghi staff duyệt
+
 - Get Painting By AccountId :white_check_mark:
 
 - 
