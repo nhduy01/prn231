@@ -30,18 +30,14 @@ public class ResourcesConfiguration : IEntityTypeConfiguration<Resources>
         //Status
         builder.Property(u => u.Status).HasDefaultValue("False");
 
-        //Cash
-        builder.Property(u => u.Cash);
-
-        //Artifact
-        builder.Property(u => u.Artifact);
-
         //SponsorId
         builder.Property(u => u.SponsorId);
 
         //ContestId
         builder.Property(u => u.ContestId);
 
+        //Sponsorship
+        builder.Property(u => u.Sponsorship);
 
         //Relation
         builder.HasOne(u => u.Sponsor).WithMany(u => u.Resources).HasForeignKey(u => u.SponsorId)
