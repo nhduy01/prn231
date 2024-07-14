@@ -42,8 +42,11 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
         //StaffId
         builder.Property(u => u.StaffId).IsRequired();
 
-        //Category
+        //CategoryId
         builder.Property(u=>u.CategoryId);
+
+        //Content
+        builder.Property(u => u.Content);
 
 
         //Relation

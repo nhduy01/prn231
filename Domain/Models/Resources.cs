@@ -4,8 +4,7 @@ namespace Domain.Models;
 
 public class Resources : BaseModel
 {
-    public string Cash { get; set; }
-    public string Artifact { get; set; }
+    public string Sponsorship {  get; set; }
     public Guid? SponsorId { get; set; }
     public Guid? ContestId { get; set; }
 

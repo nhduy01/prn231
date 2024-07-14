@@ -55,22 +55,22 @@ public class ContestService : IContestService
 
         //Create Level Mầm Non
         var level = new EducationalLevel();
-        level.Level = "Mầm Non";
+        level.Level = "Bảng A";
         level.CreatedBy = addContestViewModel.CurrentUserId;
         level.ContestId = contest.Id;
         level.Status = EducationalLevelStatus.Active.ToString();
         level.CreatedTime = _currentTime.GetCurrentTime();
-        level.Description = "Không có mô tả";
+        level.Description = "Mầm Non";
         listLevel.Add(level);
 
         //Create Level Cấp 1
         var level2 = new EducationalLevel();
-        level2.Level = "Tiểu Học";
+        level2.Level = "Bảng B";
         level2.CreatedBy = addContestViewModel.CurrentUserId;
         level2.ContestId = contest.Id;
         level2.Status = EducationalLevelStatus.Active.ToString();
         level2.CreatedTime = _currentTime.GetCurrentTime();
-        level2.Description = "Không có mô tả";
+        level2.Description = "Tiểu Học";
         listLevel.Add(level2);
         await _unitOfWork.EducationalLevelRepo.AddRangeAsync(listLevel);
         check = await _unitOfWork.SaveChangesAsync() > 0;

@@ -41,5 +41,8 @@ internal class SponsorConfiguration : IEntityTypeConfiguration<Sponsor>
 
         //PhoneNumber
         builder.Property(u => u.PhoneNumber);
+
+        //Logo
+        builder.Property(u => u.Logo);
     }
 }

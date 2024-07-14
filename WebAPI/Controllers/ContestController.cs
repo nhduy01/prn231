@@ -198,7 +198,7 @@ public class ContestController : Controller
 
     #region Get Nearest Contest
 
-    [HttpGet()]
+    [HttpGet("getnearestcontest")]
     public async Task<IActionResult> GetNearestContest()
     {
         try
