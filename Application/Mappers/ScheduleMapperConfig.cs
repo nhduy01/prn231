@@ -27,7 +27,7 @@ public partial class MapperConfigs : Profile
             });
         CreateMap<Schedule, ScheduleViewModel>()
             .ForMember(x => x.Year , x => x.MapFrom( x => x.EndDate.Year.ToString()))
-            .ForPath(x => x.Round, x => x.MapFrom(x => x.Round.Description));
+            .ForPath(x => x.Round, x => x.MapFrom(x => x.Round.Name));
             
         CreateMap<Schedule, ScheduleRatingViewModel>();
     }
