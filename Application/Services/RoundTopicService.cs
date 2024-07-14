@@ -29,8 +29,15 @@ namespace Application.Services
 
         public async Task<bool> AddTopicToRound(RoundTopicRequest roundTopicRequest)
         {
-            var newRoundTopic = _mapper.Map<RoundTopic>(roundTopicRequest);
-            await _unitOfWork.RoundTopicRepo.AddAsync(newRoundTopic);
+            var listRoundTopic = new List<RoundTopic>();
+            foreach(var topic in roundTopicRequest.ListTopicId)
+            {
+                var roundtopic = new RoundTopic();
+                roundtopic.TopicId = topic;
+                roundtopic.RoundId= roundTopicRequest.RoundId;
+                listRoundTopic.Add(roundtopic);
+            }
+            await _unitOfWork.RoundTopicRepo.AddRangeAsync(listRoundTopic);
 
             return await _unitOfWork.SaveChangesAsync() > 0;
         }

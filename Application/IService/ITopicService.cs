@@ -14,4 +14,5 @@ public interface ITopicService
     public Task<bool> DeleteTopic(Guid id);
 
     Task<ValidationResult> ValidateTopicRequest(TopicRequest topic);
+    Task<List<TopicViewModel>> GetAllTopic();
 }

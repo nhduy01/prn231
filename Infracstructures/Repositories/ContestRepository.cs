@@ -81,4 +81,6 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
         var result = DbSet.OrderBy(x => x.CreatedTime).Select(x => x.Id).Take(3).ToListAsync();
         return await result;
     }
+
+    
 }

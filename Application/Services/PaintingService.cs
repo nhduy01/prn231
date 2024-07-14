@@ -151,7 +151,7 @@ public class PaintingService : IPaintingService
             throw new Exception("Khong duoc sua");
         }
 
-        painting = _mapper.Map<Painting>(updatePainting);
+        _mapper.Map(updatePainting, painting);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

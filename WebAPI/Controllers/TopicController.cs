@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Topic;
 using Domain.Models;
@@ -97,6 +98,35 @@ public class TopicController : Controller
                     List = new List<Topic>(),
                     TotalPage = 0
                 },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Topic
+
+    [HttpGet("GetAllTopic")]
+    public async Task<IActionResult> GetAllTopic()
+    {
+        try
+        {
+            var result = await _topicService.GetAllTopic();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Topic Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result  = new List<Topic>(),
                 Errors = ex
             });
         }

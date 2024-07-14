@@ -1,6 +1,7 @@
 ﻿using System.Net.WebSockets;
 using Application.BaseModels;
 using Application.IService;
+using Application.IService.ICommonService;
 using Application.SendModels.Round;
 using Application.ViewModels.EducationalLevelViewModels;
 using Application.ViewModels.RoundViewModels;
@@ -9,39 +10,45 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Services;
 
 public class RoundService : IRoundService
 {
+    private readonly IClaimsService _claimsService;
+    private readonly IConfiguration _configuration;
+    private readonly ICurrentTime _currentTime;
     private readonly IMapper _mapper;
-
     private readonly IUnitOfWork _unitOfWork;
 
-    public RoundService(IUnitOfWork unitOfWork, IMapper mapper)
+    public RoundService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime,
+        IConfiguration configuration,
+        IClaimsService claimsService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _currentTime = currentTime;
+        _configuration = configuration;
+        _claimsService = claimsService;
     }
 
     #region Create
 
-    public async Task<bool> CreateRound(RoundRequest Round)
+    public async Task<bool> CreateRound(RoundRequest round)
     {
-        var newRound = _mapper.Map<Round>(Round);
-
-        newRound.Status = RoundStatus.Active.ToString();
-        await _unitOfWork.RoundRepo.AddAsync(newRound);
-
-        var check = await _unitOfWork.SaveChangesAsync() > 0;
-        if (check == false) throw new Exception("Tao Round Fail");
-        foreach (var id in Round.ListTopic)
+        var listLevelId = await _unitOfWork.EducationalLevelRepo.GetListLevelByContestId(round.ContestId);
+        var listNewRound = new List<Round>();
+        foreach(var id in listLevelId)
         {
-            var roundTopic = new RoundTopic();
-            roundTopic.RoundId = newRound.Id;
-            roundTopic.TopicId = id;
-            _unitOfWork.RoundTopicRepo.AddAsync(roundTopic);
+            var newRound = _mapper.Map<Round>(round);
+            newRound.Status = RoundStatus.Active.ToString();
+            newRound.EducationalLevelId = id;
+            newRound.CreatedTime = _currentTime.GetCurrentTime();
+            newRound.UpdatedTime = _currentTime.GetCurrentTime();
+            listNewRound.Add(newRound);
         }
+        await _unitOfWork.RoundRepo.AddRangeAsync(listNewRound);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 

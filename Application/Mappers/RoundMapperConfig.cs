@@ -10,7 +10,8 @@ public partial class MapperConfigs : Profile
     partial void AddRoundMapperConfig()
     {
         CreateMap<RoundRequest, Round>().ReverseMap()
-            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy));
+            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy))
+            .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy));
         CreateMap<RoundUpdateRequest, Round>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.UpdatedBy))
             .ForAllMembers(opt =>

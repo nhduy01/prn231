@@ -38,4 +38,11 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
             .ToListAsync();
     }
 
+    public async Task<List<Guid>> GetListLevelByContestId(Guid contestId)
+    {
+        return await DbSet
+            .Where(x => x.ContestId == contestId)
+            .Select(x => x.Id)
+            .ToListAsync();
+    }
 }

@@ -47,7 +47,7 @@ public class TopicService : ITopicService
 
     #endregion
 
-    #region Get All
+    #region Get List Topic Pagination
 
     public async Task<(List<TopicViewModel>, int)> GetListTopic(ListModels listModels)
     {
@@ -60,6 +60,18 @@ public class TopicService : ITopicService
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<TopicViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region Get All Topic
+
+    public async Task<List<TopicViewModel>> GetAllTopic()
+    {
+        var list = await _unitOfWork.TopicRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Không tìm thấy Topic nào");
+        
+        return _mapper.Map<List<TopicViewModel>>(list);
     }
 
     #endregion

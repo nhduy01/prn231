@@ -11,11 +11,5 @@ public class PostViewModel
     public String CategoryName {  get; set; }
 
     //Get Image
-    public List<ImageInPostVM> Images { get; set; } = new List<ImageInPostVM>();
-}
-
-public class ImageInPostVM
-{
-    public Guid Id { get; set; }
-    public string Url { get; set; }
+    public List<ImageInPostVM> Images { get; set; }
 }
