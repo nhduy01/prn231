@@ -4,7 +4,7 @@ namespace Domain.Models;
 
 public class  AwardSchedule : BaseModel
 {
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
     public Guid? AwardId { get; set; }
 
     public Guid? ScheduleId { get; set; }

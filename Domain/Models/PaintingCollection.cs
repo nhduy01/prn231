@@ -2,7 +2,7 @@
 
 public class PaintingCollection
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
     public Guid? PaintingId { get; set; }
 
     public Guid? CollectionId { get; set; }
