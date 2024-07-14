@@ -26,6 +26,6 @@ public class ScheduleRepository : GenericRepository<Schedule>, IScheduleReposito
 
     public async Task<List<Schedule>> GetByExaminerId(Guid id)
     {
-        return await DbSet.Where(s => s.ExaminerId == id).ToListAsync();
+        return await DbSet.Include(s => s.Round).Where(s => s.ExaminerId == id).ToListAsync();
     }
 }

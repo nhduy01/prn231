@@ -51,6 +51,6 @@ public class AppDbContext : DbContext
             var connectionString = configuration.GetConnectionString("NetVeXanh");
             optionsBuilder.UseSqlServer(connectionString);
         }
-         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.EnableSensitiveDataLogging();
     }
 }

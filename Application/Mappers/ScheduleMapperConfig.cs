@@ -25,7 +25,10 @@ public partial class MapperConfigs : Profile
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
-        CreateMap<Schedule, ScheduleViewModel>();
+        CreateMap<Schedule, ScheduleViewModel>()
+            .ForMember(x => x.Year , x => x.MapFrom( x => x.EndDate.Year.ToString()))
+            .ForPath(x => x.Round, x => x.MapFrom(x => x.Round.Name));
+            
         CreateMap<Schedule, ScheduleRatingViewModel>();
     }
 }
