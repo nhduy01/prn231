@@ -25,7 +25,7 @@
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model)
 
 
-- Tạo Round add cho toàn bộ level (thay levelid = contestid) với bỏ listtopic.
-- Add nhiều topicround
+- Tạo Round add cho toàn bộ level (thay levelid = contestid) với bỏ listtopic :white_check_mark:
+- Add nhiều topicround :white_check_mark:
 - get alltopic (không phân trang)
 - 
