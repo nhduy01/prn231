@@ -21,7 +21,7 @@
 - Lấy tranh lấy luôn award 
 - Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
-- Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model)
+- Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
 
 - Get Painting By AccountId :white_check_mark:
 
