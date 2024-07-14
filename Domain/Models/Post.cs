@@ -10,7 +10,7 @@ public class Post : BaseModel
     public string? Description { get; set; }
     public string? Content { get; set; }
     public Guid? StaffId { get; set; }
-    public Guid CategoryId {  get; set; }
+    public Guid? CategoryId {  get; set; }
 
     //Relation
     public Category Category { get; set; }

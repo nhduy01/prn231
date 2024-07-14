@@ -6,7 +6,7 @@ public class Notification : BaseModel
 {
     public string? Title { get; set; }
     public string? Message { get; set; }
-    public bool IsReaded { get; set; } = false;
+    public bool? IsReaded { get; set; } = false;
     public Guid? AccountId { get; set; }
 
 

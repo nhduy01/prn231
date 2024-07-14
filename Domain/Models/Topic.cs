@@ -4,7 +4,7 @@ namespace Domain.Models;
 
 public class Topic : BaseModel
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public string? Description { get; set; }
 
     //Relation
