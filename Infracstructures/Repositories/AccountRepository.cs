@@ -43,4 +43,11 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
             .Where(x => listAccountId.Contains((Guid)x.Id))
             .ToListAsync();
     }
+
+    public async Task<bool> AccountNumberExists(int number)
+    {
+        // Kiểm tra xem số này đã tồn tại trong cơ sở dữ liệu hay chưa
+        string formattedAccountNumber = number.ToString("D6");
+        return await DbSet.AnyAsync(a => a.Code.EndsWith(formattedAccountNumber));
+    }
 }
