@@ -12,6 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Ban/UnBan Account
 - Chưa add validate cho RoundTopicdelete
 - List account phải kiểm tra 
 - Coi lại exception chỗ delete update round
