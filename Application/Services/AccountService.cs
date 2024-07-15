@@ -66,13 +66,24 @@ public class AccountService : IAccountService
             .ToList();
         return (result, totalPages);
     }
-    
+
+
+
     public async Task<AccountViewModel?> GetAccountById(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account == null || account.Status == AccountStatus.Inactive.ToString())
+        if (account == null)
         {
-            return null;
+            throw new Exception("Không tìm thấy Account");
+        }
+        return _mapper.Map<AccountViewModel>(account);
+    }
+    public async Task<AccountViewModel?> GetAccountByCode(string code)
+    {
+        var account = await _unitOfWork.AccountRepo.GetAccountByCodeAsync(code);
+        if (account == null)
+        {
+            throw new Exception("Không tìm thấy Account");
         }
         return _mapper.Map<AccountViewModel>(account);
     }

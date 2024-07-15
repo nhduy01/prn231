@@ -14,5 +14,7 @@ public interface IAccountRepository : IGenericRepository<Account>
 
     Task<List<Account>> GetAccountByListAccountId(List<Guid> listAccountId);
 
+    Task<Account?> GetAccountByCodeAsync(string code);
+
 
 }
