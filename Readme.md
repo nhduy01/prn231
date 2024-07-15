@@ -1,5 +1,5 @@
 # Sửa DB:
-
+- Allow null cho code painting
 # Validate:
 - Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
