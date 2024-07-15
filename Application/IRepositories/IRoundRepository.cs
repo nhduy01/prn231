@@ -8,5 +8,4 @@ public interface IRoundRepository : IGenericRepository<Round>
     Task<List<Topic>> GetTopic(Guid RoundId);
     Task<List<Round>> GetRoundByLevelId(Guid levelId);
     Task<bool> CheckSubmitValidDate(Guid RoundId);
-    Task<List<Round>> GetRoundsByNameInContest(Guid contestId, string roundName);
 }

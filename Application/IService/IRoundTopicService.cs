@@ -10,6 +10,6 @@ namespace Application.IService
     public interface IRoundTopicService
     {
         Task<bool> AddTopicToRound(RoundTopicRequest roundTopicRequest);
-        Task<bool> DeleteTopicInRound(Guid id);
+        Task<bool> DeleteTopicInRound(RoundTopicDeleteRequest roundTopicDeleteRequest);
     }
 }

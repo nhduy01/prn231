@@ -26,7 +26,8 @@ public partial class MapperConfigs : Profile
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
-        CreateMap<Round, RoundViewModel>().ReverseMap();
+        CreateMap<Round, RoundViewModel>()
+            .ForPath(dest => dest.EducationalLevelName, opt => opt.MapFrom(src => src.EducationalLevel.Level));
         CreateMap<Round,ListTopicViewModel>().ReverseMap();
     }
 }

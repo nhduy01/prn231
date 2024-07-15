@@ -12,12 +12,12 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
     }
     public override async Task<Round?> GetByIdAsync(Guid id)
     {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status == RoundStatus.Active.ToString());
+        return await DbSet.Include(r => r.EducationalLevel).FirstOrDefaultAsync(x => x.Id == id && x.Status == RoundStatus.Active.ToString());
     }
 
     public override async Task<List<Round>> GetAllAsync()
     {
-        return await DbSet.Where(x => x.Status == RoundStatus.Active.ToString()).ToListAsync();
+        return await DbSet.Include(r => r.EducationalLevel).Where(x => x.Status == RoundStatus.Active.ToString()).ToListAsync();
     }
 
     public async Task<Round?> GetRoundDetail(Guid id)
@@ -45,12 +45,4 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
         return check ;
     }
 
-    public async Task<List<Round>> GetRoundsByNameInContest(Guid contestId, string roundName)
-    {
-        var rounds = await DbSet
-            .Where(r => r.Name == roundName && r.EducationalLevel.ContestId == contestId)
-            .ToListAsync();
-
-        return rounds;
-    }
 }

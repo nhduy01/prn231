@@ -12,7 +12,7 @@ public interface IRoundService
     public Task<(List<RoundViewModel>, int)> GetListRound(ListModels listModels);
     public Task<RoundViewModel?> GetRoundById(Guid id);
     public Task<bool> UpdateRound(RoundUpdateRequest updateRound);
-    Task<bool> DeleteRound(DeleteRoundRequest deleteRound);
+    Task<bool> DeleteRound(Guid id);
 
     Task<(List<TopicViewModel>, int)> GetTopicInRound(Guid id, ListModels listModels);
 

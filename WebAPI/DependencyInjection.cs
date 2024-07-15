@@ -161,7 +161,6 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<ScheduleForFinalRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<SponsorRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<SponsorUpdateRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<DeleteRoundRequestValidator>();
         return services;
     }
 }
