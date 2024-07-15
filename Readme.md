@@ -12,6 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Coi lại exception chỗ delete update round
 - List ra các Account(code,name)
 - Kiếm accountbycode
 - Sửa viewmodel resource lấy các bảng liên quan
