@@ -22,13 +22,13 @@
 - Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
-
+- List ra các Account(code,name)
+- Kiếm accountbycode
 - Viết Generate code account, tranh ghi staff duyệt
 
+  
+# Xong :white_check_mark:
 - Get Painting By AccountId :white_check_mark:
-
-- 
 - Tạo Round add cho toàn bộ level (thay levelid = contestid) với bỏ listtopic :white_check_mark:
 - Add nhiều topicround :white_check_mark:
 - get alltopic (không phân trang) :white_check_mark:
-- 
