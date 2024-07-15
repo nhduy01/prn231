@@ -12,9 +12,8 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- List account phải kiểm tra 
 - Coi lại exception chỗ delete update round
-- List ra các Account(code,name)
-- Kiếm accountbycode
 - Sửa viewmodel resource lấy các bảng liên quan
 - xem các cuộc thi
 - xem chi tiết cuộc thi
@@ -23,8 +22,6 @@
 - Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn
 - Sửa Output cho GetContestById
 - (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
-
-- Lấy tranh lấy luôn award 
 - Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
@@ -33,6 +30,8 @@
 
   
 # Xong :white_check_mark:
+- Lấy tranh lấy luôn award :white_check_mark:
+- Kiếm accountbycode :white_check_mark:
 - Generate code account :white_check_mark:
 - Generate Code tranh khi tạo (draft or submit) :white_check_mark:
 - Get Painting By AccountId :white_check_mark:
