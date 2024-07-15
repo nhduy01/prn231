@@ -12,6 +12,10 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
     }
 
+    public override async Task<Account?> GetByIdAsync(Guid id)
+    {
+        return await DbSet.FirstOrDefaultAsync(a => a.Id == id && a.Status == AccountStatus.Active.ToString());
+    }
     public async Task<Account?> Login(string username)
     {
         return await DbSet.FirstOrDefaultAsync(a => a.Username == username && a.Status == AccountStatus.Active.ToString());
@@ -49,5 +53,10 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
         // Kiểm tra xem số này đã tồn tại trong cơ sở dữ liệu hay chưa
         string formattedAccountNumber = number.ToString("D6");
         return await DbSet.AnyAsync(a => a.Code.EndsWith(formattedAccountNumber));
+    }
+
+    public async Task<Account?> GetAccountByCodeAsync(string code)
+    {
+        return await DbSet.FirstOrDefaultAsync(a => a.Code == code && a.Status == AccountStatus.Active.ToString());
     }
 }

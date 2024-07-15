@@ -15,6 +15,6 @@ public interface IAccountService
 
     Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest();
 
-
+    Task<AccountViewModel?> GetAccountByCode(string code);
     Task<bool> IsExistedId(Guid id);
 }
