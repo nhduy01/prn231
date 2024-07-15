@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography;
 using Application.BaseModels;
 using Application.IService;
@@ -8,6 +9,7 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
@@ -71,40 +73,43 @@ public class AuthenticationService : IAuthenticationService
 
     #region Create Account
 
-    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest account)
+    public async Task<RegisterResponse> CreateAccount(CreateAccountRequest createAccount)
     {
         var response = new RegisterResponse();
-        var a = _mapper.Map<Account>(account);
-        if (!Enum.IsDefined(typeof(Role), account.Role))
+        if (!Enum.IsDefined(typeof(Role), createAccount.Role))
         {
             response.Message = "Role is not Exist!";
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicateEmail(account.Email))
+        if (await _unitOfWork.AccountRepo.CheckDuplicateEmail(createAccount.Email))
         {
             response.Message = "Email is Exist !";
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicatePhone(account.Phone))
+        if (await _unitOfWork.AccountRepo.CheckDuplicatePhone(createAccount.Phone))
         {
             response.Message = "Phone is Exist !";
             response.Success = false;
             return response;
         }
-        if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(account.Username))
+        if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(createAccount.Username))
         {
             response.Message = "UserName is Exist !";
             response.Success = false;
             return response;
         }
 
+        var account = _mapper.Map<Account>(createAccount);
         //if not exist
-        a.Password = _authentication.Hash(account.Password);
-        a.Status = AccountStatus.Active.ToString();
+        account.Password = _authentication.Hash(createAccount.Password);
+        account.Status = AccountStatus.Active.ToString();
 
-        await _unitOfWork.AccountRepo.AddAsync(a);
+        //Generate Code
+        account.Code = await GenerateAccountCode((Role)Enum.Parse(typeof(Role), account.Role));
+
+        await _unitOfWork.AccountRepo.AddAsync(account);
         var check = await _unitOfWork.SaveChangesAsync() > 0;
 
         if (check is false)
@@ -118,9 +123,9 @@ public class AuthenticationService : IAuthenticationService
         response.Success = true;
 
         var mail = new MailModel();
-        mail.To = a.Email;
+        mail.To = account.Email;
         mail.Subject = "Active Account";
-        mail.Body = $"Link ID {a.Id}";
+        mail.Body = $"Link ID {account.Id}";
         await _mailService.SendEmail(mail);
 
         return response;
@@ -164,7 +169,8 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-    
+
+    #region Verify Email
     public async Task<bool?> VerifyEmail(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
@@ -173,4 +179,36 @@ public class AuthenticationService : IAuthenticationService
         await _unitOfWork.SaveChangesAsync();
         return true;
     }
+    #endregion
+
+
+    #region Generate Accoun tCode
+    private async Task<string> GenerateAccountCode(Role role)
+    {
+        string prefix = role switch
+        {
+            Role.Guardian => "GH",
+            Role.Competitor => "TS",
+            Role.Staff => "NV",
+            Role.Admin => "AD",
+            Role.Examiner => "GK",
+            _ => throw new ArgumentException("Invalid role")
+        };
+
+        int number = await GenerateUniqueNumber();
+        return $"{prefix}-{number:D6}";
+    }
+
+    private async Task<int> GenerateUniqueNumber()
+    {
+        Random random = new Random();
+        int number;
+        do
+        {
+            number = random.Next(0, 999999);
+        } while (await _unitOfWork.AccountRepo.AccountNumberExists(number));
+
+        return number;
+    }
+    #endregion
 }

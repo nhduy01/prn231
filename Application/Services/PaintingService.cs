@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
@@ -38,9 +40,13 @@ public class PaintingService : IPaintingService
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.Draft.ToString();
+        painting.Code = ""; // Sửa Db thì xóa
         painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
+        await _unitOfWork.SaveChangesAsync();
+
+        painting.Code = await GeneratePaintingCode(painting.Id);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -51,13 +57,17 @@ public class PaintingService : IPaintingService
     public async Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request)
     {
         var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
+        
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
             painting.Status = PaintingStatus.Submitted.ToString();
+            painting.Code = ""; // Sửa Db thì xóa
             painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
             await _unitOfWork.PaintingRepo.AddAsync(painting);
+            await _unitOfWork.SaveChangesAsync();
 
+            painting.Code = await GeneratePaintingCode(painting.Id);
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
         throw new Exception("Khong trong thoi gian nop bai");
@@ -74,12 +84,15 @@ public class PaintingService : IPaintingService
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
-
+            painting.Code = ""; // Sửa Db thì xóa
             painting.Status = PaintingStatus.Submitted.ToString();
             painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
             await _unitOfWork.PaintingRepo.AddAsync(painting);
+            await _unitOfWork.SaveChangesAsync();
 
-            return await _unitOfWork.SaveChangesAsync() > 0;
+            painting.Code = await GeneratePaintingCode(painting.Id);
+            return await _unitOfWork.SaveChangesAsync()>0;
+
         }
         throw new Exception("Khong trong thoi gian nop bai");
     }
@@ -92,8 +105,13 @@ public class PaintingService : IPaintingService
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.FinalRound.ToString();
+        painting.Code = ""; // Sửa Db thì xóa
+        painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
+        await _unitOfWork.SaveChangesAsync();
+
+        painting.Code = await GeneratePaintingCode(painting.Id);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -200,7 +218,6 @@ public class PaintingService : IPaintingService
             painting.Status = PaintingStatus.Rejected.ToString();
 
         }
-
         painting.ReviewedTimestamp = DateTime.Now;
 
         await _unitOfWork.SaveChangesAsync();
@@ -275,10 +292,10 @@ public class PaintingService : IPaintingService
 
     #region List Painting By AccountId
 
-    public async Task<(List<PaintingViewModel>,int )> ListPaintingByAccountId(Guid accountId,ListModels listPaintingModel)
+    public async Task<(List<PaintingViewModel>, int)> ListPaintingByAccountId(Guid accountId, ListModels listPaintingModel)
     {
         var listPainting = await _unitOfWork.PaintingRepo.ListByAccountIdAsync(accountId);
-        if (listPainting.Count==0) throw new Exception("Khong tim thay Painting");
+        if (listPainting.Count == 0) throw new Exception("Khong tim thay Painting");
         var result = _mapper.Map<List<PaintingViewModel>>(listPainting);
 
         #region pagination
@@ -290,6 +307,34 @@ public class PaintingService : IPaintingService
         #endregion
 
         return (result, totalPages);
+    }
+
+    #endregion
+
+    #region Generate Painting Code Async
+    private async Task<string> GeneratePaintingCode(Guid paintingId)
+    {
+        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
+
+        string year = painting.RoundTopic.Round.EducationalLevel.Contest.StartTime.Year.ToString();
+        string levelChar = painting.RoundTopic.Round.EducationalLevel.Level.Last().ToString();
+        string roundCode = painting.RoundTopic.Round.Name == "Vòng Chung Kết" ? "CK" : "VL";
+
+        int number;
+        string code;
+        do
+        {
+            number = GenerateUniqueNumber();
+            code = $"NVX{year}-{levelChar}-{roundCode}-{number:D7}";
+        } while (await _unitOfWork.PaintingRepo.PaintingCodeExistsAsync(code));
+        
+        return code;
+    }
+
+    private int GenerateUniqueNumber()
+    {
+        Random random = new Random();
+        return random.Next(0, 9999999);
     }
 
     #endregion

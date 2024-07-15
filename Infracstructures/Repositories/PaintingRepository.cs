@@ -31,6 +31,10 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
         return await DbSet.Where(x => x.Status != PaintingStatus.Delete.ToString())
             .Include(x => x.RoundTopic)
             .ThenInclude(x => x.Topic)
+            .Include(x => x.RoundTopic)
+            .ThenInclude(x=>x.Round)
+            .ThenInclude(x=>x.EducationalLevel)
+            .ThenInclude(x=>x.Contest)
             .Include(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -74,5 +78,10 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
                 .ThenInclude(r => r.EducationalLevel)
                 .Where(p => p.RoundTopic.Round.EducationalLevel.ContestId == contestId)
                 .CountAsync();
+    }
+
+    public async Task<bool> PaintingCodeExistsAsync(string code)
+    {
+        return await DbSet.AnyAsync(p => p.Code == code);
     }
 }
