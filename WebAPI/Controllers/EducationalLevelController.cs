@@ -101,6 +101,36 @@ public class EducationalLevelController : Controller
 
     #endregion
 
+    #region Get All  EducationalLevel
+
+    [HttpGet("getalllevel")]
+    public async Task<IActionResult> GetAllEducationalLevel()
+    {
+        try
+        {
+            var result = await _educationalLevelService.GetAllEducationalLevel();
+            
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get EducationalLevel Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<EducationalLevel>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
     #region Get EducationalLevel By Id
 
     [HttpGet("{id}")]

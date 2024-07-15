@@ -84,7 +84,7 @@ public class EducationalLevelService : IEducationalLevelService
 
     #endregion
 
-    #region Get All
+    #region Get All Pagination
 
     public async Task<(List<EducationalLevelViewModel>, int)> GetListEducationalLevel(ListModels listModels)
     {
@@ -97,6 +97,18 @@ public class EducationalLevelService : IEducationalLevelService
             .Take(listModels.PageSize)
             .ToList();
         return (_mapper.Map<List<EducationalLevelViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region Get All
+
+    public async Task<List<EducationalLevelViewModel>> GetAllEducationalLevel()
+    {
+        var list = await _unitOfWork.EducationalLevelRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel");
+        
+        return _mapper.Map<List<EducationalLevelViewModel>>(list);
     }
 
     #endregion

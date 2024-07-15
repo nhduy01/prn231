@@ -37,9 +37,8 @@ public class RoundService : IRoundService
 
     public async Task<bool> CreateRound(RoundRequest round)
     {
-        var listLevelId = await _unitOfWork.EducationalLevelRepo.GetListLevelByContestId(round.ContestId);
         var listNewRound = new List<Round>();
-        foreach(var id in listLevelId)
+        foreach(var id in round.listLevel)
         {
             var newRound = _mapper.Map<Round>(round);
             newRound.Status = RoundStatus.Active.ToString();
@@ -87,14 +86,9 @@ public class RoundService : IRoundService
 
     public async Task<bool> UpdateRound(RoundUpdateRequest updateRound)
     {
-        var roundUpdate = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
-        var listRound = await _unitOfWork.RoundRepo.GetRoundsByNameInContest((Guid)updateRound.ContestId, roundUpdate.Name);
-        foreach (var round in listRound)
-        {
-            _mapper.Map(updateRound, round);
-        }
-        //if (Round == null) throw new Exception("Khong tim thay Round");
-        
+        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
+        if (Round == null) throw new Exception("Khong tim thay Round");
+        _mapper.Map(updateRound, Round);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -103,16 +97,11 @@ public class RoundService : IRoundService
 
     #region Delete
 
-    public async Task<bool> DeleteRound(DeleteRoundRequest deleteRound)
+    public async Task<bool> DeleteRound(Guid id)
     {
-        var roundDelete = await _unitOfWork.RoundRepo.GetByIdAsync(deleteRound.Id);
-        var listRound = await _unitOfWork.RoundRepo.GetRoundsByNameInContest((Guid)deleteRound.ContestId, roundDelete.Name);
-        foreach (var round in listRound)
-        {
-            round.Status = RoundStatus.Inactive.ToString();
-        }
-        //if (Round == null) throw new Exception("Khong tim thay Round");
-        
+        var round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
+        if (round == null) throw new Exception("Khong tim thay Round");
+        round.Status = RoundStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

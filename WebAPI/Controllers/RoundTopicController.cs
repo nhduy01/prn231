@@ -49,12 +49,12 @@ public class RoundTopicController : ControllerBase
 
     #region Delete Topic In Round
 
-    [HttpDelete("deletepaintingcollection/{id}")]
-    public async Task<IActionResult> DeleteTopicInRound([FromRoute] Guid id)
+    [HttpDelete("deleteroundtopic")]
+    public async Task<IActionResult> DeleteTopicInRound(RoundTopicDeleteRequest roundTopicDeleteRequest)
     {
         try
         {
-            var result = await _roundTopicService.DeleteTopicInRound(id);
+            var result = await _roundTopicService.DeleteTopicInRound(roundTopicDeleteRequest);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

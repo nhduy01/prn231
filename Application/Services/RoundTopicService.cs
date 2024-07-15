@@ -46,9 +46,10 @@ namespace Application.Services
 
         #region Delete Topic In Round
 
-        public async Task<bool> DeleteTopicInRound(Guid id)
+        public async Task<bool> DeleteTopicInRound(RoundTopicDeleteRequest roundTopicDeleteRequest)
         {
-            var roundtopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(id);
+
+            var roundtopic = await _unitOfWork.RoundTopicRepo.GetByRoundIdTopicId(roundTopicDeleteRequest.RoundId, roundTopicDeleteRequest.TopicId);
             if (roundtopic == null) throw new Exception("Khong tim thay RoundTopic");
             await _unitOfWork.RoundTopicRepo.DeleteAsync(roundtopic);
 

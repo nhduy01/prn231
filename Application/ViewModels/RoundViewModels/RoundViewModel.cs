@@ -8,4 +8,5 @@ public class RoundViewModel
     public string Location { get; set; }
     public string Description { get; set; }
     public Guid? EducationalLevelId { get; set; }
+    public string EducationalLevelName { get; set; }
 }
