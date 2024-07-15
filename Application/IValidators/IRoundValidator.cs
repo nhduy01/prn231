@@ -12,5 +12,6 @@ namespace Application.IValidators
     {
         IValidator<RoundRequest> RoundRequestValidator { get; }
         IValidator<RoundUpdateRequest> RoundUpdateRequestValidator { get; }
+        IValidator<DeleteRoundRequest> DeleteRoundRequestValidator { get; }
     }
 }

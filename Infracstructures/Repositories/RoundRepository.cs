@@ -44,4 +44,13 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
         }
         return check ;
     }
+
+    public async Task<List<Round>> GetRoundsByNameInContest(Guid contestId, string roundName)
+    {
+        var rounds = await DbSet
+            .Where(r => r.Name == roundName && r.EducationalLevel.ContestId == contestId)
+            .ToListAsync();
+
+        return rounds;
+    }
 }

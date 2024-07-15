@@ -162,11 +162,11 @@ public class RoundController : Controller
     #region Delete Round
 
     [HttpPatch]
-    public async Task<IActionResult> DeleteRound(Guid id)
+    public async Task<IActionResult> DeleteRound(DeleteRoundRequest deleteround)
     {
         try
         {
-            var result = await _roundService.DeleteRound(id);
+            var result = await _roundService.DeleteRound(deleteround);
             if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
