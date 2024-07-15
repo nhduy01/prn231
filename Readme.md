@@ -12,6 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Chưa add validate cho RoundTopicdelete
 - List account phải kiểm tra 
 - Coi lại exception chỗ delete update round
 - Sửa viewmodel resource lấy các bảng liên quan
