@@ -32,9 +32,9 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Include(x => x.RoundTopic)
             .ThenInclude(x => x.Topic)
             .Include(x => x.RoundTopic)
-            .ThenInclude(x=>x.Round)
-            .ThenInclude(x=>x.EducationalLevel)
-            .ThenInclude(x=>x.Contest)
+            .ThenInclude(x => x.Round)
+            .ThenInclude(x => x.EducationalLevel)
+            .ThenInclude(x => x.Contest)
             .Include(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -58,11 +58,11 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
         return await DbSet.Where(x => x.AccountId == accountId && x.Status != PaintingStatus.Delete.ToString())
             .Include(x => x.Account)
             .Include(x => x.RoundTopic)
-            .ThenInclude(x=>x.Topic)
+            .ThenInclude(x => x.Topic)
             .ToListAsync();
     }
 
-    public async Task<List<Guid>> ListAccountIdByListAwardId (List<Guid> listAwardId)
+    public async Task<List<Guid>> ListAccountIdByListAwardId(List<Guid> listAwardId)
     {
         return await DbSet
             .Where(x => listAwardId.Contains((Guid)x.AwardId))
@@ -74,7 +74,7 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
     {
         return await DbSet
                 .Include(p => p.RoundTopic)
-                .ThenInclude(r=>r.Round)
+                .ThenInclude(r => r.Round)
                 .ThenInclude(r => r.EducationalLevel)
                 .Where(p => p.RoundTopic.Round.EducationalLevel.ContestId == contestId)
                 .CountAsync();
@@ -83,5 +83,22 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
     public async Task<bool> PaintingCodeExistsAsync(string code)
     {
         return await DbSet.AnyAsync(p => p.Code == code);
+    }
+
+    public async Task<int> CreateNewNumberOfPaintingCode(Guid roundId)
+    {
+        var paintings = await DbSet.Include(p => p.RoundTopic)
+            .ThenInclude(r => r.Round)
+            .Where(p => p.RoundTopic.Round.Id == roundId)
+            .ToListAsync();
+
+        int maxNumber = paintings
+            .Select(p => p.Code.Substring(Math.Max(0, p.Code.Length - 5)))
+            .Where(code => int.TryParse(code, out _))
+            .Select(code => int.Parse(code))
+            .DefaultIfEmpty(0)
+            .Max();
+
+        return maxNumber + 1;
     }
 }

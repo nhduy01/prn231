@@ -10,4 +10,5 @@ public interface IPaintingRepository : IGenericRepository<Painting>
     Task<List<Painting>> ListByAccountIdAsync(Guid accountId);
     Task<List<Guid>> ListAccountIdByListAwardId(List<Guid> listAwardId);
     Task<bool> PaintingCodeExistsAsync(string code);
+    Task<int> CreateNewNumberOfPaintingCode(Guid roundId);
 }
