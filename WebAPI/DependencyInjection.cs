@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.IService.ICommonService;
+using Application.SendModels.Round;
 using Application.SendModels.Topic;
 using Application.Services.CommonService;
 using FluentValidation;
@@ -160,6 +161,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<ScheduleForFinalRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<SponsorRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<SponsorUpdateRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<DeleteRoundRequestValidator>();
         return services;
     }
 }

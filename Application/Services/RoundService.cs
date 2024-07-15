@@ -87,9 +87,14 @@ public class RoundService : IRoundService
 
     public async Task<bool> UpdateRound(RoundUpdateRequest updateRound)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
-        _mapper.Map(updateRound, Round);
+        var roundUpdate = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
+        var listRound = await _unitOfWork.RoundRepo.GetRoundsByNameInContest((Guid)updateRound.ContestId, roundUpdate.Name);
+        foreach (var round in listRound)
+        {
+            _mapper.Map(updateRound, round);
+        }
+        //if (Round == null) throw new Exception("Khong tim thay Round");
+        
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -98,11 +103,16 @@ public class RoundService : IRoundService
 
     #region Delete
 
-    public async Task<bool> DeleteRound(Guid id)
+    public async Task<bool> DeleteRound(DeleteRoundRequest deleteRound)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
-        Round.Status = RoundStatus.Inactive.ToString();
+        var roundDelete = await _unitOfWork.RoundRepo.GetByIdAsync(deleteRound.Id);
+        var listRound = await _unitOfWork.RoundRepo.GetRoundsByNameInContest((Guid)deleteRound.ContestId, roundDelete.Name);
+        foreach (var round in listRound)
+        {
+            round.Status = RoundStatus.Inactive.ToString();
+        }
+        //if (Round == null) throw new Exception("Khong tim thay Round");
+        
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
