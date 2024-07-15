@@ -182,7 +182,7 @@ public class AuthenticationService : IAuthenticationService
     #endregion
 
 
-    #region Generate Accoun tCode
+    #region Generate Account Code
     private async Task<string> GenerateAccountCode(Role role)
     {
         string prefix = role switch
@@ -195,20 +195,10 @@ public class AuthenticationService : IAuthenticationService
             _ => throw new ArgumentException("Invalid role")
         };
 
-        int number = await GenerateUniqueNumber();
+        int number = await _unitOfWork.AccountRepo.CreateNumberOfAccountCode(prefix);
         return $"{prefix}-{number:D6}";
     }
 
-    private async Task<int> GenerateUniqueNumber()
-    {
-        Random random = new Random();
-        int number;
-        do
-        {
-            number = random.Next(0, 999999);
-        } while (await _unitOfWork.AccountRepo.AccountNumberExists(number));
-
-        return number;
-    }
+    
     #endregion
 }

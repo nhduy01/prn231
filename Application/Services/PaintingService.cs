@@ -46,7 +46,7 @@ public class PaintingService : IPaintingService
 
         await _unitOfWork.SaveChangesAsync();
 
-        painting.Code = await GeneratePaintingCode(painting.Id);
+        painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -67,7 +67,7 @@ public class PaintingService : IPaintingService
             await _unitOfWork.PaintingRepo.AddAsync(painting);
             await _unitOfWork.SaveChangesAsync();
 
-            painting.Code = await GeneratePaintingCode(painting.Id);
+            painting.Code = await GeneratePaintingCode(painting.Id,request.RoundId);
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
         throw new Exception("Khong trong thoi gian nop bai");
@@ -90,7 +90,7 @@ public class PaintingService : IPaintingService
             await _unitOfWork.PaintingRepo.AddAsync(painting);
             await _unitOfWork.SaveChangesAsync();
 
-            painting.Code = await GeneratePaintingCode(painting.Id);
+            painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
             return await _unitOfWork.SaveChangesAsync()>0;
 
         }
@@ -111,7 +111,7 @@ public class PaintingService : IPaintingService
 
         await _unitOfWork.SaveChangesAsync();
 
-        painting.Code = await GeneratePaintingCode(painting.Id);
+        painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -312,30 +312,23 @@ public class PaintingService : IPaintingService
     #endregion
 
     #region Generate Painting Code Async
-    private async Task<string> GeneratePaintingCode(Guid paintingId)
+    private async Task<string> GeneratePaintingCode(Guid paintingId,Guid RoundId)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
 
-        string year = painting.RoundTopic.Round.EducationalLevel.Contest.StartTime.Year.ToString();
+        string year = painting.RoundTopic.Round.EducationalLevel.Contest.StartTime.ToString("yy");
         string levelChar = painting.RoundTopic.Round.EducationalLevel.Level.Last().ToString();
         string roundCode = painting.RoundTopic.Round.Name == "Vòng Chung Kết" ? "CK" : "VL";
 
         int number;
-        string code;
-        do
-        {
-            number = GenerateUniqueNumber();
-            code = $"NVX{year}-{levelChar}-{roundCode}-{number:D7}";
-        } while (await _unitOfWork.PaintingRepo.PaintingCodeExistsAsync(code));
-        
+        number = await _unitOfWork.PaintingRepo.CreateNewNumberOfPaintingCode(RoundId);
+
+        string code = $"NVX{year}-{levelChar}-{roundCode}-{number:D5}";
+
         return code;
     }
 
-    private int GenerateUniqueNumber()
-    {
-        Random random = new Random();
-        return random.Next(0, 9999999);
-    }
+    
 
     #endregion
 }

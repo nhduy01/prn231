@@ -59,4 +59,16 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
         return await DbSet.FirstOrDefaultAsync(a => a.Code == code && a.Status == AccountStatus.Active.ToString());
     }
+
+    public async Task<int> CreateNumberOfAccountCode(string roleCode)
+    {
+        var listAccount = await DbSet.ToListAsync();
+        int maxNumber = listAccount
+            .Where(a => a.Code.StartsWith(roleCode)) // Kiểm tra prefix
+            .Select(a => int.TryParse(a.Code.Substring(3), out int number) ? number : 0)
+            .DefaultIfEmpty(0)
+            .Max();
+
+        return maxNumber + 1;
+    }
 }
