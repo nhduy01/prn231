@@ -24,10 +24,12 @@
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
 - List ra các Account(code,name)
 - Kiếm accountbycode
-- Viết Generate code account, tranh ghi staff duyệt
+
 
   
 # Xong :white_check_mark:
+- Viết Generate code account :white_check_mark:
+- Generate Code tranh khi tạo (draft or submit) :white_check_mark:
 - Get Painting By AccountId :white_check_mark:
 - Tạo Round add cho toàn bộ level (thay levelid = contestid) với bỏ listtopic :white_check_mark:
 - Add nhiều topicround :white_check_mark:
