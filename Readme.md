@@ -12,7 +12,6 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-- Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
 
@@ -20,6 +19,7 @@
 
   
 # Xong :white_check_mark:
+- Chuyển Stauts của report :white_check_mark:
 - Sửa Output cho GetContestById :white_check_mark:
 - Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn :white_check_mark:
 - Chưa add validate cho RoundTopicdelete :white_check_mark:
