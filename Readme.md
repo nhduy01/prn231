@@ -12,6 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Sửa response
 - Đổi path Get Paintg By Collection(Controller)
 
 
