@@ -292,12 +292,12 @@ public class ContestService : IContestService
     #endregion
 
     #region Get Contest By Id
-    public async Task<Contest?> GetContestById(Guid awardId)
+    public async Task<ContestDetailViewModel> GetContestById(Guid contestId)
     {
-        var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(awardId);
+        var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(contestId);
         if (contest == null) throw new Exception("Khong tim thay Contest");
 
-        return _mapper.Map<Contest>(contest);
+        return _mapper.Map<ContestDetailViewModel>(contest);
     }
     #endregion
 
@@ -321,12 +321,12 @@ public class ContestService : IContestService
     #endregion
 
     #region Get Nearest Contest
-    public async Task<Contest?> GetNearestContest()
+    public async Task<ContestDetailViewModel> GetNearestContest()
     {
         var contest = await _unitOfWork.ContestRepo.GetNearestContestInformationAsync();
         if (contest == null) throw new Exception("Không có Contest nào");
 
-        return _mapper.Map<Contest>(contest);
+        return _mapper.Map<ContestDetailViewModel>(contest);
     }
     #endregion
 

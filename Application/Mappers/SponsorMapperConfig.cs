@@ -1,4 +1,5 @@
-﻿using Application.ViewModels.SponsorViewModels;
+﻿using Application.ViewModels.ContestViewModels;
+using Application.ViewModels.SponsorViewModels;
 using AutoMapper;
 using Domain.Models;
 using Infracstructures.SendModels.Sponsor;
@@ -29,5 +30,7 @@ public partial class MapperConfigs : Profile
            });
 
         CreateMap<Sponsor, SponsorViewModel>().ReverseMap();
+
+        CreateMap<Sponsor, SponsorInResourceViewModel>();
     }
 }
