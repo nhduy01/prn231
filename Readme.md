@@ -12,9 +12,6 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-- Ban/UnBan Account
-- Chưa add validate cho RoundTopicdelete
-- xem các cuộc thi
 - xem các bộ sưu tập
 - xem các thí sinh có giải 5 năm gần đây
 - Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn
@@ -28,7 +25,9 @@
 
   
 # Xong :white_check_mark:
-- xem chi tiết cuộc thi
+- Chưa add validate cho RoundTopicdelete
+- Ban/UnBan Account :white_check_mark:
+- xem chi tiết cuộc thi :white_check_mark:
 - Sửa viewmodel resource lấy các bảng liên quan :white_check_mark:
 - Lấy tranh lấy luôn award :white_check_mark:
 - Kiếm accountbycode :white_check_mark:
