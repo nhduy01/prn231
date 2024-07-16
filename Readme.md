@@ -14,9 +14,7 @@
 # Sửa: 
 - Ban/UnBan Account
 - Chưa add validate cho RoundTopicdelete
-- List account phải kiểm tra 
-- Coi lại exception chỗ delete update round
-- Sửa viewmodel resource lấy các bảng liên quan
+
 - xem các cuộc thi
 - xem chi tiết cuộc thi
 - xem các bộ sưu tập
@@ -32,6 +30,7 @@
 
   
 # Xong :white_check_mark:
+- Sửa viewmodel resource lấy các bảng liên quan :white_check_mark:
 - Lấy tranh lấy luôn award :white_check_mark:
 - Kiếm accountbycode :white_check_mark:
 - Generate code account :white_check_mark:
