@@ -14,7 +14,6 @@
 # Sửa: 
 - Ban/UnBan Account
 - Chưa add validate cho RoundTopicdelete
-
 - xem các cuộc thi
 - xem chi tiết cuộc thi
 - xem các bộ sưu tập
