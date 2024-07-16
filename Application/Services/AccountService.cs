@@ -42,7 +42,7 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = accountList.Where(x => x.Role == Role.Examiner.ToString()).ToList();
+        accountList = accountList.Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -52,11 +52,11 @@ public class AccountService : IAccountService
             .ToList();
         return (result, totalPages);
     }
-    
+
     public async Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = accountList.Where(x => x.Role == Role.Competitor.ToString()).ToList();
+        accountList = accountList.Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -67,8 +67,32 @@ public class AccountService : IAccountService
         return (result, totalPages);
     }
 
+    public async Task<(List<AccountViewModel>, int)> GetListStaff(ListModels listModels)
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = accountList.Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
+        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
+    public async Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels)
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = accountList.Where(x => x.Status == AccountStatus.Inactive.ToString()).ToList();
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
+        var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (result, totalPages);
+    }
     public async Task<AccountViewModel?> GetAccountById(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);

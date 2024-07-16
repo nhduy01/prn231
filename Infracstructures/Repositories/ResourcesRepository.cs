@@ -11,13 +11,19 @@ public class ResourcesRepository : GenericRepository<Resources>, IResourcesRepos
     {
 
     }
-        public override async Task<Resources?> GetByIdAsync(Guid id)
+    public override async Task<Resources?> GetByIdAsync(Guid id)
     {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status == ResourcesStatus.Active.ToString());
+        return await DbSet
+            .Include(x => x.Contest)
+            .Include(x => x.Sponsor)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status == ResourcesStatus.Active.ToString());
     }
 
     public override async Task<List<Resources>> GetAllAsync()
     {
-        return await DbSet.Where(x => x.Status == ResourcesStatus.Active.ToString()).ToListAsync();
+        return await DbSet
+            .Include(x => x.Contest)
+            .Include(x => x.Sponsor)
+            .Where(x => x.Status == ResourcesStatus.Active.ToString()).ToListAsync();
     }
 }
