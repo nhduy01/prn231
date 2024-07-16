@@ -16,6 +16,10 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Include(x => x.RoundTopic)
             .ThenInclude(x => x.Topic)
             .Include(x => x.Account)
+            .Include(x=>x.RoundTopic)
+            .ThenInclude(x=>x.Round)
+            .ThenInclude(x=>x.EducationalLevel)
+            .ThenInclude(x=>x.Contest)
             .ToListAsync();
     }
     public virtual async Task<Painting?> GetByCodeAsync(string code)

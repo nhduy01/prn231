@@ -23,7 +23,10 @@ public partial class MapperConfigs : Profile
 
         CreateMap<PaintingViewModel, Painting>()
             .ForPath(dest => dest.Account.FullName, opt => opt.MapFrom(src => src.OwnerName))
-            .ForPath(dest => dest.RoundTopic.Topic.Name, opt => opt.MapFrom(src => src.TopicName));
+            .ForPath(dest => dest.RoundTopic.Topic.Name, opt => opt.MapFrom(src => src.TopicName))
+            .ForPath(dest => dest.RoundTopic.Round.Name, opt => opt.MapFrom(src => src.RoundName))
+            .ForPath(dest => dest.RoundTopic.Round.EducationalLevel.Level, opt => opt.MapFrom(src => src.Level))
+            .ForPath(dest => dest.RoundTopic.Round.EducationalLevel.Contest.Name, opt => opt.MapFrom(src => src.ContestName));
 
         CreateMap<UpdatePaintingRequest, Painting>().ReverseMap()
             .ForMember(x => x.CurrentUserId, x => x.MapFrom(x => x.CreatedBy))

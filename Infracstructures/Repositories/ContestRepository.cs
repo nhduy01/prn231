@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Application.IRepositories;
 using Application.ViewModels.ContestViewModels;
 using AutoMapper;
@@ -21,20 +22,46 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .Include(x => x.Account)
             .ToListAsync();
     }
-    public async Task<Contest?> GetAllContestInformationAsync(Guid contestId)
+    public override async Task<Contest> GetByIdAsync(Guid id)
     {
-
         return await DbSet
-            .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
+            .Include(x => x.Resources)
             .ThenInclude(x => x.Sponsor)
-            .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
+            .Include(x => x.EducationalLevel)
             .ThenInclude(x => x.Round)
             .ThenInclude(x => x.RoundTopic)
             .ThenInclude(x => x.Topic)
-            .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
+            .Include(x => x.EducationalLevel)
             .ThenInclude(x => x.Award)
             .Include(x => x.Account)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status != ContestStatus.Inactive.ToString()); ;
+    }
+    public async Task<Contest?> GetAllContestInformationAsync(Guid contestId)
+    {
+
+        var contest = await DbSet
+            .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
+            .ThenInclude(x => x.Sponsor)
+            .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
+            .ThenInclude(x => x.Round.Where(x => x.Status != RoundStatus.Inactive.ToString()))
+            .ThenInclude(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
+            .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
+            .ThenInclude(x => x.Award.Where(x => x.Status != AwardStatus.Inactive.ToString()))
+            .Include(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == contestId && x.Status != ContestStatus.Inactive.ToString());
+        if (contest != null)
+        {
+            // Lọc các RoundTopic có Topic.Status == "Active"
+            foreach (var educationalLevel in contest.EducationalLevel)
+            {
+                foreach (var round in educationalLevel.Round)
+                {
+                    round.RoundTopic = round.RoundTopic.Where(rt => rt.Topic.Status == TopicStatus.Active.ToString()).ToList();
+                }
+            }
+        }
+        return contest;
     }
 
     public async Task<Contest?> GetNearestContestInformationAsync()

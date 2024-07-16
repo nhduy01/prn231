@@ -267,7 +267,38 @@ public class ContestService : IContestService
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
         if (contest == null) throw new Exception("Khong tim thay Contest");
 
+        //Contest
         contest.Status = ContestStatus.Inactive.ToString();
+
+        //Resource
+        foreach(var resource in contest.Resources)
+        {
+            resource.Status = ResourcesStatus.Inactive.ToString();
+        }
+
+        //Level 
+        foreach (var level in contest.EducationalLevel)
+        {
+            //round
+            foreach (var round in level.Round)
+            {
+                round.Status = RoundStatus.Inactive.ToString();
+                foreach(var schedule in round.Schedule)
+                {
+                    schedule.Status = ScheduleStatus.Delete.ToString();
+                }
+            }
+
+            //award
+            foreach (var award in level.Award)
+            {
+                award.Status = AwardStatus.Inactive.ToString();
+            }
+
+            level.Status = EducationalLevelStatus.Inactive.ToString();
+        }
+
+        
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

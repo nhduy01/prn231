@@ -19,7 +19,10 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     }
     public override async Task<EducationalLevel?> GetByIdAsync(Guid id)
     {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id == id && x.Status != EducationalLevelStatus.Inactive.ToString());
+        return await DbSet.Include(x=>x.Round)
+            .ThenInclude(x=>x.Schedule)
+            .Include(x=>x.Award)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status != EducationalLevelStatus.Inactive.ToString());
     }
     public async Task<List<EducationalLevel>> GetEducationalLevelByContestId(Guid contestId)
     {

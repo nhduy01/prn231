@@ -8,6 +8,9 @@ public class PaintingViewModel
     public string Description { get; set; }
     public DateTime SubmitTime { get; set; }
     public string TopicName { get; set; }
+    public string RoundName { get; set; }
+    public string Level { get; set; }
+    public string ContestName {  get; set; }
     public Guid? ScheduleId { get; set; }
     public string Status { get; set; }
     public string Code { get; set; }
