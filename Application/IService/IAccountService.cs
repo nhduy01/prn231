@@ -9,6 +9,8 @@ public interface IAccountService
     public Task<bool?> CreateSubAccount(SubAccountRequest request);
     public Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels);
     public Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels);
+    Task<(List<AccountViewModel>, int)> GetListStaff(ListModels listModels);
+    Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels);
     public Task<AccountViewModel?> GetAccountById(Guid id);
     public Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount);
     public Task<bool?> DeleteAccount(Guid id);

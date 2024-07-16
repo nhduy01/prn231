@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.AccountSendModels;
 using Domain.Models;
@@ -19,7 +20,7 @@ public class AccountController : ControllerBase
     
     #region Get All Competitor
 
-    [HttpGet("getallcompetitor")]
+    [HttpGet("getallcompetitorwithpagination")]
     public async Task<IActionResult> GetAllCompetitor([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -50,6 +51,11 @@ public class AccountController : ControllerBase
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Account>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
@@ -59,7 +65,7 @@ public class AccountController : ControllerBase
 
     #region Get All Examiner
 
-    [HttpGet("getallexaminer")]
+    [HttpGet("getallexaminerwithpagination")]
     public async Task<IActionResult> GetAllExaminer([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -90,6 +96,100 @@ public class AccountController : ControllerBase
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Account>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region get all staff
+    [HttpGet("getallstaffwithpagination")]
+    public async Task<IActionResult> GetAllStaff([FromQuery] ListModels listCompetitorModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _accountService.GetListStaff(listCompetitorModel);
+            if (totalPage < listCompetitorModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Account Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Account>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Inactive Account
+
+    [HttpGet("getallinactiveaccountwithpagination")]
+    public async Task<IActionResult> GetAllInactiveAccount([FromQuery] ListModels listCompetitorModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _accountService.GetListInactiveAccount(listCompetitorModel);
+            if (totalPage < listCompetitorModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Account Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Account>(),
+                    TotalPage = 0
+                },
                 Errors = ex
             });
         }
