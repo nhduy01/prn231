@@ -12,7 +12,9 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
     }
     public override async Task<Round?> GetByIdAsync(Guid id)
     {
-        return await DbSet.Include(r => r.EducationalLevel).FirstOrDefaultAsync(x => x.Id == id && x.Status == RoundStatus.Active.ToString());
+        return await DbSet.Include(x=>x.Schedule)
+            .Include(r => r.EducationalLevel)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status == RoundStatus.Active.ToString());
     }
 
     public override async Task<List<Round>> GetAllAsync()

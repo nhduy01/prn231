@@ -298,20 +298,20 @@ public class AccountController : ControllerBase
 
     #endregion
 
-    #region Delete
+    #region Inactive Account
 
-    [HttpDelete]
-    public async Task<IActionResult> DeleteRound(Guid id)
+    [HttpPatch("inactiveaccount")]
+    public async Task<IActionResult> InactiveAccount(Guid id)
     {
         try
         {
-            var result = await _accountService.DeleteAccount(id);
+            var result = await _accountService.InactiveAccount(id);
             if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Result = result,
-                Message = "Delete Successfully"
+                Message = "Inactive Successfully"
             });
         }
         catch (Exception ex)
@@ -319,15 +319,46 @@ public class AccountController : ControllerBase
             return Ok(new BaseFailedResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = ex.Message,              
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }
     }
 
     #endregion
-    
-    #region Delete
+
+    #region Active Account
+
+    [HttpPatch("activeaccount")]
+    public async Task<IActionResult> ActiveAccount(Guid id)
+    {
+        try
+        {
+            var result = await _accountService.ActiveAccount(id);
+            if (result == null) return NotFound();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Result = result,
+                Message = "Active Successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region ListAccountHaveAwardIn3NearestContest
 
     [HttpGet("getlistwinnerin3nearestcontest")]
     public async Task<IActionResult> ListAccountHaveAwardIn3NearestContest()

@@ -160,9 +160,24 @@ public class EducationalLevelService : IEducationalLevelService
 
     public async Task<bool> DeleteEducationalLevel(Guid id)
     {
-        var EducationalLevel = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
-        if (EducationalLevel == null) throw new Exception("Khong tim thay EducationalLevel");
-        EducationalLevel.Status = EducationalLevelStatus.Inactive.ToString();
+        var level = await _unitOfWork.EducationalLevelRepo.GetByIdAsync(id);
+        if (level == null) throw new Exception("Khong tim thay EducationalLevel");
+        foreach (var round in level.Round)
+        {
+            round.Status = RoundStatus.Inactive.ToString();
+            foreach (var schedule in round.Schedule)
+            {
+                schedule.Status = ScheduleStatus.Delete.ToString();
+            }
+        }
+
+        //award
+        foreach (var award in level.Award)
+        {
+            award.Status = AwardStatus.Inactive.ToString();
+        }
+
+        level.Status = EducationalLevelStatus.Inactive.ToString();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

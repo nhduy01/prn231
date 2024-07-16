@@ -102,6 +102,10 @@ public class RoundService : IRoundService
         var round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
         if (round == null) throw new Exception("Khong tim thay Round");
         round.Status = RoundStatus.Inactive.ToString();
+        foreach (var schedule in round.Schedule)
+        {
+            schedule.Status = ScheduleStatus.Delete.ToString();
+        }
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
