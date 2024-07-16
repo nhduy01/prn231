@@ -12,8 +12,6 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-
-- Sửa Output cho GetContestById
 - (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
 - Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
@@ -23,6 +21,7 @@
 
   
 # Xong :white_check_mark:
+- Sửa Output cho GetContestById :white_check_mark:
 - Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn :white_check_mark:
 - Chưa add validate cho RoundTopicdelete :white_check_mark:
 - Ban/UnBan Account :white_check_mark:
