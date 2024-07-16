@@ -12,9 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-- xem các bộ sưu tập
-- xem các thí sinh có giải 5 năm gần đây
-- Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn
+
 - Sửa Output cho GetContestById
 - (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
 - Chuyển Stauts của report
@@ -25,7 +23,8 @@
 
   
 # Xong :white_check_mark:
-- Chưa add validate cho RoundTopicdelete
+- Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn :white_check_mark:
+- Chưa add validate cho RoundTopicdelete :white_check_mark:
 - Ban/UnBan Account :white_check_mark:
 - xem chi tiết cuộc thi :white_check_mark:
 - Sửa viewmodel resource lấy các bảng liên quan :white_check_mark:
