@@ -113,10 +113,13 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .ThenInclude(x=>x.Topic)
             .Include(x=>x.Account)
             .AsQueryable();
-
-        if (!string.IsNullOrEmpty(filterPainting.Topic))
+        if (!string.IsNullOrEmpty(filterPainting.Code))
         {
-            listPainting = listPainting.Where(p => p.RoundTopic.Topic.Name.Contains(filterPainting.Topic));
+            listPainting = listPainting.Where(p => p.Code.Contains(filterPainting.Code));
+        }
+        if (!string.IsNullOrEmpty(filterPainting.TopicName))
+        {
+            listPainting = listPainting.Where(p => p.RoundTopic.Topic.Name.Contains(filterPainting.TopicName));
         }
         if (filterPainting.StartDate != null && filterPainting.EndDate != null)
         {
@@ -126,9 +129,9 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
         {
             listPainting = listPainting.Where(p => p.RoundTopic.Round.EducationalLevel.Level.Contains(filterPainting.Level));
         }
-        if (!string.IsNullOrEmpty(filterPainting.Round))
+        if (!string.IsNullOrEmpty(filterPainting.RoundName))
         {
-            listPainting = listPainting.Where(p => p.RoundTopic.Round.Name.Contains(filterPainting.Round));
+            listPainting = listPainting.Where(p => p.RoundTopic.Round.Name.Contains(filterPainting.RoundName));
         }
         if (!string.IsNullOrEmpty(filterPainting.Status))
         {
