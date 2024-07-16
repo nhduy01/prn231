@@ -1,4 +1,5 @@
 ﻿using Application.IRepositories;
+using Application.SendModels.Painting;
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -84,11 +85,6 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
                 .CountAsync();
     }
 
-    public async Task<bool> PaintingCodeExistsAsync(string code)
-    {
-        return await DbSet.AnyAsync(p => p.Code == code);
-    }
-
     public async Task<int> CreateNewNumberOfPaintingCode(Guid roundId)
     {
         var paintings = await DbSet.Include(p => p.RoundTopic)
@@ -104,5 +100,40 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Max();
 
         return maxNumber + 1;
+    }
+
+    public async Task<List<Painting>> FilterPaintingAsync(FilterPaintingRequest filterPainting)
+    {
+        var listPainting = DbSet
+            .Include(x=>x.RoundTopic)
+            .ThenInclude(x=>x.Round)
+            .ThenInclude(x=>x.EducationalLevel)
+            .ThenInclude(x=>x.Contest)
+            .Include(x=>x.RoundTopic)
+            .ThenInclude(x=>x.Topic)
+            .Include(x=>x.Account)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(filterPainting.Topic))
+        {
+            listPainting = listPainting.Where(p => p.RoundTopic.Topic.Name.Contains(filterPainting.Topic));
+        }
+        if (filterPainting.StartDate != null && filterPainting.EndDate != null)
+        {
+            listPainting = listPainting.Where(p => p.UpdatedTime >= filterPainting.StartDate && p.UpdatedTime <= filterPainting.EndDate);
+        }
+        if (!string.IsNullOrEmpty(filterPainting.Level))
+        {
+            listPainting = listPainting.Where(p => p.RoundTopic.Round.EducationalLevel.Level.Contains(filterPainting.Level));
+        }
+        if (!string.IsNullOrEmpty(filterPainting.Round))
+        {
+            listPainting = listPainting.Where(p => p.RoundTopic.Round.Name.Contains(filterPainting.Round));
+        }
+        if (!string.IsNullOrEmpty(filterPainting.Status))
+        {
+            listPainting = listPainting.Where(p => p.Status.Contains(filterPainting.Status));
+        }
+        return await listPainting.ToListAsync();
     }
 }

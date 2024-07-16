@@ -162,6 +162,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<SponsorRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<SponsorUpdateRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<RoundTopicDeleteRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<FilterPaintingRequestValidator>();
         return services;
     }
 }

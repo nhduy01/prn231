@@ -18,6 +18,7 @@ public interface IPaintingService
     Task<PaintingViewModel?> GetPaintingByCode(string code);
     Task<PaintingViewModel?> GetPaintingById(Guid id);
     Task<List<PaintingViewModel>> List16WiningPainting();
+    Task<(List<PaintingViewModel>, int)> FilterPainting(FilterPaintingRequest filterPainting, ListModels listPaintingModel);
 
 
     /*public Task<bool> SubmitPainting(Guid paintingId);*/
