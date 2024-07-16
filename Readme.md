@@ -4,7 +4,7 @@
 - Edit và Delete Round sẽ áp dụng co tất cả 
 - 
 # Validate:
-- Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
+- Validate Painting không trùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
 - Bắt validate add PaintingCollection (Add Trùng)
 - Chưa bắt validate date contest
