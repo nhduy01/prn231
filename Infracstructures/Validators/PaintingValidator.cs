@@ -12,18 +12,21 @@ namespace Infracstructures.Validators
         private readonly IValidator<PaintingUpdateStatusRequest> _paintingupdatestatusvalidator;
         private readonly IValidator<RatingRequest> _ratingvalidator;
         private readonly IValidator<UpdatePaintingRequest> _updatepaintingvalidator;
+        private readonly IValidator<FilterPaintingRequest> _filterpaintingvalidator;
 
         public PaintingValidator(IValidator<PaintingRequest> paintingvalidator,
                                     IValidator<PaintingRequest2> painting2validator,
                                     IValidator<PaintingUpdateStatusRequest> paintingupdatestatusvalidator,
                                     IValidator<RatingRequest> ratingvalidator,
-                                    IValidator<UpdatePaintingRequest> updatepaintingvalidator)
+                                    IValidator<UpdatePaintingRequest> updatepaintingvalidator,
+                                    IValidator<FilterPaintingRequest> filterpaintingvalidator)
         {
             _paintingvalidator = paintingvalidator;
             _painting2validator = painting2validator;
             _paintingupdatestatusvalidator = paintingupdatestatusvalidator;
             _ratingvalidator = ratingvalidator;
             _updatepaintingvalidator = updatepaintingvalidator;
+            _filterpaintingvalidator = filterpaintingvalidator;
         }
 
         public IValidator<PaintingRequest> PaintingRequestValidator => _paintingvalidator;
@@ -31,5 +34,6 @@ namespace Infracstructures.Validators
         public IValidator<PaintingUpdateStatusRequest> PaintingUpdateStatusRequestValidator => _paintingupdatestatusvalidator;
         public IValidator<RatingRequest> RatingRequestValidator => _ratingvalidator;
         public IValidator<UpdatePaintingRequest> UpdatePaintingRequestValidator => _updatepaintingvalidator;
+        public IValidator<FilterPaintingRequest> FilterPaintingRequestValidator => _filterpaintingvalidator;
     }
 }

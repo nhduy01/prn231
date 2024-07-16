@@ -435,7 +435,52 @@ public class PaintingController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Get Category Success",
+                Message = "Get Painting Success",
+                Result = new
+                {
+                    List = list,
+                    TotalPage = totalPage
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new
+                {
+                    List = new List<Painting>(),
+                    TotalPage = 0
+                },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Filter Painting
+
+    [HttpGet("filterpainting")]
+    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] FilterPaintingRequest filterPainting,[FromQuery] ListModels listPaintingModel)
+    {
+        try
+        {
+            var (list, totalPage) = await _paintingService.FilterPainting(filterPainting, listPaintingModel);
+            if (totalPage < listPaintingModel.PageNumber)
+            {
+                return NotFound(new BaseResponseModel
+                {
+                    Status = NotFound().StatusCode,
+                    Message = "Over number page"
+                });
+            }
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Filter Painting Success",
                 Result = new
                 {
                     List = list,
