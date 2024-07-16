@@ -11,11 +11,11 @@ public interface IContestService
 
     Task<bool> UpdateContest(UpdateContest updateContest);
 
-    Task<Contest?> GetContestById(Guid awardId);
+    Task<ContestDetailViewModel?> GetContestById(Guid contestId);
 
     Task<List<int>> Get5RecentYear();
 
     Task<List<ContestViewModel?>> GetAllContest();
 
-    Task<Contest?> GetNearestContest();
+    Task<ContestDetailViewModel> GetNearestContest();
 }

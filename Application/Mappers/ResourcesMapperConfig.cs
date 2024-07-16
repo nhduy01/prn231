@@ -1,4 +1,5 @@
 ﻿using Application.SendModels.Resources;
+using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.ResourcesViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -30,5 +31,9 @@ public partial class MapperConfigs : Profile
         CreateMap<Resources, ResourcesViewModel>()
             .ForPath(dest => dest.SponsorName, opt => opt.MapFrom(src => src.Sponsor.Name))
             .ForPath(dest => dest.ContestName, opt => opt.MapFrom(src => src.Contest.Name));
+
+
+        CreateMap<Resources, ResourceInContestViewModel>()
+            .ForMember(x => x.Sponsor, x => x.MapFrom(x => x.Sponsor));
     }
 }

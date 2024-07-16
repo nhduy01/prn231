@@ -2,6 +2,7 @@
 using Application.SendModels.Authentication;
 using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.CollectionViewModels;
+using Application.ViewModels.ContestViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -17,5 +18,7 @@ public partial class MapperConfigs : Profile
 
 
         CreateMap<Account, AccountInPainting>();
+
+        CreateMap<Account, AccountInContestViewModel>();
     }
 }

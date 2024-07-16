@@ -1,5 +1,6 @@
 ﻿using Application.SendModels.Award;
 using Application.ViewModels.AwardViewModels;
+using Application.ViewModels.ContestViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -28,5 +29,6 @@ public partial class MapperConfigs : Profile
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
+        CreateMap<Award, AwardInLevelViewModel>();
     }
 }

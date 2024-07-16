@@ -1,5 +1,6 @@
 ﻿using Application.SendModels.EducationalLevel;
 using Application.SendModels.Round;
+using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.EducationalLevelViewModels;
 using Application.ViewModels.RoundViewModels;
 using AutoMapper;
@@ -27,6 +28,10 @@ public partial class MapperConfigs : Profile
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
-        CreateMap<EducationalLevel, EducationalLevelViewModel>().ReverseMap();
+
+        CreateMap<EducationalLevel, EducationalLevelInContest>()
+            .ForMember(x => x.Award, x => x.MapFrom(x => x.Award))
+            .ForMember(x => x.Round, x => x.MapFrom(x => x.Round));
+
     }
 }

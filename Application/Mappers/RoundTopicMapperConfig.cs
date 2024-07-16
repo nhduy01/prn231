@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.SendModels.Round;
 using Application.SendModels.RoundTopic;
+using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.RoundViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -16,5 +17,7 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<RoundTopic, RoundTopicRequest>().ReverseMap();
 
+        CreateMap<RoundTopic, RoundTopicInContestViewModel>()
+            .ForMember(x => x.Topic, x => x.MapFrom(x => x.Topic));
     }
 }
