@@ -12,7 +12,6 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-- (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
 - Chuyển Stauts của report
 - Đổi path Get Paintg By Collection(Controller)
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
