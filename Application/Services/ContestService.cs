@@ -267,7 +267,38 @@ public class ContestService : IContestService
         var contest = await _unitOfWork.ContestRepo.GetByIdAsync(contestId);
         if (contest == null) throw new Exception("Khong tim thay Contest");
 
+        //Contest
         contest.Status = ContestStatus.Inactive.ToString();
+
+        //Resource
+        foreach(var resource in contest.Resources)
+        {
+            resource.Status = ResourcesStatus.Inactive.ToString();
+        }
+
+        //Level 
+        foreach (var level in contest.EducationalLevel)
+        {
+            //round
+            foreach (var round in level.Round)
+            {
+                round.Status = RoundStatus.Inactive.ToString();
+                foreach(var schedule in round.Schedule)
+                {
+                    schedule.Status = ScheduleStatus.Delete.ToString();
+                }
+            }
+
+            //award
+            foreach (var award in level.Award)
+            {
+                award.Status = AwardStatus.Inactive.ToString();
+            }
+
+            level.Status = EducationalLevelStatus.Inactive.ToString();
+        }
+
+        
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -292,12 +323,12 @@ public class ContestService : IContestService
     #endregion
 
     #region Get Contest By Id
-    public async Task<Contest?> GetContestById(Guid awardId)
+    public async Task<ContestDetailViewModel> GetContestById(Guid contestId)
     {
-        var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(awardId);
+        var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(contestId);
         if (contest == null) throw new Exception("Khong tim thay Contest");
 
-        return _mapper.Map<Contest>(contest);
+        return _mapper.Map<ContestDetailViewModel>(contest);
     }
     #endregion
 
@@ -321,12 +352,12 @@ public class ContestService : IContestService
     #endregion
 
     #region Get Nearest Contest
-    public async Task<Contest?> GetNearestContest()
+    public async Task<ContestDetailViewModel> GetNearestContest()
     {
         var contest = await _unitOfWork.ContestRepo.GetNearestContestInformationAsync();
         if (contest == null) throw new Exception("Không có Contest nào");
 
-        return _mapper.Map<Contest>(contest);
+        return _mapper.Map<ContestDetailViewModel>(contest);
     }
     #endregion
 

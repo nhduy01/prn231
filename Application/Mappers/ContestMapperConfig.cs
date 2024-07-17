@@ -34,5 +34,12 @@ public partial class MapperConfigs : Profile
 
         CreateMap<Contest, UpdateContest>().ReverseMap()
             .ForMember(x => x.UpdatedBy, x => x.MapFrom(x => x.CurrentUserId));
+
+        CreateMap<Contest, ContestDetailViewModel>()
+            .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account))
+            .ForMember(dest => dest.Resource, opt => opt.MapFrom(src => src.Resources))
+            .ForMember(dest => dest.EducationalLevel, opt => opt.MapFrom(src => src.EducationalLevel));
+
+
     }
 }

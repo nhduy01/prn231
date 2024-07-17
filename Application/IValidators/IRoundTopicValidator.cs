@@ -6,5 +6,6 @@ namespace Application.IValidators
     public interface IRoundTopicValidator
     {
         IValidator<RoundTopicRequest> RoundTopicRequestValidator { get; }
+        IValidator<RoundTopicDeleteRequest> RoundTopicDeleteRequestValidator { get; }
     }
 }

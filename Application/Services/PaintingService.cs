@@ -329,7 +329,28 @@ public class PaintingService : IPaintingService
         return code;
     }
 
-    
+
+
+    #endregion
+
+    #region Filter Painting
+
+    public async Task<(List<PaintingViewModel>, int)> FilterPainting(FilterPaintingRequest filterPainting, ListModels listPaintingModel)
+    {
+        var listPainting = await _unitOfWork.PaintingRepo.FilterPaintingAsync(filterPainting);
+        if (listPainting.Count == 0) throw new Exception("Khong tim thay Painting");
+        var result = _mapper.Map<List<PaintingViewModel>>(listPainting);
+
+        #region pagination
+        var totalPages = (int)Math.Ceiling((double)result.Count / listPaintingModel.PageSize);
+        int? itemsToSkip = (listPaintingModel.PageNumber - 1) * listPaintingModel.PageSize;
+        result = result.Skip((int)itemsToSkip)
+            .Take(listPaintingModel.PageSize)
+            .ToList();
+        #endregion
+
+        return (result, totalPages);
+    }
 
     #endregion
 }

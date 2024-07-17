@@ -120,10 +120,17 @@ public class AccountService : IAccountService
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
-    public async Task<bool?> DeleteAccount(Guid id)
+    public async Task<bool?> InactiveAccount(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
         account.Status = AccountStatus.Inactive.ToString();
+        return await _unitOfWork.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool?> ActiveAccount(Guid id)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        account.Status = AccountStatus.Active.ToString();
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -146,8 +153,6 @@ public class AccountService : IAccountService
 
         return _mapper.Map<List<AccountViewModel>>(listAccount);
     }
-
-
 
     //Check Id is Exist
     public async Task<bool> IsExistedId(Guid id)

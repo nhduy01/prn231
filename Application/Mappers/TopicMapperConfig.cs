@@ -1,4 +1,5 @@
 ﻿using Application.SendModels.Topic;
+using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.TopicViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -27,5 +28,7 @@ public partial class MapperConfigs : Profile
                 });
             });
         CreateMap<Topic, TopicViewModel>().ReverseMap();
+
+        CreateMap<Topic, TopicInRoundViewModel>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.SendModels.Round;
+using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.RoundViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -29,5 +30,8 @@ public partial class MapperConfigs : Profile
         CreateMap<Round, RoundViewModel>()
             .ForPath(dest => dest.EducationalLevelName, opt => opt.MapFrom(src => src.EducationalLevel.Level));
         CreateMap<Round,ListTopicViewModel>().ReverseMap();
+
+        CreateMap<Round, RoundInLevelViewModel>()
+            .ForMember(dest => dest.RoundTopic, opt => opt.MapFrom(src => src.RoundTopic));
     }
 }

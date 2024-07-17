@@ -4,7 +4,7 @@
 - Edit và Delete Round sẽ áp dụng co tất cả 
 - 
 # Validate:
-- Validate Painting có AwardId và RoundId không cùng trong 1 cuộc thi
+- Validate Painting không trùng trong 1 cuộc thi
 - Bắt validate add RoundTOpic ( Add Trùng)
 - Bắt validate add PaintingCollection (Add Trùng)
 - Chưa bắt validate date contest
@@ -12,24 +12,21 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
-- Ban/UnBan Account
-- Chưa add validate cho RoundTopicdelete
-
-- xem các cuộc thi
-- xem chi tiết cuộc thi
-- xem các bộ sưu tập
-- xem các thí sinh có giải 5 năm gần đây
-- Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn
-- Sửa Output cho GetContestById
-- (Xóa Contest sẽ đổi status của những bảng link Contest(Level, Round, Topic, Sponsor
-- Chuyển Stauts của report
+- Sửa response
 - Đổi path Get Paintg By Collection(Controller)
-- Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round)
+
 
 
 
   
 # Xong :white_check_mark:
+- Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round) :white_check_mark:
+- Chuyển Stauts của report :white_check_mark:
+- Sửa Output cho GetContestById :white_check_mark:
+- Nếu xóa Contest thì status của những bảng liên quan sẽ đổi luôn :white_check_mark:
+- Chưa add validate cho RoundTopicdelete :white_check_mark:
+- Ban/UnBan Account :white_check_mark:
+- xem chi tiết cuộc thi :white_check_mark:
 - Sửa viewmodel resource lấy các bảng liên quan :white_check_mark:
 - Lấy tranh lấy luôn award :white_check_mark:
 - Kiếm accountbycode :white_check_mark:

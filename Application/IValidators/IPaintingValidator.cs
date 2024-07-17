@@ -16,5 +16,6 @@ namespace Application.IValidators
         IValidator<PaintingUpdateStatusRequest> PaintingUpdateStatusRequestValidator { get; }
         IValidator<RatingRequest> RatingRequestValidator { get; }
         IValidator<UpdatePaintingRequest> UpdatePaintingRequestValidator { get; }
+        IValidator<FilterPaintingRequest> FilterPaintingRequestValidator { get; }
     }
 }

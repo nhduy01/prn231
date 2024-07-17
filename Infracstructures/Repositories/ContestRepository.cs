@@ -17,32 +17,56 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
 
     public override async Task<List<Contest>> GetAllAsync()
     {
-        return await DbSet.Where(x=>x.Status != ContestStatus.Inactive.ToString())
-            .Include(x=>x.Account)
+        return await DbSet.Where(x => x.Status != ContestStatus.Inactive.ToString())
+            .Include(x => x.Account)
             .ToListAsync();
+    }
+    public override async Task<Contest> GetByIdAsync(Guid id)
+    {
+        return await DbSet
+            .Include(x => x.Resources)
+            .ThenInclude(x => x.Sponsor)
+            .Include(x => x.EducationalLevel)
+            .ThenInclude(x => x.Round)
+            .ThenInclude(x => x.RoundTopic)
+            .ThenInclude(x => x.Topic)
+            .Include(x => x.EducationalLevel)
+            .ThenInclude(x => x.Award)
+            .Include(x => x.Account)
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status != ContestStatus.Inactive.ToString()); ;
     }
     public async Task<Contest?> GetAllContestInformationAsync(Guid contestId)
     {
 
-        return await DbSet
-            .Where(x => x.Status != ContestStatus.Inactive.ToString())
+        var contest = await DbSet
             .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
             .ThenInclude(x => x.Sponsor)
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
-            .ThenInclude(x => x.Round)
-            .ThenInclude(x=>x.RoundTopic)
+            .ThenInclude(x => x.Round.Where(x => x.Status != RoundStatus.Inactive.ToString()))
+            .ThenInclude(x => x.RoundTopic)
             .ThenInclude(x => x.Topic)
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
-            .ThenInclude(x => x.Award)
-            .Include(x=>x.Account)
-            .FirstOrDefaultAsync(x => x.Id == contestId);
+            .ThenInclude(x => x.Award.Where(x => x.Status != AwardStatus.Inactive.ToString()))
+            .Include(x => x.Account)
+            .FirstOrDefaultAsync(x => x.Id == contestId && x.Status != ContestStatus.Inactive.ToString());
+        if (contest != null)
+        {
+            // Lọc các RoundTopic có Topic.Status == "Active"
+            foreach (var educationalLevel in contest.EducationalLevel)
+            {
+                foreach (var round in educationalLevel.Round)
+                {
+                    round.RoundTopic = round.RoundTopic.Where(rt => rt.Topic.Status == TopicStatus.Active.ToString()).ToList();
+                }
+            }
+        }
+        return contest;
     }
 
     public async Task<Contest?> GetNearestContestInformationAsync()
     {
 
         return await DbSet
-            .Where(x => x.Status != ContestStatus.Inactive.ToString())
             .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
             .ThenInclude(x => x.Sponsor)
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
@@ -52,8 +76,8 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .Include(x => x.EducationalLevel.Where(x => x.Status != EducationalLevelStatus.Inactive.ToString()))
             .ThenInclude(x => x.Award)
             .Include(x => x.Account)
-            .OrderBy(x=>x.CreatedTime)
-            .FirstOrDefaultAsync();
+            .OrderBy(x => x.CreatedTime)
+            .FirstOrDefaultAsync(x=>x.Status != ContestStatus.Inactive.ToString());
     }
 
     public async Task<List<int>> Get5RecentYearAsync()
@@ -62,7 +86,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
         return await result;
     }
 
-    public async Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId) 
+    public async Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId)
     {
         var round = await DbSet
            .Where(c => c.Status != ContestStatus.Inactive.ToString())

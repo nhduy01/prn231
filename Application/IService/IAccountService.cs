@@ -13,7 +13,8 @@ public interface IAccountService
     Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels);
     public Task<AccountViewModel?> GetAccountById(Guid id);
     public Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount);
-    public Task<bool?> DeleteAccount(Guid id);
+    public Task<bool?> InactiveAccount(Guid id);
+    Task<bool?> ActiveAccount(Guid id);
 
     Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest();
 
