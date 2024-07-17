@@ -1,4 +1,5 @@
-﻿using Application.BaseModels;
+﻿using System.Collections.Generic;
+using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.AccountSendModels;
 using Domain.Models;
@@ -20,7 +21,7 @@ public class AccountController : ControllerBase
     #region Get All Competitor
 
     [HttpGet("getallcompetitorwithpagination")]
-    public async Task<IActionResult> GetAllCompetitor([FromQuery] ListModels listCompetitorModel)
+    public async Task<IActionResult> GetAllCompetitorWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
         {
@@ -63,7 +64,7 @@ public class AccountController : ControllerBase
     #region Get All Examiner
 
     [HttpGet("getallexaminerwithpagination")]
-    public async Task<IActionResult> GetAllExaminer([FromQuery] ListModels listCompetitorModel)
+    public async Task<IActionResult> GetAllExaminerWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
         {
@@ -106,7 +107,7 @@ public class AccountController : ControllerBase
     #region get all staff
 
     [HttpGet("getallstaffwithpagination")]
-    public async Task<IActionResult> GetAllStaff([FromQuery] ListModels listCompetitorModel)
+    public async Task<IActionResult> GetAllStaffWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
         {
@@ -139,6 +140,95 @@ public class AccountController : ControllerBase
                     List = new List<Account>(),
                     TotalPage = 0
                 },
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Competitor
+
+    [HttpGet("getallcompetitor")]
+    public async Task<IActionResult> GetAllCompetitor()
+    {
+        try
+        {
+            var result = await _accountService.GetAllCompetitor();
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Account Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Account>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Get All Examiner
+
+    [HttpGet("getallexaminer")]
+    public async Task<IActionResult> GetAllExaminer()
+    {
+        try
+        {
+            var result = await _accountService.GetAllExaminer();
+   
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Account Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Account>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region get all staff
+
+    [HttpGet("getallstaff")]
+    public async Task<IActionResult> GetAllStaff()
+    {
+        try
+        {
+            var result = await _accountService.GetAllStaff();
+            
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Account Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Account>(),
                 Errors = ex
             });
         }

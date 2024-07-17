@@ -52,29 +52,20 @@ public class ResourcesController : Controller
 
     #endregion
 
-    #region Get Resources By Page
+    #region Get Resources
 
-    [HttpGet]
-    public async Task<IActionResult> GetResourcesByPage([FromQuery] ListModels listResourceModel)
+    [HttpGet("getallresource")]
+    public async Task<IActionResult> GetResourcesByPage()
     {
         try
         {
-            var (list, totalPage) = await _resourcesService.GetListResources(listResourceModel);
-            if (totalPage < listResourceModel.PageNumber)
-                return NotFound(new BaseResponseModel
-                {
-                    Status = NotFound().StatusCode,
-                    Message = "Over number page"
-                });
+            var result = await _resourcesService.GetListResources();
+            
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
                 Message = "Get Resources Success",
-                Result = new
-                {
-                    List = list,
-                    TotalPage = totalPage
-                }
+                Result = result
             });
         }
         catch (Exception ex)
@@ -83,11 +74,7 @@ public class ResourcesController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result = new
-                {
-                    List = new List<Resources>(),
-                    TotalPage = 0
-                },
+                Result = new List<Resources>(),
                 Errors = ex
             });
         }
@@ -133,7 +120,6 @@ public class ResourcesController : Controller
         try
         {
             var result = await _resourcesService.UpdateResources(updateResources);
-            if (result == null) return NotFound(new { Success = false, Message = "Resources not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -163,7 +149,6 @@ public class ResourcesController : Controller
         try
         {
             var result = await _resourcesService.DeleteResources(id);
-            if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
