@@ -12,4 +12,6 @@ public interface IContestRepository : IGenericRepository<Contest>
     Task<Contest?> GetNearestContestInformationAsync();
 
     Task<List<Guid>> Get3NearestContestId();
+
+    Task<Contest?> GetContestByIdForRoundTopic(Guid id);
 }

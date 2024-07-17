@@ -19,6 +19,35 @@ public class RoundTopicController : ControllerBase
         _roundTopicService = roundTopicService;
     }
 
+    #region Get List
+
+    [HttpGet("getalltopic")]
+    public async Task<IActionResult> GetAll([FromQuery]GetListRoundTopicRequest request)
+    {
+        try
+        {
+            var result = await _roundTopicService.GetListRoundTopic(request);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Topic Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result  = new List<Topic>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
     #region Add Topic To Round
 
     [HttpPost]

@@ -82,5 +82,10 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
         return await result;
     }
 
-    
+    public async Task<Contest?> GetContestByIdForRoundTopic(Guid id)
+    {
+        var result = await DbSet.Include(c => c.EducationalLevel).ThenInclude(e => e.Round).ThenInclude(r => r.RoundTopic)
+            .ThenInclude(rt => rt.Topic).FirstOrDefaultAsync(c => c.Id.Equals(id));
+        return result;
+    }
 }

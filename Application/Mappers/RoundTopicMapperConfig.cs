@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.SendModels.Round;
 using Application.SendModels.RoundTopic;
 using Application.ViewModels.RoundViewModels;
+using Application.ViewModels.TopicViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -15,6 +16,8 @@ public partial class MapperConfigs : Profile
     partial void AddRoundTopicMapperConfig()
     {
         CreateMap<RoundTopic, RoundTopicRequest>().ReverseMap();
-
+        CreateMap<RoundTopic, RoundTopicViewModel>()
+            .ForMember(des => des.Id, source => source.MapFrom(round => round.RoundId))
+            .ForMember(des => des.Name, source => source.MapFrom(round => round.Topic.Name));
     }
 }

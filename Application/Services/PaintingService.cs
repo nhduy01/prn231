@@ -17,21 +17,16 @@ namespace Application.Services;
 
 public class PaintingService : IPaintingService
 {
-    private readonly IClaimsService _claimsService;
-    private readonly IConfiguration _configuration;
-    private readonly ICurrentTime _currentTime;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly INotificationService _notificationService;
+    
 
-    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime,
-        IConfiguration configuration,
-        IClaimsService claimsService)
+    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
     {
+        _notificationService = notificationService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _currentTime = currentTime;
-        _configuration = configuration;
-        _claimsService = claimsService;
     }
 
     #region Draft Painting Preliminary Round 
@@ -68,6 +63,12 @@ public class PaintingService : IPaintingService
             await _unitOfWork.SaveChangesAsync();
 
             painting.Code = await GeneratePaintingCode(painting.Id,request.RoundId);
+            if (await _unitOfWork.SaveChangesAsync() > 0)
+            {
+                var notification = new Notification();
+                //notification.Status = NotificationStatus.
+                //_notificationService.CreateNotification()
+            }
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
         throw new Exception("Khong trong thoi gian nop bai");
