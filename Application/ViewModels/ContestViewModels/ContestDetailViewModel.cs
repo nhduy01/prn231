@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Application.ViewModels.ContestViewModels;
 
-namespace Application.ViewModels.ContestViewModels;
 public class ContestDetailViewModel
 {
     public Guid Id { get; set; }
@@ -30,12 +25,14 @@ public class AccountInContestViewModel
     public string Username { get; set; }
     public string FullName { get; set; }
 }
+
 public class ResourceInContestViewModel
 {
     public Guid? Id { get; set; }
     public string Sponsorship { get; set; }
     public SponsorInResourceViewModel Sponsor { get; set; }
 }
+
 public class SponsorInResourceViewModel
 {
     public Guid Id { get; set; }
@@ -88,4 +85,3 @@ public class TopicInRoundViewModel
     public string Name { get; set; }
     public string Description { get; set; }
 }
-

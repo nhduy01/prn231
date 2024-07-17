@@ -2,20 +2,18 @@
 using FluentValidation;
 using Infracstructures.SendModels.Sponsor;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class SponsorValidator : ISponsorValidator
 {
-    public class SponsorValidator : ISponsorValidator
+    public SponsorValidator(IValidator<SponsorRequest> sponsorvalidator,
+        IValidator<SponsorUpdateRequest> sponsorupdatevalidator)
     {
-        private readonly IValidator<SponsorRequest> _sponsorvalidator;
-        private readonly IValidator<SponsorUpdateRequest> _sponsorupdatevalidator;
-
-        public SponsorValidator(IValidator<SponsorRequest> sponsorvalidator, IValidator<SponsorUpdateRequest> sponsorupdatevalidator)
-        {
-            _sponsorvalidator = sponsorvalidator;
-            _sponsorupdatevalidator = sponsorupdatevalidator;
-        }
-
-        public IValidator<SponsorRequest> SponsorRequestValidator => _sponsorvalidator;
-        public IValidator<SponsorUpdateRequest> SponsorUpdateRequestValidator => _sponsorupdatevalidator;
+        SponsorRequestValidator = sponsorvalidator;
+        SponsorUpdateRequestValidator = sponsorupdatevalidator;
     }
+
+    public IValidator<SponsorRequest> SponsorRequestValidator { get; }
+
+    public IValidator<SponsorUpdateRequest> SponsorUpdateRequestValidator { get; }
 }

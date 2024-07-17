@@ -10,10 +10,10 @@ namespace Application.Services;
 public class PaintingCollectionService : IPaintingCollectionService
 {
     private readonly IAuthentication _authentication;
+    private readonly IClaimsService _claimsService;
     private readonly IMailService _mailService;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IClaimsService _claimsService;
 
     public PaintingCollectionService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper,
         IMailService mailService, IClaimsService claimsService)

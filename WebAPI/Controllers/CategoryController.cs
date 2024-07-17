@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Category;
-using Application.Services;
-using Application.ViewModels.CategoryViewModels;
-using Application.ViewModels.CollectionViewModels;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -118,13 +114,11 @@ public class CategoryController : ControllerBase
         {
             var (list, totalPage) = await _categoryService.ListCategory(listCategoryModel);
             if (totalPage < listCategoryModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -196,13 +190,11 @@ public class CategoryController : ControllerBase
         {
             var (list, totalPage) = await _categoryService.ListCategoryUnused(listCategoryModel);
             if (totalPage < listCategoryModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -241,13 +233,11 @@ public class CategoryController : ControllerBase
         {
             var (list, totalPage) = await _categoryService.ListCategoryUsed(listCategoryModel);
             if (totalPage < listCategoryModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -277,7 +267,7 @@ public class CategoryController : ControllerBase
 
     #endregion
 
-    #region List All Category Unused 
+    #region List All Category Unused
 
     [HttpGet("getallcategoryunused")]
     public async Task<IActionResult> ListAllCategoryUnused()
@@ -298,7 +288,7 @@ public class CategoryController : ControllerBase
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result  = new
+                Result = new
                 {
                     List = new List<Category>(),
                     TotalPage = 0
@@ -343,4 +333,3 @@ public class CategoryController : ControllerBase
 
     #endregion
 }
-

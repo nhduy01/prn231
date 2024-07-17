@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
+﻿using Domain.Models;
 
-namespace Application.IRepositories
+namespace Application.IRepositories;
+
+public interface IRoundTopicRepository : IGenericRepository<RoundTopic>
 {
-    public interface IRoundTopicRepository : IGenericRepository<RoundTopic>
-    {
-        public Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId);
+    public Task<List<Painting>> ListPaintingForPreliminaryRound(Guid roundId);
 
-        public Task<List<Painting>> ListPaintingForFinalRound(Guid roundId);
-        Task<Guid?> GetRoundTopicId(Guid roundId, Guid topicId);
-        Task<RoundTopic?> GetByRoundIdTopicId(Guid roundId, Guid topicId);
-
-
-    }
+    public Task<List<Painting>> ListPaintingForFinalRound(Guid roundId);
+    Task<Guid?> GetRoundTopicId(Guid roundId, Guid topicId);
+    Task<RoundTopic?> GetByRoundIdTopicId(Guid roundId, Guid topicId);
 }

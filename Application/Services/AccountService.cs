@@ -5,7 +5,6 @@ using Application.SendModels.AccountSendModels;
 using Application.ViewModels.AccountViewModels;
 using AutoMapper;
 using Domain.Enums;
-using Domain.Models;
 using Infracstructures;
 using Microsoft.Extensions.Configuration;
 
@@ -42,7 +41,8 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = accountList.Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        accountList = accountList
+            .Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -56,7 +56,8 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = accountList.Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        accountList = accountList
+            .Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -70,7 +71,8 @@ public class AccountService : IAccountService
     public async Task<(List<AccountViewModel>, int)> GetListStaff(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
-        accountList = accountList.Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        accountList = accountList
+            .Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -80,6 +82,7 @@ public class AccountService : IAccountService
             .ToList();
         return (result, totalPages);
     }
+
     public async Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
@@ -93,22 +96,18 @@ public class AccountService : IAccountService
             .ToList();
         return (result, totalPages);
     }
+
     public async Task<AccountViewModel?> GetAccountById(Guid id)
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account == null)
-        {
-            throw new Exception("Không tìm thấy Account");
-        }
+        if (account == null) throw new Exception("Không tìm thấy Account");
         return _mapper.Map<AccountViewModel>(account);
     }
+
     public async Task<AccountViewModel?> GetAccountByCode(string code)
     {
         var account = await _unitOfWork.AccountRepo.GetAccountByCodeAsync(code);
-        if (account == null)
-        {
-            throw new Exception("Không tìm thấy Account");
-        }
+        if (account == null) throw new Exception("Không tìm thấy Account");
         return _mapper.Map<AccountViewModel>(account);
     }
 
@@ -146,7 +145,8 @@ public class AccountService : IAccountService
         if (listAwardId == null || listAwardId.Count == 0) throw new Exception("Không tìm thấy Award trong Level");
 
         var listAccountId = await _unitOfWork.PaintingRepo.ListAccountIdByListAwardId(listAwardId);
-        if (listAccountId == null || listAccountId.Count == 0) throw new Exception("Không tìm thấy Painting nào đạt giải");
+        if (listAccountId == null || listAccountId.Count == 0)
+            throw new Exception("Không tìm thấy Painting nào đạt giải");
 
         var listAccount = await _unitOfWork.AccountRepo.GetAccountByListAccountId(listAccountId);
         if (listAccount == null || listAccount.Count == 0) throw new Exception("Không tìm thấy Account");

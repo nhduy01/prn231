@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
-using Application.IService;
+﻿using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Contest;
-using Application.SendModels.EducationalLevel;
 using Application.ViewModels.ContestViewModels;
 using AutoMapper;
 using Domain.Enums;
@@ -37,6 +33,7 @@ public class ContestService : IContestService
     public async Task<bool> AddContest(ContestRequest addContestViewModel)
     {
         #region Tạo Contest
+
         var contest = _mapper.Map<Contest>(addContestViewModel);
         contest.Status = ContestStatus.Active.ToString();
         contest.CreatedTime = _currentTime.GetCurrentTime();
@@ -50,8 +47,9 @@ public class ContestService : IContestService
 
 
         #region Tạo Level
+
         //List level
-        List<EducationalLevel> listLevel = new List<EducationalLevel>();
+        var listLevel = new List<EducationalLevel>();
 
         //Create Level Mầm Non
         var level = new EducationalLevel();
@@ -78,12 +76,14 @@ public class ContestService : IContestService
 
         //check
         if (check == false) throw new Exception("Tạo Level Thất Bại");
+
         #endregion
 
 
         #region Tạo Round
+
         //List level
-        List<Round> listRound = new List<Round>();
+        var listRound = new List<Round>();
         // Create Round 1 Level 1
         var round = new Round();
         round.Name = "Vòng Sơ Khảo";
@@ -140,13 +140,14 @@ public class ContestService : IContestService
 
         //check
         if (check == false) throw new Exception("Tạo Round Thất Bại");
+
         #endregion
 
 
-
         #region Tạo Award
+
         //List level
-        List<Award> listAward = new List<Award>();
+        var listAward = new List<Award>();
 
         //Create 1st prize Level 1
         var award1 = new Award();
@@ -252,10 +253,10 @@ public class ContestService : IContestService
         check = await _unitOfWork.SaveChangesAsync() > 0;
         //check
         if (check == false) throw new Exception("Tạo Level Thất Bại");
+
         #endregion
 
         return check;
-
     }
 
     #endregion
@@ -271,10 +272,7 @@ public class ContestService : IContestService
         contest.Status = ContestStatus.Inactive.ToString();
 
         //Resource
-        foreach(var resource in contest.Resources)
-        {
-            resource.Status = ResourcesStatus.Inactive.ToString();
-        }
+        foreach (var resource in contest.Resources) resource.Status = ResourcesStatus.Inactive.ToString();
 
         //Level 
         foreach (var level in contest.EducationalLevel)
@@ -283,22 +281,15 @@ public class ContestService : IContestService
             foreach (var round in level.Round)
             {
                 round.Status = RoundStatus.Inactive.ToString();
-                foreach(var schedule in round.Schedule)
-                {
-                    schedule.Status = ScheduleStatus.Delete.ToString();
-                }
+                foreach (var schedule in round.Schedule) schedule.Status = ScheduleStatus.Delete.ToString();
             }
 
             //award
-            foreach (var award in level.Award)
-            {
-                award.Status = AwardStatus.Inactive.ToString();
-            }
+            foreach (var award in level.Award) award.Status = AwardStatus.Inactive.ToString();
 
             level.Status = EducationalLevelStatus.Inactive.ToString();
         }
 
-        
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -317,12 +308,12 @@ public class ContestService : IContestService
 
 
         return await _unitOfWork.SaveChangesAsync() > 0;
-
     }
 
     #endregion
 
     #region Get Contest By Id
+
     public async Task<ContestDetailViewModel> GetContestById(Guid contestId)
     {
         var contest = await _unitOfWork.ContestRepo.GetAllContestInformationAsync(contestId);
@@ -330,12 +321,13 @@ public class ContestService : IContestService
 
         return _mapper.Map<ContestDetailViewModel>(contest);
     }
+
     #endregion
 
     #region Get 5 recent contest year
+
     public async Task<List<int>> Get5RecentYear()
     {
-
         var result = await _unitOfWork.ContestRepo.Get5RecentYearAsync();
         return result;
     }
@@ -343,15 +335,18 @@ public class ContestService : IContestService
     #endregion
 
     #region Get All Contest
+
     public async Task<List<ContestViewModel?>> GetAllContest()
     {
         var contest = await _unitOfWork.ContestRepo.GetAllAsync();
         if (contest.Count == 0) throw new Exception("Khong co Contest nao");
         return _mapper.Map<List<ContestViewModel>>(contest);
     }
+
     #endregion
 
     #region Get Nearest Contest
+
     public async Task<ContestDetailViewModel> GetNearestContest()
     {
         var contest = await _unitOfWork.ContestRepo.GetNearestContestInformationAsync();
@@ -359,7 +354,6 @@ public class ContestService : IContestService
 
         return _mapper.Map<ContestDetailViewModel>(contest);
     }
+
     #endregion
-
-
 }

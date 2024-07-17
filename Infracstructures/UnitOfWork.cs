@@ -24,7 +24,7 @@ public class UnitOfWork : IUnitOfWork
         ITopicRepository topicRepository,
         IContestRepository contestRepository,
         ICategoryRepository categoryRepository,
-        IReportRepository reportRepository, 
+        IReportRepository reportRepository,
         IRoundTopicRepository roundTopicRepo)
 
     {

@@ -1,6 +1,4 @@
-﻿using Application.ViewModels.PaintingViewModels;
-
-namespace Application.ViewModels.ScheduleViewModels;
+﻿namespace Application.ViewModels.ScheduleViewModels;
 
 public class ScheduleRatingViewModel
 {

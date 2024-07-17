@@ -2,20 +2,18 @@
 using Application.SendModels.Report;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class ReportValidator : IReportValidator
 {
-    public class ReportValidator : IReportValidator
+    public ReportValidator(IValidator<ReportRequest> reportvalidator,
+        IValidator<UpdateReportRequest> updatereportvalidator)
     {
-        private readonly IValidator<ReportRequest> _reportvalidator;
-        private readonly IValidator<UpdateReportRequest> _updatereportvalidator;
-
-        public ReportValidator(IValidator<ReportRequest> reportvalidator, IValidator<UpdateReportRequest> updatereportvalidator)
-        {
-            _reportvalidator = reportvalidator;
-            _updatereportvalidator = updatereportvalidator;
-        }
-
-        public IValidator<ReportRequest> ReportRequestValidator => _reportvalidator;
-        public IValidator<UpdateReportRequest> UpdateReportRequestValidator => _updatereportvalidator;
+        ReportRequestValidator = reportvalidator;
+        UpdateReportRequestValidator = updatereportvalidator;
     }
+
+    public IValidator<ReportRequest> ReportRequestValidator { get; }
+
+    public IValidator<UpdateReportRequest> UpdateReportRequestValidator { get; }
 }

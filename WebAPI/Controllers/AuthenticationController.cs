@@ -1,9 +1,7 @@
 using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Authentication;
-using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.AuthenticationViewModels;
-using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,7 +51,7 @@ public class AuthenticationController : ControllerBase
                 .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage)
                 .ToList();
-        
+
             return new RegisterResponse
             {
                 Success = false,
@@ -64,7 +62,7 @@ public class AuthenticationController : ControllerBase
 
         return await _authenticationService.CreateAccount(account);
     }
-    
+
     #endregion
 
     #region Active Account
@@ -84,7 +82,7 @@ public class AuthenticationController : ControllerBase
     }
 
     #endregion
-    
+
     #region ReGenerateJwtToken
 
     [AllowAnonymous]
@@ -120,5 +118,4 @@ public class AuthenticationController : ControllerBase
     }
 
     #endregion
-    
 }

@@ -1,7 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Round;
-using Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,13 +62,11 @@ public class RoundController : Controller
         {
             var (list, totalPage) = await _roundService.GetListRound(listRoundModel);
             if (totalPage < listRoundModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -102,7 +99,7 @@ public class RoundController : Controller
     #region Get Round By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetRoundById([FromRoute]Guid id)
+    public async Task<IActionResult> GetRoundById([FromRoute] Guid id)
     {
         try
         {
@@ -190,8 +187,9 @@ public class RoundController : Controller
     #endregion
 
     #region Get Topic
+
     [HttpGet("gettopic/{id}")]
-    public async Task<IActionResult> GetTopicInRound([FromRoute]Guid id, [FromQuery] ListModels listTopicmodel)
+    public async Task<IActionResult> GetTopicInRound([FromRoute] Guid id, [FromQuery] ListModels listTopicmodel)
     {
         try
         {
@@ -219,28 +217,27 @@ public class RoundController : Controller
                     TotalPage = 0
                 },
                 Errors = ex
-
             });
         }
     }
+
     #endregion
 
     #region Get Round By EducationalLevel Id
 
     [HttpGet("getroundbyeducationallevelid/{id}")]
-    public async Task<IActionResult> GetRoundByEducationalLevelId([FromQuery] ListModels listRoundModel, [FromRoute] Guid id)
+    public async Task<IActionResult> GetRoundByEducationalLevelId([FromQuery] ListModels listRoundModel,
+        [FromRoute] Guid id)
     {
         try
         {
             var (list, totalPage) = await _roundService.GetRoundByEducationalLevelId(listRoundModel, id);
             if (totalPage < listRoundModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

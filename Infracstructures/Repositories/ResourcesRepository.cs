@@ -9,8 +9,8 @@ public class ResourcesRepository : GenericRepository<Resources>, IResourcesRepos
 {
     public ResourcesRepository(AppDbContext context) : base(context)
     {
-
     }
+
     public override async Task<Resources?> GetByIdAsync(Guid id)
     {
         return await DbSet

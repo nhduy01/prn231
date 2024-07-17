@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.EducationalLevel;
-using Application.SendModels.Round;
-using Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,13 +62,11 @@ public class EducationalLevelController : Controller
         {
             var (list, totalPage) = await _educationalLevelService.GetListEducationalLevel(listLevelModel);
             if (totalPage < listLevelModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -109,7 +104,7 @@ public class EducationalLevelController : Controller
         try
         {
             var result = await _educationalLevelService.GetAllEducationalLevel();
-            
+
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -164,19 +159,18 @@ public class EducationalLevelController : Controller
     #region Get EducationalLevel By ContestId
 
     [HttpGet("geteducationlevelbycontestid/{id}")]
-    public async Task<IActionResult> GetEducationalLevelByContestId([FromQuery] ListModels listLevelModel, [FromRoute] Guid id)
+    public async Task<IActionResult> GetEducationalLevelByContestId([FromQuery] ListModels listLevelModel,
+        [FromRoute] Guid id)
     {
         try
         {
             var (list, totalPage) = await _educationalLevelService.GetEducationalLevelByContestId(listLevelModel, id);
             if (totalPage < listLevelModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -261,5 +255,4 @@ public class EducationalLevelController : Controller
     }
 
     #endregion
-
 }

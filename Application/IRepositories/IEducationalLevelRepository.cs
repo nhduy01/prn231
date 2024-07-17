@@ -7,5 +7,4 @@ public interface IEducationalLevelRepository : IGenericRepository<EducationalLev
     Task<List<EducationalLevel>> GetEducationalLevelByContestId(Guid contestId);
 
     Task<List<Guid>> GetLevelIdByListContestId(List<Guid> contestIdList);
-
 }

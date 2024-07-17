@@ -1,12 +1,11 @@
 using Application.SendModels.Authentication;
-using Application.ViewModels.AccountViewModels;
 using Application.ViewModels.AuthenticationViewModels;
 
 namespace Application.IService;
 
 public interface IAuthenticationService
 {
-    public Task<LoginResponse> Login(LoginRequest accountLogin);    
+    public Task<LoginResponse> Login(LoginRequest accountLogin);
     public Task<bool> Logout(Guid id);
     public Task<RegisterResponse> CreateAccount(CreateAccountRequest account);
     public Task<string> ReGenerateJwtToken(RefreshTokenRequest refreshToken);

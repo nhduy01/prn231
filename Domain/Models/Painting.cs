@@ -7,9 +7,9 @@ public class Painting : BaseModel
     public string Image { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
-    public DateTime? SubmittedTimestamp  { get; set; }
-    public DateTime? ReviewedTimestamp  { get; set; }
-    public DateTime? FinalDecisionTimestamp  { get; set; }
+    public DateTime? SubmittedTimestamp { get; set; }
+    public DateTime? ReviewedTimestamp { get; set; }
+    public DateTime? FinalDecisionTimestamp { get; set; }
     public Guid? AwardId { get; set; }
     public Guid? RoundTopicId { get; set; }
     public Guid AccountId { get; set; }

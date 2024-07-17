@@ -1,4 +1,3 @@
-using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography;
 using Application.BaseModels;
 using Application.IService;
@@ -9,17 +8,16 @@ using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
-using Microsoft.AspNetCore.Http;
 
 namespace Application.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
     private readonly IAuthentication _authentication;
+    private readonly IClaimsService _claimsService;
     private readonly IMailService _mailService;
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IClaimsService _claimsService;
 
     public AuthenticationService(IUnitOfWork unitOfWork, IAuthentication authentication, IMapper mapper,
         IMailService mailService, IClaimsService claimsService)
@@ -47,7 +45,8 @@ public class AuthenticationService : IAuthenticationService
             {
                 response.Success = true;
                 response.Message = "Login Success";
-                response.JwtToken =_authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
+                response.JwtToken =
+                    _authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
 
@@ -82,18 +81,21 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             return response;
         }
+
         if (await _unitOfWork.AccountRepo.CheckDuplicateEmail(createAccount.Email))
         {
             response.Message = "Email is Exist !";
             response.Success = false;
             return response;
         }
+
         if (await _unitOfWork.AccountRepo.CheckDuplicatePhone(createAccount.Phone))
         {
             response.Message = "Phone is Exist !";
             response.Success = false;
             return response;
         }
+
         if (await _unitOfWork.AccountRepo.CheckDuplicateUsername(createAccount.Username))
         {
             response.Message = "UserName is Exist !";
@@ -161,6 +163,19 @@ public class AuthenticationService : IAuthenticationService
 
     #endregion
 
+    #region Verify Email
+
+    public async Task<bool?> VerifyEmail(Guid id)
+    {
+        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        if (account == null) return false;
+        account.Status = AccountStatus.Active.ToString();
+        await _unitOfWork.SaveChangesAsync();
+        return true;
+    }
+
+    #endregion
+
     #region Refresh Token
 
     public string RefreshToken()
@@ -170,22 +185,12 @@ public class AuthenticationService : IAuthenticationService
 
     #endregion
 
-    #region Verify Email
-    public async Task<bool?> VerifyEmail(Guid id)
-    {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
-        if (account == null) return false;
-        account.Status = AccountStatus.Active.ToString();
-        await _unitOfWork.SaveChangesAsync();
-        return true;
-    }
-    #endregion
-
 
     #region Generate Account Code
+
     private async Task<string> GenerateAccountCode(Role role)
     {
-        string prefix = role switch
+        var prefix = role switch
         {
             Role.Guardian => "GH",
             Role.Competitor => "TS",
@@ -195,10 +200,9 @@ public class AuthenticationService : IAuthenticationService
             _ => throw new ArgumentException("Invalid role")
         };
 
-        int number = await _unitOfWork.AccountRepo.CreateNumberOfAccountCode(prefix);
+        var number = await _unitOfWork.AccountRepo.CreateNumberOfAccountCode(prefix);
         return $"{prefix}-{number:D6}";
     }
 
-    
     #endregion
 }

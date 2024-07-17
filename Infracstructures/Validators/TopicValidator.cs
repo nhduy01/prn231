@@ -2,20 +2,18 @@
 using Application.SendModels.Topic;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class TopicValidator : ITopicValidator
 {
-    public class TopicValidator : ITopicValidator
+    public TopicValidator(IValidator<TopicRequest> sponsorvalidator,
+        IValidator<TopicUpdateRequest> sponsorupdatevalidator)
     {
-        private readonly IValidator<TopicRequest> _topicvalidator;
-        private readonly IValidator<TopicUpdateRequest> _topicupdatevalidator;
-
-        public TopicValidator(IValidator<TopicRequest> sponsorvalidator, IValidator<TopicUpdateRequest> sponsorupdatevalidator)
-        {
-            _topicvalidator = sponsorvalidator;
-            _topicupdatevalidator = sponsorupdatevalidator;
-        }
-
-        public IValidator<TopicRequest> TopicRequestValidator => _topicvalidator;
-        public IValidator<TopicUpdateRequest> TopicUpdateRequestValidator => _topicupdatevalidator;
+        TopicRequestValidator = sponsorvalidator;
+        TopicUpdateRequestValidator = sponsorupdatevalidator;
     }
+
+    public IValidator<TopicRequest> TopicRequestValidator { get; }
+
+    public IValidator<TopicUpdateRequest> TopicUpdateRequestValidator { get; }
 }

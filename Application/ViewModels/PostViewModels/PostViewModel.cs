@@ -8,7 +8,7 @@ public class PostViewModel
     public string Description { get; set; }
     public Guid? StaffId { get; set; }
     public Guid CategoryId { get; set; }
-    public String CategoryName {  get; set; }
+    public string CategoryName { get; set; }
 
     //Get Image
     public List<ImageInPostVM> Images { get; set; }

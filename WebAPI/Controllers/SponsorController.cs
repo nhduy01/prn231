@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Domain.Models;
 using Infracstructures.SendModels.Sponsor;
@@ -64,13 +63,11 @@ public class SponsorController : Controller
         {
             var (list, totalPage) = await _sponsorService.GetListSponsor(listSponsorModel);
             if (totalPage < listSponsorModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -88,7 +85,7 @@ public class SponsorController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result  = new
+                Result = new
                 {
                     List = new List<Sponsor>(),
                     TotalPage = 0
@@ -108,7 +105,7 @@ public class SponsorController : Controller
         try
         {
             var result = await _sponsorService.GetAllSponsor();
-            
+
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

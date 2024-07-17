@@ -1,9 +1,7 @@
-﻿using System.Net.WebSockets;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Round;
-using Application.ViewModels.EducationalLevelViewModels;
 using Application.ViewModels.RoundViewModels;
 using Application.ViewModels.TopicViewModels;
 using AutoMapper;
@@ -38,7 +36,7 @@ public class RoundService : IRoundService
     public async Task<bool> CreateRound(RoundRequest round)
     {
         var listNewRound = new List<Round>();
-        foreach(var id in round.listLevel)
+        foreach (var id in round.listLevel)
         {
             var newRound = _mapper.Map<Round>(round);
             newRound.Status = RoundStatus.Active.ToString();
@@ -47,6 +45,7 @@ public class RoundService : IRoundService
             newRound.UpdatedTime = _currentTime.GetCurrentTime();
             listNewRound.Add(newRound);
         }
+
         await _unitOfWork.RoundRepo.AddRangeAsync(listNewRound);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -102,10 +101,7 @@ public class RoundService : IRoundService
         var round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
         if (round == null) throw new Exception("Khong tim thay Round");
         round.Status = RoundStatus.Inactive.ToString();
-        foreach (var schedule in round.Schedule)
-        {
-            schedule.Status = ScheduleStatus.Delete.ToString();
-        }
+        foreach (var schedule in round.Schedule) schedule.Status = ScheduleStatus.Delete.ToString();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -126,6 +122,7 @@ public class RoundService : IRoundService
             .ToList();
         return (_mapper.Map<List<TopicViewModel>>(result), totalPages);
     }
+
     #endregion
 
     #region Get Round By Educational LevelId
@@ -144,5 +141,4 @@ public class RoundService : IRoundService
     }
 
     #endregion
-
 }

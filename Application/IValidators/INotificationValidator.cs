@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.SendModels.Notification;
+﻿using Application.SendModels.Notification;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface INotificationValidator
 {
-    public interface INotificationValidator
-    {
-        IValidator<NotificationRequest> NotificationRequestValidator { get; }
-    }
+    IValidator<NotificationRequest> NotificationRequestValidator { get; }
 }

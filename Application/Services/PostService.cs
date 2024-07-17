@@ -54,9 +54,11 @@ public class PostService : IPostService
             .ToList();
         return (_mapper.Map<List<ListPostViewModel>>(result), totalPages);
     }
+
     #endregion
 
     #region Get 10 Post
+
     public async Task<List<PostViewModel>> Get10Post()
     {
         var list = await _unitOfWork.PostRepo.Get10Post();
@@ -111,11 +113,13 @@ public class PostService : IPostService
         var result = _mapper.Map<List<PostViewModel>>(listPost);
 
         #region pagination
+
         var totalPages = (int)Math.Ceiling((double)result.Count / listPostModel.PageSize);
         int? itemsToSkip = (listPostModel.PageNumber - 1) * listPostModel.PageSize;
         result = result.Skip((int)itemsToSkip)
             .Take(listPostModel.PageSize)
             .ToList();
+
         #endregion
 
         return (result, totalPages);
@@ -178,6 +182,6 @@ public class PostService : IPostService
             .ToList();
         return (_mapper.Map<List<PostViewModel>>(result), totalPages);
     }
-    #endregion
 
+    #endregion
 }

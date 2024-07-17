@@ -1,11 +1,10 @@
 ﻿using Application.SendModels.RoundTopic;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface IRoundTopicValidator
 {
-    public interface IRoundTopicValidator
-    {
-        IValidator<RoundTopicRequest> RoundTopicRequestValidator { get; }
-        IValidator<RoundTopicDeleteRequest> RoundTopicDeleteRequestValidator { get; }
-    }
+    IValidator<RoundTopicRequest> RoundTopicRequestValidator { get; }
+    IValidator<RoundTopicDeleteRequest> RoundTopicDeleteRequestValidator { get; }
 }

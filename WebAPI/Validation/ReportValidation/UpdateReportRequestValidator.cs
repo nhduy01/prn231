@@ -1,11 +1,9 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.Report;
+﻿using Application.SendModels.Report;
 using FluentValidation;
 
-namespace WebAPI.Validation.ReportValidation
-{
-    public class UpdateReportRequestValidator : AbstractValidator<UpdateReportRequest>
+namespace WebAPI.Validation.ReportValidation;
 
-    {
-    }
+public class UpdateReportRequestValidator : AbstractValidator<UpdateReportRequest>
+
+{
 }

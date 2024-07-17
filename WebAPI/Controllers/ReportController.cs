@@ -1,9 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Report;
-using Application.Services;
-using Application.ViewModels.AwardViewModels;
-using Domain.Enums;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,7 +72,6 @@ public class ReportController : ControllerBase
                 Errors = ex
             });
         }
-
     }
 
     #endregion
@@ -119,13 +115,11 @@ public class ReportController : ControllerBase
         {
             var (list, totalPage) = await _reportService.GetAllReportPending(listReportModel);
             if (totalPage < listReportModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -164,13 +158,11 @@ public class ReportController : ControllerBase
         {
             var (list, totalPage) = await _reportService.GetAllReport(listReportModel);
             if (totalPage < listReportModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -203,7 +195,7 @@ public class ReportController : ControllerBase
     #region Get Report By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetReportById([FromRoute]Guid id)
+    public async Task<IActionResult> GetReportById([FromRoute] Guid id)
     {
         try
         {

@@ -2,17 +2,14 @@
 using Application.SendModels.Image;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class ImageValidator : IImageValidator
 {
-    public class ImageValidator : IImageValidator
+    public ImageValidator(IValidator<ImageRequest> levelvalidator)
     {
-        private readonly IValidator<ImageRequest> _imagevalidator;
-
-        public ImageValidator(IValidator<ImageRequest> levelvalidator)
-        {
-            _imagevalidator = levelvalidator;
-        }
-
-        public IValidator<ImageRequest> ImageRequestValidator => _imagevalidator;
+        ImageRequestValidator = levelvalidator;
     }
+
+    public IValidator<ImageRequest> ImageRequestValidator { get; }
 }

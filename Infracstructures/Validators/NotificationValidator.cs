@@ -2,17 +2,14 @@
 using Application.SendModels.Notification;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class NotificationValidator : INotificationValidator
 {
-    public class NotificationValidator : INotificationValidator
+    public NotificationValidator(IValidator<NotificationRequest> notificationvalidator)
     {
-        private readonly IValidator<NotificationRequest> _notificationvalidator;
-
-        public NotificationValidator(IValidator<NotificationRequest> notificationvalidator)
-        {
-            _notificationvalidator = notificationvalidator;
-        }
-
-        public IValidator<NotificationRequest> NotificationRequestValidator => _notificationvalidator;
+        NotificationRequestValidator = notificationvalidator;
     }
+
+    public IValidator<NotificationRequest> NotificationRequestValidator { get; }
 }

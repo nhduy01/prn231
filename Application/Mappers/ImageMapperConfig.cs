@@ -1,5 +1,4 @@
 ﻿using Application.SendModels.Image;
-using Application.SendModels.Post;
 using Application.ViewModels.PostViewModels;
 using AutoMapper;
 using Domain.Models;
@@ -12,6 +11,6 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<Image, ImageRequest>().ReverseMap();
 
-        CreateMap<Image,ImageInPostVM>().ReverseMap();
+        CreateMap<Image, ImageInPostVM>().ReverseMap();
     }
 }

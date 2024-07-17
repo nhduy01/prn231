@@ -1,18 +1,14 @@
-﻿using System.Reflection;
-using Application.IRepositories;
+﻿using Application.IRepositories;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.IValidators;
 using Application.Mappers;
-using Application.SendModels.Topic;
 using Application.Services;
 using Application.Services.CommonService;
-using FluentValidation;
 using Infracstructures;
 using Infracstructures.Repositories;
 using Infracstructures.Validators;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,7 +46,7 @@ public static class DependencyInjection
         // EducationalLevel
         services.AddTransient<IEducationalLevelRepository, EducationalLevelRepository>();
         services.AddTransient<IEducationalLevelService, EducationalLevelService>();
-        
+
 
         // Image
         services.AddTransient<IImageRepository, ImageRepository>();

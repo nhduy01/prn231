@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Collection;
-using Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,7 +73,6 @@ public class CollectionController : Controller
                 Errors = ex
             });
         }
-
     }
 
     #endregion
@@ -113,7 +110,7 @@ public class CollectionController : Controller
     #region Get Collection By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCollectionById([FromRoute]Guid id)
+    public async Task<IActionResult> GetCollectionById([FromRoute] Guid id)
     {
         try
         {
@@ -142,19 +139,18 @@ public class CollectionController : Controller
     #region Get Painting By Collection
 
     [HttpGet("Painting/{id}")]
-    public async Task<IActionResult> GetPaintingByCollection([FromRoute]Guid collectionId, [FromQuery] ListModels listPaintingmodel)
+    public async Task<IActionResult> GetPaintingByCollection([FromRoute] Guid collectionId,
+        [FromQuery] ListModels listPaintingmodel)
     {
         try
         {
             var (list, totalPage) = await _collectionService.GetPaintingByCollection(listPaintingmodel, collectionId);
             if (totalPage < listPaintingmodel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -193,13 +189,11 @@ public class CollectionController : Controller
         {
             var (list, totalPage) = await _collectionService.GetAllCollection(listPaintingmodel);
             if (totalPage < listPaintingmodel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -232,19 +226,18 @@ public class CollectionController : Controller
     #region Get Collection By AccountId
 
     [HttpGet("getcollectionbyaccountid/{id}")]
-    public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid accountId, [FromQuery] ListModels listPaintingmodel)
+    public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid accountId,
+        [FromQuery] ListModels listPaintingmodel)
     {
         try
         {
             var (list, totalPage) = await _collectionService.GetCollectionByAccountId(listPaintingmodel, accountId);
             if (totalPage < listPaintingmodel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -274,7 +267,7 @@ public class CollectionController : Controller
 
     #endregion
 
-    #region Get 6 Collection tạo bởi Staff (gần nhất) 
+    #region Get 6 Collection tạo bởi Staff (gần nhất)
 
     [HttpGet("get6staffcollection")]
     public async Task<IActionResult> Get6CollectionCreatedByStaff()
@@ -282,7 +275,7 @@ public class CollectionController : Controller
         try
         {
             var result = await _collectionService.Get6StaffCollection();
-            
+
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -303,5 +296,4 @@ public class CollectionController : Controller
     }
 
     #endregion
-
 }

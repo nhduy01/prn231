@@ -1,8 +1,5 @@
 ﻿using Application.SendModels.EducationalLevel;
-using Application.SendModels.Round;
 using Application.ViewModels.ContestViewModels;
-using Application.ViewModels.EducationalLevelViewModels;
-using Application.ViewModels.RoundViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -21,10 +18,7 @@ public partial class MapperConfigs : Profile
                 opt.Condition((src, dest, srcMember) => srcMember != null); // Kiểm tra srcMember không null
                 opt.Condition((src, dest, srcMember, destMember) => // Kiểm tra nếu là Guid thì không Empty
                 {
-                    if (srcMember is Guid guidValue)
-                    {
-                        return guidValue != Guid.Empty;
-                    }
+                    if (srcMember is Guid guidValue) return guidValue != Guid.Empty;
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
@@ -32,6 +26,5 @@ public partial class MapperConfigs : Profile
         CreateMap<EducationalLevel, EducationalLevelInContest>()
             .ForMember(x => x.Award, x => x.MapFrom(x => x.Award))
             .ForMember(x => x.Round, x => x.MapFrom(x => x.Round));
-
     }
 }

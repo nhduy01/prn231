@@ -28,8 +28,8 @@ public class NotificationService : INotificationService
         newNotification.Status = NotificationStatus.Active.ToString();
         newNotification.IsReaded = false;
         await _unitOfWork.NotificationRepo.AddAsync(newNotification);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -66,8 +66,7 @@ public class NotificationService : INotificationService
         if (notification == null) throw new Exception("Khong tim thay Notification");
         notification.IsReaded = true;
 
-        return await _unitOfWork.SaveChangesAsync()>0;
-
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

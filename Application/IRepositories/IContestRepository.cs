@@ -1,5 +1,4 @@
-﻿using Application.ViewModels.ContestViewModels;
-using Domain.Models;
+﻿using Domain.Models;
 
 namespace Application.IRepositories;
 
@@ -12,4 +11,6 @@ public interface IContestRepository : IGenericRepository<Contest>
     Task<Contest?> GetNearestContestInformationAsync();
 
     Task<List<Guid>> Get3NearestContestId();
+
+    Task<Contest?> GetContestByIdForRoundTopic(Guid id);
 }

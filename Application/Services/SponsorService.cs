@@ -28,8 +28,8 @@ public class SponsorService : ISponsorService
         var newSponsor = _mapper.Map<Sponsor>(sponsor);
         newSponsor.Status = SponsorStatus.Active.ToString();
         await _unitOfWork.SponsorRepo.AddAsync(newSponsor);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -57,7 +57,7 @@ public class SponsorService : ISponsorService
     {
         var result = await _unitOfWork.SponsorRepo.GetAllAsync();
         if (result.Count == 0) throw new Exception("Khong tim thay Sponsor nao");
-        
+
         return _mapper.Map<List<SponsorViewModel>>(result);
     }
 
@@ -82,8 +82,7 @@ public class SponsorService : ISponsorService
         if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
 
         _mapper.Map(updateSponsor, sponsor);
-        return await _unitOfWork.SaveChangesAsync()>0;
-
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -96,8 +95,7 @@ public class SponsorService : ISponsorService
         if (sponsor == null) throw new Exception("Khong tim thay Sponsor");
 
         sponsor.Status = SponsorStatus.Inactive.ToString();
-        return await _unitOfWork.SaveChangesAsync()>0;
-
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using Infracstructures.SendModels.Sponsor;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface ISponsorValidator
 {
-    public interface ISponsorValidator
-    {
-        IValidator<SponsorRequest> SponsorRequestValidator { get; }
-        IValidator<SponsorUpdateRequest> SponsorUpdateRequestValidator { get; }
-    }
+    IValidator<SponsorRequest> SponsorRequestValidator { get; }
+    IValidator<SponsorUpdateRequest> SponsorUpdateRequestValidator { get; }
 }

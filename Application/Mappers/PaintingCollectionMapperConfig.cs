@@ -12,6 +12,6 @@ public partial class MapperConfigs : Profile
         CreateMap<PaintingCollection, PaintingCollectionRequest>().ReverseMap();
 
         CreateMap<PaintingCollection, PaintingCollectionInCollectionViewModel>()
-           .ForMember(dest => dest.Painting, opt => opt.MapFrom(src => src.Painting));
+            .ForMember(dest => dest.Painting, opt => opt.MapFrom(src => src.Painting));
     }
 }

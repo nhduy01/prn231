@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.Contest;
+﻿using Application.SendModels.Contest;
 using FluentValidation;
 
-namespace WebAPI.Validation.ContestValidation
+namespace WebAPI.Validation.ContestValidation;
+
+public class UpdateContestValidator : AbstractValidator<UpdateContest>
 {
-    public class UpdateContestValidator : AbstractValidator<UpdateContest>
-    {
-    }
 }

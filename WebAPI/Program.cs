@@ -1,7 +1,4 @@
-using System.Configuration;
 using Application;
-using Infracstructures;
-using Microsoft.EntityFrameworkCore;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);

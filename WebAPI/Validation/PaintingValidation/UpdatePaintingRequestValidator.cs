@@ -1,9 +1,8 @@
 ﻿using Application.SendModels.Painting;
 using FluentValidation;
 
-namespace WebAPI.Validation.PaintingValidation
+namespace WebAPI.Validation.PaintingValidation;
+
+public class UpdatePaintingRequestValidator : AbstractValidator<UpdatePaintingRequest>
 {
-    public class UpdatePaintingRequestValidator : AbstractValidator<UpdatePaintingRequest>
-    {
-    }
 }

@@ -16,8 +16,8 @@ public class ScheduleController : Controller
     {
         _scheduleService = scheduleService;
     }
-    
-    
+
+
     #region Create Schedule For Preliminary Round
 
     [HttpPost("preliminary")]
@@ -34,13 +34,11 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.CreateScheduleForPreliminaryRound(Schedule);
             if (result == false)
-            {
                 return BadRequest(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
+                    Message = "There is a certain painting that has an inappropriate status"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -61,7 +59,7 @@ public class ScheduleController : Controller
     }
 
     #endregion
-    
+
     #region Create Schedule For Preliminary Round
 
     [HttpPost("final")]
@@ -78,13 +76,11 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.CreateScheduleForFinalRound(Schedule);
             if (result == false)
-            {
                 return Ok(new BaseFailedResponseModel
                 {
                     Status = Ok().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
+                    Message = "There is a certain painting that has an inappropriate status"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -115,13 +111,11 @@ public class ScheduleController : Controller
         {
             var (list, totalPage) = await _scheduleService.GetListSchedule(listScheduleModel);
             if (totalPage < listScheduleModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -238,204 +232,6 @@ public class ScheduleController : Controller
 
     #endregion
 
-    #region Rating
-
-    [HttpPost("RatingPreliminaryRound")]
-    public async Task<IActionResult> RatingPreliminaryRound(RatingRequest rating)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
-            var result = await _scheduleService.RatingPreliminaryRound(rating);
-            if (result == false)
-            {
-                return BadRequest(new BaseFailedResponseModel
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Rating Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new BaseFailedResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = ex.Message,
-                Result = false,
-                Errors = ex
-            });
-        }
-    }
-    
-    [HttpPost("RatingFirstPrize")]
-    public async Task<IActionResult> RatingFirstPrize(RatingRequest rating)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
-            var result = await _scheduleService.RatingFirstPrize(rating);
-            if (result == false)
-            {
-                return Ok(new BaseFailedResponseModel
-                {
-                    Status = Ok().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Rating Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new BaseFailedResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = ex.Message,
-                Result = false,
-                Errors = ex
-            });
-        }
-    }
-    
-    [HttpPost("RatingSecondPrize")]
-    public async Task<IActionResult> RatingSecondPrize(RatingRequest rating)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
-            var result = await _scheduleService.RatingSecondPrize(rating);
-            if (result == false)
-            {
-                return Ok(new BaseFailedResponseModel
-                {
-                    Status = Ok().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Rating Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new BaseFailedResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = ex.Message,
-                Result = false,
-                Errors = ex
-            });
-        }
-    }
-    
-    [HttpPost("RatingThirdPrize")]
-    public async Task<IActionResult> RatingThirdPrize(RatingRequest rating)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
-            var result = await _scheduleService.RatingThirdPrize(rating);
-            if (result == false)
-            {
-                return Ok(new BaseFailedResponseModel
-                {
-                    Status = Ok().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Rating Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new BaseFailedResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = ex.Message,
-                Result = false,
-                Errors = ex
-            });
-        }
-    }
-    
-    [HttpPost("RatingConsolationPrize")]
-    public async Task<IActionResult> RatingConsolationPrize(RatingRequest rating)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                var errorMessages = string.Join("; ",
-                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return Ok(new { Success = false, Message = "Invalid input data. " + errorMessages });
-            }
-            var result = await _scheduleService.RatingConsolationPrize(rating);
-            if (result == false)
-            {
-                return Ok(new BaseFailedResponseModel
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "There is a certain painting that has an inappropriate status",
-                });
-            }
-            return Ok(new BaseResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = "Rating Success",
-                Result = result
-            });
-        }
-        catch (Exception ex)
-        {
-            return Ok(new BaseFailedResponseModel
-            {
-                Status = Ok().StatusCode,
-                Message = ex.Message,
-                Result = false,
-                Errors = ex
-            });
-        }
-    }
-    #endregion
-
     #region Get Schedule for examiner by examiner Id
 
     [HttpGet("/examiner/{id}")]
@@ -459,6 +255,200 @@ public class ScheduleController : Controller
                 Status = Ok().StatusCode,
                 Message = ex.Message,
                 Result = null,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+
+    #region Rating
+
+    [HttpPost("RatingPreliminaryRound")]
+    public async Task<IActionResult> RatingPreliminaryRound(RatingRequest rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+
+            var result = await _scheduleService.RatingPreliminaryRound(rating);
+            if (result == false)
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status"
+                });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
+                Errors = ex
+            });
+        }
+    }
+
+    [HttpPost("RatingFirstPrize")]
+    public async Task<IActionResult> RatingFirstPrize(RatingRequest rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+
+            var result = await _scheduleService.RatingFirstPrize(rating);
+            if (result == false)
+                return Ok(new BaseFailedResponseModel
+                {
+                    Status = Ok().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status"
+                });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
+                Errors = ex
+            });
+        }
+    }
+
+    [HttpPost("RatingSecondPrize")]
+    public async Task<IActionResult> RatingSecondPrize(RatingRequest rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+
+            var result = await _scheduleService.RatingSecondPrize(rating);
+            if (result == false)
+                return Ok(new BaseFailedResponseModel
+                {
+                    Status = Ok().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status"
+                });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
+                Errors = ex
+            });
+        }
+    }
+
+    [HttpPost("RatingThirdPrize")]
+    public async Task<IActionResult> RatingThirdPrize(RatingRequest rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+
+            var result = await _scheduleService.RatingThirdPrize(rating);
+            if (result == false)
+                return Ok(new BaseFailedResponseModel
+                {
+                    Status = Ok().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status"
+                });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
+                Errors = ex
+            });
+        }
+    }
+
+    [HttpPost("RatingConsolationPrize")]
+    public async Task<IActionResult> RatingConsolationPrize(RatingRequest rating)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = string.Join("; ",
+                    ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return Ok(new { Success = false, Message = "Invalid input data. " + errorMessages });
+            }
+
+            var result = await _scheduleService.RatingConsolationPrize(rating);
+            if (result == false)
+                return Ok(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "There is a certain painting that has an inappropriate status"
+                });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Rating Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = false,
                 Errors = ex
             });
         }

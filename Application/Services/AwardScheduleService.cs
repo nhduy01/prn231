@@ -7,8 +7,8 @@ namespace Application.Services;
 
 public class AwardScheduleService : IAwardScheduleService
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AwardScheduleService(IMapper mapper, IUnitOfWork unitOfWork)
     {

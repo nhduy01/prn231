@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Topic;
 using Domain.Models;
@@ -38,6 +37,7 @@ public class TopicController : Controller
                 };
                 return BadRequest(response);
             }
+
             var result = await _topicService.CreateTopic(topicRequest);
             return Ok(new BaseResponseModel
             {
@@ -69,13 +69,11 @@ public class TopicController : Controller
         {
             var (list, totalPage) = await _topicService.GetListTopic(listTopicModel);
             if (totalPage < listTopicModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -126,7 +124,7 @@ public class TopicController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result  = new List<Topic>(),
+                Result = new List<Topic>(),
                 Errors = ex
             });
         }

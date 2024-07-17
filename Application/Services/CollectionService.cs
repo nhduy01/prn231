@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.Collection;
-using Application.ViewModels.CategoryViewModels;
 using Application.ViewModels.CollectionViewModels;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
@@ -42,7 +39,6 @@ public class CollectionService : ICollectionService
         await _unitOfWork.CollectionRepo.AddAsync(collection);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
-
     }
 
     #endregion
@@ -67,7 +63,8 @@ public class CollectionService : ICollectionService
     public async Task<bool> UpdateCollection(UpdateCollectionRequest updateCollection)
     {
         var collection = await _unitOfWork.CollectionRepo.GetByIdAsync(updateCollection.Id);
-        if (collection == null) throw new Exception("Khong tim thay Collection"); ;
+        if (collection == null) throw new Exception("Khong tim thay Collection");
+        ;
 
         /*collection.Name = updateCollection.Name;
         collection.Description = updateCollection.Description;
@@ -75,7 +72,6 @@ public class CollectionService : ICollectionService
         collection = _mapper.Map<Collection>(updateCollection);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
-
     }
 
     #endregion
@@ -92,7 +88,9 @@ public class CollectionService : ICollectionService
     #endregion
 
     #region Get Painting By Collection
-    public async Task<(List<PaintingViewModel>, int)> GetPaintingByCollection(ListModels listPaintingModel, Guid collectionId)
+
+    public async Task<(List<PaintingViewModel>, int)> GetPaintingByCollection(ListModels listPaintingModel,
+        Guid collectionId)
     {
         var listPainting = await _unitOfWork.CollectionRepo.GetPaintingByCollectionAsync(collectionId);
         if (listPainting.Count == 0) throw new Exception("Khong co Painting nao trong Collection");
@@ -106,9 +104,11 @@ public class CollectionService : ICollectionService
             .ToList();
         return (result, totalPages);
     }
+
     #endregion
 
     #region Get All Collection
+
     public async Task<(List<CollectionViewModel>, int)> GetAllCollection(ListModels listCollectionModel)
     {
         var listCollection = await _unitOfWork.CollectionRepo.GetAllAsync();
@@ -122,10 +122,13 @@ public class CollectionService : ICollectionService
             .ToList();
         return (result, totalPages);
     }
+
     #endregion
 
     #region Get Collection By AccountId
-    public async Task<(List<CollectionViewModel>, int)> GetCollectionByAccountId(ListModels listCollectionModel, Guid accountId)
+
+    public async Task<(List<CollectionViewModel>, int)> GetCollectionByAccountId(ListModels listCollectionModel,
+        Guid accountId)
     {
         var listCollection = await _unitOfWork.CollectionRepo.GetCollectionByAccountIdAsync(accountId);
         if (listCollection.Count == 0) throw new Exception("Khong co Collection nao");
@@ -138,9 +141,11 @@ public class CollectionService : ICollectionService
             .ToList();
         return (result, totalPages);
     }
+
     #endregion
 
     #region Get 6 Staff Collection
+
     public async Task<List<CollectionPaintingViewModel>> Get6StaffCollection()
     {
         var listCollection = await _unitOfWork.CollectionRepo.GetCollectionsWithStaffAccountsAsync();
@@ -149,5 +154,6 @@ public class CollectionService : ICollectionService
 
         return result;
     }
+
     #endregion
 }

@@ -2,20 +2,17 @@
 using Application.SendModels.Post;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class PostValidator : IPostValidator
 {
-    public class PostValidator : IPostValidator
+    public PostValidator(IValidator<PostRequest> postvalidator, IValidator<PostUpdateRequest> updatepostvalidator)
     {
-        private readonly IValidator<PostRequest> _postvalidator;
-        private readonly IValidator<PostUpdateRequest> _updatepostvalidator;
-
-        public PostValidator(IValidator<PostRequest> postvalidator, IValidator<PostUpdateRequest> updatepostvalidator)
-        {
-            _postvalidator = postvalidator;
-            _updatepostvalidator = updatepostvalidator;
-        }
-
-        public IValidator<PostRequest> PostRequestValidator => _postvalidator;
-        public IValidator<PostUpdateRequest> UpdatePostValidator => _updatepostvalidator;
+        PostRequestValidator = postvalidator;
+        UpdatePostValidator = updatepostvalidator;
     }
+
+    public IValidator<PostRequest> PostRequestValidator { get; }
+
+    public IValidator<PostUpdateRequest> UpdatePostValidator { get; }
 }
