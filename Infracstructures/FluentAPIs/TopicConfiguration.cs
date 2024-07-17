@@ -35,7 +35,5 @@ public class TopicConfiguration : IEntityTypeConfiguration<Topic>
 
         //Description
         builder.Property(u => u.Description);
-
-
     }
 }

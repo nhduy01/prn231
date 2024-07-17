@@ -1,9 +1,6 @@
-﻿using System.Configuration;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Application.IService.ICommonService;
-using Application.SendModels.Round;
-using Application.SendModels.Topic;
 using Application.Services.CommonService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -36,9 +33,9 @@ namespace WebAPI;
 
 public static class DependencyInjection
 {
-    public static void AddWebAPIService(this IServiceCollection services, WebApplicationBuilder builder,  IConfiguration config)
+    public static void AddWebAPIService(this IServiceCollection services, WebApplicationBuilder builder,
+        IConfiguration config)
     {
-
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));
         services.AddControllers().AddJsonOptions(opt =>
         {
@@ -49,7 +46,7 @@ public static class DependencyInjection
         {
             o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         });
-       
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -87,8 +84,8 @@ public static class DependencyInjection
                 policy =>
                 {
                     policy.AllowAnyOrigin()
-                   .AllowAnyHeader()
-                   .AllowAnyMethod();
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
         });
 
@@ -120,9 +117,8 @@ public static class DependencyInjection
                 }
             });
         });
-
-        
     }
+
     public static IServiceCollection AddModelValidator(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<TopicRequestValidator>();

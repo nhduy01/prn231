@@ -1,6 +1,4 @@
-﻿using Domain.Models;
-
-namespace Application.ViewModels.CollectionViewModels;
+﻿namespace Application.ViewModels.CollectionViewModels;
 
 public class CollectionPaintingViewModel
 {
@@ -15,7 +13,9 @@ public class CollectionPaintingViewModel
     public AccountInPainting Account { get; set; }
     public List<PaintingCollectionInCollectionViewModel> PaintingCollection { get; set; }
 }
-public class PaintingCollectionInCollectionViewModel {
+
+public class PaintingCollectionInCollectionViewModel
+{
     public PaintingInCollectionViewModel Painting { get; set; }
 }
 

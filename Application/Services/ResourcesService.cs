@@ -28,8 +28,8 @@ public class ResourcesService : IResourcesService
         var newResources = _mapper.Map<Resources>(Resources);
         newResources.Status = ResourcesStatus.Active.ToString();
         await _unitOfWork.ResourcesRepo.AddAsync(newResources);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -69,8 +69,8 @@ public class ResourcesService : IResourcesService
         var Resources = await _unitOfWork.ResourcesRepo.GetByIdAsync(updateResources.Id);
         if (Resources == null) throw new Exception("Khong tim thay Resource");
         _mapper.Map(updateResources, Resources);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -83,7 +83,7 @@ public class ResourcesService : IResourcesService
         if (Resources == null) throw new Exception("Khong tim thay Resource");
         Resources.Status = ResourcesStatus.Inactive.ToString();
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

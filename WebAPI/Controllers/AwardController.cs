@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Award;
-using Application.ViewModels.AwardViewModels;
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -30,13 +28,11 @@ public class AwardController : Controller
         try
         {
             if (!Enum.IsDefined(typeof(RankAward), award.Rank))
-            {
                 return BadRequest(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Rank is not Exist!"
                 });
-            }
             var result = await _awardService.AddAward(award);
             return Ok(new BaseResponseModel
             {
@@ -128,13 +124,11 @@ public class AwardController : Controller
         {
             var (list, totalPage) = await _awardService.GetListAward(listAwardModel);
             if (totalPage < listAwardModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -155,7 +149,7 @@ public class AwardController : Controller
                 Result = new
                 {
                     List = new List<Award>(),
-                    TotalPage = 0,
+                    TotalPage = 0
                 },
                 Errors = ex
             });

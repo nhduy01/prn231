@@ -10,5 +10,4 @@ public class PostRequest
     public Guid CategoryId { get; set; }
     public List<ImageRequest>? Images { get; set; }
     public Guid CurrentUserId { get; set; }
-
 }

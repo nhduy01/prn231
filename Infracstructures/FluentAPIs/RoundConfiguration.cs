@@ -50,6 +50,5 @@ internal class RoundConfiguration : IEntityTypeConfiguration<Round>
 
         builder.HasMany(u => u.Schedule).WithOne(u => u.Round).HasForeignKey(u => u.RoundId)
             .OnDelete(DeleteBehavior.ClientSetNull);
-
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Image;
 using AutoMapper;
-using Domain.Enums;
 using Domain.Models;
 using Infracstructures;
 using Infracstructures.ViewModels.ImageViewModels;
@@ -28,8 +26,8 @@ public class ImageService : IImageService
     {
         var newImage = _mapper.Map<Image>(Image);
         await _unitOfWork.ImageRepo.AddAsync(newImage);
-        
-        return await _unitOfWork.SaveChangesAsync()>0;
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

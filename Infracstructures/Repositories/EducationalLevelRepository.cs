@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Application.IRepositories;
+﻿using Application.IRepositories;
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,6 @@ namespace Infracstructures.Repositories;
 
 public class EducationalLevelRepository : GenericRepository<EducationalLevel>, IEducationalLevelRepository
 {
-
     public EducationalLevelRepository(AppDbContext context) : base(context)
     {
     }
@@ -17,16 +15,19 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     {
         return await DbSet.Where(x => x.Status == EducationalLevelStatus.Active.ToString()).ToListAsync();
     }
+
     public override async Task<EducationalLevel?> GetByIdAsync(Guid id)
     {
-        return await DbSet.Include(x=>x.Round)
-            .ThenInclude(x=>x.Schedule)
-            .Include(x=>x.Award)
+        return await DbSet.Include(x => x.Round)
+            .ThenInclude(x => x.Schedule)
+            .Include(x => x.Award)
             .FirstOrDefaultAsync(x => x.Id == id && x.Status != EducationalLevelStatus.Inactive.ToString());
     }
+
     public async Task<List<EducationalLevel>> GetEducationalLevelByContestId(Guid contestId)
     {
-        return await DbSet.Where(x =>x.ContestId == contestId && x.Status == EducationalLevelStatus.Active.ToString()).ToListAsync();
+        return await DbSet.Where(x => x.ContestId == contestId && x.Status == EducationalLevelStatus.Active.ToString())
+            .ToListAsync();
     }
 
     /*public async Task<List<EducationalLevel>> GetListEducationalLevel(Guid contestId)
@@ -37,8 +38,7 @@ public class EducationalLevelRepository : GenericRepository<EducationalLevel>, I
     {
         return await DbSet
             .Where(x => contestIdList.Contains((Guid)x.ContestId))
-            .Select(x=> x.Id)
+            .Select(x => x.Id)
             .ToListAsync();
     }
-
 }

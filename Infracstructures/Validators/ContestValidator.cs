@@ -2,20 +2,18 @@
 using Application.SendModels.Contest;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class ContestValidator : IContestValidator
 {
-    public class ContestValidator : IContestValidator
+    public ContestValidator(IValidator<ContestRequest> contestvalidator,
+        IValidator<UpdateContest> updatecontestvalidator)
     {
-        private readonly IValidator<ContestRequest> _contestvalidator;
-        private readonly IValidator<UpdateContest> _updatecontestvalidator;
-
-        public ContestValidator(IValidator<ContestRequest> contestvalidator, IValidator<UpdateContest> updatecontestvalidator)
-        {
-            _contestvalidator = contestvalidator;
-            _updatecontestvalidator = updatecontestvalidator;
-        }
-
-        public IValidator<ContestRequest> ContestRequestValidator => _contestvalidator;
-        public IValidator<UpdateContest> UpdateContestValidator => _updatecontestvalidator;
+        ContestRequestValidator = contestvalidator;
+        UpdateContestValidator = updatecontestvalidator;
     }
+
+    public IValidator<ContestRequest> ContestRequestValidator { get; }
+
+    public IValidator<UpdateContest> UpdateContestValidator { get; }
 }

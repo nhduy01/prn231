@@ -8,8 +8,7 @@ public class AwardScheduleModels
     public int Quantity { get; set; }
     public Guid? AwardId { get; set; }
     public Guid? ScheduleId { get; set; }
-    public String? Rank { get; set; }
-    public String? Status { get; set; } 
+    public string? Rank { get; set; }
+    public string? Status { get; set; }
     public List<PaintingViewModel> PaintingViewModelsList { get; set; }
-
 }

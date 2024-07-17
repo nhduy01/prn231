@@ -2,20 +2,18 @@
 using Application.SendModels.Category;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class CategoryValidator : ICategoryValidator
 {
-    public class CategoryValidator : ICategoryValidator
+    public CategoryValidator(IValidator<CategoryRequest> categoryvalidator,
+        IValidator<UpdateCategoryRequest> updatecategoryvalidator)
     {
-        private readonly IValidator<CategoryRequest> _categoryvalidator;
-        private readonly IValidator<UpdateCategoryRequest> _updatecategoryvalidator;
-
-        public CategoryValidator(IValidator<CategoryRequest> categoryvalidator, IValidator<UpdateCategoryRequest> updatecategoryvalidator)
-        {
-            _categoryvalidator = categoryvalidator;
-            _updatecategoryvalidator = updatecategoryvalidator;
-        }
-
-        public IValidator<CategoryRequest> CategoryRequestValidator => _categoryvalidator;
-        public IValidator<UpdateCategoryRequest> UpdateCategoryRequestValidator => _updatecategoryvalidator;
+        CategoryRequestValidator = categoryvalidator;
+        UpdateCategoryRequestValidator = updatecategoryvalidator;
     }
+
+    public IValidator<CategoryRequest> CategoryRequestValidator { get; }
+
+    public IValidator<UpdateCategoryRequest> UpdateCategoryRequestValidator { get; }
 }

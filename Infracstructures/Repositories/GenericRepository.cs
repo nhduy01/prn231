@@ -1,6 +1,5 @@
 ﻿using Application.Common;
 using Application.IRepositories;
-using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -107,10 +106,12 @@ public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel
         var values = DbSet.Entry(model).CurrentValues.Clone().ToObject() as TModel;
         return values;
     }
+
     public virtual async Task DeleteAsync(TModel model)
     {
         DbSet.Remove(model);
     }
+
     public async Task<bool> IsExistIdAsync(Guid id)
     {
         return await DbSet.FindAsync(id) != null;

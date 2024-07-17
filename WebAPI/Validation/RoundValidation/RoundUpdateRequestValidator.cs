@@ -1,9 +1,8 @@
 ﻿using Application.SendModels.Round;
 using FluentValidation;
 
-namespace WebAPI.Validation.RoundValidation
+namespace WebAPI.Validation.RoundValidation;
+
+public class RoundUpdateRequestValidator : AbstractValidator<RoundUpdateRequest>
 {
-    public class RoundUpdateRequestValidator : AbstractValidator<RoundUpdateRequest>
-    {
-    }
 }

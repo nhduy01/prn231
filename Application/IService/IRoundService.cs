@@ -2,7 +2,6 @@
 using Application.SendModels.Round;
 using Application.ViewModels.RoundViewModels;
 using Application.ViewModels.TopicViewModels;
-using Domain.Models;
 
 namespace Application.IService;
 

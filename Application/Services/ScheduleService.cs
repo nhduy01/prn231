@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Painting;
 using Application.SendModels.Schedule;
@@ -23,6 +22,50 @@ public class ScheduleService : IScheduleService
         _mapper = mapper;
     }
 
+    #region Get All
+
+    public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)
+    {
+        var list = await _unitOfWork.ScheduleRepo.GetAllAsync();
+        if (list.Count == 0) throw new Exception("Khong tim thay Schedule nao");
+        //page division
+        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
+        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
+        var result = list.Skip((int)itemsToSkip)
+            .Take(listModels.PageSize)
+            .ToList();
+        return (_mapper.Map<List<ScheduleRatingViewModel>>(result), totalPages);
+    }
+
+    #endregion
+
+    #region Update
+
+    public async Task<bool> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
+    {
+        var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
+        if (schedule == null) throw new Exception("Khong tim thay Schedule");
+        _mapper.Map(updateSchedule, schedule);
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
+    }
+
+    #endregion
+
+    #region Delete
+
+    public async Task<bool> DeleteSchedule(Guid id)
+    {
+        var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
+        if (Schedule == null) throw new Exception("Khong tim thay Schedule");
+        Schedule.Status = ScheduleStatus.Delete.ToString();
+
+
+        return await _unitOfWork.SaveChangesAsync() > 0;
+    }
+
+    #endregion
+
     #region Create
 
     public async Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest schedule)
@@ -33,18 +76,15 @@ public class ScheduleService : IScheduleService
         var award = _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId).Result?.EducationalLevel.Award
             .FirstOrDefault(a => a.Rank == RankAward.Preliminary.ToString());
 
-        if (award == null)
-        {
-            throw new Exception("Award not found.");
-        }
+        if (award == null) throw new Exception("Award not found.");
 
-        int quantityAward = award.Quantity;
+        var quantityAward = award.Quantity;
 
-        List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
+        var result = SplitList(listPainting, schedule.ListExaminer.Count);
 
         //Create Schedule by number of Examiner
 
-        for (int i = 0; i < schedule.ListExaminer.Count; i++)
+        for (var i = 0; i < schedule.ListExaminer.Count; i++)
         {
             var newSchedule = new Schedule();
             newSchedule.Id = Guid.NewGuid();
@@ -88,17 +128,14 @@ public class ScheduleService : IScheduleService
         {
             //Get Paintings Of Preliminary round
             var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForFinalRound(schedule.RoundId);
-            List<List<Painting>> result = SplitList(listPainting, schedule.ListExaminer.Count);
+            var result = SplitList(listPainting, schedule.ListExaminer.Count);
 
 
             //Get all award of educationLevel
             var award = _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId).Result?.EducationalLevel.Award
                 .Where(a => a.Rank != RankAward.Preliminary.ToString())
                 .OrderBy(a => (RankAward)Enum.Parse(typeof(RankAward), a.Rank)).ToList();
-            if (award == null)
-            {
-                throw new Exception("Award not found.");
-            }
+            if (award == null) throw new Exception("Award not found.");
 
             var listQuantity = award.OrderBy(a => (RankAward)Enum.Parse(typeof(RankAward), a.Rank))
                 .Select(a => a.Quantity).ToList();
@@ -106,7 +143,7 @@ public class ScheduleService : IScheduleService
             //Create Schedule 
 
             var listSchedule = new List<Schedule>();
-            for (int i = 0; i < schedule.ListExaminer.Count; i++)
+            for (var i = 0; i < schedule.ListExaminer.Count; i++)
             {
                 var newSchedule = new Schedule();
                 newSchedule.Id = Guid.NewGuid();
@@ -117,12 +154,9 @@ public class ScheduleService : IScheduleService
 
                 //Create AwardSchedule
                 var listAwardSchedule = new List<AwardSchedule>();
-                for (int j = 0; j < award.Count; j++)
+                for (var j = 0; j < award.Count; j++)
                 {
-                    if (listQuantity[j] == 0)
-                    {
-                        continue;
-                    }
+                    if (listQuantity[j] == 0) continue;
 
                     var newAwardSchedule = new AwardSchedule();
                     //In this case, the quantity of award just have 1
@@ -178,35 +212,16 @@ public class ScheduleService : IScheduleService
     public List<List<Painting>> SplitList(List<Painting> list, int n)
     {
         var result = new List<List<Painting>>();
-        int chunkSize = (int)Math.Ceiling(list.Count / (double)n);
+        var chunkSize = (int)Math.Ceiling(list.Count / (double)n);
 
-        for (int i = 0; i < n; i++)
+        for (var i = 0; i < n; i++)
         {
             var chunk = list.Skip(i * chunkSize).Take(chunkSize).ToList();
             if (chunk.Any()) // Nếu chunk có phần tử thì mới thêm vào result
-            {
                 result.Add(chunk);
-            }
         }
 
         return result;
-    }
-
-    #endregion
-
-    #region Get All
-
-    public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)
-    {
-        var list = await _unitOfWork.ScheduleRepo.GetAllAsync();
-        if (list.Count == 0) throw new Exception("Khong tim thay Schedule nao");
-        //page division
-        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
-        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        var result = list.Skip((int)itemsToSkip)
-            .Take(listModels.PageSize)
-            .ToList();
-        return (_mapper.Map<List<ScheduleRatingViewModel>>(result), totalPages);
     }
 
     #endregion
@@ -234,15 +249,10 @@ public class ScheduleService : IScheduleService
     public async Task<bool> RatingPreliminaryRound(RatingRequest ratingPainting)
     {
         var schedules = await _unitOfWork.ScheduleRepo.GetByIdAsync(ratingPainting.ScheduleId);
-        if (schedules.Painting.Any(p => p.Status != PaintingStatus.Accepted.ToString()))
-        {
-            return false;
-        }
+        if (schedules.Painting.Any(p => p.Status != PaintingStatus.Accepted.ToString())) return false;
 
         if (ratingPainting.Paintings.Except(schedules.Painting.Select(p => p.Id)).ToList().Any())
-        {
             throw new Exception("Have ID not Exist In schedule");
-        }
         var listPass = schedules.Painting.Where(p => ratingPainting.Paintings.Contains(p.Id)).ToList();
         var listNotPass = schedules.Painting.Where(p => !ratingPainting.Paintings.Contains(p.Id)).ToList();
 
@@ -252,10 +262,8 @@ public class ScheduleService : IScheduleService
         schedules.AwardSchedule.First().Status = AwardScheduleStatus.Done.ToString();
         schedules.Status = ScheduleStatus.Done.ToString();
         if (listPass.Count != schedules.AwardSchedule.First().Quantity)
-        {
             throw new Exception("The Quantity of paiting is wrong");
-        }
-        
+
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -267,10 +275,7 @@ public class ScheduleService : IScheduleService
         //Get schedule with list painting 
         var schedules = await _unitOfWork.ScheduleRepo.GetByIdAsync(ratingPainting.ScheduleId);
 
-        if (schedules.Status == ScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This schedules has Done");
-        }
+        if (schedules.Status == ScheduleStatus.Done.ToString()) throw new Exception("This schedules has Done");
 
         //Get painting have status is FinalRound
         var listPainting = schedules.Painting.Where(p => p.Status == PaintingStatus.FinalRound.ToString()).ToList();
@@ -278,16 +283,11 @@ public class ScheduleService : IScheduleService
         var awardSchedule =
             schedules.AwardSchedule.FirstOrDefault(a => a.Award.Rank == RankAward.FirstPrize.ToString());
 
-        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This Prize has Done");
-        }
+        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString()) throw new Exception("This Prize has Done");
 
         //Check Have any id from request don't exist in schedule
         if (ratingPainting.Paintings.Except(listPainting.Select(p => p.Id)).ToList().Any())
-        {
             throw new Exception("Have ID not Exist In schedule");
-        }
 
 
         //Create var to call all rated painting
@@ -297,16 +297,12 @@ public class ScheduleService : IScheduleService
         listPass.ForEach(p => p.AwardId = awardSchedule.Award.Id);
         schedules.Painting.ToList().ForEach(p => p.FinalDecisionTimestamp = DateTime.Now);
         if (listPass.Count != awardSchedule.Quantity)
-        {
             throw new Exception($"The Quantity of First Prize is {awardSchedule.Quantity}");
-        }
 
         awardSchedule.Status = AwardScheduleStatus.Done.ToString();
 
         if (!schedules.AwardSchedule.Any(a => a.Status == AwardScheduleStatus.Rating.ToString()))
-        {
             schedules.Status = ScheduleStatus.Done.ToString();
-        }
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -318,10 +314,7 @@ public class ScheduleService : IScheduleService
         //Get schedule with list painting 
         var schedules = await _unitOfWork.ScheduleRepo.GetByIdAsync(ratingPainting.ScheduleId);
 
-        if (schedules.Status == ScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This schedules has Done");
-        }
+        if (schedules.Status == ScheduleStatus.Done.ToString()) throw new Exception("This schedules has Done");
 
         //Get painting have status is FinalRound
         var listPainting = schedules.Painting.Where(p => p.Status == PaintingStatus.FinalRound.ToString()).ToList();
@@ -329,16 +322,11 @@ public class ScheduleService : IScheduleService
         var awardSchedule =
             schedules.AwardSchedule.FirstOrDefault(a => a.Award.Rank == RankAward.SecondPrize.ToString());
 
-        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This Prize has Done");
-        }
+        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString()) throw new Exception("This Prize has Done");
 
         //Check Have any id from request don't exist in schedule
         if (ratingPainting.Paintings.Except(listPainting.Select(p => p.Id)).ToList().Any())
-        {
             throw new Exception("Have ID not Exist In schedule");
-        }
 
 
         //Create var to call all rated painting
@@ -348,16 +336,12 @@ public class ScheduleService : IScheduleService
         listPass.ForEach(p => p.AwardId = awardSchedule.Award.Id);
         schedules.Painting.ToList().ForEach(p => p.FinalDecisionTimestamp = DateTime.Now);
         if (listPass.Count != awardSchedule.Quantity)
-        {
             throw new Exception($"The Quantity of Second Prize is {awardSchedule.Quantity}");
-        }
 
         awardSchedule.Status = AwardScheduleStatus.Done.ToString();
 
         if (!schedules.AwardSchedule.Any(a => a.Status == AwardScheduleStatus.Rating.ToString()))
-        {
             schedules.Status = ScheduleStatus.Done.ToString();
-        }
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -369,10 +353,7 @@ public class ScheduleService : IScheduleService
         //Get schedule with list painting 
         var schedules = await _unitOfWork.ScheduleRepo.GetByIdAsync(ratingPainting.ScheduleId);
 
-        if (schedules.Status == ScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This schedules has Done");
-        }
+        if (schedules.Status == ScheduleStatus.Done.ToString()) throw new Exception("This schedules has Done");
 
         //Get painting have status is FinalRound
         var listPainting = schedules.Painting.Where(p => p.Status == PaintingStatus.FinalRound.ToString()).ToList();
@@ -380,16 +361,11 @@ public class ScheduleService : IScheduleService
         var awardSchedule =
             schedules.AwardSchedule.FirstOrDefault(a => a.Award.Rank == RankAward.ThirdPrize.ToString());
 
-        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This Prize has Done");
-        }
+        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString()) throw new Exception("This Prize has Done");
 
         //Check Have any id from request don't exist in schedule
         if (ratingPainting.Paintings.Except(listPainting.Select(p => p.Id)).ToList().Any())
-        {
             throw new Exception("Have ID not Exist In schedule");
-        }
 
 
         //Create var to call all rated painting
@@ -399,16 +375,12 @@ public class ScheduleService : IScheduleService
         listPass.ForEach(p => p.AwardId = awardSchedule.Award.Id);
         schedules.Painting.ToList().ForEach(p => p.FinalDecisionTimestamp = DateTime.Now);
         if (listPass.Count != awardSchedule.Quantity)
-        {
             throw new Exception($"The Quantity of Third Prize is {awardSchedule.Quantity}");
-        }
 
         awardSchedule.Status = AwardScheduleStatus.Done.ToString();
 
         if (!schedules.AwardSchedule.Any(a => a.Status == AwardScheduleStatus.Rating.ToString()))
-        {
             schedules.Status = ScheduleStatus.Done.ToString();
-        }
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -420,10 +392,7 @@ public class ScheduleService : IScheduleService
         //Get schedule with list painting 
         var schedules = await _unitOfWork.ScheduleRepo.GetByIdAsync(ratingPainting.ScheduleId);
 
-        if (schedules.Status == ScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This schedules has Done");
-        }
+        if (schedules.Status == ScheduleStatus.Done.ToString()) throw new Exception("This schedules has Done");
 
         //Get painting have status is FinalRound
         var listPainting = schedules.Painting.Where(p => p.Status == PaintingStatus.FinalRound.ToString()).ToList();
@@ -431,16 +400,11 @@ public class ScheduleService : IScheduleService
         var awardSchedule =
             schedules.AwardSchedule.FirstOrDefault(a => a.Award.Rank == RankAward.ConsolationPrize.ToString());
 
-        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString())
-        {
-            throw new Exception("This Prize has Done");
-        }
+        if (awardSchedule.Status == AwardScheduleStatus.Done.ToString()) throw new Exception("This Prize has Done");
 
         //Check Have any id from request don't exist in schedule
         if (ratingPainting.Paintings.Except(listPainting.Select(p => p.Id)).ToList().Any())
-        {
             throw new Exception("Have ID not Exist In schedule");
-        }
 
 
         //Create var to call all rated painting
@@ -450,47 +414,16 @@ public class ScheduleService : IScheduleService
         listPass.ForEach(p => p.AwardId = awardSchedule.Award.Id);
         schedules.Painting.ToList().ForEach(p => p.FinalDecisionTimestamp = DateTime.Now);
         if (listPass.Count != awardSchedule.Quantity)
-        {
             throw new Exception($"The Quantity of Consolation Prize is {awardSchedule.Quantity}");
-        }
 
         awardSchedule.Status = AwardScheduleStatus.Done.ToString();
 
         if (!schedules.AwardSchedule.Any(a => a.Status == AwardScheduleStatus.Rating.ToString()))
-        {
             schedules.Status = ScheduleStatus.Done.ToString();
-        }
 
         await _unitOfWork.SaveChangesAsync();
 
         return true;
-    }
-
-    #endregion
-
-    #region Update
-
-    public async Task<bool> UpdateSchedule(ScheduleUpdateRequest updateSchedule)
-    {
-        var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
-        if (schedule == null) throw new Exception("Khong tim thay Schedule");
-        _mapper.Map(updateSchedule, schedule);
-
-        return await _unitOfWork.SaveChangesAsync() > 0;
-    }
-
-    #endregion
-
-    #region Delete
-
-    public async Task<bool> DeleteSchedule(Guid id)
-    {
-        var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
-        if (Schedule == null) throw new Exception("Khong tim thay Schedule");
-        Schedule.Status = ScheduleStatus.Delete.ToString();
-
-
-        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion

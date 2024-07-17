@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
+﻿using Domain.Models;
 
-namespace Application.IRepositories
+namespace Application.IRepositories;
+
+public interface ICategoryRepository : IGenericRepository<Category>
 {
-    public interface ICategoryRepository : IGenericRepository<Category>
-    {
-        Task<List<Category>> GetCategoryUnused();
-        Task<List<Category>> GetCategoryUsed();
-    }
+    Task<List<Category>> GetCategoryUnused();
+    Task<List<Category>> GetCategoryUsed();
 }

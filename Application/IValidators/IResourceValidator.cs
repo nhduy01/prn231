@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.SendModels.Resources;
+﻿using Application.SendModels.Resources;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface IResourceValidator
 {
-    public interface IResourceValidator
-    {
-        IValidator<ResourcesRequest> ResourcesRequestValidator { get; }
-        IValidator<ResourcesUpdateRequest> ResourcesUpdateRequestValidator { get; }
-    }
+    IValidator<ResourcesRequest> ResourcesRequestValidator { get; }
+    IValidator<ResourcesUpdateRequest> ResourcesUpdateRequestValidator { get; }
 }

@@ -44,10 +44,10 @@ public class PaintingConfiguration : IEntityTypeConfiguration<Painting>
 
         //FinalDecision Timestamp
         builder.Property(u => u.FinalDecisionTimestamp);
-        
+
         //Reviewed Timestamp
         builder.Property(u => u.ReviewedTimestamp);
-        
+
         //AwardId
         builder.Property(u => u.AwardId);
 

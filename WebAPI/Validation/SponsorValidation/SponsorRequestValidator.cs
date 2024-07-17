@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using FluentValidation;
+﻿using FluentValidation;
 using Infracstructures.SendModels.Sponsor;
 
-namespace WebAPI.Validation.SponsorValidation
+namespace WebAPI.Validation.SponsorValidation;
+
+public class SponsorRequestValidator : AbstractValidator<SponsorRequest>
 {
-    public class SponsorRequestValidator : AbstractValidator<SponsorRequest>
-    {
-    }
 }

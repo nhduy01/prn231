@@ -1,8 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
-using Application.SendModels.Painting;
 using Application.SendModels.PaintingCollection;
-using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -20,6 +18,7 @@ public class PaintingCollectionController : Controller
 
 
     #region Add Painting To Collection
+
     [HttpPost("addpaintingtocollection")]
     public async Task<IActionResult> AddPaintingToCollection(PaintingCollectionRequest addPaintingCollectionViewModel)
     {
@@ -44,6 +43,7 @@ public class PaintingCollectionController : Controller
             });
         }
     }
+
     #endregion
 
 
@@ -73,5 +73,6 @@ public class PaintingCollectionController : Controller
             });
         }
     }
-    #endregion  
+
+    #endregion
 }

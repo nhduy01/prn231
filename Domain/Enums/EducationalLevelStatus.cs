@@ -1,8 +1,7 @@
-﻿namespace Domain.Enums
+﻿namespace Domain.Enums;
+
+public enum EducationalLevelStatus
 {
-    public enum EducationalLevelStatus
-    {
-        Active,
-        Inactive
-    }
+    Active,
+    Inactive
 }

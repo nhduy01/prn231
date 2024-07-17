@@ -1,7 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Post;
-using Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -82,7 +81,7 @@ public class PostController : Controller
     }
 
     #endregion
-    
+
     #region Get Post By Page
 
     [HttpGet]
@@ -92,13 +91,11 @@ public class PostController : Controller
         {
             var (list, totalPage) = await _postService.GetListPost(listPostModel);
             if (totalPage < listPostModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -131,7 +128,7 @@ public class PostController : Controller
     #region Get Post By Id
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetPostById([FromRoute]Guid id)
+    public async Task<IActionResult> GetPostById([FromRoute] Guid id)
     {
         try
         {
@@ -227,13 +224,11 @@ public class PostController : Controller
         {
             var (list, totalPage) = await _postService.GetPosByStaffId(listPostModel, id);
             if (totalPage < listPostModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -266,19 +261,17 @@ public class PostController : Controller
     #region List Post By Category Id
 
     [HttpGet("getpostbycategory/{id}")]
-    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid id,[FromQuery] ListModels listCategoryModel)
+    public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid id, [FromQuery] ListModels listCategoryModel)
     {
         try
         {
             var (list, totalPage) = await _postService.ListPostByCategoryId(listCategoryModel, id);
             if (totalPage < listCategoryModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -311,19 +304,18 @@ public class PostController : Controller
     #region List Post By Category Id
 
     [HttpGet("search")]
-    public async Task<IActionResult> SearchTitleDescription(String searchString,[FromQuery] ListModels listCategoryModel)
+    public async Task<IActionResult> SearchTitleDescription(string searchString,
+        [FromQuery] ListModels listCategoryModel)
     {
         try
         {
             var (list, totalPage) = await _postService.SearchByTitleDescription(listCategoryModel, searchString);
             if (totalPage < listCategoryModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

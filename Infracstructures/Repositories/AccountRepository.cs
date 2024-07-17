@@ -2,7 +2,6 @@
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace Infracstructures.Repositories;
 
@@ -16,9 +15,11 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
         return await DbSet.FirstOrDefaultAsync(a => a.Id == id && a.Status == AccountStatus.Active.ToString());
     }
+
     public async Task<Account?> Login(string username)
     {
-        return await DbSet.FirstOrDefaultAsync(a => a.Username == username && a.Status == AccountStatus.Active.ToString());
+        return await DbSet.FirstOrDefaultAsync(a =>
+            a.Username == username && a.Status == AccountStatus.Active.ToString());
     }
 
     public async Task<Account?> GetByRefreshToken(string token)
@@ -44,14 +45,14 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     public async Task<List<Account>> GetAccountByListAccountId(List<Guid> listAccountId)
     {
         return await DbSet
-            .Where(x => listAccountId.Contains((Guid)x.Id))
+            .Where(x => listAccountId.Contains(x.Id))
             .ToListAsync();
     }
 
     public async Task<bool> AccountNumberExists(int number)
     {
         // Kiểm tra xem số này đã tồn tại trong cơ sở dữ liệu hay chưa
-        string formattedAccountNumber = number.ToString("D6");
+        var formattedAccountNumber = number.ToString("D6");
         return await DbSet.AnyAsync(a => a.Code.EndsWith(formattedAccountNumber));
     }
 
@@ -63,9 +64,9 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     public async Task<int> CreateNumberOfAccountCode(string roleCode)
     {
         var listAccount = await DbSet.ToListAsync();
-        int maxNumber = listAccount
+        var maxNumber = listAccount
             .Where(a => a.Code.StartsWith(roleCode)) // Kiểm tra prefix
-            .Select(a => int.TryParse(a.Code.Substring(3), out int number) ? number : 0)
+            .Select(a => int.TryParse(a.Code.Substring(3), out var number) ? number : 0)
             .DefaultIfEmpty(0)
             .Max();
 

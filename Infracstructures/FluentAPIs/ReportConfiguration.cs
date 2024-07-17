@@ -1,49 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infracstructures.FluentAPIs
+namespace Infracstructures.FluentAPIs;
+
+public class ReportConfiguration : IEntityTypeConfiguration<Report>
 {
-    public class ReportConfiguration : IEntityTypeConfiguration<Report>
+    public void Configure(EntityTypeBuilder<Report> builder)
     {
-        public void Configure(EntityTypeBuilder<Report> builder)
-        {
-            builder.ToTable("Report");
+        builder.ToTable("Report");
 
-            //Id
-            builder.HasKey(u => u.Id);
-            builder.Property(u => u.Id)
-                .HasDefaultValueSql("NEWID()");
+        //Id
+        builder.HasKey(u => u.Id);
+        builder.Property(u => u.Id)
+            .HasDefaultValueSql("NEWID()");
 
-            //CreateTime
-            builder.Property(u => u.CreatedTime);
+        //CreateTime
+        builder.Property(u => u.CreatedTime);
 
-            //CreateBy
-            builder.Property(u => u.CreatedBy);
+        //CreateBy
+        builder.Property(u => u.CreatedBy);
 
-            //UpdateTime
-            builder.Property(u => u.UpdatedTime);
+        //UpdateTime
+        builder.Property(u => u.UpdatedTime);
 
-            //UpdateBy
-            builder.Property(u => u.UpdatedBy);
+        //UpdateBy
+        builder.Property(u => u.UpdatedBy);
 
-            //Status
-            builder.Property(u => u.Status).HasDefaultValue("False");
+        //Status
+        builder.Property(u => u.Status).HasDefaultValue("False");
 
-            //Description
-            builder.Property(u => u.Description);
+        //Description
+        builder.Property(u => u.Description);
 
 
-            //CompetitorId
-            builder.Property(u => u.CompetitorId);
-            //Title
-            builder.Property(u => u.Title);
-
-        }
+        //CompetitorId
+        builder.Property(u => u.CompetitorId);
+        //Title
+        builder.Property(u => u.Title);
     }
 }

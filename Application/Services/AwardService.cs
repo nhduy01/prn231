@@ -39,7 +39,6 @@ public class AwardService : IAwardService
         award.CreatedTime = _currentTime.GetCurrentTime();
 
         return await _unitOfWork.SaveChangesAsync() > 0;
-
     }
 
     #endregion

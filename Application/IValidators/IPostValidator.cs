@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.SendModels.Post;
+﻿using Application.SendModels.Post;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface IPostValidator
 {
-    public interface IPostValidator
-    {
-        IValidator<PostRequest> PostRequestValidator { get; }
-        IValidator<PostUpdateRequest> UpdatePostValidator { get; }
-    }
+    IValidator<PostRequest> PostRequestValidator { get; }
+    IValidator<PostUpdateRequest> UpdatePostValidator { get; }
 }

@@ -1,11 +1,10 @@
 ﻿using Application.SendModels.Topic;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface ITopicValidator
 {
-    public interface ITopicValidator
-    {
-        IValidator<TopicRequest> TopicRequestValidator { get; }
-        IValidator<TopicUpdateRequest> TopicUpdateRequestValidator { get; }
-    }
+    IValidator<TopicRequest> TopicRequestValidator { get; }
+    IValidator<TopicUpdateRequest> TopicUpdateRequestValidator { get; }
 }

@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.PaintingCollection;
+﻿using Application.SendModels.PaintingCollection;
 using FluentValidation;
 
-namespace WebAPI.Validation.PaintingCollectionValidation
+namespace WebAPI.Validation.PaintingCollectionValidation;
+
+public class PaintingCollectionRequestValidator : AbstractValidator<PaintingCollectionRequest>
 {
-    public class PaintingCollectionRequestValidator : AbstractValidator<PaintingCollectionRequest>
-    {
-    }
 }

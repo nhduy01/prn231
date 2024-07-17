@@ -1,5 +1,4 @@
-﻿
-namespace Application.SendModels.RoundTopic;
+﻿namespace Application.SendModels.RoundTopic;
 
 public class GetListRoundTopicRequest
 {

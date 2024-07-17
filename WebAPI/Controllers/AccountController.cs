@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.AccountSendModels;
 using Domain.Models;
@@ -17,7 +16,7 @@ public class AccountController : ControllerBase
     {
         _accountService = accountService;
     }
-    
+
     #region Get All Competitor
 
     [HttpGet("getallcompetitorwithpagination")]
@@ -27,13 +26,11 @@ public class AccountController : ControllerBase
         {
             var (list, totalPage) = await _accountService.GetListCompetitor(listCompetitorModel);
             if (totalPage < listCompetitorModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -72,13 +69,11 @@ public class AccountController : ControllerBase
         {
             var (list, totalPage) = await _accountService.GetListExaminer(listCompetitorModel);
             if (totalPage < listCompetitorModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -109,6 +104,7 @@ public class AccountController : ControllerBase
     #endregion
 
     #region get all staff
+
     [HttpGet("getallstaffwithpagination")]
     public async Task<IActionResult> GetAllStaff([FromQuery] ListModels listCompetitorModel)
     {
@@ -116,13 +112,11 @@ public class AccountController : ControllerBase
         {
             var (list, totalPage) = await _accountService.GetListStaff(listCompetitorModel);
             if (totalPage < listCompetitorModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -161,13 +155,11 @@ public class AccountController : ControllerBase
         {
             var (list, totalPage) = await _accountService.GetListInactiveAccount(listCompetitorModel);
             if (totalPage < listCompetitorModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -206,13 +198,11 @@ public class AccountController : ControllerBase
         {
             var result = await _accountService.GetAccountById(id);
             if (result == null)
-            {
                 return BadRequest(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Account Dont Exist"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -242,13 +232,11 @@ public class AccountController : ControllerBase
         {
             var result = await _accountService.GetAccountByCode(code);
             if (result == null)
-            {
                 return BadRequest(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Account Dont Exist"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -386,5 +374,4 @@ public class AccountController : ControllerBase
     }
 
     #endregion
-
 }

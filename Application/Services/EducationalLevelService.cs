@@ -1,12 +1,8 @@
-﻿using System.Reflection.Emit;
-using Application.BaseModels;
-using Application.Common;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.SendModels.EducationalLevel;
-using Application.SendModels.Round;
 using Application.ViewModels.EducationalLevelViewModels;
-using Application.ViewModels.RoundViewModels;
 using AutoMapper;
 using Domain.Enums;
 using Domain.Models;
@@ -38,15 +34,17 @@ public class EducationalLevelService : IEducationalLevelService
     public async Task<bool> CreateEducationalLevel(EducationalLevelRequest EducationalLevel)
     {
         var a = await _unitOfWork.ContestRepo.GetStartEndTimeByContestId(EducationalLevel.ContestId);
-        
-            var newEducationalLevel = _mapper.Map<EducationalLevel>(EducationalLevel);
-            newEducationalLevel.Status = EducationalLevelStatus.Active.ToString();
-            await _unitOfWork.EducationalLevelRepo.AddAsync(newEducationalLevel);
+
+        var newEducationalLevel = _mapper.Map<EducationalLevel>(EducationalLevel);
+        newEducationalLevel.Status = EducationalLevelStatus.Active.ToString();
+        await _unitOfWork.EducationalLevelRepo.AddAsync(newEducationalLevel);
         var check = await _unitOfWork.SaveChangesAsync() > 0;
         if (check == false) throw new Exception("Tạo EducationalLevl Thất Bại");
+
         #region Tạo Round
+
         //List level
-        List<Round> listRound = new List<Round>();
+        var listRound = new List<Round>();
         // Create Round 1 Level 1
         var round = new Round();
         round.Name = "Vòng Sơ Khảo";
@@ -78,7 +76,9 @@ public class EducationalLevelService : IEducationalLevelService
 
         //check
         if (check == false) throw new Exception("Tạo Round Thất Bại");
+
         #endregion
+
         return check;
     }
 
@@ -107,7 +107,7 @@ public class EducationalLevelService : IEducationalLevelService
     {
         var list = await _unitOfWork.EducationalLevelRepo.GetAllAsync();
         if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel");
-        
+
         return _mapper.Map<List<EducationalLevelViewModel>>(list);
     }
 
@@ -127,7 +127,8 @@ public class EducationalLevelService : IEducationalLevelService
 
     #region Get Level By ContestId
 
-    public async Task<(List<EducationalLevelViewModel>, int)> GetEducationalLevelByContestId(ListModels listLevelModel , Guid contestId)
+    public async Task<(List<EducationalLevelViewModel>, int)> GetEducationalLevelByContestId(ListModels listLevelModel,
+        Guid contestId)
     {
         var list = await _unitOfWork.EducationalLevelRepo.GetEducationalLevelByContestId(contestId);
         if (list.Count == 0) throw new Exception("Khong tim thay EducationalLevel nao");
@@ -165,17 +166,11 @@ public class EducationalLevelService : IEducationalLevelService
         foreach (var round in level.Round)
         {
             round.Status = RoundStatus.Inactive.ToString();
-            foreach (var schedule in round.Schedule)
-            {
-                schedule.Status = ScheduleStatus.Delete.ToString();
-            }
+            foreach (var schedule in round.Schedule) schedule.Status = ScheduleStatus.Delete.ToString();
         }
 
         //award
-        foreach (var award in level.Award)
-        {
-            award.Status = AwardStatus.Inactive.ToString();
-        }
+        foreach (var award in level.Award) award.Status = AwardStatus.Inactive.ToString();
 
         level.Status = EducationalLevelStatus.Inactive.ToString();
 

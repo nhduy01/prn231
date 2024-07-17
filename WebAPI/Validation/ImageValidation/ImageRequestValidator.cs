@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.Image;
+﻿using Application.SendModels.Image;
 using FluentValidation;
 
-namespace WebAPI.Validation.ImageValidation
+namespace WebAPI.Validation.ImageValidation;
+
+public class ImageRequestValidator : AbstractValidator<ImageRequest>
 {
-    public class ImageRequestValidator : AbstractValidator<ImageRequest>
-    {
-    }
 }

@@ -13,4 +13,3 @@ public partial class MapperConfigs : Profile
             .ForMember(dest => dest.PaintingViewModelsList, opt => opt.MapFrom(src => src.Schedule.Painting));
     }
 }
-

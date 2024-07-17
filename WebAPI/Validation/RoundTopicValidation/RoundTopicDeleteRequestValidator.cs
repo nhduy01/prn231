@@ -1,9 +1,8 @@
 ﻿using Application.SendModels.RoundTopic;
 using FluentValidation;
 
-namespace WebAPI.Validation.RoundTopicValidation
+namespace WebAPI.Validation.RoundTopicValidation;
+
+public class RoundTopicDeleteRequestValidator : AbstractValidator<RoundTopicDeleteRequest>
 {
-    public class RoundTopicDeleteRequestValidator : AbstractValidator<RoundTopicDeleteRequest>
-    {
-    }
 }

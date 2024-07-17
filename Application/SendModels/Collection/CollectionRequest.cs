@@ -7,6 +7,4 @@ public class CollectionRequest
     public string Description { get; set; }
 
     public Guid CurrentUserId { get; set; }
-
-
 }

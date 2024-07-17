@@ -2,20 +2,18 @@
 using Application.SendModels.Resources;
 using FluentValidation;
 
-namespace Infracstructures.Validators
+namespace Infracstructures.Validators;
+
+public class ResourceValidator : IResourceValidator
 {
-    public class ResourceValidator : IResourceValidator
+    public ResourceValidator(IValidator<ResourcesRequest> resourcevalidator,
+        IValidator<ResourcesUpdateRequest> updateresourcevalidator)
     {
-        private readonly IValidator<ResourcesRequest> _resourcevalidator;
-        private readonly IValidator<ResourcesUpdateRequest> _updateresourcetvalidator;
-
-        public ResourceValidator(IValidator<ResourcesRequest> resourcevalidator, IValidator<ResourcesUpdateRequest> updateresourcevalidator)
-        {
-            _resourcevalidator = resourcevalidator;
-            _updateresourcetvalidator = updateresourcevalidator;
-        }
-
-        public IValidator<ResourcesRequest> ResourcesRequestValidator => _resourcevalidator;
-        public IValidator<ResourcesUpdateRequest> ResourcesUpdateRequestValidator => _updateresourcetvalidator;
+        ResourcesRequestValidator = resourcevalidator;
+        ResourcesUpdateRequestValidator = updateresourcevalidator;
     }
+
+    public IValidator<ResourcesRequest> ResourcesRequestValidator { get; }
+
+    public IValidator<ResourcesUpdateRequest> ResourcesUpdateRequestValidator { get; }
 }

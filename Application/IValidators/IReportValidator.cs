@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.SendModels.Report;
+﻿using Application.SendModels.Report;
 using FluentValidation;
 
-namespace Application.IValidators
+namespace Application.IValidators;
+
+public interface IReportValidator
 {
-    public interface IReportValidator
-    {
-        IValidator<ReportRequest> ReportRequestValidator { get; }
-        IValidator<UpdateReportRequest> UpdateReportRequestValidator { get; }
-    }
+    IValidator<ReportRequest> ReportRequestValidator { get; }
+    IValidator<UpdateReportRequest> UpdateReportRequestValidator { get; }
 }

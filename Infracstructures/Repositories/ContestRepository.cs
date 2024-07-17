@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using Application.IRepositories;
-using Application.ViewModels.ContestViewModels;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
+﻿using Application.IRepositories;
 using Domain.Enums;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +17,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .Include(x => x.Account)
             .ToListAsync();
     }
+
     public override async Task<Contest> GetByIdAsync(Guid id)
     {
         return await DbSet
@@ -33,11 +30,12 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .Include(x => x.EducationalLevel)
             .ThenInclude(x => x.Award)
             .Include(x => x.Account)
-            .FirstOrDefaultAsync(x => x.Id == id && x.Status != ContestStatus.Inactive.ToString()); ;
+            .FirstOrDefaultAsync(x => x.Id == id && x.Status != ContestStatus.Inactive.ToString());
+        ;
     }
+
     public async Task<Contest?> GetAllContestInformationAsync(Guid contestId)
     {
-
         var contest = await DbSet
             .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
             .ThenInclude(x => x.Sponsor)
@@ -50,22 +48,16 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .Include(x => x.Account)
             .FirstOrDefaultAsync(x => x.Id == contestId && x.Status != ContestStatus.Inactive.ToString());
         if (contest != null)
-        {
             // Lọc các RoundTopic có Topic.Status == "Active"
             foreach (var educationalLevel in contest.EducationalLevel)
-            {
-                foreach (var round in educationalLevel.Round)
-                {
-                    round.RoundTopic = round.RoundTopic.Where(rt => rt.Topic.Status == TopicStatus.Active.ToString()).ToList();
-                }
-            }
-        }
+            foreach (var round in educationalLevel.Round)
+                round.RoundTopic = round.RoundTopic.Where(rt => rt.Topic.Status == TopicStatus.Active.ToString())
+                    .ToList();
         return contest;
     }
 
     public async Task<Contest?> GetNearestContestInformationAsync()
     {
-
         return await DbSet
             .Include(x => x.Resources.Where(x => x.Status != ResourcesStatus.Inactive.ToString()))
             .ThenInclude(x => x.Sponsor)
@@ -77,7 +69,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ThenInclude(x => x.Award)
             .Include(x => x.Account)
             .OrderBy(x => x.CreatedTime)
-            .FirstOrDefaultAsync(x=>x.Status != ContestStatus.Inactive.ToString());
+            .FirstOrDefaultAsync(x => x.Status != ContestStatus.Inactive.ToString());
     }
 
     public async Task<List<int>> Get5RecentYearAsync()
@@ -89,13 +81,13 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
     public async Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId)
     {
         var round = await DbSet
-           .Where(c => c.Status != ContestStatus.Inactive.ToString())
-           .Include(c => c.EducationalLevel.Where(l => l.Status != EducationalLevelStatus.Inactive.ToString()))
-               .ThenInclude(l => l.Round)
-           .SelectMany(c => c.EducationalLevel)
-           .SelectMany(l => l.Round)
-           .Select(r => new { r.StartTime, r.EndTime })
-           .FirstOrDefaultAsync();
+            .Where(c => c.Status != ContestStatus.Inactive.ToString())
+            .Include(c => c.EducationalLevel.Where(l => l.Status != EducationalLevelStatus.Inactive.ToString()))
+            .ThenInclude(l => l.Round)
+            .SelectMany(c => c.EducationalLevel)
+            .SelectMany(l => l.Round)
+            .Select(r => new { r.StartTime, r.EndTime })
+            .FirstOrDefaultAsync();
 
         return round != null ? (round.StartTime, round.EndTime) : (DateTime.MinValue, DateTime.MinValue);
     }
@@ -108,7 +100,8 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
 
     public async Task<Contest?> GetContestByIdForRoundTopic(Guid id)
     {
-        var result = await DbSet.Include(c => c.EducationalLevel).ThenInclude(e => e.Round).ThenInclude(r => r.RoundTopic)
+        var result = await DbSet.Include(c => c.EducationalLevel).ThenInclude(e => e.Round)
+            .ThenInclude(r => r.RoundTopic)
             .ThenInclude(rt => rt.Topic).FirstOrDefaultAsync(c => c.Id.Equals(id));
         return result;
     }

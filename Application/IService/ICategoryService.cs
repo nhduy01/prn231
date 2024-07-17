@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.SendModels.Category;
 using Application.ViewModels.CategoryViewModels;
 
@@ -20,8 +15,4 @@ public interface ICategoryService
     Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel);
     Task<List<CategoryViewModel>> ListAllCategoryUnused();
     Task<List<CategoryViewModel>> ListAllCategoryUsed();
-
-
-
 }
-

@@ -1,6 +1,5 @@
 ﻿using Application.SendModels.Contest;
 using Application.ViewModels.ContestViewModels;
-using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -10,7 +9,6 @@ public partial class MapperConfigs : Profile
 {
     partial void AddContestMapperConfig()
     {
-        
         CreateMap<Contest, ContestViewModel>()
             .ForMember(dest => dest.AccountFullName, opt => opt.MapFrom(src => src.Account.FullName));
         CreateMap<ContestViewModel, Contest>()
@@ -24,10 +22,7 @@ public partial class MapperConfigs : Profile
                 opt.Condition((src, dest, srcMember) => srcMember != null); // Kiểm tra srcMember không null
                 opt.Condition((src, dest, srcMember, destMember) => // Kiểm tra nếu là Guid thì không Empty
                 {
-                    if (srcMember is Guid guidValue)
-                    {
-                        return guidValue != Guid.Empty;
-                    }
+                    if (srcMember is Guid guidValue) return guidValue != Guid.Empty;
                     return true; // Cho phép ánh xạ nếu không phải kiểu Guid
                 });
             });
@@ -39,7 +34,5 @@ public partial class MapperConfigs : Profile
             .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.Account))
             .ForMember(dest => dest.Resource, opt => opt.MapFrom(src => src.Resources))
             .ForMember(dest => dest.EducationalLevel, opt => opt.MapFrom(src => src.EducationalLevel));
-
-
     }
 }

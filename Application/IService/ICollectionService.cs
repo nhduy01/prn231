@@ -2,7 +2,6 @@
 using Application.SendModels.Collection;
 using Application.ViewModels.CollectionViewModels;
 using Application.ViewModels.PaintingViewModels;
-using Domain.Models;
 
 namespace Application.IService;
 

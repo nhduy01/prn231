@@ -1,14 +1,12 @@
 ﻿using Application.BaseModels;
 using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
-using Domain.Models;
 using Infracstructures.SendModels.Painting;
 
 namespace Application.IService;
 
 public interface IPaintingService
 {
-
     Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest2 request);
     Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request);
     Task<bool> AddPaintingForFinalRound(PaintingRequest request);
@@ -18,7 +16,9 @@ public interface IPaintingService
     Task<PaintingViewModel?> GetPaintingByCode(string code);
     Task<PaintingViewModel?> GetPaintingById(Guid id);
     Task<List<PaintingViewModel>> List16WiningPainting();
-    Task<(List<PaintingViewModel>, int)> FilterPainting(FilterPaintingRequest filterPainting, ListModels listPaintingModel);
+
+    Task<(List<PaintingViewModel>, int)> FilterPainting(FilterPaintingRequest filterPainting,
+        ListModels listPaintingModel);
 
 
     /*public Task<bool> SubmitPainting(Guid paintingId);*/

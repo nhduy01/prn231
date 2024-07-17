@@ -7,5 +7,5 @@ public class ResourcesViewModel
     public Guid? SponsorId { get; set; }
     public string SponsorName { get; set; }
     public Guid? ContestId { get; set; }
-    public string ContestName { get; set;}
+    public string ContestName { get; set; }
 }

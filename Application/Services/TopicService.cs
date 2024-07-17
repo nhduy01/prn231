@@ -1,7 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
-using Application.IValidators;
 using Application.SendModels.Topic;
 using Application.ViewModels.TopicViewModels;
 using AutoMapper;
@@ -42,7 +41,7 @@ public class TopicService : ITopicService
         newTopic.Status = TopicStatus.Active.ToString();
         await _unitOfWork.TopicRepo.AddAsync(newTopic);
 
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -70,7 +69,7 @@ public class TopicService : ITopicService
     {
         var list = await _unitOfWork.TopicRepo.GetAllAsync();
         if (list.Count == 0) throw new Exception("Không tìm thấy Topic nào");
-        
+
         return _mapper.Map<List<TopicViewModel>>(list);
     }
 
@@ -95,9 +94,8 @@ public class TopicService : ITopicService
         if (Topic == null) throw new Exception("Khong tim thay Topic");
 
         _mapper.Map(updateTopic, Topic);
-        Topic.UpdatedTime = _currentTime.GetCurrentTime(); 
-        return await _unitOfWork.SaveChangesAsync()>0;
-
+        Topic.UpdatedTime = _currentTime.GetCurrentTime();
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -110,7 +108,7 @@ public class TopicService : ITopicService
         if (Topic == null) throw new Exception("Khong tim thay Topic");
 
         Topic.Status = TopicStatus.Inactive.ToString();
-        return await _unitOfWork.SaveChangesAsync()>0;
+        return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
     #endregion
@@ -121,5 +119,4 @@ public class TopicService : ITopicService
     {
         return await _validator.ValidateAsync(topic);
     }
-
 }

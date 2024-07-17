@@ -1,8 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
-using Application.SendModels.Category;
 using Application.SendModels.RoundTopic;
-using Application.Services;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +20,7 @@ public class RoundTopicController : ControllerBase
     #region Get List
 
     [HttpGet("getalltopic")]
-    public async Task<IActionResult> GetAll([FromQuery]GetListRoundTopicRequest request)
+    public async Task<IActionResult> GetAll([FromQuery] GetListRoundTopicRequest request)
     {
         try
         {
@@ -40,7 +38,7 @@ public class RoundTopicController : ControllerBase
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result  = new List<Topic>(),
+                Result = new List<Topic>(),
                 Errors = ex
             });
         }
@@ -74,6 +72,7 @@ public class RoundTopicController : ControllerBase
             });
         }
     }
+
     #endregion
 
     #region Delete Topic In Round
@@ -102,7 +101,6 @@ public class RoundTopicController : ControllerBase
             });
         }
     }
+
     #endregion
-
 }
-

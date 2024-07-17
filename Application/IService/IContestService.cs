@@ -1,6 +1,5 @@
 ﻿using Application.SendModels.Contest;
 using Application.ViewModels.ContestViewModels;
-using Domain.Models;
 
 namespace Application.IService;
 

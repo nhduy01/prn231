@@ -102,7 +102,6 @@ public class ContestController : Controller
                 Errors = ex
             });
         }
-
     }
 
     #endregion

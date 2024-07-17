@@ -33,7 +33,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         //FullName 
         builder.Property(u => u.FullName).HasMaxLength(30).HasDefaultValue("");
-        
+
         //Gender
         builder.Property(u => u.Gender).IsRequired().HasDefaultValue("False");
 
@@ -74,8 +74,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
             .OnDelete(DeleteBehavior.ClientSetNull);
         builder.HasMany(u => u.Collection).WithOne(u => u.Account).HasForeignKey(u => u.AccountId)
             .OnDelete(DeleteBehavior.ClientSetNull);
-        builder.HasMany(u=>u.Report).WithOne(u => u.Account).HasForeignKey(u=>u.CompetitorId)
+        builder.HasMany(u => u.Report).WithOne(u => u.Account).HasForeignKey(u => u.CompetitorId)
             .OnDelete(DeleteBehavior.ClientSetNull);
-    
     }
 }

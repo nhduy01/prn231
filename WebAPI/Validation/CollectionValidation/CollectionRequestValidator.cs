@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.Collection;
+﻿using Application.SendModels.Collection;
 using FluentValidation;
 
-namespace WebAPI.Validation.CollectionValidation
+namespace WebAPI.Validation.CollectionValidation;
+
+public class CollectionRequestValidator : AbstractValidator<CollectionRequest>
 {
-    public class CollectionRequestValidator : AbstractValidator<CollectionRequest>
-    {
-    }
 }

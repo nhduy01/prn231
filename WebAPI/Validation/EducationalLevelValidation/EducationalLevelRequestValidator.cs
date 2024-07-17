@@ -1,10 +1,8 @@
-﻿using Application.SendModels.AccountSendModels;
-using Application.SendModels.EducationalLevel;
+﻿using Application.SendModels.EducationalLevel;
 using FluentValidation;
 
-namespace WebAPI.Validation.EducationalLevelValidation
+namespace WebAPI.Validation.EducationalLevelValidation;
+
+public class EducationalLevelRequestValidator : AbstractValidator<EducationalLevelRequest>
 {
-    public class EducationalLevelRequestValidator : AbstractValidator<EducationalLevelRequest>
-    {
-    }
 }

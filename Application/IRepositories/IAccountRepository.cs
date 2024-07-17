@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.IRepositories;
 
@@ -17,6 +16,4 @@ public interface IAccountRepository : IGenericRepository<Account>
     Task<Account?> GetAccountByCodeAsync(string code);
 
     Task<int> CreateNumberOfAccountCode(string roleCode);
-
-
 }

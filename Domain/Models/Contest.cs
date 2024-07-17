@@ -9,8 +9,8 @@ public class Contest : BaseModel
     public DateTime EndTime { get; set; }
     public string? Content { get; set; }
     public Guid? StaffId { get; set; }
-    public string? Logo {  get; set; }
-    
+    public string? Logo { get; set; }
+
     //Relation
     public Account Account { get; set; }
     public ICollection<EducationalLevel> EducationalLevel { get; set; }

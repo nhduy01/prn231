@@ -1,9 +1,8 @@
 ﻿using Application.SendModels.Notification;
 using FluentValidation;
 
-namespace WebAPI.Validation.NotificationValidation
+namespace WebAPI.Validation.NotificationValidation;
+
+public class NotificationRequestValidator : AbstractValidator<NotificationRequest>
 {
-    public class NotificationRequestValidator : AbstractValidator<NotificationRequest>
-    {
-    }
 }

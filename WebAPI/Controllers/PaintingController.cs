@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.BaseModels;
+﻿using Application.BaseModels;
 using Application.IService;
 using Application.SendModels.Painting;
-using Application.Services;
-using Application.ViewModels.PaintingViewModels;
 using Domain.Models;
 using Infracstructures.SendModels.Painting;
 using Microsoft.AspNetCore.Mvc;
@@ -105,7 +102,7 @@ public class PaintingController : Controller
                 Status = Ok().StatusCode,
                 Message = ex.Message,
                 Errors = ex,
-                Result = false,
+                Result = false
             });
         }
     }
@@ -115,7 +112,7 @@ public class PaintingController : Controller
     #region Create Painting For Final Round
 
     [HttpPost("createpaintingfinalround")]
-    public async Task<IActionResult> CreatePaintingForFinalRound(Application.SendModels.Painting.PaintingRequest painting)
+    public async Task<IActionResult> CreatePaintingForFinalRound(PaintingRequest painting)
     {
         try
         {
@@ -150,7 +147,6 @@ public class PaintingController : Controller
     {
         try
         {
-
             var result = await _paintingService.UpdatePainting(updatePaintingViewModel);
             if (result == null) return NotFound();
             return Ok(new BaseResponseModel
@@ -203,7 +199,7 @@ public class PaintingController : Controller
     }
 
     #endregion
-    
+
     /*#region Submitted Painting
 
     [HttpPost("submit")]
@@ -220,8 +216,8 @@ public class PaintingController : Controller
     }
 
     #endregion*/
-    
-    #region  Review Decision of Painting
+
+    #region Review Decision of Painting
 
     [HttpPatch("review")]
     public async Task<IActionResult> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request)
@@ -250,8 +246,8 @@ public class PaintingController : Controller
     }
 
     #endregion
-    
-    #region  Final Decision of Painting
+
+    #region Final Decision of Painting
 
     [HttpPatch("finaldecision")]
     public async Task<IActionResult> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
@@ -284,7 +280,7 @@ public class PaintingController : Controller
     #region Get Painting By Code
 
     [HttpGet("code")]
-    public async Task<IActionResult> GetPaintingByCode([FromRoute]string code)
+    public async Task<IActionResult> GetPaintingByCode([FromRoute] string code)
     {
         try
         {
@@ -310,12 +306,11 @@ public class PaintingController : Controller
     }
 
     #endregion
-    
+
     #region Get Painting By Id
 
     [HttpGet("{id}")]
-
-    public async Task<IActionResult> GetPaintingById([FromRoute]Guid id)
+    public async Task<IActionResult> GetPaintingById([FromRoute] Guid id)
     {
         try
         {
@@ -351,13 +346,11 @@ public class PaintingController : Controller
         {
             var (list, totalPage) = await _paintingService.GetListPainting(listPaintingModel);
             if (totalPage < listPaintingModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -419,19 +412,18 @@ public class PaintingController : Controller
     #region List Painting By Account Id
 
     [HttpGet("listpaintingbyaccountid/{id}")]
-    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] ListModels listPaintingModel, [FromRoute] Guid id)
+    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] ListModels listPaintingModel,
+        [FromRoute] Guid id)
     {
         try
         {
             var (list, totalPage) = await _paintingService.ListPaintingByAccountId(id, listPaintingModel);
             if (totalPage < listPaintingModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -464,19 +456,18 @@ public class PaintingController : Controller
     #region Filter Painting
 
     [HttpGet("filterpainting")]
-    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] FilterPaintingRequest filterPainting,[FromQuery] ListModels listPaintingModel)
+    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] FilterPaintingRequest filterPainting,
+        [FromQuery] ListModels listPaintingModel)
     {
         try
         {
             var (list, totalPage) = await _paintingService.FilterPainting(filterPainting, listPaintingModel);
             if (totalPage < listPaintingModel.PageNumber)
-            {
                 return NotFound(new BaseResponseModel
                 {
                     Status = NotFound().StatusCode,
                     Message = "Over number page"
                 });
-            }
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -505,6 +496,4 @@ public class PaintingController : Controller
     }
 
     #endregion
-
-
 }
