@@ -5,7 +5,7 @@ namespace Application.IRepositories;
 public interface IRoundRepository : IGenericRepository<Round>
 {
     public Task<Round?> GetRoundDetail(Guid id);
-    Task<List<Topic>> GetTopic(Guid RoundId);
+    Task<List<Topic>> GetTopic(Guid roundId);
     Task<List<Round>> GetRoundByLevelId(Guid levelId);
-    Task<bool> CheckSubmitValidDate(Guid RoundId);
+    Task<bool> CheckSubmitValidDate(Guid? roundId);
 }

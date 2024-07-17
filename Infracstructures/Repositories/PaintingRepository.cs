@@ -81,7 +81,7 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .ToListAsync();
     }
 
-    public async Task<int> CreateNewNumberOfPaintingCode(Guid roundId)
+    public async Task<int> CreateNewNumberOfPaintingCode(Guid? roundId)
     {
         var paintings = await DbSet.Include(p => p.RoundTopic)
             .ThenInclude(r => r.Round)

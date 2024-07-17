@@ -7,8 +7,8 @@ namespace Infracstructures.Validators;
 
 public class PaintingValidator : IPaintingValidator
 {
-    public PaintingValidator(IValidator<PaintingRequest> paintingvalidator,
-        IValidator<PaintingRequest2> painting2validator,
+    public PaintingValidator(IValidator<CompetitorCreatePaintingRequest> paintingvalidator,
+        IValidator<StaffCreatePaintingRequest> painting2validator,
         IValidator<PaintingUpdateStatusRequest> paintingupdatestatusvalidator,
         IValidator<RatingRequest> ratingvalidator,
         IValidator<UpdatePaintingRequest> updatepaintingvalidator,
@@ -22,9 +22,9 @@ public class PaintingValidator : IPaintingValidator
         FilterPaintingRequestValidator = filterpaintingvalidator;
     }
 
-    public IValidator<PaintingRequest> PaintingRequestValidator { get; }
+    public IValidator<CompetitorCreatePaintingRequest> PaintingRequestValidator { get; }
 
-    public IValidator<PaintingRequest2> PaintingRequest2Validator { get; }
+    public IValidator<StaffCreatePaintingRequest> PaintingRequest2Validator { get; }
 
     public IValidator<PaintingUpdateStatusRequest> PaintingUpdateStatusRequestValidator { get; }
 

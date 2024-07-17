@@ -64,12 +64,27 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     public async Task<int> CreateNumberOfAccountCode(string roleCode)
     {
         var listAccount = await DbSet.ToListAsync();
-        var maxNumber = listAccount
-            .Where(a => a.Code.StartsWith(roleCode)) // Kiểm tra prefix
-            .Select(a => int.TryParse(a.Code.Substring(3), out var number) ? number : 0)
+
+        if (listAccount == null || !listAccount.Any())
+        {
+            return 1;
+        }
+
+        // Lọc danh sách các tài khoản có code và bắt đầu với roleCode
+        var filteredAccounts = listAccount.Where(a => a.Code != null && a.Code.StartsWith(roleCode)).ToList();
+
+        // Kiểm tra xem danh sách filteredAccounts có phần tử nào không
+        if (!filteredAccounts.Any())
+        {
+            return 1;
+        }
+
+        int maxNumber = filteredAccounts
+            .Select(a => int.TryParse(a.Code.Substring(roleCode.Length), out var number) ? number : 0)
             .DefaultIfEmpty(0)
             .Max();
 
         return maxNumber + 1;
     }
+
 }

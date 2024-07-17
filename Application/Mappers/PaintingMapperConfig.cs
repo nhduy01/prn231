@@ -10,12 +10,15 @@ public partial class MapperConfigs : Profile
 {
     partial void AddPaintingMapperConfig()
     {
-        CreateMap<Painting, PaintingRequest>().ReverseMap()
+        CreateMap<Painting, CompetitorCreatePaintingRequest>().ReverseMap();
+
+        CreateMap<Painting, StaffCreatePaintingRequest>().ReverseMap()
             .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
 
-        CreateMap<Painting, PaintingRequest2>().ReverseMap()
-            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId))
-            .ForMember(x => x.AccountId, x => x.MapFrom(x => x.CurrentUserId));
+        CreateMap<Painting, StaffCreatePaintingFinalRoundRequest>().ReverseMap()
+            .ForMember(x => x.AccountId, x => x.MapFrom(x => x.CompetitorId))
+            .ForMember(x => x.CreatedBy, x => x.MapFrom(x => x.CurrentUserId));
+
 
         CreateMap<Painting, PaintingViewModel>()
             .ForPath(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Account.FullName))

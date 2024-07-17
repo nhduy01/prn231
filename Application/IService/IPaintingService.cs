@@ -7,12 +7,9 @@ namespace Application.IService;
 
 public interface IPaintingService
 {
-    Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest2 request);
-    Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request);
-    Task<bool> AddPaintingForFinalRound(PaintingRequest request);
-    Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
-    Task<bool> DeletePainting(Guid paintingId);
     Task<bool> UpdatePainting(UpdatePaintingRequest updatePainting);
+
+    Task<(List<PaintingViewModel>, int)> GetListPainting(ListModels listPaintingModel);
     Task<PaintingViewModel?> GetPaintingByCode(string code);
     Task<PaintingViewModel?> GetPaintingById(Guid id);
     Task<List<PaintingViewModel>> List16WiningPainting();
@@ -20,12 +17,22 @@ public interface IPaintingService
     Task<(List<PaintingViewModel>, int)> FilterPainting(FilterPaintingRequest filterPainting,
         ListModels listPaintingModel);
 
+    Task<(List<PaintingViewModel>, int)> ListPaintingByAccountId(Guid accountId, ListModels listPaintingModel);
 
-    /*public Task<bool> SubmitPainting(Guid paintingId);*/
+    #region Competitor
+
+    Task<bool> DraftPaintingForPreliminaryRound(CompetitorCreatePaintingRequest request);
+    Task<bool> SubmitPaintingForPreliminaryRound(CompetitorCreatePaintingRequest request);
+    Task<bool> DeletePainting(Guid paintingId);
+
+    #endregion
+
+    #region Staff
+
     public Task<PaintingViewModel?> ReviewDecisionOfPainting(PaintingUpdateStatusRequest request);
     public Task<PaintingViewModel?> FinalDecisionOfPainting(PaintingUpdateStatusRequest request);
+    public Task<bool> StaffSubmitPaintingForPreliminaryRound(StaffCreatePaintingRequest request);
+    public Task<bool> StaffSubmitPaintingForFinalRound(StaffCreatePaintingFinalRoundRequest request);
 
-
-    Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request);
-    Task<(List<PaintingViewModel>, int)> ListPaintingByAccountId(Guid accountId, ListModels listPaintingModel);
+    #endregion
 }

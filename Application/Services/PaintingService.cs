@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Application.IService.ICommonService;
 using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
@@ -12,13 +13,16 @@ namespace Application.Services;
 
 public class PaintingService : IPaintingService
 {
+    private readonly IMailService _mailService;
     private readonly IMapper _mapper;
     private readonly INotificationService _notificationService;
     private readonly IUnitOfWork _unitOfWork;
 
 
-    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService)
+    public PaintingService(IUnitOfWork unitOfWork, IMapper mapper, INotificationService notificationService,
+        IMailService mailService)
     {
+        _mailService = mailService;
         _notificationService = notificationService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
@@ -26,17 +30,16 @@ public class PaintingService : IPaintingService
 
     #region Draft Painting Preliminary Round
 
-    public async Task<bool> DraftPaintingForPreliminaryRound(PaintingRequest2 request)
+    public async Task<bool> DraftPaintingForPreliminaryRound(CompetitorCreatePaintingRequest request)
     {
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.Draft.ToString();
-        painting.Code = ""; // Sửa Db thì xóa
-        painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
+        painting.Code = "";
+        painting.RoundTopicId = request.RoundTopicId;
         await _unitOfWork.PaintingRepo.AddAsync(painting);
-
         await _unitOfWork.SaveChangesAsync();
-
-        painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
+        var roundTopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(request.RoundTopicId);
+        painting.Code = await GeneratePaintingCode(painting.Id, roundTopic!.RoundId);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -44,20 +47,20 @@ public class PaintingService : IPaintingService
 
     #region Submit Painting Preliminary Round
 
-    public async Task<bool> SubmitPaintingForPreliminaryRound(PaintingRequest request)
+    public async Task<bool> SubmitPaintingForPreliminaryRound(CompetitorCreatePaintingRequest request)
     {
-        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
-
+        var roundTopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(request.RoundTopicId);
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(roundTopic!.RoundId);
         if (check)
         {
             var painting = _mapper.Map<Painting>(request);
             painting.Status = PaintingStatus.Submitted.ToString();
             painting.Code = ""; // Sửa Db thì xóa
-            painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
+            painting.RoundTopicId = request.RoundTopicId;
             await _unitOfWork.PaintingRepo.AddAsync(painting);
             await _unitOfWork.SaveChangesAsync();
 
-            painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
+            painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
             if (await _unitOfWork.SaveChangesAsync() > 0)
             {
                 var notification = new Notification();
@@ -73,21 +76,35 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    #region Submit Painting Preliminary Round For Competitor
+    #region Staff Submit Painting Preliminary
 
-    public async Task<bool> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 request)
+    public async Task<bool> StaffSubmitPaintingForPreliminaryRound(StaffCreatePaintingRequest request)
     {
-        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(request.RoundId);
+        var roundTopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(request.RoundTopicId);
+        var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(roundTopic!.RoundId);
         if (check)
         {
+            // map account
+            var competitor = _mapper.Map<Account>(request);
+            //map painting
             var painting = _mapper.Map<Painting>(request);
+            painting.AccountId = competitor.Id;
             painting.Code = ""; // Sửa Db thì xóa
             painting.Status = PaintingStatus.Submitted.ToString();
-            painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
-            await _unitOfWork.PaintingRepo.AddAsync(painting);
+            painting.RoundTopicId = roundTopic.Id;
+            competitor.Painting = new List<Painting>();
+            competitor.Painting.Add(painting);
+            await _unitOfWork.AccountRepo.AddAsync(competitor);
             await _unitOfWork.SaveChangesAsync();
+            painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
+            competitor.Code = await GenerateAccountCode(Role.Competitor);
+            //send account for competitor
+            /*var mail = new MailModel();
+            mail.To = competitor.Email;
+            mail.Subject = "Active Account";
+            mail.Body = $"Link ID {competitor.Id}";
+            await _mailService.SendEmail(mail);*/
 
-            painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
 
@@ -98,17 +115,18 @@ public class PaintingService : IPaintingService
 
     #region Add Painting Final Round
 
-    public async Task<bool> AddPaintingForFinalRound(PaintingRequest request)
+    public async Task<bool> StaffSubmitPaintingForFinalRound(StaffCreatePaintingFinalRoundRequest request)
     {
+        var roundTopic = await _unitOfWork.RoundTopicRepo.GetByIdAsync(request.RoundTopicId);
         var painting = _mapper.Map<Painting>(request);
         painting.Status = PaintingStatus.FinalRound.ToString();
         painting.Code = ""; // Sửa Db thì xóa
-        painting.RoundTopicId = await _unitOfWork.RoundTopicRepo.GetRoundTopicId(request.RoundId, request.TopicId);
+        painting.RoundTopicId = request.RoundTopicId;
         await _unitOfWork.PaintingRepo.AddAsync(painting);
 
         await _unitOfWork.SaveChangesAsync();
 
-        painting.Code = await GeneratePaintingCode(painting.Id, request.RoundId);
+        painting.Code = await GeneratePaintingCode(painting.Id, roundTopic!.RoundId);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -314,7 +332,7 @@ public class PaintingService : IPaintingService
 
     #region Generate Painting Code Async
 
-    private async Task<string> GeneratePaintingCode(Guid paintingId, Guid RoundId)
+    private async Task<string> GeneratePaintingCode(Guid paintingId, Guid? roundId)
     {
         var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
 
@@ -323,10 +341,31 @@ public class PaintingService : IPaintingService
         var roundCode = painting.RoundTopic.Round.Name == "Vòng Chung Kết" ? "CK" : "VL";
 
         int number;
-        number = await _unitOfWork.PaintingRepo.CreateNewNumberOfPaintingCode(RoundId);
+        number = await _unitOfWork.PaintingRepo.CreateNewNumberOfPaintingCode(roundId);
 
         var code = $"NVX{year}-{levelChar}-{roundCode}-{number:D5}";
 
+        return code;
+    }
+
+    #endregion
+
+    #region Generate Account Code
+
+    private async Task<string> GenerateAccountCode(Role role)
+    {
+        var prefix = role switch
+        {
+            Role.Guardian => "GH",
+            Role.Competitor => "TS",
+            Role.Staff => "NV",
+            Role.Admin => "AD",
+            Role.Examiner => "GK",
+            _ => throw new ArgumentException("Invalid role")
+        };
+
+        var number = await _unitOfWork.AccountRepo.CreateNumberOfAccountCode(prefix);
+        var code =  $"{prefix}-{number:D6}";
         return code;
     }
 

@@ -22,11 +22,11 @@ public class PaintingController : Controller
     #region Draft Painting For Preliminary Round
 
     [HttpPost("draftepainting1stround")]
-    public async Task<IActionResult> DraftPaintingForPreliminaryRound(PaintingRequest2 painting)
+    public async Task<IActionResult> DraftPaintingForPreliminaryRound(CompetitorCreatePaintingRequest request)
     {
         try
         {
-            var result = await _paintingService.DraftPaintingForPreliminaryRound(painting);
+            var result = await _paintingService.DraftPaintingForPreliminaryRound(request);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
@@ -52,11 +52,12 @@ public class PaintingController : Controller
     #region Submit Painting For Preliminary Round
 
     [HttpPost("submitepainting1stround")]
-    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(PaintingRequest painting)
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRound(
+        CompetitorCreatePaintingRequest competitorCreatePainting)
     {
         try
         {
-            var result = await _paintingService.SubmitPaintingForPreliminaryRound(painting);
+            var result = await _paintingService.SubmitPaintingForPreliminaryRound(competitorCreatePainting);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
@@ -79,14 +80,15 @@ public class PaintingController : Controller
 
     #endregion
 
-    #region Submit Painting For Preliminary Round For Competitor
+    #region Staff Submit Painting For Preliminary Round
 
     [HttpPost("submitepainting1stroundforCompetitor")]
-    public async Task<IActionResult> SubmitPaintingForPreliminaryRoundForCompetitor(PaintingRequest2 painting)
+    public async Task<IActionResult> SubmitPaintingForPreliminaryRoundForCompetitor(
+        StaffCreatePaintingRequest staffCreatePainting)
     {
         try
         {
-            var result = await _paintingService.SubmitPaintingForPreliminaryRoundForCompetitor(painting);
+            var result = await _paintingService.StaffSubmitPaintingForPreliminaryRound(staffCreatePainting);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
             return Ok(new BaseResponseModel
             {
@@ -109,14 +111,14 @@ public class PaintingController : Controller
 
     #endregion
 
-    #region Create Painting For Final Round
+    #region Staff Submit Painting For Final Round
 
     [HttpPost("createpaintingfinalround")]
-    public async Task<IActionResult> CreatePaintingForFinalRound(PaintingRequest painting)
+    public async Task<IActionResult> CreatePaintingForFinalRound(StaffCreatePaintingFinalRoundRequest request)
     {
         try
         {
-            var result = await _paintingService.AddPaintingForFinalRound(painting);
+            var result = await _paintingService.StaffSubmitPaintingForFinalRound(request);
             if (result == null) return NotFound(new { Success = false, Message = "Painting not found" });
 
             return Ok(new BaseResponseModel

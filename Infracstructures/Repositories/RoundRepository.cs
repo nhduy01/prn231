@@ -30,9 +30,9 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
-    public virtual async Task<List<Topic>> GetTopic(Guid RoundId)
+    public virtual async Task<List<Topic>> GetTopic(Guid roundId)
     {
-        return await DbSet.Where(x => x.Id == RoundId && x.Status == RoundStatus.Active.ToString())
+        return await DbSet.Where(x => x.Id == roundId && x.Status == RoundStatus.Active.ToString())
             .SelectMany(x => x.RoundTopic.Select(x => x.Topic).Where(x => x.Status == TopicStatus.Active.ToString()))
             .ToListAsync();
     }
@@ -43,9 +43,9 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
             .ToListAsync();
     }
 
-    public virtual async Task<bool> CheckSubmitValidDate(Guid RoundId)
+    public virtual async Task<bool> CheckSubmitValidDate(Guid? roundId)
     {
-        var temp = await DbSet.FirstOrDefaultAsync(x => x.Id == RoundId);
+        var temp = await DbSet.FirstOrDefaultAsync(x => x.Id == roundId);
         var check = false;
         if (DateTime.Now <= temp.EndTime && DateTime.Now >= temp.StartTime) check = true;
         return check;
