@@ -7,7 +7,7 @@ namespace Application.IService;
 public interface IResourcesService
 {
     public Task<bool> CreateResources(ResourcesRequest Resources);
-    public Task<(List<ResourcesViewModel>, int)> GetListResources(ListModels listModels);
+    public Task<List<ResourcesViewModel>> GetListResources();
     public Task<ResourcesViewModel?> GetResourcesById(Guid id);
     public Task<bool> UpdateResources(ResourcesUpdateRequest updateResources);
     public Task<bool> DeleteResources(Guid id);

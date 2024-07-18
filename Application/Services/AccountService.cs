@@ -53,6 +53,16 @@ public class AccountService : IAccountService
         return (result, totalPages);
     }
 
+    public async Task<List<AccountViewModel>> GetAllExaminer()
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = accountList
+            .Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
+
+        return result;
+    }
+
     public async Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
@@ -68,6 +78,16 @@ public class AccountService : IAccountService
         return (result, totalPages);
     }
 
+    public async Task<List<AccountViewModel>> GetAllCompetitor()
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = accountList
+            .Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
+
+        return result;
+    }
+
     public async Task<(List<AccountViewModel>, int)> GetListStaff(ListModels listModels)
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
@@ -81,6 +101,16 @@ public class AccountService : IAccountService
             .Take(listModels.PageSize)
             .ToList();
         return (result, totalPages);
+    }
+    public async Task<List<AccountViewModel>> GetAllStaff()
+    {
+        var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
+        accountList = accountList
+            .Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+        var result = _mapper.Map<List<AccountViewModel>>(accountList);
+
+        
+        return result;
     }
 
     public async Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels)

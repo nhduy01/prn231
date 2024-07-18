@@ -6,14 +6,17 @@ namespace Application.IService;
 
 public interface IAccountService
 {
-    public Task<bool?> CreateSubAccount(SubAccountRequest request);
-    public Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels);
-    public Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels);
+    Task<bool?> CreateSubAccount(SubAccountRequest request);
+    Task<(List<AccountViewModel>, int)> GetListExaminer(ListModels listModels);
+    Task<(List<AccountViewModel>, int)> GetListCompetitor(ListModels listModels);
     Task<(List<AccountViewModel>, int)> GetListStaff(ListModels listModels);
+    Task<List<AccountViewModel>> GetAllStaff();
+    Task<List<AccountViewModel>> GetAllCompetitor();
+    Task<List<AccountViewModel>> GetAllExaminer();
     Task<(List<AccountViewModel>, int)> GetListInactiveAccount(ListModels listModels);
-    public Task<AccountViewModel?> GetAccountById(Guid id);
-    public Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount);
-    public Task<bool?> InactiveAccount(Guid id);
+    Task<AccountViewModel?> GetAccountById(Guid id);
+    Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount);
+    Task<bool?> InactiveAccount(Guid id);
     Task<bool?> ActiveAccount(Guid id);
 
     Task<List<AccountViewModel>> ListAccountHaveAwardIn3NearestContest();

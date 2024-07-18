@@ -20,6 +20,7 @@
 
   
 # Xong :white_check_mark:
+- filter painting :white_check_mark:
 - Lấy ra roundid topicid từ roundtopicid trong painting (paiting view model) ( Lấy Round) :white_check_mark:
 - Chuyển Stauts của report :white_check_mark:
 - Sửa Output cho GetContestById :white_check_mark:

@@ -63,7 +63,6 @@ public class AwardController : Controller
         try
         {
             var result = await _awardService.UpdateAward(updateAward);
-            if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
@@ -93,7 +92,6 @@ public class AwardController : Controller
         try
         {
             var result = await _awardService.DeleteAward(id);
-            if (result == null) return NotFound();
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
