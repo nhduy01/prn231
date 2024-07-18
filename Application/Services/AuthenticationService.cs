@@ -184,8 +184,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-
-
+    
     #region Generate Account Code
 
     private async Task<string> GenerateAccountCode(Role role)

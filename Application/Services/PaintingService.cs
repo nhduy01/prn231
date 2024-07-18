@@ -98,12 +98,8 @@ public class PaintingService : IPaintingService
             await _unitOfWork.SaveChangesAsync();
             painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
             competitor.Code = await GenerateAccountCode(Role.Competitor);
-            //send account for competitor
-            /*var mail = new MailModel();
-            mail.To = competitor.Email;
-            mail.Subject = "Active Account";
-            mail.Body = $"Link ID {competitor.Id}";
-            await _mailService.SendEmail(mail);*/
+
+            await _mailService.SendAccountInformation(competitor);
 
             return await _unitOfWork.SaveChangesAsync() > 0;
         }
