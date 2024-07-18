@@ -39,8 +39,15 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
 
     public async Task<List<Round>> GetRoundByLevelId(Guid levelId)
     {
-        return await DbSet.Where(x => x.EducationalLevelId == levelId && x.Status == RoundStatus.Active.ToString())
+        return await DbSet.Include(src => src.EducationalLevel).Include(src => src.Schedule).Where(x => x.EducationalLevelId == levelId && x.Status == RoundStatus.Active.ToString())
             .ToListAsync();
+    }
+    
+    public async Task<List<Round>> GetRoundByContestId(Guid id)
+    {
+        var list = await DbSet.Include(src => src.EducationalLevel).Include(src => src.Schedule).Where(x => x.EducationalLevel.ContestId == id && x.Status == RoundStatus.Active.ToString())
+            .ToListAsync();
+        return list;
     }
 
     public virtual async Task<bool> CheckSubmitValidDate(Guid? roundId)
