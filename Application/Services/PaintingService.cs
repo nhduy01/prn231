@@ -1,6 +1,7 @@
 ﻿using Application.BaseModels;
 using Application.IService;
 using Application.IService.ICommonService;
+using Application.SendModels.Notification;
 using Application.SendModels.Painting;
 using Application.ViewModels.PaintingViewModels;
 using AutoMapper;
@@ -63,9 +64,11 @@ public class PaintingService : IPaintingService
             painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
             if (await _unitOfWork.SaveChangesAsync() > 0)
             {
-                var notification = new Notification();
-                //notification.Status = NotificationStatus.
-                //_notificationService.CreateNotification()
+                var notification = new NotificationRequest();
+                notification.Message = "Bạn đã nột bài thông công";
+                notification.Title = "Nét Vẽ Xanh 2024";
+                notification.AccountId = request.AccountId;
+                await _notificationService.CreateNotification(notification);
             }
 
             return await _unitOfWork.SaveChangesAsync() > 0;
@@ -200,6 +203,7 @@ public class PaintingService : IPaintingService
         painting.ReviewedTimestamp = DateTime.Now;
 
         await _unitOfWork.SaveChangesAsync();
+
         return _mapper.Map<PaintingViewModel>(painting);
     }
 
@@ -308,24 +312,6 @@ public class PaintingService : IPaintingService
 
     #endregion
 
-    #region Submit Painting
-
-    public async Task<bool> SubmitPainting(Guid paintingId)
-    {
-        var painting = await _unitOfWork.PaintingRepo.GetByIdAsync(paintingId);
-        if (painting == null) throw new Exception("Khong tim thay Painting");
-
-        if (painting.Status != PaintingStatus.Draft.ToString()) throw new Exception("Painting da Submit");
-
-        painting.Status = PaintingStatus.Submitted.ToString();
-
-        painting.SubmittedTimestamp = DateTime.Now;
-
-        return await _unitOfWork.SaveChangesAsync() > 0;
-    }
-
-    #endregion
-
     #region Generate Painting Code Async
 
     private async Task<string> GeneratePaintingCode(Guid paintingId, Guid? roundId)
@@ -361,9 +347,10 @@ public class PaintingService : IPaintingService
         };
 
         var number = await _unitOfWork.AccountRepo.CreateNumberOfAccountCode(prefix);
-        var code =  $"{prefix}-{number:D6}";
+        var code = $"{prefix}-{number:D6}";
         return code;
     }
 
     #endregion
+    
 }

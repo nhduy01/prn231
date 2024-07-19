@@ -7,4 +7,5 @@ public interface IMailService
 {
     Task SendEmail(MailModel request);
     Task SendAccountInformation(Account account);
+    Task PassPreliminaryRound(Account account);
 }

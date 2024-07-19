@@ -135,4 +135,10 @@ public class PaintingRepository : GenericRepository<Painting>, IPaintingReposito
             .Where(p => p.RoundTopic.Round.EducationalLevel.ContestId == contestId)
             .CountAsync();
     }
+
+
+    public async Task<List<Painting>> GetAllPaintingOfRound(Guid id)
+    {
+        return await DbSet.Include(src => src.Account).Where(src => src.RoundTopic.RoundId.Equals(id)).ToListAsync();
+    }
 }

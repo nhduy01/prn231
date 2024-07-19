@@ -55,11 +55,10 @@ namespace Application.Services.CommonService
         public async Task BanAccount(Account account)
         {
             var template = GetEmailTemplate("SendAccountForCompetitor.html");
+            template = template.Replace($"[Tên người dùng]", account.FullName);
             
             var supportmail = _configuration["NetVeXanh:SupportMail"];
             var supportphone = _configuration["NetVeXanh:SupportPhone"];
-            
-            template = template.Replace($"[Tên người dùng]", account.FullName);
             template = template.Replace($"[email hỗ trợ]", supportmail);
             template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
 
@@ -79,6 +78,11 @@ namespace Application.Services.CommonService
             template = template.Replace($"[Tên Thí Sinh]", account.FullName);
             template = template.Replace($"[Mật khẩu]", account.Password);
             template = template.Replace($"[Tên tài khoản]", account.Username);
+            
+            var supportmail = _configuration["NetVeXanh:SupportMail"];
+            var supportphone = _configuration["NetVeXanh:SupportPhone"];
+            template = template.Replace($"[email hỗ trợ]", supportmail);
+            template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
 
             var body = template;
 
@@ -94,36 +98,40 @@ namespace Application.Services.CommonService
             var template = GetEmailTemplate("SendAccountForCompetitor.html");
             
             template = template.Replace($"[Tên Thí Sinh]", account.FullName);
-            template = template.Replace($"[Mật khẩu]", account.Password);
-            template = template.Replace($"[Tên tài khoản]", account.Username);
+            
+            var supportmail = _configuration["NetVeXanh:SupportMail"];
+            var supportphone = _configuration["NetVeXanh:SupportPhone"];
+            template = template.Replace($"[email hỗ trợ]", supportmail);
+            template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
 
             var body = template;
 
             MailModel mail = new MailModel();
             mail.To = account.Email;
-            mail.Subject = "THÔNG TIN ĐĂNG NHẬP";
+            mail.Subject = "THÔNG BÁO VÒNG CHUNG KẾT NÉT VẼ XANH";
             mail.Body = body;
             await SendEmail(mail);
         }
-        
         
         public async Task PassPreliminaryRound(Account account)
         {
             var template = GetEmailTemplate("SendAccountForCompetitor.html");
             
             template = template.Replace($"[Tên Thí Sinh]", account.FullName);
-            template = template.Replace($"[Mật khẩu]", account.Password);
-            template = template.Replace($"[Tên tài khoản]", account.Username);
+            
+            var supportmail = _configuration["NetVeXanh:SupportMail"];
+            var supportphone = _configuration["NetVeXanh:SupportPhone"];
+            template = template.Replace($"[email hỗ trợ]", supportmail);
+            template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
 
             var body = template;
 
             MailModel mail = new MailModel();
             mail.To = account.Email;
-            mail.Subject = "THÔNG TIN ĐĂNG NHẬP";
+            mail.Subject = "THÔNG BÁO CUỘC THI NÉT VẼ XANH";
             mail.Body = body;
             await SendEmail(mail);
         }
-        
         
         public async Task ResetPassword(Account account)
         {
@@ -132,12 +140,18 @@ namespace Application.Services.CommonService
             template = template.Replace($"[Tên Thí Sinh]", account.FullName);
             template = template.Replace($"[Mật khẩu]", account.Password);
             template = template.Replace($"[Tên tài khoản]", account.Username);
+            
+            
+            var supportmail = _configuration["NetVeXanh:SupportMail"];
+            var supportphone = _configuration["NetVeXanh:SupportPhone"];
+            template = template.Replace($"[email hỗ trợ]", supportmail);
+            template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
 
             var body = template;
 
             MailModel mail = new MailModel();
             mail.To = account.Email;
-            mail.Subject = "THÔNG TIN ĐĂNG NHẬP";
+            mail.Subject = "CẬP NHẬT MẬT KHẨU";
             mail.Body = body;
             await SendEmail(mail);
         }
@@ -150,11 +164,17 @@ namespace Application.Services.CommonService
             template = template.Replace($"[Mật khẩu]", account.Password);
             template = template.Replace($"[Tên tài khoản]", account.Username);
 
+            
+            var supportmail = _configuration["NetVeXanh:SupportMail"];
+            var supportphone = _configuration["NetVeXanh:SupportPhone"];
+            template = template.Replace($"[email hỗ trợ]", supportmail);
+            template = template.Replace($"[số điện thoại hỗ trợ]", supportphone);
+            
             var body = template;
 
             MailModel mail = new MailModel();
             mail.To = account.Email;
-            mail.Subject = "THÔNG TIN ĐĂNG NHẬP";
+            mail.Subject = "THÔNG BÁO MỞ KHÓA TÀI KHOẢN";
             mail.Body = body;
             await SendEmail(mail);
         }

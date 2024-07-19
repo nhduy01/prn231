@@ -23,6 +23,7 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
         return await DbSet.Include(r => r.EducationalLevel).Where(x => x.Status == RoundStatus.Active.ToString())
             .ToListAsync();
     }
+    
 
     public async Task<Round?> GetRoundDetail(Guid id)
     {
@@ -30,7 +31,7 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 
-    public virtual async Task<List<Topic>> GetTopic(Guid roundId)
+    public async Task<List<Topic>> GetTopic(Guid roundId)
     {
         return await DbSet.Where(x => x.Id == roundId && x.Status == RoundStatus.Active.ToString())
             .SelectMany(x => x.RoundTopic.Select(x => x.Topic).Where(x => x.Status == TopicStatus.Active.ToString()))
