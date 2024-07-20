@@ -5,6 +5,7 @@ namespace Application.IRepositories;
 
 public interface IPaintingRepository : IGenericRepository<Painting>
 {
+    Task<List<Painting>> GetAllPaintingOfRound(Guid id);
     Task<Painting?> GetByCodeAsync(string code);
     Task<List<Painting>> List16WiningPaintingAsync();
     Task<List<Account>> ListCompetitorPassByRound(Guid roundId);

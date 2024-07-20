@@ -7,6 +7,7 @@ namespace Application.IService;
 
 public interface IScheduleService
 {
+    public Task<List<ListScheduleViewModel>> GetListSchedule(Guid id);
     public Task<bool> CreateScheduleForPreliminaryRound(ScheduleRequest Schedule);
     public Task<bool> CreateScheduleForFinalRound(ScheduleRequest Schedule);
     public Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels);

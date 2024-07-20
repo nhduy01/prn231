@@ -104,4 +104,60 @@ public class NotificationController : Controller
     }
 
     #endregion
+    
+    #region Send Result Final Round
+
+    [HttpPut("sendresultfinalround/{id}")]
+    public async Task<IActionResult> SendResultFinalRound([FromRoute] Guid id)
+    {
+        try
+        {
+            var result = await _notificationService.SendResultFinalRound(id);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Send Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+    
+    #region Send Result Preliminary Round
+
+    [HttpPut("sendresultpreliminaryround/{id}")]
+    public async Task<IActionResult> SendResultPreliminaryRound([FromRoute] Guid id)
+    {
+        try
+        {
+            var result = await _notificationService.SendResultPreliminaryRound(id);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Send Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.IService.ICommonService;
+using Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -41,7 +42,7 @@ public class Authentication : IAuthentication
         return string.Join(Delimiter, Convert.ToBase64String(salt), Convert.ToBase64String(hash));
     }
 
-    public string GenerateToken(string name, string id, string role)
+    public string GenerateToken(Account account)
     {
         var secretKey = _configuration["Jwt:Key"];
         var jwtTokenHandler = new JwtSecurityTokenHandler();
@@ -50,9 +51,10 @@ public class Authentication : IAuthentication
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, name),
-                new Claim("Id", id),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.NameIdentifier, account.Username!),
+                new Claim("Id", account.Id.ToString()),
+                new Claim(ClaimTypes.Role, account.Role!),
+                new Claim("Avatar", account.Avatar!)
             }),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials =

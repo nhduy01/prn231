@@ -1,6 +1,7 @@
 ﻿using Application.SendModels.Round;
 using Application.ViewModels.ContestViewModels;
 using Application.ViewModels.RoundViewModels;
+using Application.ViewModels.ScheduleViewModels;
 using AutoMapper;
 using Domain.Models;
 
@@ -30,5 +31,14 @@ public partial class MapperConfigs : Profile
 
         CreateMap<Round, RoundInLevelViewModel>()
             .ForMember(dest => dest.RoundTopic, opt => opt.MapFrom(src => src.RoundTopic));
+
+
+        CreateMap<Round, ListScheduleViewModel>()
+            .ForMember(des => des.RoundId, src => src.MapFrom(opt => opt.Id))
+            .ForMember(des => des.RoundName, src => src.MapFrom(opt => opt.Name))
+            .ForMember(des => des.EducationName, src => src.MapFrom(opt => opt.EducationalLevel.Level))
+            .ForMember(des => des.Schedules, src => src.MapFrom(opt => opt.Schedule));
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.IService;
+using Application.IService.ICommonService;
 using Application.SendModels.Notification;
 using AutoMapper;
 using Domain.Enums;
@@ -11,11 +12,12 @@ namespace Application.Services;
 public class NotificationService : INotificationService
 {
     private readonly IMapper _mapper;
-
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMailService _mailService;
 
-    public NotificationService(IUnitOfWork unitOfWork, IMapper mapper)
+    public NotificationService(IUnitOfWork unitOfWork, IMapper mapper, IMailService mailService)
     {
+        _mailService = mailService;
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
@@ -56,8 +58,7 @@ public class NotificationService : INotificationService
     }
 
     #endregion
-
-
+    
     #region Is Read
 
     public async Task<bool> ReadNotification(Guid id)
@@ -70,4 +71,52 @@ public class NotificationService : INotificationService
     }
 
     #endregion
+
+
+    #region Send result Round 2
+
+    public async Task<bool> SendResultFinalRound(Guid id)
+    {
+        try
+        {
+            var paintings = await _unitOfWork.PaintingRepo.GetAllPaintingOfRound(id);
+            var pass = paintings.Where(src => src.Status.Equals(PaintingStatus.HasPrizes.ToString())).ToList();
+            foreach (var p in pass)
+            {
+                await _mailService.PassPreliminaryRound(p.Account);
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    #endregion
+    
+    #region Send result Round 1
+
+    public async Task<bool> SendResultPreliminaryRound(Guid id)
+    {
+        try
+        {
+            var paintings = await _unitOfWork.PaintingRepo.GetAllPaintingOfRound(id);
+            var pass = paintings.Where(src => src.Status.Equals(PaintingStatus.Pass.ToString())).ToList();
+            foreach (var p in pass)
+            {
+                await _mailService.PassPreliminaryRound(p.Account);
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    #endregion
+    
 }
