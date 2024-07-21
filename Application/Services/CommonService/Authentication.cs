@@ -59,6 +59,10 @@ public class Authentication : IAuthentication
         {
             claims.Add(new Claim("Avatar", account.Avatar));
         }
+        else
+        {
+            claims.Add(new Claim("Avatar", ""));
+        }
 
         var tokenDescription = new SecurityTokenDescriptor
         {
