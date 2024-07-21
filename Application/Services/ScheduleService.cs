@@ -22,6 +22,16 @@ public class ScheduleService : IScheduleService
         _mapper = mapper;
     }
 
+    #region Get For Website
+
+    public async Task<List<ListScheduleViewModel>> GetListSchedule(Guid id)
+    {
+        var rounds = await _unitOfWork.RoundRepo.GetRoundByContestId(id);
+        return _mapper.Map<List<ListScheduleViewModel>>(rounds);
+    }
+
+    #endregion
+    
     #region Get All
 
     public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)

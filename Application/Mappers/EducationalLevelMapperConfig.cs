@@ -1,6 +1,10 @@
 ﻿using Application.SendModels.EducationalLevel;
 using Application.ViewModels.ContestViewModels;
+
+using Application.ViewModels.ScheduleViewModels;
+
 using Application.ViewModels.EducationalLevelViewModels;
+
 using AutoMapper;
 using Domain.Models;
 

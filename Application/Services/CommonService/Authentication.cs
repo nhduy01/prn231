@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.IService.ICommonService;
+using Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -41,24 +42,33 @@ public class Authentication : IAuthentication
         return string.Join(Delimiter, Convert.ToBase64String(salt), Convert.ToBase64String(hash));
     }
 
-    public string GenerateToken(string name, string id, string role)
+    public string GenerateToken(Account account)
     {
         var secretKey = _configuration["Jwt:Key"];
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         var secretKryByte = Encoding.UTF8.GetBytes(secretKey);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, account.Username!),
+            new Claim("Id", account.Id.ToString()),
+            new Claim(ClaimTypes.Role, account.Role!)
+        };
+
+        if (!string.IsNullOrEmpty(account.Avatar))
+        {
+            claims.Add(new Claim("Avatar", account.Avatar));
+        }
+
         var tokenDescription = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, name),
-                new Claim("Id", id),
-                new Claim(ClaimTypes.Role, role)
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddHours(1),
-            SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
         };
+
         var token = jwtTokenHandler.CreateToken(tokenDescription);
         return jwtTokenHandler.WriteToken(token);
     }
+
 }

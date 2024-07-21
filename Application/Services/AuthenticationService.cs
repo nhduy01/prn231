@@ -46,7 +46,7 @@ public class AuthenticationService : IAuthenticationService
                 response.Success = true;
                 response.Message = "Login Success";
                 response.JwtToken =
-                    _authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
+                    _authentication.GenerateToken(account);
                 response.RefreshToken = new RefreshToken();
                 response.RefreshToken.Token = RefreshToken();
 
@@ -141,7 +141,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var account = await _unitOfWork.AccountRepo.GetByIdAsync(refreshToken.Id);
         if (account != null)
-            return _authentication.GenerateToken(account.Username, account.Id.ToString(), account.Role);
+            return _authentication.GenerateToken(account);
         return "";
     }
 
@@ -184,8 +184,7 @@ public class AuthenticationService : IAuthenticationService
     }
 
     #endregion
-
-
+    
     #region Generate Account Code
 
     private async Task<string> GenerateAccountCode(Role role)
