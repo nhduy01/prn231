@@ -47,20 +47,28 @@ public class Authentication : IAuthentication
         var secretKey = _configuration["Jwt:Key"];
         var jwtTokenHandler = new JwtSecurityTokenHandler();
         var secretKryByte = Encoding.UTF8.GetBytes(secretKey);
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, account.Username!),
+            new Claim("Id", account.Id.ToString()),
+            new Claim(ClaimTypes.Role, account.Role!)
+        };
+
+        if (!string.IsNullOrEmpty(account.Avatar))
+        {
+            claims.Add(new Claim("Avatar", account.Avatar));
+        }
+
         var tokenDescription = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, account.Username!),
-                new Claim("Id", account.Id.ToString()),
-                new Claim(ClaimTypes.Role, account.Role!),
-                new Claim("Avatar", account.Avatar!)
-            }),
+            Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddHours(1),
-            SigningCredentials =
-                new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKryByte), SecurityAlgorithms.HmacSha256)
         };
+
         var token = jwtTokenHandler.CreateToken(tokenDescription);
         return jwtTokenHandler.WriteToken(token);
     }
+
 }
