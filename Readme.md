@@ -12,6 +12,7 @@
 - Validate tuổi khi đăng ký vào contest
 
 # Sửa: 
+- Add painting vào schedule cho giám khảo chấm
 - Sửa response
 - Đổi path Get Paintg By Collection(Controller)
 
