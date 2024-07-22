@@ -20,7 +20,9 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
 
     public override async Task<List<Round>> GetAllAsync()
     {
-        return await DbSet.Include(r => r.EducationalLevel).Where(src => src.Status == RoundStatus.Active.ToString())
+        return await DbSet.Include(r => r.EducationalLevel)
+            .ThenInclude(c=>c.Contest)
+            .Where(x => x.Status == RoundStatus.Active.ToString())
             .ToListAsync();
     }
     
