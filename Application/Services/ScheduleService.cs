@@ -31,7 +31,7 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
-    
+
     #region Get All
 
     public async Task<(List<ScheduleRatingViewModel>, int)> GetListSchedule(ListModels listModels)
@@ -56,7 +56,6 @@ public class ScheduleService : IScheduleService
         var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(updateSchedule.Id);
         if (schedule == null) throw new Exception("Khong tim thay Schedule");
         _mapper.Map(updateSchedule, schedule);
-
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
@@ -66,11 +65,11 @@ public class ScheduleService : IScheduleService
 
     public async Task<bool> DeleteSchedule(Guid id)
     {
-        var Schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
-        if (Schedule == null) throw new Exception("Khong tim thay Schedule");
-        Schedule.Status = ScheduleStatus.Delete.ToString();
-
-
+        var schedule = await _unitOfWork.ScheduleRepo.GetByIdAsync(id);
+        if (schedule == null) throw new Exception("Khong tim thay Schedule");
+        schedule.Status = ScheduleStatus.Delete.ToString();
+        schedule.AwardSchedule.ToList().ForEach(src => { src.Status = AwardScheduleStatus.Delete.ToString(); });
+        schedule.Painting.ToList().ForEach(src => src.ScheduleId = null);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
