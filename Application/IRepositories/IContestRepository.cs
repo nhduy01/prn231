@@ -4,7 +4,7 @@ namespace Application.IRepositories;
 
 public interface IContestRepository : IGenericRepository<Contest>
 {
-    Task<Contest> GetAllContestInformationAsync(Guid contestId);
+    Task<Contest?> GetAllContestInformationAsync(Guid contestId);
     Task<List<int>> Get5RecentYearAsync();
     Task<(DateTime StartTime, DateTime EndTime)?> GetStartEndTimeByContestId(Guid contestId);
 
@@ -13,4 +13,8 @@ public interface IContestRepository : IGenericRepository<Contest>
     Task<List<Guid>> Get3NearestContestId();
 
     Task<Contest?> GetContestByIdForRoundTopic(Guid id);
+
+
+    public Task<List<Contest>> EndContest();
+    public Task<List<Contest>> StartContest();
 }

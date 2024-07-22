@@ -4,5 +4,6 @@ public enum ScheduleStatus
 {
     Rating,
     Done,
-    Delete
+    Delete,
+    OutOfDate
 }

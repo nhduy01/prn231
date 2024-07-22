@@ -72,10 +72,10 @@ public class RoundService : IRoundService
 
     public async Task<RoundViewModel?> GetRoundById(Guid id)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
+        var round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
+        if (round == null) throw new Exception("Khong tim thay Round");
 
-        return _mapper.Map<RoundViewModel>(Round);
+        return _mapper.Map<RoundViewModel>(round);
     }
 
     #endregion
@@ -84,9 +84,9 @@ public class RoundService : IRoundService
 
     public async Task<bool> UpdateRound(RoundUpdateRequest updateRound)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
-        _mapper.Map(updateRound, Round);
+        var round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
+        if (round == null) throw new Exception("Khong tim thay Round");
+        _mapper.Map(updateRound, round);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

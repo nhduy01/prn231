@@ -98,6 +98,7 @@ public class ScheduleService : IScheduleService
             var newSchedule = new Schedule();
             newSchedule.Id = Guid.NewGuid();
             newSchedule.ExaminerId = schedule.ListExaminer[i];
+            newSchedule.EndDate = schedule.EndDate;
             newSchedule.RoundId = schedule.RoundId;
             newSchedule.Description = schedule.Description;
             newSchedule.Status = ScheduleStatus.Rating.ToString();
@@ -157,6 +158,7 @@ public class ScheduleService : IScheduleService
                 var newSchedule = new Schedule();
                 newSchedule.Id = Guid.NewGuid();
                 newSchedule.ExaminerId = schedule.ListExaminer[i];
+                newSchedule.EndDate = schedule.EndDate;
                 newSchedule.RoundId = schedule.RoundId;
                 newSchedule.Description = schedule.Description;
                 newSchedule.Status = ScheduleStatus.Rating.ToString();
