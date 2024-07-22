@@ -136,11 +136,11 @@ public class RoundService : IRoundService
 
     #endregion
 
-    #region Get By ContestId
-    public async Task<List<RoundViewModel>> GetListRoundByContestId(Guid id)
+    #region Get 
+    public async Task<List<RoundViewModel>> GetListRoundForCompetitor()
     {
         var today = _currentTime.GetCurrentTime();
-        var result = await _unitOfWork.RoundRepo.GetRoundByContestId(id);
+        var result = await _unitOfWork.RoundRepo.GetRoundsOfThisYear();
         if (result[1].EducationalLevel.Contest.StartTime >= today || today >= result[1].EducationalLevel.Contest.EndTime)
         {
             return null;

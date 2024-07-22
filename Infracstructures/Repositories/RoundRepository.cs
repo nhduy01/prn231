@@ -53,9 +53,9 @@ public class RoundRepository : GenericRepository<Round>, IRoundRepository
         return list;
     }
     
-    public async Task<List<Round>>? GetRoundsOfThisYear()
+    public async Task<List<Round>> GetRoundsOfThisYear()
     {
-        var list = await DbSet.Include(src => src.EducationalLevel).Include(src => src.Schedule).Where(src => src.StartTime <= DateTime.Now && DateTime.Now <= src.EndTime && src.Status == RoundStatus.Active.ToString()).ToListAsync();
+        var list = await DbSet.Include(src => src.EducationalLevel).ThenInclude(src => src.Contest).Include(src => src.Schedule).Where(src => src.EducationalLevel.Contest.StartTime.Year == DateTime.Today.Year && src.EducationalLevel.Contest.Status == ContestStatus.Active.ToString()  && src.Status == RoundStatus.Active.ToString()).ToListAsync();
         return list;
     }
 

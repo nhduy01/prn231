@@ -10,7 +10,7 @@ public interface IRoundRepository : IGenericRepository<Round>
     Task<bool> CheckSubmitValidDate(Guid? roundId);
     Task<List<Round>> GetRoundByContestId(Guid id);
     
-    Task<List<Round>>? GetRoundsOfThisYear();
+    Task<List<Round>> GetRoundsOfThisYear();
     
     public Task<List<Round>> EndRound();
     public Task<List<Round>> StartRound();
