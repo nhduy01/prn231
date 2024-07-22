@@ -266,4 +266,34 @@ public class RoundController : Controller
     }
 
     #endregion
+
+    #region Get List Round By Contest Id
+
+    [HttpGet("contestid/{id}")]
+    public async Task<IActionResult> GetListRoundByContestId(Guid id)
+    {
+        try
+        {
+            var result = await _roundService.GetListRoundByContestId(id);
+            if (result == null) return NotFound(new { Success = false, Message = "Round not found" });
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Round Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = null,
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
 }
