@@ -457,8 +457,8 @@ public class PaintingController : Controller
 
     #region Filter Painting
 
-    [HttpGet("filterpainting")]
-    public async Task<IActionResult> ListPaintingByAccountId([FromQuery] FilterPaintingRequest filterPainting,
+    [HttpPost("filterpainting")]
+    public async Task<IActionResult> ListPaintingByAccountId(FilterPaintingRequest filterPainting,
         [FromQuery] ListModels listPaintingModel)
     {
         try

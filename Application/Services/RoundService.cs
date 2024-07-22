@@ -45,7 +45,6 @@ public class RoundService : IRoundService
             newRound.UpdatedTime = _currentTime.GetCurrentTime();
             listNewRound.Add(newRound);
         }
-
         await _unitOfWork.RoundRepo.AddRangeAsync(listNewRound);
         return await _unitOfWork.SaveChangesAsync() > 0;
     }

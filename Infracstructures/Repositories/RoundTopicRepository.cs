@@ -21,6 +21,11 @@ public class RoundTopicRepository : GenericRepository<RoundTopic>, IRoundTopicRe
             .ToListAsync();
     }
 
+    public async Task<List<RoundTopic>> ListRoundTopicByRoundId(Guid roundId)
+    {
+        return await DbSet.Include(src => src.Topic).Where(src => src.RoundId == roundId).ToListAsync();
+    }
+
     public async Task<List<Painting>> ListPaintingForFinalRound(Guid roundId)
     {
         return await DbSet
