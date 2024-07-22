@@ -170,8 +170,8 @@ public class ScheduleController : Controller
     }
 
     #endregion
-    
-        #region Get Schedule By ContestId
+
+    #region Get Schedule By ContestId
     
         [HttpGet("contestId/{id}")]
         public async Task<IActionResult> GetScheduleByContestId([FromRoute] Guid id)
@@ -233,7 +233,7 @@ public class ScheduleController : Controller
 
     #region Delete Schedule
 
-    [HttpPatch]
+    [HttpDelete]
     public async Task<IActionResult> DeleteSchedule(Guid id)
     {
         try
