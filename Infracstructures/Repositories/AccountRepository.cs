@@ -11,11 +11,11 @@ public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
     }
 
-    public override async Task<Account?> GetByIdAsync(Guid id)
+    public async Task<Account?> GetByIdActiveAsync(Guid id)
     {
         return await DbSet.FirstOrDefaultAsync(a => a.Id == id && a.Status == AccountStatus.Active.ToString());
     }
-
+    
     public async Task<Account?> Login(string username)
     {
         return await DbSet.FirstOrDefaultAsync(a =>

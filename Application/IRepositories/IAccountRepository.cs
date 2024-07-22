@@ -10,6 +10,7 @@ public interface IAccountRepository : IGenericRepository<Account>
     Task<bool> CheckDuplicatePhone(string phone);
     Task<bool> CheckDuplicateUsername(string username);
     Task<bool> AccountNumberExists(int number);
+    Task<Account?> GetByIdActiveAsync(Guid id);
 
     Task<List<Account>> GetAccountByListAccountId(List<Guid> listAccountId);
 

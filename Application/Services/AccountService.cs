@@ -129,7 +129,7 @@ public class AccountService : IAccountService
 
     public async Task<AccountViewModel?> GetAccountById(Guid id)
     {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        var account = await _unitOfWork.AccountRepo.GetByIdActiveAsync(id);
         if (account == null) throw new Exception("Không tìm thấy Account");
         return _mapper.Map<AccountViewModel>(account);
     }
@@ -143,7 +143,7 @@ public class AccountService : IAccountService
 
     public async Task<bool?> UpdateAccount(AccountUpdateRequest updateAccount)
     {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(updateAccount.Id);
+        var account = await _unitOfWork.AccountRepo.GetByIdActiveAsync(updateAccount.Id);
         if (account == null) throw new Exception("Không tìm thấy tài khoản");
         _mapper.Map(updateAccount, account);
         return await _unitOfWork.SaveChangesAsync() > 0;
@@ -151,7 +151,7 @@ public class AccountService : IAccountService
 
     public async Task<bool?> InactiveAccount(Guid id)
     {
-        var account = await _unitOfWork.AccountRepo.GetByIdAsync(id);
+        var account = await _unitOfWork.AccountRepo.GetByIdActiveAsync(id);
         account.Status = AccountStatus.Inactive.ToString();
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
