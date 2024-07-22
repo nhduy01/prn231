@@ -3,6 +3,6 @@ using FluentValidation;
 
 namespace WebAPI.Validation.PaintingValidation;
 
-public class PaintingRequestValidator : AbstractValidator<CompetitorCreatePaintingRequest>
+public class StaffCreatePaintingRequestValidator : AbstractValidator<StaffCreatePaintingRequest>
 {
 }

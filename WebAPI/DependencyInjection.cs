@@ -138,8 +138,8 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<ImageRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<NotificationRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<PaintingCollectionRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<PaintingRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<PaintingRequest2Validator>();
+        services.AddValidatorsFromAssemblyContaining<CompetitorCreatePaintingRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<StaffCreatePaintingRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<PaintingUpdateStatusRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<RatingRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdatePaintingRequestValidator>();
