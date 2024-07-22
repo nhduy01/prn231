@@ -53,17 +53,12 @@ public class RoundService : IRoundService
 
     #region Get All Round
 
-    public async Task<(List<RoundViewModel>, int)> GetListRound(ListModels listModels)
+    public async Task<List<RoundViewModel>> GetListRound(ListModels listModels)
     {
         var list = await _unitOfWork.RoundRepo.GetAllAsync();
         if (list.Count == 0) throw new Exception("Khong tim thay Round nao");
-        //page division
-        var totalPages = (int)Math.Ceiling((double)list.Count / listModels.PageSize);
-        int? itemsToSkip = (listModels.PageNumber - 1) * listModels.PageSize;
-        var result = list.Skip((int)itemsToSkip)
-            .Take(listModels.PageSize)
-            .ToList();
-        return (_mapper.Map<List<RoundViewModel>>(result), totalPages);
+        
+        return _mapper.Map<List<RoundViewModel>>(list);
     }
 
     #endregion
