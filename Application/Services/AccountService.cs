@@ -42,7 +42,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Examiner.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -57,7 +57,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Examiner.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Examiner.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         return result;
@@ -67,7 +67,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Competitor.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -82,7 +82,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Competitor.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Competitor.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         return result;
@@ -92,7 +92,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Staff.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         var totalPages = (int)Math.Ceiling((double)result.Count / listModels.PageSize);
@@ -106,7 +106,7 @@ public class AccountService : IAccountService
     {
         var accountList = await _unitOfWork.AccountRepo.GetAllAsync();
         accountList = accountList
-            .Where(x => x.Role == Role.Staff.ToString() && x.Status == AccountStatus.Active.ToString()).ToList();
+            .Where(x => x.Role == Role.Staff.ToString()).ToList();
         var result = _mapper.Map<List<AccountViewModel>>(accountList);
 
         

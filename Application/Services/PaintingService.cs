@@ -96,7 +96,7 @@ public class PaintingService : IPaintingService
             painting.Status = PaintingStatus.Submitted.ToString();
             painting.RoundTopicId = roundTopic.Id;
             competitor.Painting = new List<Painting>();
-            competitor.Painting.Add(painting);
+            competitor.Painting.Add(painting); 
             await _unitOfWork.AccountRepo.AddAsync(competitor);
             await _unitOfWork.SaveChangesAsync();
             painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
