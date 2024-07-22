@@ -24,7 +24,37 @@ public class RoundTopicController : ControllerBase
     {
         try
         {
-            var result = await _roundTopicService.GetListRoundTopic(request);
+            var result = await _roundTopicService.GetListRoundTopicForCompetitor(request);
+            return Ok(new BaseResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = "Get Topic Success",
+                Result = result
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new BaseFailedResponseModel
+            {
+                Status = Ok().StatusCode,
+                Message = ex.Message,
+                Result = new List<Topic>(),
+                Errors = ex
+            });
+        }
+    }
+
+    #endregion
+    
+    
+    #region Get List
+
+    [HttpGet("roundtopic/roundid/{id}")]
+    public async Task<IActionResult> GetAll(Guid id)
+    {
+        try
+        {
+            var result = await _roundTopicService.GetListRoundTopicForStaff(id);
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
