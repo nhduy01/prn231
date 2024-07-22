@@ -259,13 +259,13 @@ public class RoundController : Controller
 
     #region Get List Round By Contest Id
 
-    [HttpGet("contestid/{id}")]
-    public async Task<IActionResult> GetListRoundByContestId(Guid id)
+    [HttpGet("roundsforstaff")]
+    public async Task<IActionResult> GetListRoundsForStaff()
     {
         try
         {
-            var result = await _roundService.GetListRoundByContestId(id);
-            if (result == null) return NotFound(new { Success = false, Message = "Round not found" });
+            var result = await _roundService.GetListRoundForCompetitor();
+            if (!result.Any()) return NotFound(new { Success = false, Message = "Round not found" });
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,

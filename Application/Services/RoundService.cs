@@ -67,10 +67,10 @@ public class RoundService : IRoundService
 
     public async Task<RoundViewModel?> GetRoundById(Guid id)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
+        var round = await _unitOfWork.RoundRepo.GetByIdAsync(id);
+        if (round == null) throw new Exception("Khong tim thay Round");
 
-        return _mapper.Map<RoundViewModel>(Round);
+        return _mapper.Map<RoundViewModel>(round);
     }
 
     #endregion
@@ -79,9 +79,9 @@ public class RoundService : IRoundService
 
     public async Task<bool> UpdateRound(RoundUpdateRequest updateRound)
     {
-        var Round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
-        if (Round == null) throw new Exception("Khong tim thay Round");
-        _mapper.Map(updateRound, Round);
+        var round = await _unitOfWork.RoundRepo.GetByIdAsync(updateRound.Id);
+        if (round == null) throw new Exception("Khong tim thay Round");
+        _mapper.Map(updateRound, round);
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
@@ -136,11 +136,11 @@ public class RoundService : IRoundService
 
     #endregion
 
-    #region Get By ContestId
-    public async Task<List<RoundViewModel>> GetListRoundByContestId(Guid id)
+    #region Get 
+    public async Task<List<RoundViewModel>> GetListRoundForCompetitor()
     {
         var today = _currentTime.GetCurrentTime();
-        var result = await _unitOfWork.RoundRepo.GetRoundByContestId(id);
+        var result = await _unitOfWork.RoundRepo.GetRoundsOfThisYear();
         if (result[1].EducationalLevel.Contest.StartTime >= today || today >= result[1].EducationalLevel.Contest.EndTime)
         {
             return null;

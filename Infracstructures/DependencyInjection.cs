@@ -2,16 +2,21 @@
 using Application.IService;
 using Application.IService.ICommonService;
 using Application.IValidators;
+using Application.Jobs;
 using Application.Mappers;
 using Application.Services;
 using Application.Services.CommonService;
 using Infracstructures;
 using Infracstructures.Repositories;
+using Infracstructures.ScheduleTrigger;
 using Infracstructures.Validators;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 
 namespace Application;
 
@@ -171,10 +176,28 @@ public static class DependencyInjection
 
         #endregion
 
+        #region Config Quartz
+
+        services.AddTransient<ISchedulerTrigger, SchedulerTrigger>();
+        services.AddTransient<IJobFactory, JobFactory>();
+        services.AddTransient<ISchedulerFactory, StdSchedulerFactory>();
+
+        services.AddTransient<SchedulerTriggerJob>();
+        var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+        services.AddSingleton(new JobSchedule(
+            jobType: typeof(SchedulerTriggerJob),
+            cronExpression: "0 10 0 * * ?",
+            timeZone: vietnamTimeZone
+        ));
+
+        #endregion
+
         services.AddSingleton<IClaimsService, ClaimsService>();
         services.AddSingleton<ICurrentTime, CurrentTime>();
         services.AddSingleton<IMailService, MailService>();
         services.AddSingleton<ICacheServices, CacheServices>();
+        services.AddTransient<ISessionServices, SessionServices>();
 
         // Use local DB
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(config.GetConnectionString("NetVeXanh")));

@@ -18,7 +18,7 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ToListAsync();
     }
 
-    public override async Task<Contest> GetByIdAsync(Guid id)
+    public override async Task<Contest?> GetByIdAsync(Guid id)
     {
         return await DbSet
             .Include(x => x.Resources)
@@ -104,5 +104,15 @@ public class ContestRepository : GenericRepository<Contest>, IContestRepository
             .ThenInclude(r => r.RoundTopic)
             .ThenInclude(rt => rt.Topic).FirstOrDefaultAsync(c => c.Id.Equals(id));
         return result;
+    }
+
+    public async Task<List<Contest>> EndContest()
+    {
+        return await DbSet.Where(src => src.EndTime <= DateTime.Now && src.Status == ContestStatus.Active.ToString()).ToListAsync();
+    }
+
+    public async Task<List<Contest>> StartContest()
+    {
+        return await DbSet.Where(src => src.StartTime >= DateTime.Now && src.Status == ContestStatus.Active.ToString()).ToListAsync();
     }
 }
