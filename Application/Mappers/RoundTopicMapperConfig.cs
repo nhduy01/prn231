@@ -12,7 +12,7 @@ public partial class MapperConfigs : Profile
     {
         CreateMap<RoundTopic, RoundTopicRequest>().ReverseMap();
         CreateMap<RoundTopic, RoundTopicViewModel>()
-            .ForMember(des => des.Id, source => source.MapFrom(round => round.RoundId))
+            .ForMember(des => des.Id, source => source.MapFrom(round => round.Id))
             .ForMember(des => des.Name, source => source.MapFrom(round => round.Topic.Name));
 
         CreateMap<RoundTopic, RoundTopicInContestViewModel>()

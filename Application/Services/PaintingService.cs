@@ -87,24 +87,31 @@ public class PaintingService : IPaintingService
         var check = await _unitOfWork.RoundRepo.CheckSubmitValidDate(roundTopic!.RoundId);
         if (check)
         {
-            // map account
-            var competitor = _mapper.Map<Account>(request);
-            //map painting
-            var painting = _mapper.Map<Painting>(request);
-            painting.AccountId = competitor.Id;
-            painting.Code = ""; // Sửa Db thì xóa
-            painting.Status = PaintingStatus.Submitted.ToString();
-            painting.RoundTopicId = roundTopic.Id;
-            competitor.Painting = new List<Painting>();
-            competitor.Painting.Add(painting); 
-            await _unitOfWork.AccountRepo.AddAsync(competitor);
-            await _unitOfWork.SaveChangesAsync();
-            painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
-            competitor.Code = await GenerateAccountCode(Role.Competitor);
+            if (request.Status == PaintingStatus.Submitted.ToString() ||
+                request.Status == PaintingStatus.Rejected.ToString() ||
+                request.Status == PaintingStatus.Accepted.ToString())
+            {
+                // map account
+                var competitor = _mapper.Map<Account>(request);
+                //map painting
+                var painting = _mapper.Map<Painting>(request);
+                painting.AccountId = competitor.Id;
+                painting.Code = ""; // Sửa Db thì xóa
+                painting.Status = request.Status;
+                painting.RoundTopicId = roundTopic.Id;
+                competitor.Painting = new List<Painting>();
+                competitor.Painting.Add(painting);
+                await _unitOfWork.AccountRepo.AddAsync(competitor);
+                await _unitOfWork.SaveChangesAsync();
+                painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
+                competitor.Code = await GenerateAccountCode(Role.Competitor);
 
-            await _mailService.SendAccountInformation(competitor);
+                await _mailService.SendAccountInformation(competitor);
 
-            return await _unitOfWork.SaveChangesAsync() > 0;
+                return await _unitOfWork.SaveChangesAsync() > 0;
+            }
+
+            throw new Exception("Trang Thai Khong Hop Le");
         }
 
         throw new Exception("Khong trong thoi gian nop bai");
@@ -352,5 +359,4 @@ public class PaintingService : IPaintingService
     }
 
     #endregion
-    
 }
