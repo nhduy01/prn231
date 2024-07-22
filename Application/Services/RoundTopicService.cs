@@ -32,11 +32,17 @@ public class RoundTopicService : IRoundTopicService
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
 
+    public async Task<List<RoundTopicViewModel>> GetListRoundTopicForStaff(Guid id)
+    {
+        var list = await _unitOfWork.RoundTopicRepo.ListRoundTopicByRoundId(id);
+        return _mapper.Map<List<RoundTopicViewModel>>(list);
+    }
+
     #endregion
 
     #region Add Topic To Round
 
-    public async Task<List<RoundTopicViewModel>> GetListRoundTopic(GetListRoundTopicRequest request)
+    public async Task<List<RoundTopicViewModel>> GetListRoundTopicForCompetitor(GetListRoundTopicRequest request)
     {
         var competitor = await _unitOfWork.AccountRepo.GetByIdAsync(request.AccountId);
 

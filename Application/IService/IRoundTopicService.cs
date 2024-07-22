@@ -5,7 +5,8 @@ namespace Application.IService;
 
 public interface IRoundTopicService
 {
-    Task<List<RoundTopicViewModel>> GetListRoundTopic(GetListRoundTopicRequest request);
+    Task<List<RoundTopicViewModel>> GetListRoundTopicForCompetitor(GetListRoundTopicRequest request);
     Task<bool> AddTopicToRound(RoundTopicRequest roundTopicRequest);
     Task<bool> DeleteTopicInRound(RoundTopicDeleteRequest roundTopicDeleteRequest);
+    Task<List<RoundTopicViewModel>> GetListRoundTopicForStaff(Guid id);
 }
