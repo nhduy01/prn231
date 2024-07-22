@@ -28,7 +28,7 @@ public partial class MapperConfigs : Profile
             .ForPath(x => x.Category.Name, x => x.MapFrom(x => x.CategoryName));
 
         CreateMap<Post, ListPostViewModel>()
-            .ForPath(x => x.Image, x => x.MapFrom(x => x.Images.First().Url))
+            .ForPath(x => x.Image, x => x.MapFrom(src => src.Images.Any() ? src.Images.First().Url : null))
             .ForPath(x => x.CategoryId, x => x.MapFrom(x => x.CategoryId))
             .ForPath(x => x.CategoryName, x => x.MapFrom(x => x.Category.Name));
     }
