@@ -26,7 +26,9 @@ public partial class MapperConfigs : Profile
                 });
             });
         CreateMap<Round, RoundViewModel>()
-            .ForPath(dest => dest.EducationalLevelName, opt => opt.MapFrom(src => src.EducationalLevel.Level));
+            .ForPath(dest => dest.EducationalLevelName, opt => opt.MapFrom(src => src.EducationalLevel.Level))
+            .ForPath(dest => dest.ContestId, opt => opt.MapFrom(src => src.EducationalLevel.Contest.Id))
+            .ForPath(dest => dest.ContestName, opt => opt.MapFrom(src => src.EducationalLevel.Contest.Name));
         CreateMap<Round, ListTopicViewModel>().ReverseMap();
 
         CreateMap<Round, RoundInLevelViewModel>()
