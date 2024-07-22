@@ -10,4 +10,6 @@ public class RoundViewModel
     public string Description { get; set; }
     public Guid? EducationalLevelId { get; set; }
     public string EducationalLevelName { get; set; }
+    public Guid? ContestId { get; set; }
+    public string ContestName { get; set; }
 }
