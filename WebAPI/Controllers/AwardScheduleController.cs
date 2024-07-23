@@ -1,5 +1,6 @@
 ﻿using Application.BaseModels;
 using Application.IService;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -37,6 +38,7 @@ public class AwardScheduleController : Controller
             {
                 Status = BadRequest().StatusCode,
                 Message = "Get Schedule Award Fail",
+                Result = new List<AwardSchedule>(),
                 Errors = ex
             });
         }
@@ -65,7 +67,7 @@ public class AwardScheduleController : Controller
             {
                 Status = Ok().StatusCode,
                 Message = ex.Message,
-                Result = false,
+                Result = null,
                 Errors = ex
             });
         }

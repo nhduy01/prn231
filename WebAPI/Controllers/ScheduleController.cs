@@ -48,9 +48,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -76,9 +76,9 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.CreateScheduleForFinalRound(Schedule);
             if (result == false)
-                return Ok(new BaseFailedResponseModel
+                return BadRequest(new BaseFailedResponseModel
                 {
-                    Status = Ok().StatusCode,
+                    Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status"
                 });
             return Ok(new BaseResponseModel
@@ -90,9 +90,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -219,9 +219,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -250,9 +250,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -322,9 +322,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -346,9 +346,9 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.RatingFirstPrize(rating);
             if (result == false)
-                return Ok(new BaseFailedResponseModel
+                return BadRequest(new BaseFailedResponseModel
                 {
-                    Status = Ok().StatusCode,
+                    Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status"
                 });
             return Ok(new BaseResponseModel
@@ -360,9 +360,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -384,9 +384,9 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.RatingSecondPrize(rating);
             if (result == false)
-                return Ok(new BaseFailedResponseModel
+                return BadRequest(new BaseFailedResponseModel
                 {
-                    Status = Ok().StatusCode,
+                    Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status"
                 });
             return Ok(new BaseResponseModel
@@ -398,9 +398,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -422,9 +422,9 @@ public class ScheduleController : Controller
 
             var result = await _scheduleService.RatingThirdPrize(rating);
             if (result == false)
-                return Ok(new BaseFailedResponseModel
+                return BadRequest(new BaseFailedResponseModel
                 {
-                    Status = Ok().StatusCode,
+                    Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status"
                 });
             return Ok(new BaseResponseModel
@@ -436,9 +436,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -455,12 +455,12 @@ public class ScheduleController : Controller
             {
                 var errorMessages = string.Join("; ",
                     ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-                return Ok(new { Success = false, Message = "Invalid input data. " + errorMessages });
+                return BadRequest(new { Success = false, Message = "Invalid input data. " + errorMessages });
             }
 
             var result = await _scheduleService.RatingConsolationPrize(rating);
             if (result == false)
-                return Ok(new BaseFailedResponseModel
+                return BadRequest(new BaseFailedResponseModel
                 {
                     Status = BadRequest().StatusCode,
                     Message = "There is a certain painting that has an inappropriate status"
@@ -474,9 +474,9 @@ public class ScheduleController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex

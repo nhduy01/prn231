@@ -10,4 +10,6 @@ public interface IImageService
     public Task<(List<ImageViewModel>, int)> GetListImage(ListModels listModels);
     public Task<ImageViewModel?> GetImageById(Guid id);
     public Task<bool> DeleteImage(Guid id);
+
+    Task<bool> IsExistedId(Guid id);
 }

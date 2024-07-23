@@ -98,6 +98,7 @@ public class ScheduleService : IScheduleService
             var newSchedule = new Schedule();
             newSchedule.Id = Guid.NewGuid();
             newSchedule.ExaminerId = schedule.ListExaminer[i];
+            newSchedule.EndDate = schedule.EndDate;
             newSchedule.RoundId = schedule.RoundId;
             newSchedule.Description = schedule.Description;
             newSchedule.Status = ScheduleStatus.Rating.ToString();
@@ -157,6 +158,7 @@ public class ScheduleService : IScheduleService
                 var newSchedule = new Schedule();
                 newSchedule.Id = Guid.NewGuid();
                 newSchedule.ExaminerId = schedule.ListExaminer[i];
+                newSchedule.EndDate = schedule.EndDate;
                 newSchedule.RoundId = schedule.RoundId;
                 newSchedule.Description = schedule.Description;
                 newSchedule.Status = ScheduleStatus.Rating.ToString();
@@ -436,4 +438,9 @@ public class ScheduleService : IScheduleService
     }
 
     #endregion
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.ScheduleRepo.IsExistIdAsync(id);
+    }
 }

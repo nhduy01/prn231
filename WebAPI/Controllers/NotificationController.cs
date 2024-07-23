@@ -122,9 +122,9 @@ public class NotificationController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Errors = ex
             });
@@ -150,9 +150,9 @@ public class NotificationController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Errors = ex
             });

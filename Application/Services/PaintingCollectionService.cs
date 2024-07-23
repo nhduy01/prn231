@@ -41,4 +41,10 @@ public class PaintingCollectionService : IPaintingCollectionService
 
         return await _unitOfWork.SaveChangesAsync() > 0;
     }
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.PaintingCollectionRepo.IsExistIdAsync(id);
+    }
 }

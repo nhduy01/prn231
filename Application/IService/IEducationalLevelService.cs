@@ -13,4 +13,6 @@ public interface IEducationalLevelService
     Task<(List<EducationalLevelViewModel>, int)> GetEducationalLevelByContestId(ListModels listLevelModel, Guid contestId);
     Task<bool> UpdateEducationalLevel(EducationalLevelUpdateRequest updateEducationalLevel);
     Task<bool> DeleteEducationalLevel(Guid id);
+
+    Task<bool> IsExistedId(Guid id);
 }

@@ -116,4 +116,10 @@ public class ReportService : IReportService
     }
 
     #endregion
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.ReportRepo.IsExistIdAsync(id);
+    }
 }

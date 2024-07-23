@@ -11,4 +11,5 @@ public interface IResourcesService
     public Task<ResourcesViewModel?> GetResourcesById(Guid id);
     public Task<bool> UpdateResources(ResourcesUpdateRequest updateResources);
     public Task<bool> DeleteResources(Guid id);
+    Task<bool> IsExistedId(Guid id);
 }

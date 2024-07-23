@@ -356,4 +356,10 @@ public class ContestService : IContestService
     }
 
     #endregion
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.ContestRepo.IsExistIdAsync(id);
+    }
 }

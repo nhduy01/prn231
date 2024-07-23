@@ -5,6 +5,7 @@ using Application.Services.CommonService;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infracstructures;
+using Infracstructures.ScheduleTrigger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -57,8 +58,7 @@ public static class DependencyInjection
         //Adding Session
         services.AddDistributedMemoryCache(); //Adding cache in memory for session.
         services.AddSession(); //Adding session.
-        services.AddTransient<ISessionServices, SessionServices>();
-
+        services.AddHostedService<QuartzHostedService>();
         var secretKeyBytes = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
         {
@@ -138,8 +138,8 @@ public static class DependencyInjection
         services.AddValidatorsFromAssemblyContaining<ImageRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<NotificationRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<PaintingCollectionRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<PaintingRequestValidator>();
-        services.AddValidatorsFromAssemblyContaining<PaintingRequest2Validator>();
+        services.AddValidatorsFromAssemblyContaining<CompetitorCreatePaintingRequestValidator>();
+        services.AddValidatorsFromAssemblyContaining<StaffCreatePaintingRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<PaintingUpdateStatusRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<RatingRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdatePaintingRequestValidator>();

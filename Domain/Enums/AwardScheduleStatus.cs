@@ -4,5 +4,6 @@ public enum AwardScheduleStatus
 {
     Rating,
     Done,
-    Delete
+    Delete,
+    OutOfDate
 }
