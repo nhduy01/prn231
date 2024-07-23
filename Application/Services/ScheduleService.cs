@@ -82,7 +82,7 @@ public class ScheduleService : IScheduleService
         //Get Paintings Of Preliminary round
         var listPainting = await _unitOfWork.RoundTopicRepo.ListPaintingForPreliminaryRound(schedule.RoundId);
         var round = await _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId);
-        if (round?.EndTime < DateTime.Today)
+        if (round?.EndTime > DateTime.Today)
         {
             throw new Exception("Bạn Không Thể Lên Lịch Chấm Khi Cuộc Thi Chưa Kết Thúc");
         }
@@ -141,7 +141,7 @@ public class ScheduleService : IScheduleService
         try
         {
             var round = await _unitOfWork.RoundRepo.GetRoundDetail(schedule.RoundId);
-            if (round?.EndTime < DateTime.Today)
+            if (round?.EndTime > DateTime.Today)
             {
                 throw new Exception("Bạn Không Thể Lên Lịch Chấm Khi Cuộc Thi Chưa Kết Thúc");
             }
