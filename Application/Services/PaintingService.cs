@@ -129,10 +129,12 @@ public class PaintingService : IPaintingService
                 await _unitOfWork.SaveChangesAsync();
                 painting.Code = await GeneratePaintingCode(painting.Id, roundTopic.RoundId);
                 competitor.Code = await GenerateAccountCode(Role.Competitor);
-
-                await _mailService.SendAccountInformation(competitor);
+                
                 _unitOfWork.AccountRepo.Update(competitor);
-                return await _unitOfWork.SaveChangesAsync() > 0;
+                var result = await _unitOfWork.SaveChangesAsync() > 0;
+                
+                //await _mailService.SendAccountInformation(competitor);
+                return result;
             }
 
             throw new Exception("Trang Thai Khong Hop Le");
