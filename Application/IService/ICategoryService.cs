@@ -15,4 +15,5 @@ public interface ICategoryService
     Task<(List<CategoryViewModel>, int)> ListCategoryUsed(ListModels listCategoryModel);
     Task<List<CategoryViewModel>> ListAllCategoryUnused();
     Task<List<CategoryViewModel>> ListAllCategoryUsed();
+    Task<bool> IsExistedId(Guid id);
 }

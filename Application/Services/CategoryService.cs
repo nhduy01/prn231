@@ -167,4 +167,10 @@ public class CategoryService : ICategoryService
     }
 
     #endregion
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.CategoryRepo.IsExistIdAsync(id);
+    }
 }

@@ -16,4 +16,5 @@ public interface IPostService
     Task<(List<PostViewModel>, int)> ListPostByCategoryId(ListModels listPostModel, Guid categoryId);
 
     Task<(List<PostViewModel>, int)> SearchByTitleDescription(ListModels listModels, string searchString);
+    Task<bool> IsExistedId(Guid id);
 }

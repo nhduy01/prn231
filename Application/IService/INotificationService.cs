@@ -11,4 +11,5 @@ public interface INotificationService
     public Task<bool> ReadNotification(Guid id);
     public Task<bool> SendResultFinalRound(Guid id);
     public Task<bool> SendResultPreliminaryRound(Guid id);
+    Task<bool> IsExistedId(Guid id);
 }
