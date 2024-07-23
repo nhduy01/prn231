@@ -28,7 +28,7 @@ public class ContestController : Controller
             return Ok(new BaseResponseModel
             {
                 Status = Ok().StatusCode,
-                Message = "Create Award Success",
+                Message = "Create Contest Success",
                 Result = result
             });
         }
