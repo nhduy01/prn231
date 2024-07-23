@@ -4,6 +4,7 @@
 - Edit và Delete Round sẽ áp dụng co tất cả 
 - 
 # Validate:
+- Validate delete mà id k có trong db
 - Add validate của staff create painting final round
 - Validate các id có trong db
 - Validate Painting không trùng trong 1 cuộc thi
