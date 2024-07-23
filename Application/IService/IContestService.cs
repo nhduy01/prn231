@@ -17,4 +17,6 @@ public interface IContestService
     Task<List<ContestViewModel?>> GetAllContest();
 
     Task<ContestDetailViewModel> GetNearestContest();
+
+    Task<bool> IsExistedId(Guid id);
 }

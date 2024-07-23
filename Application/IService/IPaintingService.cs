@@ -35,4 +35,5 @@ public interface IPaintingService
     public Task<bool> StaffSubmitPaintingForFinalRound(StaffCreatePaintingFinalRoundRequest request);
 
     #endregion
+    Task<bool> IsExistedId(Guid id);
 }

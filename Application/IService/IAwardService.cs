@@ -11,4 +11,6 @@ public interface IAwardService
     Task<bool> DeleteAward(Guid awardId);
     Task<bool> UpdateAward(UpdateAwardRequest updateAward);
     Task<AwardViewModel> GetAwardById(Guid awardId);
+
+    Task<bool> IsExistedId(Guid id);
 }

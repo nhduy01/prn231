@@ -118,5 +118,11 @@ public class NotificationService : INotificationService
     }
 
     #endregion
-    
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.NotificationRepo.IsExistIdAsync(id);
+    }
+
 }

@@ -383,4 +383,10 @@ public class PaintingService : IPaintingService
     }
 
     #endregion
+
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.PaintingRepo.IsExistIdAsync(id);
+    }
 }

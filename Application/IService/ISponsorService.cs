@@ -12,4 +12,5 @@ public interface ISponsorService
     public Task<bool> UpdateSponsor(SponsorUpdateRequest updateSponsor);
     public Task<bool> DeleteSponsor(Guid id);
     Task<List<SponsorViewModel>> GetAllSponsor();
+    Task<bool> IsExistedId(Guid id);
 }

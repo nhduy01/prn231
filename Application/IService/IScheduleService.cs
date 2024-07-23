@@ -20,4 +20,5 @@ public interface IScheduleService
     public Task<bool> RatingThirdPrize(RatingRequest ratingPainting);
     public Task<bool> UpdateSchedule(ScheduleUpdateRequest updateSchedule);
     public Task<bool> DeleteSchedule(Guid id);
+    Task<bool> IsExistedId(Guid id);
 }

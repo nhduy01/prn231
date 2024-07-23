@@ -30,4 +30,9 @@ public class AwardScheduleService : IAwardScheduleService
         if (awardSchedule == null) throw new Exception("Khong tim thay");
         return _mapper.Map<AwardScheduleModels>(awardSchedule);
     }
+    //Check Id is Exist
+    public async Task<bool> IsExistedId(Guid id)
+    {
+        return await _unitOfWork.AwardScheduleRepo.IsExistIdAsync(id);
+    }
 }

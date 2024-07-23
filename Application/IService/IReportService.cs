@@ -12,4 +12,5 @@ public interface IReportService
     Task<bool> UpdateReport(UpdateReportRequest updateReport);
     Task<ReportViewModel> GetReportById(Guid reportId);
     Task<(List<ReportViewModel>, int)> GetAllReport(ListModels listAwardModel);
+    Task<bool> IsExistedId(Guid id);
 }

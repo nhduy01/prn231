@@ -7,7 +7,7 @@ public class UpdatePaintingRequest
     public string? Name { get; set; }
     public string? Description { get; set; }
     public string? Status { get; set; }
-    public DateTime SubmitTime { get; set; }
+    public DateTime? SubmitTime { get; set; }
     public Guid? AwardId { get; set; }
     public Guid? RoundTopicId { get; set; }
     public Guid? AccountId { get; set; }
