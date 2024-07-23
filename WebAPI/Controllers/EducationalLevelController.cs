@@ -41,9 +41,9 @@ public class EducationalLevelController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -80,9 +80,9 @@ public class EducationalLevelController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = new
                 {
@@ -214,9 +214,9 @@ public class EducationalLevelController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
@@ -244,9 +244,9 @@ public class EducationalLevelController : Controller
         }
         catch (Exception ex)
         {
-            return Ok(new BaseFailedResponseModel
+            return BadRequest(new BaseFailedResponseModel
             {
-                Status = Ok().StatusCode,
+                Status = BadRequest().StatusCode,
                 Message = ex.Message,
                 Result = false,
                 Errors = ex
