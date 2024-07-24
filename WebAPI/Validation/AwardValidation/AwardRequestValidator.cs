@@ -1,12 +1,17 @@
-﻿using Application.SendModels.Award;
+﻿using Application.IService;
+using Application.IService.IValidationService;
+using Application.SendModels.Award;
 using FluentValidation;
 
 namespace WebAPI.Validation.AwardValidation;
 
 public class AwardRequestValidator : AbstractValidator<AwardRequest>
 {
-    public AwardRequestValidator()
+    private readonly IAccountValidationService _accountValidationService;
+
+    public AwardRequestValidator(IAccountValidationService accountValidationService)
     {
+        _accountValidationService = accountValidationService;
         RuleFor(x => x.Rank)
             .NotEmpty().WithMessage("Rank không được để trống.")
             .Length(1, 50).WithMessage("Rank phải có độ dài từ 1 đến 50 ký tự.");
@@ -26,7 +31,30 @@ public class AwardRequestValidator : AbstractValidator<AwardRequest>
             .NotEqual(Guid.Empty).WithMessage("EducationalLevelId không hợp lệ.");
 
         RuleFor(x => x.CurrentUserId)
-            .NotEmpty().WithMessage("CurrentUserId không được để trống.")
-            .NotEqual(Guid.Empty).WithMessage("CurrentUserId không hợp lệ.");
+    .NotEmpty().WithMessage("CurrentUserId không được để trống.");
+
+        When(x => !string.IsNullOrEmpty(x.CurrentUserId.ToString()), () =>
+        {
+            RuleFor(x => x.CurrentUserId)
+                .Must(userId => Guid.TryParse(userId.ToString(), out _))
+                .WithMessage("CurrentUserId phải là một GUID hợp lệ.")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.CurrentUserId)
+                        .MustAsync(async (userId, cancellation) =>
+                        {
+                            try
+                            {
+                                return await _accountValidationService.IsExistedId(userId);
+                            }
+                            catch (Exception)
+                            {
+                                // Xử lý lỗi kiểm tra ID
+                                return false; // Giả sử ID không tồn tại khi có lỗi
+                            }
+                        })
+                        .WithMessage("CurrentUserId không tồn tại.");
+                });
+        });
     }
 }

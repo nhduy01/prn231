@@ -1,12 +1,17 @@
-﻿using Application.SendModels.Contest;
+﻿using Application.IService;
+using Application.IService.IValidationService;
+using Application.SendModels.Contest;
 using FluentValidation;
 
 namespace WebAPI.Validation.ContestValidation;
 
 public class ContestRequestValidator : AbstractValidator<ContestRequest>
 {
-    public ContestRequestValidator()
+    private readonly IAccountValidationService _accountValidationService;
+
+    public ContestRequestValidator(IAccountValidationService accountValidationService)
     {
+        _accountValidationService = accountValidationService;
         RuleFor(e => e.Name)
             .NotEmpty().WithMessage("Tên không được để trống.")
             .Length(2, 100).WithMessage("Tên phải có độ dài từ 2 đến 100 ký tự.");
@@ -27,9 +32,32 @@ public class ContestRequestValidator : AbstractValidator<ContestRequest>
         RuleFor(e => e.Logo)
             .Must(BeAValidUrl).WithMessage("Logo phải là một URL hợp lệ.");
 
-        RuleFor(e => e.CurrentUserId)
-            .NotEmpty().WithMessage("CurrentUserId không được để trống.")
-            .NotEqual(Guid.Empty).WithMessage("CurrentUserId không được là Guid.Empty.");
+        RuleFor(x => x.CurrentUserId)
+        .NotEmpty().WithMessage("CurrentUserId không được để trống.");
+
+        When(x => !string.IsNullOrEmpty(x.CurrentUserId.ToString()), () =>
+        {
+            RuleFor(x => x.CurrentUserId)
+                .Must(userId => Guid.TryParse(userId.ToString(), out _))
+                .WithMessage("CurrentUserId phải là một GUID hợp lệ.")
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.CurrentUserId)
+                        .MustAsync(async (userId, cancellation) =>
+                        {
+                            try
+                            {
+                                return await _accountValidationService.IsExistedId(userId);
+                            }
+                            catch (Exception)
+                            {
+                                // Xử lý lỗi kiểm tra ID
+                                return false; // Giả sử ID không tồn tại khi có lỗi
+                            }
+                        })
+                        .WithMessage("CurrentUserId không tồn tại.");
+                });
+        });
 
         RuleFor(e => e.Round1StartTime)
             .NotEmpty().WithMessage("Thời gian bắt đầu vòng 1 không được để trống.")
