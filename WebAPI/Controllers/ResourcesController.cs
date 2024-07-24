@@ -63,7 +63,7 @@ public class ResourcesController : Controller
 
     #region Get Resources
 
-    [HttpGet("getallresource")]
+    [HttpGet]
     public async Task<IActionResult> GetResourcesByPage()
     {
         try

@@ -134,7 +134,7 @@ public class CategoryController : ControllerBase
 
     #region List Category
 
-    [HttpGet("getcategory")]
+    [HttpGet("category-pagination")]
     public async Task<IActionResult> ListCategory([FromQuery] ListModels listCategoryModel)
     {
         try
@@ -177,7 +177,7 @@ public class CategoryController : ControllerBase
 
     #region List All Category
 
-    [HttpGet("getallcategory")]
+    [HttpGet]
     public async Task<IActionResult> ListAllCategory()
     {
         try
@@ -210,7 +210,7 @@ public class CategoryController : ControllerBase
 
     #region List Category Unused With Pagination
 
-    [HttpGet("getcategoryunused")]
+    [HttpGet("unused-category-pagination")]
     public async Task<IActionResult> ListCategoryUnused([FromQuery] ListModels listCategoryModel)
     {
         try
@@ -253,7 +253,7 @@ public class CategoryController : ControllerBase
 
     #region List Category Used With Pagination
 
-    [HttpGet("getcategoryused")]
+    [HttpGet("used-category-pagination")]
     public async Task<IActionResult> ListCategoryUsed([FromQuery] ListModels listCategoryModel)
     {
         try
@@ -296,7 +296,7 @@ public class CategoryController : ControllerBase
 
     #region List All Category Unused
 
-    [HttpGet("getallcategoryunused")]
+    [HttpGet("unused-category")]
     public async Task<IActionResult> ListAllCategoryUnused()
     {
         try
@@ -329,7 +329,7 @@ public class CategoryController : ControllerBase
 
     #region List All Category Used
 
-    [HttpGet("getallcategoryused")]
+    [HttpGet("used-category")]
     public async Task<IActionResult> ListAllCategoryUsed()
     {
         try

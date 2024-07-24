@@ -62,7 +62,7 @@ public class TopicController : Controller
 
     #region Get Topic By Page
 
-    [HttpGet]
+    [HttpGet("topics-pagination")]
     public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listTopicModel)
     {
         try
@@ -105,7 +105,7 @@ public class TopicController : Controller
 
     #region Get All Topic
 
-    [HttpGet("GetAllTopic")]
+    [HttpGet]
     public async Task<IActionResult> GetAllTopic()
     {
         try

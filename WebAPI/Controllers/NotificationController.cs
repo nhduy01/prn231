@@ -18,7 +18,7 @@ public class NotificationController : Controller
 
     #region Get 5 Notification
 
-    [HttpGet("get5notification/{id}")]
+    [HttpGet("five-notifications/{id}")]
     public async Task<IActionResult> Get5Notification([FromRoute] Guid id)
     {
         try
@@ -107,7 +107,7 @@ public class NotificationController : Controller
     
     #region Send Result Final Round
 
-    [HttpPut("sendresultfinalround/{id}")]
+    [HttpPut("final-round-result/{id}")]
     public async Task<IActionResult> SendResultFinalRound([FromRoute] Guid id)
     {
         try
@@ -135,7 +135,7 @@ public class NotificationController : Controller
     
     #region Send Result Preliminary Round
 
-    [HttpPut("sendresultpreliminaryround/{id}")]
+    [HttpPut("preliminary-round-result/{id}")]
     public async Task<IActionResult> SendResultPreliminaryRound([FromRoute] Guid id)
     {
         try

@@ -136,7 +136,7 @@ public class ReportController : ControllerBase
 
     #region Get All Report Pending
 
-    [HttpGet("getallreportpending")]
+    [HttpGet("pending-reports")]
     public async Task<IActionResult> GetAllReportPending([FromQuery] ListModels listReportModel)
     {
         try
@@ -179,7 +179,7 @@ public class ReportController : ControllerBase
 
     #region Get All Report
 
-    [HttpGet("getallreport")]
+    [HttpGet]
     public async Task<IActionResult> GetAllReport([FromQuery] ListModels listReportModel)
     {
         try

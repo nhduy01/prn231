@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/educationallevels/")]
+[Route("api/educational-levels/")]
 public class EducationalLevelController : Controller
 {
     private readonly IEducationalLevelService _educationalLevelService;
@@ -62,7 +62,7 @@ public class EducationalLevelController : Controller
 
     #region Get EducationalLevel By Page
 
-    [HttpGet]
+    [HttpGet("educational-level-pagination")]
     public async Task<IActionResult> GetEducationalLevelByPage([FromQuery] ListModels listLevelModel)
     {
         try
@@ -105,7 +105,7 @@ public class EducationalLevelController : Controller
 
     #region Get All  EducationalLevel
 
-    [HttpGet("getalllevel")]
+    [HttpGet]
     public async Task<IActionResult> GetAllEducationalLevel()
     {
         try
@@ -165,7 +165,7 @@ public class EducationalLevelController : Controller
 
     #region Get EducationalLevel By ContestId
 
-    [HttpGet("geteducationlevelbycontestid/{id}")]
+    [HttpGet("contest-id/{id}")]
     public async Task<IActionResult> GetEducationalLevelByContestId([FromQuery] ListModels listLevelModel,
         [FromRoute] Guid id)
     {

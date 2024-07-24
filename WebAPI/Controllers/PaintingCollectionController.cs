@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/paintingcollections/")]
+[Route("api/painting-collections/")]
 public class PaintingCollectionController : Controller
 {
     private readonly IPaintingCollectionService _paintingCollectionService;
@@ -21,7 +21,7 @@ public class PaintingCollectionController : Controller
 
     #region Add Painting To Collection
 
-    [HttpPost("addpaintingtocollection")]
+    [HttpPost]
     public async Task<IActionResult> AddPaintingToCollection(PaintingCollectionRequest addPaintingCollectionViewModel)
     {
         try
@@ -64,7 +64,7 @@ public class PaintingCollectionController : Controller
 
     #region Delete Painting Collection
 
-    [HttpDelete("deletepaintingcollection/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePainting([FromRoute] Guid id)
     {
         try

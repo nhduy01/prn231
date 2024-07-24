@@ -165,7 +165,7 @@ public class CollectionController : Controller
 
     #region Get Painting By Collection
 
-    [HttpGet("Painting/{id}")]
+    [HttpGet("paintings/{id}")]
     public async Task<IActionResult> GetPaintingByCollection([FromRoute] Guid collectionId,
         [FromQuery] ListModels listPaintingmodel)
     {
@@ -209,7 +209,7 @@ public class CollectionController : Controller
 
     #region Get All Collection
 
-    [HttpGet("getallcollection")]
+    [HttpGet("collections")]
     public async Task<IActionResult> GetAllCollection([FromQuery] ListModels listPaintingmodel)
     {
         try
@@ -252,13 +252,13 @@ public class CollectionController : Controller
 
     #region Get Collection By AccountId
 
-    [HttpGet("getcollectionbyaccountid/{id}")]
-    public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid accountId,
+    [HttpGet("account-id/{id}")]
+    public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid id,
         [FromQuery] ListModels listPaintingmodel)
     {
         try
         {
-            var (list, totalPage) = await _collectionService.GetCollectionByAccountId(listPaintingmodel, accountId);
+            var (list, totalPage) = await _collectionService.GetCollectionByAccountId(listPaintingmodel, id);
             if (totalPage < listPaintingmodel.PageNumber)
                 return NotFound(new BaseResponseModel
                 {
@@ -296,7 +296,7 @@ public class CollectionController : Controller
 
     #region Get 6 Collection tạo bởi Staff (gần nhất)
 
-    [HttpGet("get6staffcollection")]
+    [HttpGet("six-staff-collection")]
     public async Task<IActionResult> Get6CollectionCreatedByStaff()
     {
         try

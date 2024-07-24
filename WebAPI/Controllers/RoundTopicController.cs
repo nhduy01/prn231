@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/roundtopics/")]
+[Route("api/round-topics/")]
 public class RoundTopicController : ControllerBase
 {
     private readonly IRoundTopicService _roundTopicService;
@@ -21,7 +21,7 @@ public class RoundTopicController : ControllerBase
 
     #region Get List
 
-    [HttpGet("getalltopic")]
+    [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] GetListRoundTopicRequest request)
     {
         try
@@ -51,7 +51,7 @@ public class RoundTopicController : ControllerBase
     
     #region Get List
 
-    [HttpGet("roundtopic/roundid/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetAll(Guid id)
     {
         try
@@ -122,7 +122,7 @@ public class RoundTopicController : ControllerBase
 
     #region Delete Topic In Round
 
-    [HttpDelete("deleteroundtopic")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteTopicInRound(RoundTopicDeleteRequest roundTopicDeleteRequest)
     {
         try

@@ -23,7 +23,7 @@ public class PaintingController : Controller
 
     #region Draft Painting For Preliminary Round
 
-    [HttpPost("draftepainting1stround")]
+    [HttpPost("draft-first-round")]
     public async Task<IActionResult> DraftPaintingForPreliminaryRound(CompetitorCreatePaintingRequest paintingrequest)
     {
         var validationResult = await _paintingService.ValidateCompetitorCreateRequest(paintingrequest);
@@ -66,7 +66,7 @@ public class PaintingController : Controller
 
     #region Submit Painting For Preliminary Round
 
-    [HttpPost("submitepainting1stround")]
+    [HttpPost("submit-first-round")]
     public async Task<IActionResult> SubmitPaintingForPreliminaryRound(
         CompetitorCreatePaintingRequest paintingRequest)
     {
@@ -110,7 +110,7 @@ public class PaintingController : Controller
 
     #region Staff Submit Painting For Preliminary Round
 
-    [HttpPost("submitepainting1stroundforCompetitor")]
+    [HttpPost("submit-first-round-competitor")]
     public async Task<IActionResult> SubmitPaintingForPreliminaryRoundForCompetitor(
         StaffCreatePaintingRequest staffCreatePainting)
     {
@@ -154,7 +154,7 @@ public class PaintingController : Controller
 
     #region Staff Submit Painting For Final Round
 
-    [HttpPost("createpaintingfinalround")]
+    [HttpPost("create-final-round-painting")]
     public async Task<IActionResult> CreatePaintingForFinalRound(StaffCreatePaintingFinalRoundRequest request)
     {
         try
@@ -186,7 +186,7 @@ public class PaintingController : Controller
 
     #region Update Painting
 
-    [HttpPut("update")]
+    [HttpPut]
     public async Task<IActionResult> UpdatePainting(UpdatePaintingRequest updatePainting)
     {
         try
@@ -229,7 +229,7 @@ public class PaintingController : Controller
 
     #region Delete Painting
 
-    [HttpPatch("deletepainting")]
+    [HttpPatch]
     public async Task<IActionResult> DeletePainting(Guid id)
     {
         try
@@ -319,7 +319,7 @@ public class PaintingController : Controller
 
     #region Final Decision of Painting
 
-    [HttpPatch("finaldecision")]
+    [HttpPatch("final-decision")]
     public async Task<IActionResult> FinalDecisionOfPainting(PaintingUpdateStatusRequest request)
     {
         try
@@ -362,7 +362,7 @@ public class PaintingController : Controller
 
     #region Get Painting By Code
 
-    [HttpGet("code")]
+    [HttpGet("{code}")]
     public async Task<IActionResult> GetPaintingByCode([FromRoute] string code)
     {
         try
@@ -422,7 +422,7 @@ public class PaintingController : Controller
 
     #region Get All Painting
 
-    [HttpGet("list")]
+    [HttpGet]
     public async Task<IActionResult> GetAllAward([FromQuery] ListModels listPaintingModel)
     {
         try
@@ -465,7 +465,7 @@ public class PaintingController : Controller
 
     #region List 16 Wining Painting
 
-    [HttpGet("list16winingpainting")]
+    [HttpGet("list-16-winning-paintings")]
     public async Task<IActionResult> List16WiningPainting()
     {
         try
@@ -494,7 +494,7 @@ public class PaintingController : Controller
 
     #region List Painting By Account Id
 
-    [HttpGet("listpaintingbyaccountid/{id}")]
+    [HttpGet("account-id/{id}")]
     public async Task<IActionResult> ListPaintingByAccountId([FromQuery] ListModels listPaintingModel,
         [FromRoute] Guid id)
     {
@@ -538,7 +538,7 @@ public class PaintingController : Controller
 
     #region Filter Painting
 
-    [HttpPost("filterpainting")]
+    [HttpPost("filter-painting")]
     public async Task<IActionResult> ListPaintingByAccountId(FilterPaintingRequest filterPainting,
         [FromQuery] ListModels listPaintingModel)
     {

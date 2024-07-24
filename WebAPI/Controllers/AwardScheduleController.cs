@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers;
 
 [ApiController]
-[Route("api/awardschedules/")]
+[Route("api/award-schedules/")]
 public class AwardScheduleController : Controller
 {
     private readonly IAwardScheduleService _awardSchedule;
@@ -18,7 +18,7 @@ public class AwardScheduleController : Controller
 
     #region Get list Award Schedule By Schedule Id
 
-    [HttpGet("schedule/{id}")]
+    [HttpGet("schedule-id/{id}")]
     public async Task<IActionResult> GetListAwardScheduleById(Guid id)
     {
         try

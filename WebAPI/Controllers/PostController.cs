@@ -63,7 +63,7 @@ public class PostController : Controller
 
     #region Get 10 Post
 
-    [HttpGet("get10post")]
+    [HttpGet("10-posts")]
     public async Task<IActionResult> Get10Post()
     {
         try
@@ -238,7 +238,7 @@ public class PostController : Controller
 
     #region Get Post By StaffId
 
-    [HttpGet("getpostbyStaffId/{id}")]
+    [HttpGet("staff-id/{id}")]
     public async Task<IActionResult> GetPostByPage([FromQuery] ListModels listPostModel, [FromRoute] Guid id)
     {
         try
@@ -281,7 +281,7 @@ public class PostController : Controller
 
     #region List Post By Category Id
 
-    [HttpGet("getpostbycategory/{id}")]
+    [HttpGet("category-id/{id}")]
     public async Task<IActionResult> ListPostByCategoryId([FromRoute] Guid id, [FromQuery] ListModels listCategoryModel)
     {
         try

@@ -165,7 +165,7 @@ public class ContestController : Controller
 
     #region Get All Contest
 
-    [HttpGet("getallcontest")]
+    [HttpGet]
     public async Task<IActionResult> GetAllContest()
     {
         try
@@ -194,7 +194,7 @@ public class ContestController : Controller
 
     #region Get 5 recent contest year
 
-    [HttpGet("get5recentyear")]
+    [HttpGet("five-recent-years")]
     public async Task<IActionResult> Get5RecentContestYear()
     {
         try
@@ -224,7 +224,7 @@ public class ContestController : Controller
 
     #region Get Nearest Contest
 
-    [HttpGet("getnearestcontest")]
+    [HttpGet("nearest-contest")]
     public async Task<IActionResult> GetNearestContest()
     {
         try

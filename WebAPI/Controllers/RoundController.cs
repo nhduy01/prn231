@@ -63,7 +63,7 @@ public class RoundController : Controller
 
     #region Get All Round 
 
-    [HttpGet("getallround")]
+    [HttpGet]
     public async Task<IActionResult> GetAllRound([FromQuery] ListModels listRoundModel)
     {
         try
@@ -199,7 +199,7 @@ public class RoundController : Controller
 
     #region Get Topic
 
-    [HttpGet("gettopic/{id}")]
+    [HttpGet("topic/{id}")]
     public async Task<IActionResult> GetTopicInRound([FromRoute] Guid id, [FromQuery] ListModels listTopicmodel)
     {
         try
@@ -236,7 +236,7 @@ public class RoundController : Controller
 
     #region Get Round By EducationalLevel Id
 
-    [HttpGet("getroundbyeducationallevelid/{id}")]
+    [HttpGet("educational-level-id/{id}")]
     public async Task<IActionResult> GetRoundByEducationalLevelId([FromQuery] ListModels listRoundModel,
         [FromRoute] Guid id)
     {
@@ -280,7 +280,7 @@ public class RoundController : Controller
 
     #region Get List Round By Contest Id
 
-    [HttpGet("roundsforstaff")]
+    [HttpGet("rounds-for-staff")]
     public async Task<IActionResult> GetListRoundsForStaff()
     {
         try

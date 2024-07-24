@@ -188,7 +188,7 @@ public class ScheduleController : Controller
 
     #region Get Schedule By ContestId
     
-        [HttpGet("contestId/{id}")]
+        [HttpGet("contest-id/{id}")]
         public async Task<IActionResult> GetScheduleByContestId([FromRoute] Guid id)
         {
             try
@@ -292,7 +292,7 @@ public class ScheduleController : Controller
 
     #region Get Schedule for examiner by examiner Id
 
-    [HttpGet("/examiner/{id}")]
+    [HttpGet("examiner-id/{id}")]
     public async Task<IActionResult> GetScheduleByExaminerId([FromRoute] Guid id)
     {
         try
@@ -322,7 +322,7 @@ public class ScheduleController : Controller
 
     #region Rating
 
-    [HttpPost("RatingPreliminaryRound")]
+    [HttpPost("preliminary-round-rating")]
     public async Task<IActionResult> RatingPreliminaryRound(RatingRequest rating)
     {
         try
@@ -360,7 +360,7 @@ public class ScheduleController : Controller
         }
     }
 
-    [HttpPost("RatingFirstPrize")]
+    [HttpPost("first-prize-rating")]
     public async Task<IActionResult> RatingFirstPrize(RatingRequest rating)
     {
         try
@@ -398,7 +398,7 @@ public class ScheduleController : Controller
         }
     }
 
-    [HttpPost("RatingSecondPrize")]
+    [HttpPost("second-prize-rating")]
     public async Task<IActionResult> RatingSecondPrize(RatingRequest rating)
     {
         try
@@ -436,7 +436,7 @@ public class ScheduleController : Controller
         }
     }
 
-    [HttpPost("RatingThirdPrize")]
+    [HttpPost("third-prize-rating")]
     public async Task<IActionResult> RatingThirdPrize(RatingRequest rating)
     {
         try
@@ -474,7 +474,7 @@ public class ScheduleController : Controller
         }
     }
 
-    [HttpPost("RatingConsolationPrize")]
+    [HttpPost("consolation-prize-rating")]
     public async Task<IActionResult> RatingConsolationPrize(RatingRequest rating)
     {
         try

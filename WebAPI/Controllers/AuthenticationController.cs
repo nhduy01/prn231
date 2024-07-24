@@ -86,7 +86,7 @@ public class AuthenticationController : ControllerBase
     #region ReGenerateJwtToken
 
     [AllowAnonymous]
-    [HttpPost("/regeneratejwttoken")]
+    [HttpPost("/regenerate-jwt-token")]
     public async Task<ActionResult<string>> ReGenerateJwtToken(RefreshTokenRequest token)
     {
         if (!ModelState.IsValid)

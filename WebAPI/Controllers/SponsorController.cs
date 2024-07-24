@@ -64,7 +64,7 @@ public class SponsorController : Controller
 
     #region Get sponsor By Page
 
-    [HttpGet]
+    [HttpGet("sponsors-pagination")]
     public async Task<IActionResult> GetSponsorByPage([FromQuery] ListModels listSponsorModel)
     {
         try
@@ -107,7 +107,7 @@ public class SponsorController : Controller
 
     #region Get sponsor By Page
 
-    [HttpGet("getallsponsor")]
+    [HttpGet]
     public async Task<IActionResult> GetAllSponsor()
     {
         try

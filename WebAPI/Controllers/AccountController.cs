@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
 
     #region Get All Competitor
 
-    [HttpGet("getallcompetitorwithpagination")]
+    [HttpGet("competitors-pagination")]
     public async Task<IActionResult> GetAllCompetitorWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -64,7 +64,7 @@ public class AccountController : ControllerBase
 
     #region Get All Examiner
 
-    [HttpGet("getallexaminerwithpagination")]
+    [HttpGet("examiners-pagination")]
     public async Task<IActionResult> GetAllExaminerWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -107,7 +107,7 @@ public class AccountController : ControllerBase
 
     #region get all staff
 
-    [HttpGet("getallstaffwithpagination")]
+    [HttpGet("staffs-pagination")]
     public async Task<IActionResult> GetAllStaffWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -150,7 +150,7 @@ public class AccountController : ControllerBase
 
     #region Get All Competitor
 
-    [HttpGet("getallcompetitor")]
+    [HttpGet("competitors")]
     public async Task<IActionResult> GetAllCompetitor()
     {
         try
@@ -179,7 +179,7 @@ public class AccountController : ControllerBase
 
     #region Get All Examiner
 
-    [HttpGet("getallexaminer")]
+    [HttpGet("examiners")]
     public async Task<IActionResult> GetAllExaminer()
     {
         try
@@ -209,7 +209,7 @@ public class AccountController : ControllerBase
 
     #region get all staff
 
-    [HttpGet("getallstaff")]
+    [HttpGet("staffs")]
     public async Task<IActionResult> GetAllStaff()
     {
         try
@@ -239,7 +239,7 @@ public class AccountController : ControllerBase
 
     #region Get All Inactive Account
 
-    [HttpGet("getallinactiveaccountwithpagination")]
+    [HttpGet("inactive-account-pagination")]
     public async Task<IActionResult> GetAllInactiveAccount([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -282,7 +282,7 @@ public class AccountController : ControllerBase
 
     #region Get Account By Id
 
-    [HttpGet("getaccountbyid/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetAccountById(Guid id)
     {
         try
@@ -316,7 +316,7 @@ public class AccountController : ControllerBase
 
     #region Get Account By Id
 
-    [HttpGet("getaccountbycode/{code}")]
+    [HttpGet("{code}")]
     public async Task<IActionResult> GetAccountByCode(string code)
     {
         try
@@ -393,7 +393,7 @@ public class AccountController : ControllerBase
 
     #region Inactive Account
 
-    [HttpPatch("inactiveaccount")]
+    [HttpPatch("inactive-account")]
     public async Task<IActionResult> InactiveAccount(Guid id)
     {
         try
@@ -423,7 +423,7 @@ public class AccountController : ControllerBase
 
     #region Active Account
 
-    [HttpPatch("activeaccount")]
+    [HttpPatch("active-account")]
     public async Task<IActionResult> ActiveAccount(Guid id)
     {
         try
@@ -453,7 +453,7 @@ public class AccountController : ControllerBase
 
     #region ListAccountHaveAwardIn3NearestContest
 
-    [HttpGet("getlistwinnerin3nearestcontest")]
+    [HttpGet("winners-in-3-nearest-contest")]
     public async Task<IActionResult> ListAccountHaveAwardIn3NearestContest()
     {
         try
