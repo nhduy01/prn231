@@ -2,6 +2,7 @@
 using Application.IService;
 using Application.SendModels.Topic;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -20,6 +21,7 @@ public class TopicController : Controller
     #region Create Topic
 
     [HttpPost]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> CreateTopic(TopicRequest topicRequest)
     {
         try
@@ -63,6 +65,7 @@ public class TopicController : Controller
     #region Get Topic By Page
 
     [HttpGet("topics-pagination")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetTopicByPage([FromQuery] ListModels listTopicModel)
     {
         try
@@ -106,6 +109,8 @@ public class TopicController : Controller
     #region Get All Topic
 
     [HttpGet]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetAllTopic()
     {
         try
@@ -135,6 +140,8 @@ public class TopicController : Controller
     #region Get Topic By Id
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetTopicById([FromRoute] Guid id)
     {
         try
@@ -165,6 +172,8 @@ public class TopicController : Controller
     #region Update Topic
 
     [HttpPut]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> UpdateTopic(TopicUpdateRequest updateTopic)
     {
         try
@@ -208,6 +217,8 @@ public class TopicController : Controller
     #region Delete Topic
 
     [HttpPatch]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> DeleteTopic(Guid id)
     {
         try

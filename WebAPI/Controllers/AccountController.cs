@@ -4,6 +4,7 @@ using Application.IService;
 using Application.SendModels.AccountSendModels;
 using Application.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -22,6 +23,7 @@ public class AccountController : ControllerBase
     #region Get All Competitor
 
     [HttpGet("competitors-pagination")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAllCompetitorWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -65,6 +67,7 @@ public class AccountController : ControllerBase
     #region Get All Examiner
 
     [HttpGet("examiners-pagination")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAllExaminerWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -108,6 +111,7 @@ public class AccountController : ControllerBase
     #region get all staff
 
     [HttpGet("staffs-pagination")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAllStaffWithPagination([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -151,6 +155,8 @@ public class AccountController : ControllerBase
     #region Get All Competitor
 
     [HttpGet("competitors")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetAllCompetitor()
     {
         try
@@ -180,6 +186,8 @@ public class AccountController : ControllerBase
     #region Get All Examiner
 
     [HttpGet("examiners")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetAllExaminer()
     {
         try
@@ -210,6 +218,7 @@ public class AccountController : ControllerBase
     #region get all staff
 
     [HttpGet("staffs")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAllStaff()
     {
         try
@@ -240,6 +249,7 @@ public class AccountController : ControllerBase
     #region Get All Inactive Account
 
     [HttpGet("inactive-account-pagination")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAllInactiveAccount([FromQuery] ListModels listCompetitorModel)
     {
         try
@@ -283,6 +293,8 @@ public class AccountController : ControllerBase
     #region Get Account By Id
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetAccountById(Guid id)
     {
         try
@@ -317,6 +329,7 @@ public class AccountController : ControllerBase
     #region Get Account By Id
 
     [HttpGet("{code}")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> GetAccountByCode(string code)
     {
         try
@@ -351,6 +364,8 @@ public class AccountController : ControllerBase
     #region Update Account
 
     [HttpPut]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> UpdateAccount(AccountUpdateRequest updateAccount)
     {
         try
@@ -392,6 +407,8 @@ public class AccountController : ControllerBase
     #endregion
 
     #region Inactive Account
+    [Authorize(Roles = "Staff")]
+
 
     [HttpPatch("inactive-account")]
     public async Task<IActionResult> InactiveAccount(Guid id)
@@ -424,6 +441,7 @@ public class AccountController : ControllerBase
     #region Active Account
 
     [HttpPatch("active-account")]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> ActiveAccount(Guid id)
     {
         try
@@ -454,6 +472,8 @@ public class AccountController : ControllerBase
     #region ListAccountHaveAwardIn3NearestContest
 
     [HttpGet("winners-in-3-nearest-contest")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> ListAccountHaveAwardIn3NearestContest()
     {
         try

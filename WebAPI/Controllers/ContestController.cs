@@ -3,6 +3,7 @@ using Application.IRepositories;
 using Application.IService;
 using Application.SendModels.Contest;
 using Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -21,6 +22,7 @@ public class ContestController : Controller
     #region Create Contest
 
     [HttpPost]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> CreateContest(ContestRequest contest)
     {
         try
@@ -63,6 +65,7 @@ public class ContestController : Controller
     #region Update Contest
 
     [HttpPut]
+    [Authorize(Roles = "Staff")]
     public async Task<IActionResult> UpdateContest(UpdateContest updateContest)
     {
         try
@@ -106,6 +109,8 @@ public class ContestController : Controller
     #region Delete Contest
 
     [HttpPatch]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> DeleteContest(Guid id)
     {
         try
@@ -137,6 +142,8 @@ public class ContestController : Controller
     #region Get Contest By Id
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetContestById([FromRoute] Guid id)
     {
         try
@@ -166,6 +173,8 @@ public class ContestController : Controller
     #region Get All Contest
 
     [HttpGet]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetAllContest()
     {
         try
@@ -195,6 +204,8 @@ public class ContestController : Controller
     #region Get 5 recent contest year
 
     [HttpGet("five-recent-years")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> Get5RecentContestYear()
     {
         try
@@ -225,6 +236,8 @@ public class ContestController : Controller
     #region Get Nearest Contest
 
     [HttpGet("nearest-contest")]
+    [Authorize(Roles = "Staff")]
+
     public async Task<IActionResult> GetNearestContest()
     {
         try

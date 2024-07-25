@@ -3,6 +3,7 @@ using Application.IService;
 using Application.SendModels.Collection;
 using Application.Services;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -22,6 +23,8 @@ public class CollectionController : Controller
     #region Create Collection
 
     [HttpPost]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> CreateCollection(CollectionRequest collection)
     {
         try
@@ -64,6 +67,8 @@ public class CollectionController : Controller
     #region Update Collection
 
     [HttpPut]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> UpdateCollection(UpdateCollectionRequest updateCollection)
     {
         try
@@ -107,6 +112,8 @@ public class CollectionController : Controller
     #region Delete Collection
 
     [HttpPatch]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> DeleteCollection(Guid id)
     {
         try
@@ -137,6 +144,8 @@ public class CollectionController : Controller
     #region Get Collection By Id
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> GetCollectionById([FromRoute] Guid id)
     {
         try
@@ -165,7 +174,9 @@ public class CollectionController : Controller
 
     #region Get Painting By Collection
 
-    [HttpGet("paintings/{id}")]
+    [HttpGet("paintings/{collectionId}")]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> GetPaintingByCollection([FromRoute] Guid collectionId,
         [FromQuery] ListModels listPaintingmodel)
     {
@@ -210,6 +221,8 @@ public class CollectionController : Controller
     #region Get All Collection
 
     [HttpGet("collections")]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> GetAllCollection([FromQuery] ListModels listPaintingmodel)
     {
         try
@@ -253,6 +266,8 @@ public class CollectionController : Controller
     #region Get Collection By AccountId
 
     [HttpGet("account-id/{id}")]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> GetCollectionByAccountId([FromRoute] Guid id,
         [FromQuery] ListModels listPaintingmodel)
     {
@@ -297,6 +312,8 @@ public class CollectionController : Controller
     #region Get 6 Collection tạo bởi Staff (gần nhất)
 
     [HttpGet("six-staff-collection")]
+    [Authorize(Roles = "Competitor")]
+
     public async Task<IActionResult> Get6CollectionCreatedByStaff()
     {
         try
